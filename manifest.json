@@ -1,0 +1,13 @@
+{
+   "name": "ForumStructuredData",
+   "version": "1.0",
+   "description": "Explore Forum Structured data in a new way",
+   "manifest_version": 2,
+   "content_scripts": [
+     {
+       "matches": ["https://news.ycombinator.com/*"],
+       "js": ["bundle.js"],
+       "run_at": "document_end"
+     }
+   ]
+ }

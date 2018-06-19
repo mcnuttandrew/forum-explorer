@@ -1,0 +1,2416 @@
+[
+  {
+    "kids": [
+      17339543,
+      17347222,
+      17339478,
+      17339175,
+      17341342,
+      17339305,
+      17339139,
+      17341328,
+      17339232,
+      17341622,
+      17340313,
+      17346534,
+      17346033,
+      17342736,
+      17340764,
+      17338957,
+      17343551,
+      17339734,
+      17343752,
+      17341525,
+      17339246,
+      17340002,
+      17341581,
+      17345257,
+      17344656,
+      17344932,
+      17344906
+    ],
+    "time": 1529333859,
+    "url": "https:\/\/torrentfreak.com\/youtubes-piracy-filter-blocks-mit-courses-blender-videos-and-more-180618\/",
+    "score": 925,
+    "descendants": 228,
+    "by": "gooseus",
+    "title": "YouTube\u2019s Piracy Filter Blocks MIT Courses, Blender Videos, and More",
+    "type": "story",
+    "id": 17338700
+  },
+  {
+    "by": "haywirez",
+    "id": 17339543,
+    "kids": [
+      17340786,
+      17341678,
+      17341329,
+      17341218,
+      17344559,
+      17341652,
+      17345284
+    ],
+    "parent": 17338700,
+    "text": "As you might know, this is related to the disastrous EU copyright reform directive proposal that would mandate such filters put in place everywhere. Please don&#x27;t be complacent, it&#x27;s very important to do something about this.<p>At risk of repeating my comment[0] from 3 days ago, I&#x27;d like to appeal to you to contact the MEPs that will vote on Wednesday in the EU&#x27;s JURI committee. This was the first time I called politicians&#x27; offices to voice my opinion. The assistants were shocked that a private person actually bothered to do so and seemed quite humbled - I could hear the change in the tone of their voice when they realised an ordinary citizen is calling. I think it&#x27;s a lot more effective than the 1000s of e-mails piling up in their spam folders.<p>Please help out to make sure this directive proposal is voted against on Wednesday by the majority of the JURI committee. List of Twitter handles of reportedly yet undecided MEPs:<p>@jbergeronmep @1PavelSvoboda @FrancisZD @KaufmannSylvia @mcboutonnetfn @rohde_jens @marinhopintoeu @mady_delvaux @emil_radev<p>[0] <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=17320122\" rel=\"nofollow\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=17320122<\/a>",
+    "time": 1529339498,
+    "type": "comment"
+  },
+  {
+    "by": "obsurveyor",
+    "id": 17347222,
+    "kids": [
+      17348626
+    ],
+    "parent": 17338700,
+    "text": "There&#x27;s an update buried at the bottom of the article.  Ton Roosendaal tweeted[1] that they sent Blender a contract to enable monetization.  I can see why he doesn&#x27;t want to do it based on the principles of the Blender Foundation.  Sounds to me like Youtube is holding these creator&#x27;s content hostage because they don&#x27;t want to put up ads.<p>He put the contract up for review as well:\n<a href=\"http:&#x2F;&#x2F;download.blender.org&#x2F;institute&#x2F;Contract%20between%20Google%20and%20Blender%20Foundation.pdf\" rel=\"nofollow\">http:&#x2F;&#x2F;download.blender.org&#x2F;institute&#x2F;Contract%20between%20G...<\/a><p>[1] <a href=\"https:&#x2F;&#x2F;twitter.com&#x2F;tonroosendaal&#x2F;status&#x2F;1009010581549060097\" rel=\"nofollow\">https:&#x2F;&#x2F;twitter.com&#x2F;tonroosendaal&#x2F;status&#x2F;1009010581549060097<\/a>",
+    "time": 1529420000,
+    "type": "comment"
+  },
+  {
+    "by": "jedberg",
+    "id": 17339478,
+    "kids": [
+      17339650,
+      17342784,
+      17343422,
+      17347580
+    ],
+    "parent": 17338700,
+    "text": "I saw a great &quot;joke&quot; the other day.  It said, &quot;If Shazam or Siri can&#x27;t identify a song for you, make a quick video and upload it to YouTube.  Within a few seconds you&#x27;ll get a copyright takedown telling you the name of the song&quot;.",
+    "time": 1529339082,
+    "type": "comment"
+  },
+  {
+    "by": "doh",
+    "id": 17341342,
+    "kids": [
+      17344542
+    ],
+    "parent": 17338700,
+    "text": "Let me first say that this law is taking too far. There is a need for better legislation around copyright, but this one is just moving the needle from platforms abusing copyright to rights holders abusing the platforms.<p>However the situation around YouTube is not a direct consequence of poor technology, but rather poor policies. YouTube built 2 separate products, a) Content ID (CID), b) partnership program.<p>CID is the system that, based on fingerprinting algorithms, is able to identify videos containing same segments (both audio and visual). Technically it&#x27;s actually pretty good. However through the partnership program, YouTube allows rights holders to abuse the system by providing reference files that they may not have direct rights for, or allow them to claim any content just because they say so.<p>This however has nothing to do with the technology itself, but rather with YouTube&#x27;s decision to not to have to challenge right holders directly (they can and will sue, while users uploading content will most probably not).<p>There are ways to deal with this kind of situation, but most of the platforms, especially YouTube and Facebook are somehow not interested.",
+    "time": 1529353013,
+    "type": "comment"
+  },
+  {
+    "by": "ravenstine",
+    "id": 17339175,
+    "kids": [
+      17339531,
+      17340040,
+      17339377,
+      17343482,
+      17339338,
+      17340499,
+      17342598,
+      17340061,
+      17339341,
+      17342674,
+      17341151
+    ],
+    "parent": 17338700,
+    "text": "I know this is just filtering for now, but I&#x27;ve been backing up entire channels for fear they&#x27;ll one day disappear because global policy or legacy media conglomerates won&#x27;t allow for it. I imagine the &quot;you&quot; in YouTube will be mostly gone in the next decade. The writing&#x27;s on the wall.",
+    "time": 1529337217,
+    "type": "comment"
+  },
+  {
+    "by": "keth",
+    "id": 17339305,
+    "kids": [
+      17339944
+    ],
+    "parent": 17338700,
+    "text": "Terrific, I can&#x27;t wait for what will happen with the forced content filter that will be voted on in the european parliament on june 20th. what could go wrong...<p><a href=\"https:&#x2F;&#x2F;act1.openmedia.org&#x2F;savethelink\" rel=\"nofollow\">https:&#x2F;&#x2F;act1.openmedia.org&#x2F;savethelink<\/a>",
+    "time": 1529337918,
+    "type": "comment"
+  },
+  {
+    "by": "vezycash",
+    "id": 17339139,
+    "kids": [
+      17340167,
+      17339202,
+      17342869,
+      17341074,
+      17340246,
+      17339230
+    ],
+    "parent": 17338700,
+    "text": "YouTube seems to be more of a monopoly than Google Search. If only Facebook created a dedicated site for Facebook videos. Fbtube, fbv.com...<p>Microsoft has a YouTube like service but limits it to enterprise.<p>Since video hosting is such a resource intensive undertaking, I wonder why many free porn sites don&#x27;t have outages and have no limit on uploads for free users - unlike YouTube competitors.",
+    "time": 1529336977,
+    "type": "comment"
+  },
+  {
+    "by": "jwilk",
+    "id": 17341328,
+    "parent": 17338700,
+    "text": "Somewat related article from yesterday: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=17333920\" rel=\"nofollow\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=17333920<\/a><p>(&quot;Politicians, about to vote in favor of mandatory upload filtering in Europe, get channel deleted by YouTube\u2019s upload filtering&quot;)",
+    "time": 1529352938,
+    "type": "comment"
+  },
+  {
+    "by": "dqpb",
+    "id": 17341622,
+    "parent": 17338700,
+    "text": "So YouTube takes down educational content while at the same time recommending knockoff cartoons featuring violence, sexualization, and gore aimed at traumatizing and corrupting the minds of our children. Way to tip the scales YouTube!",
+    "time": 1529355286,
+    "type": "comment"
+  },
+  {
+    "by": "brundolf",
+    "id": 17340313,
+    "kids": [
+      17341653,
+      17340815,
+      17342913,
+      17346017,
+      17344230,
+      17340391
+    ],
+    "parent": 17338700,
+    "text": "I don&#x27;t understand why no other video platform has broken into YouTube&#x27;s market share, after the last couple years&#x27; constant stream of PR disasters which mostly have to do with the scale of the platform",
+    "time": 1529345395,
+    "type": "comment"
+  },
+  {
+    "by": "killaken2000",
+    "id": 17339232,
+    "parent": 17338700,
+    "text": "Its also possible to upload content to the contentid system without having any claim to the work. Often nefarious companies will upload swaths of royalty free or otherwise content (large sound effects libraries) and claim all of the videos ad revenue. They never contest the response and the flag dissappears.",
+    "time": 1529337513,
+    "type": "comment"
+  },
+  {
+    "by": "drderidder",
+    "id": 17346534,
+    "parent": 17338700,
+    "text": "It&#x27;s becoming a common occurrence to fall victim to false positives from algorithmic filters. False positives are just always going to be part of any kind of machine-learning algo. In the end it&#x27;s statistical probability, and probability doesn&#x27;t equal certainty. Sure there are techniques to reduce false positives, but I sincerely think that any user-affecting policy based on ML &#x2F; algos should <i>always<\/i> have a real-live human based support fallback to get real resolution to the real issue of false positives.",
+    "time": 1529416101,
+    "type": "comment"
+  },
+  {
+    "by": "dingo_bat",
+    "id": 17346033,
+    "parent": 17338700,
+    "text": "This is why true net neutrality covers services like Google Facebook reddit and YouTube. But you won&#x27;t see anybody mention this anywhere.",
+    "time": 1529412384,
+    "type": "comment"
+  },
+  {
+    "by": "mmaanniisshh",
+    "id": 17342736,
+    "kids": [
+      17348790
+    ],
+    "parent": 17338700,
+    "text": "YouTube has [addressed the issue](<a href=\"https:&#x2F;&#x2F;venturebeat.com&#x2F;2018&#x2F;06&#x2F;18&#x2F;youtube-is-working-to-restore-accidentally-blocked-videos-from-mit-and-others&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;venturebeat.com&#x2F;2018&#x2F;06&#x2F;18&#x2F;youtube-is-working-to-res...<\/a>). There is no mention of copyright violation, it says it was updating user agreements.",
+    "time": 1529367395,
+    "type": "comment"
+  },
+  {
+    "by": "JumpCrisscross",
+    "id": 17338957,
+    "parent": 17338700,
+    "text": "Does YouTube plan to deploy its &quot;enhanced&quot; upload filters globally, or just in Europe?",
+    "time": 1529335773,
+    "type": "comment"
+  },
+  {
+    "by": "dghughes",
+    "id": 17340764,
+    "kids": [
+      17340775
+    ],
+    "parent": 17338700,
+    "text": "It seems Phase 1 of analog to digital media (music, TV shows and movies) was late 90s to early 2000s. It was going to happen but the teething pains lasted quite a while. CDs and DVDs were abandoned for USB then just a file.<p>Now it seems Phase 2 will be trying to control the massive amount of media users share. It&#x27;s a whack-a-mole game against things like Kodi and sharing media.<p>For YoutTube it&#x27;s trying to delete copyright violations and it gets rid of hundreds of accounts which are just created again and the material uploaded again. Even an &quot;AI&quot; can&#x27;t cope.<p>At some point it would be nice to see all video, all music available to anyone for a reasonable price. &quot;You will!&quot; as Tom Selleck said. Really it&#x27;s going to be that way eventually otherwise enormous amounts of money and effort will be spent trying to chase down endless illegal copies.",
+    "time": 1529348434,
+    "type": "comment"
+  },
+  {
+    "by": "avoutthere",
+    "id": 17339734,
+    "kids": [
+      17339852,
+      17339828
+    ],
+    "parent": 17338700,
+    "text": "Why is this content being blocked in the U.S.?",
+    "time": 1529341048,
+    "type": "comment"
+  },
+  {
+    "by": "gm-conspiracy",
+    "id": 17343551,
+    "parent": 17338700,
+    "text": "I never suspected the balkanization of the internet would occur, particularly with such a coordinated effort across nations.",
+    "time": 1529378306,
+    "type": "comment"
+  },
+  {
+    "by": "ledriveby",
+    "id": 17343752,
+    "kids": [
+      17343959
+    ],
+    "parent": 17338700,
+    "text": "Damned if you do, damned if you don&#x27;t. Google gets roasted by the press no matter what it does.",
+    "time": 1529381197,
+    "type": "comment"
+  },
+  {
+    "by": "volaski",
+    "id": 17341525,
+    "parent": 17338700,
+    "text": "in the short term this is annoying, but in the long term I think this is really great. it&#x27;s almost as if the market is pushing people to adopt decentralization technologies, which would have been difficult to get adoption without this type of push.",
+    "time": 1529354439,
+    "type": "comment"
+  },
+  {
+    "deleted": true,
+    "id": 17340002,
+    "parent": 17338700,
+    "time": 1529342884,
+    "type": "comment"
+  },
+  {
+    "by": "ausjke",
+    "id": 17339246,
+    "kids": [
+      17341216,
+      17339962,
+      17341269,
+      17339419,
+      17340331
+    ],
+    "parent": 17338700,
+    "text": "google is dominated in search and youtube, both especially the latter, need a competitor, kind of burger-king to MacDonald",
+    "time": 1529337576,
+    "type": "comment"
+  },
+  {
+    "by": "65757657",
+    "dead": true,
+    "id": 17345257,
+    "parent": 17338700,
+    "text": "niceest forum <a href=\"https:&#x2F;&#x2F;bit.ly&#x2F;2ygdgLt\" rel=\"nofollow\">https:&#x2F;&#x2F;bit.ly&#x2F;2ygdgLt<\/a>",
+    "time": 1529403403,
+    "type": "comment"
+  },
+  {
+    "deleted": true,
+    "id": 17341581,
+    "parent": 17338700,
+    "time": 1529354946,
+    "type": "comment"
+  },
+  {
+    "by": "azwsxedcrfv12",
+    "dead": true,
+    "id": 17344932,
+    "parent": 17338700,
+    "text": "this is a very nice forum,check it out  <a href=\"https:&#x2F;&#x2F;www.bit.ly&#x2F;2M0hqJa\" rel=\"nofollow\">https:&#x2F;&#x2F;www.bit.ly&#x2F;2M0hqJa<\/a>",
+    "time": 1529399332,
+    "type": "comment"
+  },
+  {
+    "by": "ericnyamu12",
+    "dead": true,
+    "id": 17344656,
+    "parent": 17338700,
+    "text": "wow.check out this cool forum   <a href=\"http:&#x2F;&#x2F;mawazo.byethost7.com&#x2F;index.php\" rel=\"nofollow\">http:&#x2F;&#x2F;mawazo.byethost7.com&#x2F;index.php<\/a>",
+    "time": 1529396215,
+    "type": "comment"
+  },
+  {
+    "by": "qazwsxedcrfv12",
+    "dead": true,
+    "id": 17344906,
+    "parent": 17338700,
+    "text": "this is a very nice forum,check it out  <a href=\"https:&#x2F;&#x2F;www.bit.ly&#x2F;2M0hqJa\" rel=\"nofollow\">https:&#x2F;&#x2F;www.bit.ly&#x2F;2M0hqJa<\/a>",
+    "time": 1529399051,
+    "type": "comment"
+  },
+  {
+    "by": "pitaj",
+    "id": 17340786,
+    "kids": [
+      17341006,
+      17347770,
+      17341044,
+      17342375
+    ],
+    "parent": 17339543,
+    "text": "According to some, YouTube&#x27;s copyright filters &#x2F; markers aren&#x27;t good enough to satisfy the EU directive. It&#x27;s insane. The DMCA is bad enough already. Copyright should be loosened, not tightened. Then maybe we&#x27;d see some competition in video hosting.",
+    "time": 1529348573,
+    "type": "comment"
+  },
+  {
+    "by": "Tenoke",
+    "id": 17341329,
+    "parent": 17339543,
+    "text": "Thanks for this - I wouldn&#x27;t have gotten involved, but I believe I have a much higher chance to influence policy in this case than I&#x27;ve ever had after seeing Emil Radev&#x27;s name, and I&#x27;ve now done everything in my power to sway him.",
+    "time": 1529352951,
+    "type": "comment"
+  },
+  {
+    "by": "zyxzevn",
+    "id": 17341218,
+    "kids": [
+      17341250
+    ],
+    "parent": 17339543,
+    "text": "I hope Google &amp; Youtube will troll the EU and block all official state content for a while, until they see that this law is not working.",
+    "time": 1529352058,
+    "type": "comment"
+  },
+  {
+    "by": "akavel",
+    "id": 17344559,
+    "parent": 17339543,
+    "text": "Thanks for your post and report; it made me think that my voice could actually make a difference and I just called, using the Mozilla tool! I got to speak with an actual person and in my native language. The guy seemed to know what&#x27;s their stance and not to will discussing it, but he for sure mentioned taking note that they got some 6000 emails and also many phones. Anyway, I&#x27;m super happy I phoned, I talked with a real person, and the Mozilla website was super easy to use :)",
+    "time": 1529394911,
+    "type": "comment"
+  },
+  {
+    "by": "piokoch",
+    "id": 17341678,
+    "kids": [
+      17344002
+    ],
+    "parent": 17339543,
+    "text": "That might help, however, for some reason I don&#x27;t understand, this proposal hasn&#x27;t created an outrage similar to the one we had seen before ACTA.<p>EU &quot;wisely&quot; has chosen voting time to be in the middle of FIFA Soccer World Cup, so many people are just sitting watching matches. This is also almost the beginning of the holiday season and many people are just relaxing, travelling, etc.<p>Apparently someone really needs that regulation to go through (hopefully it will not).",
+    "time": 1529355799,
+    "type": "comment"
+  },
+  {
+    "by": "cowpig",
+    "id": 17341652,
+    "kids": [
+      17341949,
+      17341673,
+      17341892
+    ],
+    "parent": 17339543,
+    "text": "Would you mind linking to some information about what the proposal is, why it&#x27;s bad, what the alternatives are, etc?",
+    "time": 1529355579,
+    "type": "comment"
+  },
+  {
+    "by": "tylll",
+    "dead": true,
+    "id": 17345284,
+    "parent": 17339543,
+    "text": "check link <a href=\"https:&#x2F;&#x2F;bit.ly&#x2F;2JTdt8x\" rel=\"nofollow\">https:&#x2F;&#x2F;bit.ly&#x2F;2JTdt8x<\/a>",
+    "time": 1529403760,
+    "type": "comment"
+  },
+  {
+    "by": "lainga",
+    "id": 17348626,
+    "parent": 17347222,
+    "text": "Ought to tell Torrentfreak and all involved. It&#x27;s not a piracy filter gone wrong, it&#x27;s monetization humans at Youtube.",
+    "time": 1529429559,
+    "type": "comment"
+  },
+  {
+    "by": "reificator",
+    "id": 17339650,
+    "kids": [
+      17339773,
+      17340693,
+      17345324
+    ],
+    "parent": 17339478,
+    "text": "I&#x27;ve seen nature videos where there&#x27;s no sound but the birds chirping, and YouTube is still able to hear someone playing All-Star on Mars and flag the video.  It&#x27;s really incredible tech.<p>EDIT: The article actually mentions some similar examples: <a href=\"http:&#x2F;&#x2F;c4sif.org&#x2F;2012&#x2F;02&#x2F;youtube-identifies-birdsong-as-copyrighted-music&#x2F;\" rel=\"nofollow\">http:&#x2F;&#x2F;c4sif.org&#x2F;2012&#x2F;02&#x2F;youtube-identifies-birdsong-as-copy...<\/a>",
+    "time": 1529340303,
+    "type": "comment"
+  },
+  {
+    "by": "dyukqu",
+    "id": 17343422,
+    "kids": [
+      17343891
+    ],
+    "parent": 17339478,
+    "text": "Honest question: do you guys and gals think YouTube is really able (does it even <i>try<\/i>?) to identify the songs that Shazam or Siri can not identify - at all? I presume that if a song is unidentifiable for Shazam (or another service like it), then it&#x27;s not popular and &quot;important&quot; <i>enough<\/i> on YouTube too so it doesn&#x27;t get caught OR it&#x27;s a folk song from a <i>non-Western<\/i> country.<p>It&#x27;s highly probable that you can get the name of such a song much faster by asking about it in the comment section.",
+    "time": 1529376233,
+    "type": "comment"
+  },
+  {
+    "by": "golergka",
+    "id": 17347580,
+    "parent": 17339478,
+    "text": "I wonder, how many laws would I break if I implemented a Song ID service based on youtube APIs that way?",
+    "time": 1529422214,
+    "type": "comment"
+  },
+  {
+    "by": "userbinator",
+    "id": 17342784,
+    "parent": 17339478,
+    "text": "I actually tried that and got a name of <i>a<\/i> song, and it wasn&#x27;t a takedown but an agreement to monetise (i.e. add ads, which I didn&#x27;t have much of a problem), except that it was the completely <i>wrong<\/i> song. Naturally, that song was also available to listen to in a few other YouTube videos, and the only thing that they had in common with mine was a generic-sounding section of 120bpm bass drum. The melody, the duration, everything else was different.<p>I disputed, explicitly pointing to the other ones which I assume was identified correctly and how they had basically nothing in common with my video, even explaining that I&#x27;d be perfectly fine with it being monetised if it was actually the right one, and was... (not) surprisingly denied. I have a feeling that either no humans were involved at all, or if one were, it did not listen or have any common sense. In the end, I just deleted the video.<p>Now that I think about it, perhaps reuploading with the (wrongly) detected name, letting it monetise, and show up in search results might be a better idea --- at least that will make it more likely for others to stumble across it, listen, and possibly leave comments like &quot;this isn&#x27;t X, it&#x27;s Y&quot;...",
+    "time": 1529367975,
+    "type": "comment"
+  },
+  {
+    "by": "icebraining",
+    "id": 17344542,
+    "parent": 17341342,
+    "text": "They can, will, <i>and have<\/i>. ContentID came after the Viacom lawsuit.",
+    "time": 1529394544,
+    "type": "comment"
+  },
+  {
+    "by": "ballenf",
+    "id": 17339531,
+    "kids": [
+      17345626
+    ],
+    "parent": 17339175,
+    "text": "The really frustrating aspect is that one would need to implement advanced search functionality on those videos otherwise the more you archive the less chance you have of finding anything.<p>The &quot;hosting&quot; aspect of YouTube is really a small part of why the service dominates. The connections between channels and links from one video to another channel -- network effects and discovery -- are what make disrupting YT seem impossible.<p>Kind of crazy given how YT originated in juvenile joke vids, but YT may have the potential to become Google&#x27;s biggest source of revenue despite any number of overbearing content policies. The new ads below videos for products of potential interest based on the video content are annoying but probably very profitable.",
+    "time": 1529339437,
+    "type": "comment"
+  },
+  {
+    "by": "amatecha",
+    "id": 17339338,
+    "kids": [
+      17339346,
+      17340306
+    ],
+    "parent": 17339175,
+    "text": "Nice, do you have any summary of what process you take to back up channels?  I&#x27;ve considered the same in the past, but found that there are a lot of crappy&#x2F;sketchy plugins, and not too many legit&#x2F;decent ones that actually get the highest quality copy of the content.",
+    "time": 1529338188,
+    "type": "comment"
+  },
+  {
+    "by": "JTbane",
+    "id": 17340040,
+    "parent": 17339175,
+    "text": "&gt;I&#x27;ve been backing up entire channels for fear they&#x27;ll one day disappear because global policy or legacy media conglomerates won&#x27;t allow for it.<p>Not a bad idea, as entire channels have gotten the boot for much less, from Youtube itself.",
+    "time": 1529343138,
+    "type": "comment"
+  },
+  {
+    "by": "nomel",
+    "id": 17343482,
+    "kids": [
+      17344135
+    ],
+    "parent": 17339175,
+    "text": "Another reason to backup HD Youtube videos is that they&#x27;ll &quot;demote&quot; them to SD if they don&#x27;t get enough views.",
+    "time": 1529377006,
+    "type": "comment"
+  },
+  {
+    "by": "michaelsjoeberg",
+    "id": 17339377,
+    "kids": [
+      17339951,
+      17339867
+    ],
+    "parent": 17339175,
+    "text": "i have been doing the same, in particular unofficial music remixes, which likely will disappear at some point and not allowed on spotify etc.",
+    "time": 1529338513,
+    "type": "comment"
+  },
+  {
+    "by": "dilap",
+    "id": 17340499,
+    "kids": [
+      17340807,
+      17345664
+    ],
+    "parent": 17339175,
+    "text": "it&#x27;s quite a shame. google are not being good chaperones of what has become an amazing service and resource.<p>hopefully a completely decentralized replacement will arise.<p>(OT: wow, HN strips emoji!)",
+    "time": 1529346590,
+    "type": "comment"
+  },
+  {
+    "by": "stordoff",
+    "id": 17342598,
+    "parent": 17339175,
+    "text": "I&#x27;ve been doing the same to back up fan translations of various things. Almost certain they will disappear to some point, as they are definitely infringing, but it&#x27;s the only way I can enjoy those media (most of which I otherwise own).",
+    "time": 1529365764,
+    "type": "comment"
+  },
+  {
+    "by": "kakarot",
+    "id": 17342674,
+    "parent": 17339175,
+    "text": "Same here. Backing up a lot of channels I like but also lots of music videos, interviews, live shows, informational videos, etc.<p>Hopefully the next great online video service will have support for displaying the original encoding for uploaded videos, saving them all another generation of quality degradation due to transcoding.",
+    "time": 1529366534,
+    "type": "comment"
+  },
+  {
+    "deleted": true,
+    "id": 17339341,
+    "parent": 17339175,
+    "time": 1529338209,
+    "type": "comment"
+  },
+  {
+    "by": "nkrisc",
+    "id": 17340061,
+    "kids": [
+      17340311
+    ],
+    "parent": 17339175,
+    "text": "Out of curiosity, what sorts of channels&#x2F;content are you backing up?",
+    "time": 1529343282,
+    "type": "comment"
+  },
+  {
+    "by": "asdgionion",
+    "dead": true,
+    "id": 17341151,
+    "parent": 17339175,
+    "text": "Maybe we should formalize this process. If everyone just rips the videos they want we&#x27;d wind up with a bunch of silos. There would be important videos overlooked, a huge amount of duplicated effort and, most importantly, only you could view your archived videos.<p>I think the technical problems would be solvable. youtube-dl and existing peer-to-peer filesharing systems have done most of the work for us. Making a system to browse videos would be harder. We&#x27;d need working channels, playlists, and links. We&#x27;d need search functionality. Those don&#x27;t cleanly fit into normal filesharing.<p>The problem would be the social side. It would take a <i>lot<\/i> of volunteers to archive a substantial chunk of Youtube and would most definitely be against the law.",
+    "time": 1529351537,
+    "type": "comment"
+  },
+  {
+    "by": "partiallypro",
+    "id": 17339944,
+    "parent": 17339305,
+    "text": "For as much grief as the US Congress gets for its lack of knowledge in tech, I would take (current) US laws over EU and GB restrictions any day.",
+    "time": 1529342484,
+    "type": "comment"
+  },
+  {
+    "by": "Andrex",
+    "id": 17340167,
+    "kids": [
+      17340213
+    ],
+    "parent": 17339139,
+    "text": "&gt; Since video hosting is such a resource intensive undertaking, I wonder why many free porn sites don&#x27;t have outages and have no limit on uploads for free users - unlike YouTube competitors.<p>Because they can run far riskier and less-vetted ads. They can also run as many of them as they want - the &quot;target audience&quot; doesn&#x27;t really care if there&#x27;s 1000 banner ads on a page. There&#x27;s a reason much of malware is spread from porn sites.<p>For consumer facing video sites, they have to compete with YouTube on UX, which means much more stringent ad vetting, and far fewer ads. This likely tips the balance just enough that normal online video startups are not feasible without 3-4 years of runway.",
+    "time": 1529344155,
+    "type": "comment"
+  },
+  {
+    "by": "ucaetano",
+    "id": 17342869,
+    "kids": [
+      17348614
+    ],
+    "parent": 17339139,
+    "text": "This isn&#x27;t a competition problem: Any competitor that gets big enough to challenge YT will attract the same scrutiny from content rights owners. and will face the same copyright issues that YT does.<p>The problem isn&#x27;t in the content hosting industry, it is on the policy &amp; legal side.",
+    "time": 1529369028,
+    "type": "comment"
+  },
+  {
+    "by": "tschwimmer",
+    "id": 17339230,
+    "parent": 17339139,
+    "text": "You might be interested in this news: <a href=\"https:&#x2F;&#x2F;techcrunch.com&#x2F;2018&#x2F;06&#x2F;11&#x2F;instagram-long-form-video&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;techcrunch.com&#x2F;2018&#x2F;06&#x2F;11&#x2F;instagram-long-form-video&#x2F;<\/a>",
+    "time": 1529337501,
+    "type": "comment"
+  },
+  {
+    "by": "narrator",
+    "id": 17341074,
+    "kids": [
+      17342032,
+      17341684
+    ],
+    "parent": 17339139,
+    "text": "There&#x27;s also bitchute.com and d.tube as credible youtube alternatives.",
+    "time": 1529350918,
+    "type": "comment"
+  },
+  {
+    "by": "tiglionabbit",
+    "id": 17340246,
+    "kids": [
+      17340467
+    ],
+    "parent": 17339139,
+    "text": "You can upload videos to facebook though.  In fact, that&#x27;s the only way to get videos to play inline in peoples&#x27; timelines.",
+    "time": 1529344783,
+    "type": "comment"
+  },
+  {
+    "by": "no_wizard",
+    "id": 17339202,
+    "kids": [
+      17341640,
+      17339374
+    ],
+    "parent": 17339139,
+    "text": "What about Vimeo? I know it\u2019s target market has pivoted to\nMore high end indie creations however aren\u2019t they somewhat positioned at least to exploit any holes in YouTube\u2019s strategy? This is one of those things where I feel like a real competitor will only sort of be able to creep up not explode on the scene. I always thought Vimeo had a decent chance here because it\u2019s pretty easy (imo) to use just like YouTube and they have free tiers (or st least when I signed up they did)",
+    "time": 1529337315,
+    "type": "comment"
+  },
+  {
+    "by": "rocqua",
+    "id": 17341653,
+    "kids": [
+      17345695
+    ],
+    "parent": 17340313,
+    "text": "Beyond the issues of infrastructure cost and litigious publishers as mentioned by others, there is also the user base.<p>If users are on YT, that is where the content creators will be. And if the content creators are on YT, that is where the users are. Moreover, users have curated lists of subscriptions and creators have large lists of material. Finally, YT has access to a lot of data on viewing behavior, and likes. This means YT should be a lot better at recommending videos to users.<p>Finally, the creators that most want to switch to an alternative are those who are the most censored. These tend to be more controversial, which means these alternative services gather controversial content. This tends to give these places a bad reputation which pushes away the non-controversial content.<p>The best bet would probably to take a non-controversial niche, start there, and try and integrate well with YT to keep down switching costs. Its still hard to provide actual added value to such a niche. Alternatively one might take a controversial niche with wide acceptance. For example, gun channels or LGBTQ+ channels. Both are currently demonetized, but both are still widely accepted in broad swathes of society.",
+    "time": 1529355585,
+    "type": "comment"
+  },
+  {
+    "by": "pitaj",
+    "id": 17340815,
+    "kids": [
+      17344816
+    ],
+    "parent": 17340313,
+    "text": "It&#x27;s expensive at least partially because publishers will sue the crap out of you if you don&#x27;t invest heavily in content ID etc. It creates a huge barrier to entry, which is why copyright laws should be reformed to respect the idea of &quot;common carrier&quot; sites which don&#x27;t discriminate on content.",
+    "time": 1529348792,
+    "type": "comment"
+  },
+  {
+    "by": "ucaetano",
+    "id": 17342913,
+    "parent": 17340313,
+    "text": "Because it ties in two barriers to entry that have rarely existed together before: minimum efficiency scale and network effects.<p>Facebook only has network effects, there isn&#x27;t anything particularly efficient or advanced about what it does. Given its minuscule infrastructure when compared to Google and Amazon, it would be very hard for it to achieve the same level of cost that Google has on YT. Pure search doesn&#x27;t rely so much on scale as well.<p>Any other provider doesn&#x27;t have either the network effects that YT does nor the scale to be able to compete with Google on YT.<p>From a scale perspective, the only companies who could effectively compete with Google would be Microsoft and Amazon. Microsoft is still trying to figure itself out, especially on the consumer side. Amazon is geographically limited and has very little expertise in open content and ad-funded platforms, but it is trying with Twitch.",
+    "time": 1529369504,
+    "type": "comment"
+  },
+  {
+    "by": "dingo_bat",
+    "id": 17346017,
+    "parent": 17340313,
+    "text": "Youtube video quality and speed is unparalleled. There are times on my phone when even jpgs on imgur take longer to load than 1080p video on youtube. I don&#x27;t know how exactly they pull it off but I guess it&#x27;s a combo of local caching and deals with ISPs and phone carriers. Smaller competitors have no chance to compete.",
+    "time": 1529412209,
+    "type": "comment"
+  },
+  {
+    "by": "langitbiru",
+    "id": 17344230,
+    "parent": 17340313,
+    "text": "It&#x27;s very hard to do and very very expensive. An Indonesian company tried to build a Youtube competitor: <a href=\"https:&#x2F;&#x2F;vidio.com\" rel=\"nofollow\">https:&#x2F;&#x2F;vidio.com<\/a>. I know many friends who work there. From their stories, we can assume that it takes a lot of smart people and a lot of money to build one.",
+    "time": 1529389512,
+    "type": "comment"
+  },
+  {
+    "by": "rodorgas",
+    "id": 17340391,
+    "kids": [
+      17341438
+    ],
+    "parent": 17340313,
+    "text": "It\u2019s so expensive that only Google can afford.",
+    "time": 1529345871,
+    "type": "comment"
+  },
+  {
+    "by": "gregallan",
+    "id": 17348790,
+    "parent": 17342736,
+    "text": "It seems YouTube&#x27;s statement here is really disingenuous. When they say &quot;We are working with MITOpenCourseWare and Blender Foundation to get their videos back online.&quot; they mean that they are holding these non-profit organizations&#x27; video hosting rights hostage until they agree to enable ads!\n<a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=17347560\" rel=\"nofollow\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=17347560<\/a>",
+    "time": 1529430580,
+    "type": "comment"
+  },
+  {
+    "by": "emodendroket",
+    "id": 17340775,
+    "parent": 17340764,
+    "text": "CDs, DVDs, and Blurays are still very much around.",
+    "time": 1529348498,
+    "type": "comment"
+  },
+  {
+    "by": "giomasce",
+    "id": 17339828,
+    "parent": 17339734,
+    "text": "For the moment all content is blocked at Google&#x27;s entire discretion, because no European law has been approved yet. So they are probably jut blocking everywhere.",
+    "time": 1529341621,
+    "type": "comment"
+  },
+  {
+    "by": "izacus",
+    "id": 17339852,
+    "parent": 17339734,
+    "text": "Same reason why DMCA takedowns remove content uploaded in EU.",
+    "time": 1529341789,
+    "type": "comment"
+  },
+  {
+    "by": "lovelearning",
+    "id": 17343959,
+    "parent": 17343752,
+    "text": "They are blocking original educational content from everybody, including members of the organizations producing that content. Seems perfectly reasonable to criticize such a mistake on its own merit, independent of whatever other criticisms you are referring to.",
+    "time": 1529384095,
+    "type": "comment"
+  },
+  {
+    "by": "partiallypro",
+    "id": 17339962,
+    "parent": 17339246,
+    "text": "It&#x27;s basically impossible for a competitor to just pop-up for Google, there are too many costs associated with it. Google has too much data to be competed with. Though, I would not rule out that Amazon may enter the search space.",
+    "time": 1529342607,
+    "type": "comment"
+  },
+  {
+    "by": "ucaetano",
+    "id": 17341216,
+    "kids": [
+      17345393
+    ],
+    "parent": 17339246,
+    "text": "Any competitor that gets big enough to challenge YT will attract the same scrutiny from content rights owners. and will face the same copyright issues that YT does.<p>The problem isn&#x27;t in the content hosting industry, it isn&#x27;t even on the content producing industry. It is on the policy &amp; legal side.",
+    "time": 1529352050,
+    "type": "comment"
+  },
+  {
+    "by": "CryoLogic",
+    "id": 17340331,
+    "kids": [
+      17342014
+    ],
+    "parent": 17339246,
+    "text": "duckduckgo?",
+    "time": 1529345505,
+    "type": "comment"
+  },
+  {
+    "by": "darepublic",
+    "id": 17341269,
+    "parent": 17339246,
+    "text": "I&#x27;d like to think that the burger-king role is taken up already by Bing.  Would be nice to have a truly &#x27;better&#x27; search engine for the discerning folk",
+    "time": 1529352490,
+    "type": "comment"
+  },
+  {
+    "by": "stevehawk",
+    "id": 17339419,
+    "kids": [
+      17339855
+    ],
+    "parent": 17339246,
+    "text": "Is that the place with the Golden Arcs and the BigMic?",
+    "time": 1529338761,
+    "type": "comment"
+  },
+  {
+    "by": "shados",
+    "id": 17347770,
+    "kids": [
+      17348087
+    ],
+    "parent": 17340786,
+    "text": "Yeah, things like this will have similar effects as certain highly regulated sectors in the US, where software is 20 years behind the time and built for billions of dollars by huge contracting firms because it&#x27;s so difficult&#x2F;expensive to make anything compliant with the rules.<p>No one can build filters that are good enough beyond the big tech cos. They can build these libraries and hopefully open source them for everyone to use...but if they don&#x27;t...",
+    "time": 1529423430,
+    "type": "comment"
+  },
+  {
+    "by": "avs733",
+    "id": 17341006,
+    "kids": [
+      17341440,
+      17341473,
+      17345592,
+      17343109,
+      17343312
+    ],
+    "parent": 17340786,
+    "text": "I&#x27;ve always felt like false assertion of copyright should cause the loss of copyright. Seems like a fair balance for me.<p>And before someone gets on me...I realize that these are automated filters that are rarely asserted by the actual copyright holder.",
+    "time": 1529350288,
+    "type": "comment"
+  },
+  {
+    "by": "catach",
+    "id": 17341044,
+    "parent": 17340786,
+    "text": "Video competition certainly exists already [0]. But I agree that copyright terms are trending in the wrong direction.<p>[0] <a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;List_of_video_hosting_services\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;List_of_video_hosting_services<\/a>",
+    "time": 1529350683,
+    "type": "comment"
+  },
+  {
+    "by": "eulers__number",
+    "id": 17342375,
+    "parent": 17340786,
+    "text": "what are you talking about copy right needs to be abolished",
+    "time": 1529363404,
+    "type": "comment"
+  },
+  {
+    "by": "test6554",
+    "id": 17341250,
+    "kids": [
+      17343384
+    ],
+    "parent": 17341218,
+    "text": "Google and YouTube have a more than $60 million solution in place that everyone hates. But that is more than potential competitors have. If it passes, they will surely benefit.",
+    "time": 1529352294,
+    "type": "comment"
+  },
+  {
+    "by": "TeMPOraL",
+    "id": 17344002,
+    "parent": 17341678,
+    "text": "SOPA &#x2F; ACTA happened in parallel with FBI shutting down Megavideo - a place where a lot of &quot;illicit&quot; streaming services offloaded the content to. Basically, a lot of people lost the free TV they were used to. The events were unrelated, but I remember them being widely seen by regular people as the shape of things to come.<p>Take away people&#x27;s TV for some bullshit reason again, and they&#x27;ll go to the streets.",
+    "time": 1529385160,
+    "type": "comment"
+  },
+  {
+    "by": "rando444",
+    "id": 17341673,
+    "parent": 17341652,
+    "text": "<a href=\"https:&#x2F;&#x2F;www.eff.org&#x2F;deeplinks&#x2F;2018&#x2F;06&#x2F;internet-luminaries-ring-alarm-eu-copyright-filtering-proposal\" rel=\"nofollow\">https:&#x2F;&#x2F;www.eff.org&#x2F;deeplinks&#x2F;2018&#x2F;06&#x2F;internet-luminaries-ri...<\/a>",
+    "time": 1529355739,
+    "type": "comment"
+  },
+  {
+    "by": "QasimK",
+    "id": 17341892,
+    "parent": 17341652,
+    "text": "<a href=\"https:&#x2F;&#x2F;juliareda.eu&#x2F;eu-copyright-reform&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;juliareda.eu&#x2F;eu-copyright-reform&#x2F;<\/a>",
+    "time": 1529357963,
+    "type": "comment"
+  },
+  {
+    "by": "dwheeler",
+    "id": 17341949,
+    "kids": [
+      17342827
+    ],
+    "parent": 17341652,
+    "text": "Here are some additional links about it, esp. article 13.  It demonstrates a dreadful lack of understanding of the follow-on consequences:<p><a href=\"https:&#x2F;&#x2F;boingboing.net&#x2F;2018&#x2F;06&#x2F;07&#x2F;thanks-axel-voss.html\" rel=\"nofollow\">https:&#x2F;&#x2F;boingboing.net&#x2F;2018&#x2F;06&#x2F;07&#x2F;thanks-axel-voss.html<\/a><p><a href=\"http:&#x2F;&#x2F;www.wired.co.uk&#x2F;article&#x2F;eu-meme-war-article-13-regulation\" rel=\"nofollow\">http:&#x2F;&#x2F;www.wired.co.uk&#x2F;article&#x2F;eu-meme-war-article-13-regula...<\/a><p><a href=\"http:&#x2F;&#x2F;melonfarmers.co.uk&#x2F;eu.htm\" rel=\"nofollow\">http:&#x2F;&#x2F;melonfarmers.co.uk&#x2F;eu.htm<\/a><p><a href=\"http:&#x2F;&#x2F;www.alphr.com&#x2F;politics&#x2F;1009470&#x2F;article-13-EU-what-is-it-copyright\" rel=\"nofollow\">http:&#x2F;&#x2F;www.alphr.com&#x2F;politics&#x2F;1009470&#x2F;article-13-EU-what-is-...<\/a>",
+    "time": 1529358814,
+    "type": "comment"
+  },
+  {
+    "by": "jedberg",
+    "id": 17339773,
+    "kids": [
+      17340998,
+      17339824,
+      17340094,
+      17340327
+    ],
+    "parent": 17339650,
+    "text": "I know the guy who created ContentID.  He&#x27;s a good guy and only had good intentions, namely to keep YouTube in business by identifying legit copyright issues.  At the time, a human had to review all the claims.<p>This is a good example of how AI can go bad.",
+    "time": 1529341286,
+    "type": "comment"
+  },
+  {
+    "by": "avian",
+    "id": 17340693,
+    "kids": [
+      17341809
+    ],
+    "parent": 17339650,
+    "text": "I got a copyright strike once for a video with no apparent reason. After closer inspection, I could in fact hear a radio playing somewhere in the background if I really turned up the volume. I found it incredible that YouTube\u2019s algorithm was able to pick it up at that signal-to-noise ratio.",
+    "time": 1529347955,
+    "type": "comment"
+  },
+  {
+    "by": "teaspoons",
+    "id": 17345324,
+    "kids": [
+      17345946
+    ],
+    "parent": 17339650,
+    "text": "if it can identify the song why can&#x27;t it process it out of the soundtrack ?",
+    "time": 1529404243,
+    "type": "comment"
+  },
+  {
+    "by": "jedberg",
+    "id": 17343891,
+    "parent": 17343422,
+    "text": "I&#x27;ve actually tried this with popular western songs.  The difference seems to be that YouTube is better at identifying songs with a lot of background noise.  Shazam&#x2F;Siri&#x2F;Google need to have cleaner audio to be successful (I&#x27;m not sure why the Google assistant doesn&#x27;t use the same tech as YouTube, but it doesn&#x27;t seem to).",
+    "time": 1529383252,
+    "type": "comment"
+  },
+  {
+    "by": "icebraining",
+    "id": 17339346,
+    "kids": [
+      17339979,
+      17341279,
+      17339881,
+      17340695,
+      17339558,
+      17339393
+    ],
+    "parent": 17339338,
+    "text": "youtube-dl is great for this, you can run it periodically against a channel and only download new videos. See the --download-archive option. Using &quot;-f best&quot; will fetch the highest quality format, but you can be more specific with filters like &quot;-f best[filesize&lt;50M]&quot;.",
+    "time": 1529338232,
+    "type": "comment"
+  },
+  {
+    "by": "yizzy",
+    "id": 17340306,
+    "kids": [
+      17345645
+    ],
+    "parent": 17339338,
+    "text": "You can also use Yizzy[0]. It\u2019s just a GUI on top of youtube-dL but it\u2019s very easy if you don\u2019t like command line. It\u2019s only MacOS compatible by default but should work anywhere if you change the python path. Like youtube-dl it also allows you to download whole playlists by just pasting the link.<p>0 - <a href=\"https:&#x2F;&#x2F;github.com&#x2F;biko-the-bird&#x2F;Yizzy\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;biko-the-bird&#x2F;Yizzy<\/a>",
+    "time": 1529345331,
+    "type": "comment"
+  },
+  {
+    "by": "chii",
+    "id": 17345626,
+    "parent": 17339531,
+    "text": "&gt; network effects and discovery -- are what make disrupting YT seem impossible.<p>i highly doubt that. The youtube monopoly is due to both audience, and the monitization model available (which, atm is getting shoddier and shoddier every day with random demonitizations).<p>Hosting is a big issue, but it&#x27;s a technical issue, and other platforms (such as vemeo, or some other platform) has &quot;solved&quot;. But those platforms don&#x27;t dominate (or even show up as a blip!) because content creators can&#x27;t use them to make their living.",
+    "time": 1529408153,
+    "type": "comment"
+  },
+  {
+    "by": "lucb1e",
+    "id": 17344135,
+    "kids": [
+      17345586
+    ],
+    "parent": 17343482,
+    "text": "I&#x27;ve never heard or seen that. Seems weird as well. Source?",
+    "time": 1529387990,
+    "type": "comment"
+  },
+  {
+    "by": "ravenstine",
+    "id": 17339951,
+    "kids": [
+      17342817
+    ],
+    "parent": 17339377,
+    "text": "There&#x27;s a lot of fan made instrumentals out there(of astounding quality) that I&#x27;ve been archiving for fear of losing forever.<p>I learned my lesson after Nintendo went berzerk and requested takedowns for gameplay videos and walkthroughs; smashrockgroin&#x27;s series for Goldeneye 64 was both funny and informative when playing that game, but now those videos are gone forever.  I&#x27;ve vowed never to buy a Nintendo product again because of that alone.",
+    "time": 1529342528,
+    "type": "comment"
+  },
+  {
+    "by": "reificator",
+    "id": 17339867,
+    "kids": [
+      17342791
+    ],
+    "parent": 17339377,
+    "text": "If we lose Mouth Moods[0] it will be a horrific cultural loss for the internet itself.  Bustin&#x27; actually came up next on my &quot;everything&quot; playlist while I was typing this comment.<p>[0]: <a href=\"http:&#x2F;&#x2F;www.neilcic.com&#x2F;mouthmoods&#x2F;\" rel=\"nofollow\">http:&#x2F;&#x2F;www.neilcic.com&#x2F;mouthmoods&#x2F;<\/a>",
+    "time": 1529341886,
+    "type": "comment"
+  },
+  {
+    "by": "Silhouette",
+    "id": 17345664,
+    "kids": [
+      17345732
+    ],
+    "parent": 17340499,
+    "text": "<i>hopefully a completely decentralized replacement will arise.<\/i><p>Ironically, we used to have a nice, decentralized Internet, and services like YouTube have been probably the biggest cause of damage to it.<p>Not so many years ago, everyone got a bit of web space and their own URL along with the connection from their ISP. You could put your own web site there, for all to see. Many ISPs would allow running some basic software. Visitors would find these sites through search engines or [<i>gasps<\/i>] manually created links from other sites with relevant material.<p>An analogous service today would probably involve providing a useful amount of space and bandwidth, and probably some ready-made blogging or video hosting software so non-geeks could just start creating something instead of having to install anything first. But in reality, almost no ISPs (at least here in the UK) routinely offer that sort of service any more, because the likes of YouTube and Medium have killed it.",
+    "time": 1529408571,
+    "type": "comment"
+  },
+  {
+    "by": "emodendroket",
+    "id": 17340807,
+    "kids": [
+      17342411
+    ],
+    "parent": 17340499,
+    "text": "What reason is there to think it would?  There used to be a bunch of services YouTube competed with; now few of them are even worth mentioning, let alone serious competitors.",
+    "time": 1529348694,
+    "type": "comment"
+  },
+  {
+    "by": "ravenstine",
+    "id": 17340311,
+    "kids": [
+      17341980,
+      17341206,
+      17344726
+    ],
+    "parent": 17340061,
+    "text": "People have a tendency to misundertand everything I do, so I&#x27;d rather not get into specifics, but in summary:<p>- Intellectual discussions<p>- Fan made instrumentals and remixes (especially for Rammstein)<p>- Found footage, old shows, and other nostalgic material from VHS tapes. (wouldn&#x27;t surprise me if they get flagged for having Folgers commercials from 1993)<p>- Random funny videos with swearing or vulgar language<p>Not a whole lot of things that are likely to be relevant to most people, but I&#x27;ve a culture of my own and I&#x27;d like to preserve that.  To forever lose something I enjoy means losing a bit of myself and not being able to share that with others.",
+    "time": 1529345381,
+    "type": "comment"
+  },
+  {
+    "by": "linuxps2",
+    "id": 17340213,
+    "kids": [
+      17340272
+    ],
+    "parent": 17340167,
+    "text": "&gt;There&#x27;s a reason much of malware is spread from porn sites.<p>I thought this was no longer the case",
+    "time": 1529344506,
+    "type": "comment"
+  },
+  {
+    "by": "MrStonedOne",
+    "id": 17348614,
+    "kids": [
+      17348703
+    ],
+    "parent": 17342869,
+    "text": "Yet this issue is on youtube preemptively blocking first party content by established organizations. This isn&#x27;t Babby&#x27;s First Copyright Violiating CS:GO Montage, this is content released by the same university that trained a chunk of youtube&#x27;s employees.<p>The issues we are seeing can be easily fixed by some simple common sense controls on what levels of certainty are required to take down a video and&#x2F;or channel that scale with how established the channel is, including requiring escalating levels of human review.<p>With the &quot;advertiser friendly&quot; issue, the same approach can be taken, topped off with a monetize time prompt or form that allows them to assert how advertiser friendly the uploader understands the video to be (weighted by the history of how accurate their answers have been in the past).<p>These are such solved problems, that youtube really shouldn&#x27;t be having them.",
+    "time": 1529429451,
+    "type": "comment"
+  },
+  {
+    "by": "TylerE",
+    "id": 17341684,
+    "parent": 17341074,
+    "text": "For very loose values of credible.",
+    "time": 1529355858,
+    "type": "comment"
+  },
+  {
+    "by": "JackCh",
+    "id": 17342032,
+    "kids": [
+      17344753,
+      17342828
+    ],
+    "parent": 17341074,
+    "text": "Very annoyingly youtube-dl refuses to support bitchute for reasons that aren&#x27;t exactly clear: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;rg3&#x2F;youtube-dl&#x2F;issues&#x2F;14052\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;rg3&#x2F;youtube-dl&#x2F;issues&#x2F;14052<\/a><p>If I can&#x27;t get data off bitchute easily using de facto standard tools (I get that I could use a bittorrent client, but that&#x27;s beyond the point), I have little interest in putting data on it.",
+    "time": 1529359865,
+    "type": "comment"
+  },
+  {
+    "by": "mlindner",
+    "id": 17340467,
+    "parent": 17340246,
+    "text": "Yes but you can&#x27;t browse Facebook videos without a Facebook account. You can view them if people directly link them, but viewing someone&#x27;s video page is blocked, let alone actually searching for videos.",
+    "time": 1529346320,
+    "type": "comment"
+  },
+  {
+    "by": "RIMR",
+    "id": 17341640,
+    "kids": [
+      17343353
+    ],
+    "parent": 17339202,
+    "text": "Honestly, I wouldn&#x27;t be surprised to see PornHub launch a YouTube competitor strategically as YouTube is flailing.<p>They already run a high functioning video network.  They really just need a SFW frontend with alternate branding (and no adult videos).",
+    "time": 1529355438,
+    "type": "comment"
+  },
+  {
+    "by": "shittyadmin",
+    "id": 17339374,
+    "kids": [
+      17340147,
+      17339451
+    ],
+    "parent": 17339202,
+    "text": "I think a big chunk of the problem now is that when people want to watch regularly released video content from internet creators they reach to YouTube, there&#x27;s no integration of subscriptions across sites. You&#x27;d basically have to scrape video feeds from youtube to compete in this way.",
+    "time": 1529338504,
+    "type": "comment"
+  },
+  {
+    "by": "chii",
+    "id": 17345695,
+    "parent": 17341653,
+    "text": "&gt; YT should be a lot better at recommending videos to users.<p>this is hardly the case, as any avid youtube watcher can tell you. Recently, the algorithmic suggestions are terrible, and either show repeated content, or content that&#x27;s not even close to what&#x27;s being watched (but the SEO&#x2F;words in the description&#x2F;title matches), or is a huge list of videos from the same channel.",
+    "time": 1529408987,
+    "type": "comment"
+  },
+  {
+    "by": "icebraining",
+    "id": 17344816,
+    "parent": 17340815,
+    "text": "(US) Copyright law does have that idea, the DMCA encodes it explicitly as the &quot;safe harbor&quot; provision.",
+    "time": 1529398129,
+    "type": "comment"
+  },
+  {
+    "by": "zouhair",
+    "id": 17341438,
+    "kids": [
+      17342060
+    ],
+    "parent": 17340391,
+    "text": "Pornhub is doing well.",
+    "time": 1529353684,
+    "type": "comment"
+  },
+  {
+    "by": "tyfon",
+    "id": 17345393,
+    "parent": 17341216,
+    "text": "Case in point, twitch.tv added a contentid type system on their VODs (video on demand) in 2014.",
+    "time": 1529405093,
+    "type": "comment"
+  },
+  {
+    "by": "sli",
+    "id": 17342014,
+    "parent": 17340331,
+    "text": "I quite like DDG and use it almost exclusively (sometimes I need to go to Startpage), but they&#x27;ve got quite the hell of a mountain to climb before &quot;duckduckgoing&quot; becomes a household verb.<p>I do hope they get there, though. Probably without the verbing of their name, though, since it&#x27;s a bit of a mouthful.",
+    "time": 1529359656,
+    "type": "comment"
+  },
+  {
+    "by": "tclancy",
+    "id": 17339855,
+    "parent": 17339419,
+    "text": "You&#x27;re thinking of McDowell&#x27;s.",
+    "time": 1529341792,
+    "type": "comment"
+  },
+  {
+    "by": "vetinari",
+    "id": 17348087,
+    "parent": 17347770,
+    "text": "&gt; No one can build filters that are good enough beyond the big tech cos. They can build these libraries and hopefully open source them for everyone to use...but if they don&#x27;t...<p>It is backwards: nothing but whatever can be build by big tech companies is good enough, because their lobbying and interests define what&#x27;s good enough. It&#x27;s also obvious, why it wouldn&#x27;t get open-sourced then. Kicking the ladder and so on.",
+    "time": 1529425736,
+    "type": "comment"
+  },
+  {
+    "by": "ben_w",
+    "id": 17341440,
+    "kids": [
+      17341685,
+      17346448
+    ],
+    "parent": 17341006,
+    "text": "I agree with the sentiment, but I think in practice that would lead to something like patent trolls \u2014 organizations designed no face no threat from the normal consequences.<p>Plain old money based fines should work. Even a tiny fixed fee of $50 per error might be enough, given the scale of the internet.",
+    "time": 1529353711,
+    "type": "comment"
+  },
+  {
+    "by": "larkeith",
+    "id": 17341473,
+    "parent": 17341006,
+    "text": "Or for a minimum starting point, the accusers should be obligated to compensate the victims for lost profits, as well as time cost. The current system of penalty-free reckless false assertions is insane.",
+    "time": 1529353935,
+    "type": "comment"
+  },
+  {
+    "by": "garmaine",
+    "id": 17343312,
+    "kids": [
+      17343846
+    ],
+    "parent": 17341006,
+    "text": "&gt; I&#x27;ve always felt like false assertion of copyright should cause the loss of copyright. Seems like a fair balance for me.<p>I don\u2019t understand. I put out a takedown request for something I don\u2019t have the copyrights to and as a result the real copyright holder loses their copyright? How is that fair?",
+    "time": 1529374695,
+    "type": "comment"
+  },
+  {
+    "by": "taneq",
+    "id": 17343109,
+    "kids": [
+      17343535,
+      17343555
+    ],
+    "parent": 17341006,
+    "text": "&gt; I&#x27;ve always felt like false assertion of copyright should cause the loss of copyright.<p>Which copyright should be lost, if the assertion was false?",
+    "time": 1529372109,
+    "type": "comment"
+  },
+  {
+    "by": "mrmr1993",
+    "id": 17345592,
+    "kids": [
+      17345691
+    ],
+    "parent": 17341006,
+    "text": "The complexity here is that there are multiple parties involved: the copyright holder, who suspects there may have been an infringement; the uploader of the potentially infringing content; and the host, who wants as little to do with copyright claims as they can.<p>The DMCA strikes a balance for the copyright holder and the host, by letting the host avoid any liability for the copyright infringement, as long as they enforce valid requests by no longer hosting the content.<p>The new EU law builds on this principle, giving hosts more responsibility to check whether copyright might be being infringed. I&#x27;m strongle against the idea, but I can see the logic that the host is best-placed to actively monitor all uploaded content.<p>A big issue I have, both with the DMCA and this new legislation, is that there&#x27;s no balancing in the direction of the uploader. Aggressive solutions like your proposal do address this imbalance, but they don&#x27;t do anything to address the actual concerns each side has.<p>If we want more reasonable copyright laws in this arena going forward, we should also be pushing for an uploader&#x27;s right to appeal, as a balance against the rights of and affordances for the other two parties:\n* There should be an &#x27;appeals&#x27;&#x2F;&#x27;counterclaim&#x27; process for content uploaders to take responsibility for the content. Presumably, to balance against the copyright holder&#x27;s needs, they should submit their name and address when they claim that their content is non-infringing.\n* From the host&#x27;s side, the uploader following this process should remove all responsibility for that content from them, so they have no concern about liability and can re-enable access to the content.\n* From the copyright holder&#x27;s side, they need to be able to seek recourse if they still think the content is infringing. This can be done by taking the uploader to court, using the details they have provided.<p>I desperately hope this new legislation fails, but I think you were spot-on about aiming for a &#x27;fair balance&#x27;, and even acheiving that would be a great improvement.",
+    "time": 1529407826,
+    "type": "comment"
+  },
+  {
+    "by": "toomanybeersies",
+    "id": 17343384,
+    "kids": [
+      17344716
+    ],
+    "parent": 17341250,
+    "text": "There&#x27;s a parallel in the tobacco industry of how seemingly harmful policies are actually beneficial for certain parties.<p>Philip Morris, the manufacturers of Marlboro cigarettes, lobbied in favour of laws restricting tobacco advertising. The logic behind this is that they have such strong brand name recognition, if tobacco advertising was banned they&#x27;d cement their position as the market leader, as there would be no way for other brands to gain market awareness.",
+    "time": 1529375671,
+    "type": "comment"
+  },
+  {
+    "by": "kartan",
+    "id": 17342827,
+    "kids": [
+      17344430,
+      17343562
+    ],
+    "parent": 17341949,
+    "text": "&gt; The Article stipulates that platforms should \u201cprevent the availability\u201d of protected works, suggesting these ISSPs will need to adopt technology that can recognise and filter work created by someone other than the person uploading it.<p>But there is no requirement that at the same time protects fair use. To remove content just in case has no negative consequences.<p>&gt; Article 13 is  \u201cincompatible with the guarantee of fundamental rights and freedoms and the obligation to strike a fair balance between all rights and freedoms involved\u201d<p>This looks like a one-sided law. It takes into account &quot;authors rights&quot;, you can read it as big media conglomerates financial interests, over any other consideration.<p>This is an example of a law that puts some companies profit over any social consideration and will impact EU socially and economically in a negative way.",
+    "time": 1529368516,
+    "type": "comment"
+  },
+  {
+    "by": "tzs",
+    "id": 17340998,
+    "kids": [
+      17341407,
+      17341530,
+      17345488
+    ],
+    "parent": 17339773,
+    "text": "Looking at the DMCA requirements, it doesn&#x27;t appear like it would require a lot of human intervention.<p>1. Copyright owner provides written notification of the alleged infringement.<p>The notification has to provide reasonably sufficient information to allow Google to locate the alleged infringing material; provide contact information for the claimant; include a statement that the claimant has a good faith believe that the use is not authorized by the copyright owner, its agent, or the law; and a statement that the information the claim is accurate, and that the claimant is authorized to act for the owner.<p>2. Google then has to remove or disable the material, and take reasonable steps to notify the uploader of the issue.<p>If the uploader does not make a counter notification, it looks like that&#x27;s the end of Google&#x27;s obligations.<p>If the uploader files a counter notification, Google has to notify the claimant. If the claimant does not file a lawsuit against the uploader within 14 days, Google has to restore the material.<p>Note that nothing in here seems to require Google to actually <i>look<\/i> at the material and decide if they think it is infringing. Nor does it require them to proactively seek to find infringing material and notify content providers or block such material. They just have to check that the claimant (and the uploader if they get a counter notice) have included the things in their notice that the law requires. They should be able to automate that for most claims.<p>The ContentID system seems to be going far beyond what DMCA requires them to do to keep their safe harbor. I wonder why they are doing that? Maybe because they want to also be content sellers, and so want to keep the content providers happy with them?",
+    "time": 1529350228,
+    "type": "comment"
+  },
+  {
+    "by": "reificator",
+    "id": 17339824,
+    "kids": [
+      17342331,
+      17339980,
+      17347860,
+      17344189
+    ],
+    "parent": 17339773,
+    "text": "I&#x27;m not demonizing the people making it, or even necessarily the people demanding it be made.<p>The DMCA was the beginning of the end of a free and open internet, and now it&#x27;s accelerating.  I just hope the next generation understands what they&#x27;re missing under the spectre of copyright law.",
+    "time": 1529341608,
+    "type": "comment"
+  },
+  {
+    "by": "Jyaif",
+    "id": 17340094,
+    "kids": [
+      17340243,
+      17340241
+    ],
+    "parent": 17339773,
+    "text": "ContentID is not AI by any definition of AI, it&#x27;s signal processing.",
+    "time": 1529343538,
+    "type": "comment"
+  },
+  {
+    "by": "glogla",
+    "id": 17340327,
+    "kids": [
+      17344397
+    ],
+    "parent": 17339773,
+    "text": "I guess he won&#x27;t go down in history like the leaded gasoline and freon guy. But I guess it&#x27;s more like Nazi Germany where if it wasn&#x27;t him, someone else would have.",
+    "time": 1529345483,
+    "type": "comment"
+  },
+  {
+    "by": "dingo_bat",
+    "id": 17345946,
+    "parent": 17345324,
+    "text": "They don&#x27;t care. Individual videos don&#x27;t matter to them.",
+    "time": 1529411480,
+    "type": "comment"
+  },
+  {
+    "by": "local_yokel",
+    "id": 17341809,
+    "kids": [
+      17343306,
+      17344193
+    ],
+    "parent": 17340693,
+    "text": "For people with a signal processing background, this is actually a very trivial thing. The basic technique has been in use for probably a hundred years - radar being a classical example - nothing at all to do with Google. Basically, you can get a signal-to-noise ratio improvement proportional to the duration of the signal you&#x27;re attempting to detect (in this case, audio), thus allowing you to detect very weak signals in the presence of strong noise or other unwanted signals. Look up &quot;pulse compression&quot; or &quot;correlation detection&quot; if you&#x27;re interested.",
+    "time": 1529356994,
+    "type": "comment"
+  },
+  {
+    "by": "ascom",
+    "id": 17339979,
+    "kids": [
+      17344299,
+      17340259
+    ],
+    "parent": 17339346,
+    "text": "I actually use -f bestvideo+bestaudio, since it downloads and muxes the best combination of DASH video and audio.<p>ArchiveTeam also has a recommended list of flags for archival: <a href=\"https:&#x2F;&#x2F;www.archiveteam.org&#x2F;index.php?title=YouTube\" rel=\"nofollow\">https:&#x2F;&#x2F;www.archiveteam.org&#x2F;index.php?title=YouTube<\/a>",
+    "time": 1529342714,
+    "type": "comment"
+  },
+  {
+    "by": "morganvachon",
+    "id": 17341279,
+    "parent": 17339346,
+    "text": "I&#x27;ll throw in my vote for youtube-dl as well. I love that it&#x27;s so cross-platform; there&#x27;s even a port for OpenBSD which makes it super easy to enjoy YT videos on that OS without having to run a resource-heavy browser, and it can be scripted.",
+    "time": 1529352576,
+    "type": "comment"
+  },
+  {
+    "by": "ravenstine",
+    "id": 17339881,
+    "kids": [
+      17341192
+    ],
+    "parent": 17339346,
+    "text": "Yeah, I&#x27;m basically doing what you describe:<p>`youtube-dl -f best -citw -v &lt;url of channel or playlist&gt;`<p>If I recall, that&#x27;s going to ignore errors.  At an airport right now so I can&#x27;t remember exactly what those flags are.",
+    "time": 1529341990,
+    "type": "comment"
+  },
+  {
+    "by": "earenndil",
+    "id": 17340695,
+    "parent": 17339346,
+    "text": "I thought it already fetches the highest quality by default?",
+    "time": 1529347970,
+    "type": "comment"
+  },
+  {
+    "by": "walterbell",
+    "id": 17339393,
+    "kids": [
+      17339748
+    ],
+    "parent": 17339346,
+    "text": "Recommended storage device and disk drives?",
+    "time": 1529338587,
+    "type": "comment"
+  },
+  {
+    "by": "amatecha",
+    "id": 17339558,
+    "parent": 17339346,
+    "text": "Really!  I had no clue about this one (it has been a while since I searched around for such a thing).. that&#x27;s great!  Thanks for the tip, I&#x27;ll check it out.",
+    "time": 1529339637,
+    "type": "comment"
+  },
+  {
+    "by": "chii",
+    "id": 17345645,
+    "parent": 17340306,
+    "text": "also <a href=\"https:&#x2F;&#x2F;github.com&#x2F;MrS0m30n3&#x2F;youtube-dl-gui\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;MrS0m30n3&#x2F;youtube-dl-gui<\/a><p>and there are plenty of others too.",
+    "time": 1529408405,
+    "type": "comment"
+  },
+  {
+    "by": "thecatspaw",
+    "id": 17345586,
+    "kids": [
+      17345602
+    ],
+    "parent": 17344135,
+    "text": "they are probably talking about their caching. Videos with low views are not cached at all servers, especially not higher definitions. So you want to watch the video, the server realizes &quot;oh hang on, I threw this one out, let me grab it again from another server&quot;. while the server fetches the fullHD video, you get it in 360p",
+    "time": 1529407773,
+    "type": "comment"
+  },
+  {
+    "by": "userbinator",
+    "id": 17342817,
+    "kids": [
+      17344111
+    ],
+    "parent": 17339951,
+    "text": "<i>I learned my lesson after Nintendo went berzerk and requested takedowns for gameplay videos and walkthroughs<\/i><p>Going after pirates and such I can sort of understand, but people enjoying your product (and obviously helping to promote it)? WTF.<p>It reminds me of the complete opposite of this old meme: <a href=\"http:&#x2F;&#x2F;lurkmore.so&#x2F;images&#x2F;9&#x2F;94&#x2F;360_Kid.jpg\" rel=\"nofollow\">http:&#x2F;&#x2F;lurkmore.so&#x2F;images&#x2F;9&#x2F;94&#x2F;360_Kid.jpg<\/a>",
+    "time": 1529368288,
+    "type": "comment"
+  },
+  {
+    "by": "oliveshell",
+    "id": 17342791,
+    "kids": [
+      17342925
+    ],
+    "parent": 17339867,
+    "text": "Thankfully\u2014 at least in this case\u2014 Neil offering the album as a free lossless download on his website means countless archival-quality copies are saved on PCs the world over!",
+    "time": 1529368006,
+    "type": "comment"
+  },
+  {
+    "by": "dilap",
+    "id": 17345732,
+    "kids": [
+      17346638
+    ],
+    "parent": 17345664,
+    "text": "i do think the search, recommendations, following, ease-of-uploading, and unlimited hosting capacity that youtube gives you are of real, incredible value. i can find videos on youtube of how to do practically anything, uploaded by every kind of person imaginable.<p>practically speaking, people creating their own webpages and hoping to get indexed by a search engine or included in a hand-curated directory is not going to get anywhere close to that. you restrict your creators to a tiny, tiny fraction of the population w&#x2F; those skills.<p>so the trick is how to have the great ux of these centralized services without the downsides of centralized control. seems like there&#x27;s a good chance it&#x27;s possible.<p>(for other services, we did used to have (well, still do) pretty good decentralized variants. slack vs irc, reddit&#x2F;hn vs newsgroups, email vs fb messenger. but even the more minor usability improvements of the centralized alternatives seems to be enough for them to displace what came before. maybe the tide will swing back.)",
+    "time": 1529409393,
+    "type": "comment"
+  },
+  {
+    "by": "dilap",
+    "id": 17342411,
+    "parent": 17340807,
+    "text": "i think there&#x27;s a couple of reasons for optimism:<p>1. high-speed net access is becoming more and more common; higher speed help makes the possible overhead of distributed solutions less of a barrier<p>2. there is more awareness now of the downsides of having a centralized provider. many youtube creators and users have been burned by google; i think that&#x27;ll generate real demand for a decentralized solution.<p>3. existence&#x2F;arguably success of decentralized currencies provides a lot of psychic energy&#x2F;motivation for making decentralized things.",
+    "time": 1529363820,
+    "type": "comment"
+  },
+  {
+    "by": "nkrisc",
+    "id": 17341206,
+    "parent": 17340311,
+    "text": "That definitely seems like the kind of content that would end up getting removed, but ironically is the kind of the content that services like YouTube grew up on.",
+    "time": 1529351996,
+    "type": "comment"
+  },
+  {
+    "by": "jlykins",
+    "id": 17341980,
+    "kids": [
+      17346201
+    ],
+    "parent": 17340311,
+    "text": "I&#x27;ve been thinking a lot lately about how various small internet subcultures and communities that I&#x27;ve been a part of have been lost to the void. It&#x27;s one of those things that makes me a special kind of sad and nostalgic.<p>Would you be at all interested in software that helps to construct a permanent showcase of the stuff that matters to you? It would handle things like archiving to enable a focus on curation and presentation.<p>I&#x27;ve been thinking of making something like this because services like the internet archive don&#x27;t seem quite right. There&#x27;s no context. I just worry that nobody would be interested in doing the work of providing that context.",
+    "time": 1529359109,
+    "type": "comment"
+  },
+  {
+    "by": "thinkingemote",
+    "id": 17344726,
+    "kids": [
+      17346184
+    ],
+    "parent": 17340311,
+    "text": "How do you back up these? Just to a drive on your PC? To a network drive &#x2F; server etc?<p>And what software do you use? Streamlink?",
+    "time": 1529397272,
+    "type": "comment"
+  },
+  {
+    "by": "zaroth",
+    "id": 17340272,
+    "kids": [
+      17340770
+    ],
+    "parent": 17340213,
+    "text": "With the death of Flash, if malware ads are getting past Chrome\u2019s sandbox isn\u2019t there like $100k at Pwnium just waiting to be claimed?",
+    "time": 1529344961,
+    "type": "comment"
+  },
+  {
+    "by": "ucaetano",
+    "id": 17348703,
+    "kids": [
+      17349152
+    ],
+    "parent": 17348614,
+    "text": "&gt; some simple common sense controls on what levels of certainty are required to take down a video<p>This is solved already, but there will always be false positives.<p>What isn&#x27;t solved, and likely never will be, is copyright.<p>But it seems that the issue isn&#x27;t due to content ID, but contractual issues.",
+    "time": 1529430047,
+    "type": "comment"
+  },
+  {
+    "by": "icebraining",
+    "id": 17344753,
+    "parent": 17342032,
+    "text": "Doesn&#x27;t seem so? Seems to me that some user @tv21 was arguing against it for some reason, and @dstftw locked the conversation to avoid the argument. The issue is still open, implying it&#x27;s free to be worked on. Has anyone submitted a PR?",
+    "time": 1529397586,
+    "type": "comment"
+  },
+  {
+    "by": "userbinator",
+    "id": 17342828,
+    "kids": [
+      17343923
+    ],
+    "parent": 17342032,
+    "text": "It&#x27;s open-source so... just fork it.<p>(I know you&#x27;re not a developer, but this is a perfect use-case for forking and continuing.)",
+    "time": 1529368525,
+    "type": "comment"
+  },
+  {
+    "by": "judge2020",
+    "id": 17343353,
+    "parent": 17341640,
+    "text": "With the recently released VPNHub [0], it seems like they&#x27;re willing to branch out and I see this as a possibility.<p>[0]: <a href=\"https:&#x2F;&#x2F;vpnhub.com\" rel=\"nofollow\">https:&#x2F;&#x2F;vpnhub.com<\/a>",
+    "time": 1529375181,
+    "type": "comment"
+  },
+  {
+    "by": "robotmlg",
+    "id": 17339451,
+    "kids": [
+      17339807,
+      17343328
+    ],
+    "parent": 17339374,
+    "text": "If only there were some way to Syndicate website updates to a centralized reader in a Really Simple way...",
+    "time": 1529338957,
+    "type": "comment"
+  },
+  {
+    "by": "jake_the_third",
+    "id": 17340147,
+    "parent": 17339374,
+    "text": "&gt;You&#x27;d basically have to scrape video feeds from youtube to compete in this way.<p>Youtube still offers RSS and it&#x27;s reliable and chronological unlike youtube&#x27;s subscription feed algorithm.",
+    "time": 1529343977,
+    "type": "comment"
+  },
+  {
+    "by": "JackCh",
+    "id": 17342060,
+    "parent": 17341438,
+    "text": "As I understand it MindGeek is pretty big but still only a small fraction the size of Youtube in terms of traffic.  And they&#x27;ve yet to create a non-porn version of their site.  I&#x27;ve heard rumors that they&#x27;ve at least considered it, but so far it hasn&#x27;t happened.",
+    "time": 1529360144,
+    "type": "comment"
+  },
+  {
+    "by": "cabalamat",
+    "id": 17346448,
+    "kids": [
+      17347002
+    ],
+    "parent": 17341440,
+    "text": "&gt; Even a tiny fixed fee of $50 per error might be enough<p>If the fine went to the person who uploaded the work, this would be good because it would force the filter to be robust in the face of adversarial attacks.",
+    "time": 1529415544,
+    "type": "comment"
+  },
+  {
+    "by": "adjkant",
+    "id": 17341685,
+    "kids": [
+      17345498,
+      17345288
+    ],
+    "parent": 17341440,
+    "text": "I really like the per error idea - allows for large cases to have no barrier to contest but for the whole thing to not become like patent trolling. Maybe also some sort of threshold for mass cases, like a progressive taxation:<p>If you&#x27;re right 95% of the time, you get a discount.\nIf you&#x27;re wrong 50% of the time, you pay the full fee.<p>Who would be in charge of setting these?",
+    "time": 1529355872,
+    "type": "comment"
+  },
+  {
+    "by": "avs733",
+    "id": 17343846,
+    "kids": [
+      17344456,
+      17343958
+    ],
+    "parent": 17343312,
+    "text": "I hold copyright on the song &quot;I OWN THE COPYRIGHT ON THIS SONG&quot;<p>You use my song in a fair use way<p>I claim you are infringing my copyright<p>you challenge, I fail to prove my case<p>I lose copyright on the song and it enters the public domain.",
+    "time": 1529382611,
+    "type": "comment"
+  },
+  {
+    "by": "josephcooney",
+    "id": 17343535,
+    "parent": 17343109,
+    "text": "I&#x27;m guessing here, but if you claim that work Y infringes your copyright of X. If it turns out to be false you lose copyright of X.",
+    "time": 1529378034,
+    "type": "comment"
+  },
+  {
+    "by": "colordrops",
+    "id": 17343555,
+    "parent": 17343109,
+    "text": "The one that is falsely being infringed upon.",
+    "time": 1529378369,
+    "type": "comment"
+  },
+  {
+    "by": "AlanSE",
+    "id": 17345691,
+    "kids": [
+      17346012
+    ],
+    "parent": 17345592,
+    "text": "I don&#x27;t think your proposal would do anything to reduce the rates of false negatives, because there&#x27;s no incentive to avoid them. Many false negatives will never get identified in the first place, because if a side-project pedestrian creator wasn&#x27;t going to make any money off a creative work, why would they expose themselves to a possible court summons?",
+    "time": 1529408921,
+    "type": "comment"
+  },
+  {
+    "by": "ehecatl",
+    "id": 17344716,
+    "kids": [
+      17345349
+    ],
+    "parent": 17343384,
+    "text": "I had never thought of that. That&#x27;s cynical genius of the highest order. AND they get to play the moral high-ground card of &quot;seriously, we&#x27;re sorry! We&#x27;re on your side-- look at what we&#x27;re doing to help!&quot;",
+    "time": 1529397070,
+    "type": "comment"
+  },
+  {
+    "by": "BlackFly",
+    "id": 17344430,
+    "kids": [
+      17344814
+    ],
+    "parent": 17342827,
+    "text": "&gt; This looks like a one-sided law.<p>Yet the law says:<p>&gt; Those measures, such as the use of effective content recognition technologies, shall be appropriate and proportionate.<p>Ignoring fair use is neither appropriate nor proportionate. Also, taking someone&#x27;s works down falsely would be a violation of this same article, since the content provider is obligated to<p>&gt; take measures to ensure the functioning of agreements concluded with rightholders for the use of their works<p>which obviously precludes YouTube from just deleting your content on a false positive and not providing you with any recourse. Furthermore, article 13 only applies to<p>&gt; providers that store and provide to the public access to large amounts of works<p>and not smaller companies. The whole article basically sums up the idea: work together.",
+    "time": 1529392743,
+    "type": "comment"
+  },
+  {
+    "by": "gm-conspiracy",
+    "id": 17343562,
+    "kids": [
+      17344827
+    ],
+    "parent": 17342827,
+    "text": "What do most EU citizens have as far as upload bandwidth and the cost for that?",
+    "time": 1529378457,
+    "type": "comment"
+  },
+  {
+    "by": "mjevans",
+    "id": 17341407,
+    "kids": [
+      17341788
+    ],
+    "parent": 17340998,
+    "text": "The problem is a lack of liability for the content creators.  Confusion can happen (such as particular renditions of a work who&#x27;s basis is public domain information (IE a classical music score)), but willful lies should be punished with actual consequences.<p>Right now things are stacked entirely against one class of content creators (video creators).  Additionally if I&#x27;m a public institution or someone else that&#x27;s against having ads I can&#x27;t control what happens during the contest period* (or so I&#x27;ve heard, it&#x27;s never happened to me).<p>As someone that has posted a few &#x27;how to do X&#x27; in software videos before, who believes that ads should be far more limited (like the old soap operas &#x2F; PBS sponsors at the end of programs), I&#x27;d rather my videos were in &#x27;hold on publishing limbo&#x27; while not under my control.",
+    "time": 1529353495,
+    "type": "comment"
+  },
+  {
+    "by": "sp332",
+    "id": 17345488,
+    "parent": 17340998,
+    "text": "ContentID does go far beyond DMCA requirements. I think for a while, some big companies has carte blanche to delete any video. I guess narrowly winning a billion-dollar lawsuit against them will scare a company that way.",
+    "time": 1529406384,
+    "type": "comment"
+  },
+  {
+    "by": "yason",
+    "id": 17341530,
+    "parent": 17340998,
+    "text": "<i>The ContentID system seems to be going far beyond what DMCA requires<\/i><p>AFAIK the content id system was built to monetise works on YouTube. The system must know where a song or a video is being included to direct advertising money to the original author if s&#x2F;he wishes to participate in that scheme.",
+    "time": 1529354483,
+    "type": "comment"
+  },
+  {
+    "by": "amyjess",
+    "id": 17347860,
+    "parent": 17339824,
+    "text": "While the DMCA has been abused by large corporations, it has been invaluable in helping protect the little guy.<p>It&#x27;s been a huge boon to independent content creators that you can just send somebody a DMCA takedown notice and they&#x27;ll comply. Before the DMCA, you had to pay out the nose for a lawyer, and you&#x27;d be in for a long and very, very expensive legal process. Your average photographer can&#x27;t afford that, so copyright enforcement was solely a privilege of the rich prior to the DMCA.<p>Here&#x27;s an example. I know someone who shared pictures of herself in a private women-only group. Someone who ran a really disgusting cyberbullying page on Facebook had a mole in the group and posted the pictures publicly while making fun of her appearance and calling her slurs. Since the photographer was a friend of hers, the photographer simply sent Facebook a bunch of DMCA notices telling the cyberbullying page to take down the pictures. Facebook complied in under an hour. The cyberbullying page tried to post the pictures again; more DMCA notices were sent, and the whole page was unpublished.",
+    "time": 1529423941,
+    "type": "comment"
+  },
+  {
+    "by": "jimbo999",
+    "id": 17344189,
+    "parent": 17339824,
+    "text": "well yes and no<p><a href=\"https:&#x2F;&#x2F;www.wired.com&#x2F;2008&#x2F;10&#x2F;ten-years-later&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;www.wired.com&#x2F;2008&#x2F;10&#x2F;ten-years-later&#x2F;<\/a>",
+    "time": 1529388698,
+    "type": "comment"
+  },
+  {
+    "by": "dangrossman",
+    "id": 17342331,
+    "kids": [
+      17342946
+    ],
+    "parent": 17339824,
+    "text": "Prior to the DMCA, ISPs had full liability for copyright infringement committed by their customers online. Small ISPs were being sued out of existence, and it was only a matter of time before nobody would be willing to run an ISP at all. The DMCA (specifically Section 512) was the thing that saved the free and open internet by introducing limited liability for ISPs.",
+    "time": 1529362947,
+    "type": "comment"
+  },
+  {
+    "by": "simion314",
+    "id": 17339980,
+    "kids": [
+      17341049,
+      17340308,
+      17340954
+    ],
+    "parent": 17339824,
+    "text": "Humans are to blame for using horrible AI&#x2F;software. \nAt least if you know your AI is that broken then have some human supervision.",
+    "time": 1529342714,
+    "type": "comment"
+  },
+  {
+    "by": "thomastjeffery",
+    "id": 17340241,
+    "kids": [
+      17340421
+    ],
+    "parent": 17340094,
+    "text": "It&#x27;s automated decision-making.",
+    "time": 1529344736,
+    "type": "comment"
+  },
+  {
+    "by": "LordDragonfang",
+    "id": 17340243,
+    "kids": [
+      17340387,
+      17343293
+    ],
+    "parent": 17340094,
+    "text": "I believe the implication is that youtube has replaced the human reviewers with an ML-based system.",
+    "time": 1529344740,
+    "type": "comment"
+  },
+  {
+    "by": "kchr",
+    "id": 17344397,
+    "parent": 17340327,
+    "text": "Dr. Godwin, I presume? <i>tips hat<\/i>",
+    "time": 1529392304,
+    "type": "comment"
+  },
+  {
+    "by": "gnulinux",
+    "id": 17343306,
+    "kids": [
+      17347124,
+      17344405
+    ],
+    "parent": 17341809,
+    "text": "This is very true. In UC Berkeley, the very first linear algebra course all EE&#x2F;CS freshman take (EE 16A) has a lab that does EXACTLY this. You match part of a song with some very noisy sound. If freshmen are taught to do this, it&#x27;s easily something Google can do.",
+    "time": 1529374590,
+    "type": "comment"
+  },
+  {
+    "by": "sverhagen",
+    "id": 17344193,
+    "parent": 17341809,
+    "text": "If it&#x27;s background noise, is it still a violation? Not suggestion an answer, just asking. Like, how (not in all countries) it&#x27;s okay to get passers-by in your video shot and broadcast them uncensored?",
+    "time": 1529388736,
+    "type": "comment"
+  },
+  {
+    "by": "Mashimo",
+    "id": 17344299,
+    "parent": 17339979,
+    "text": "&gt;I actually use -f bestvideo+bestaudio,<p>It does that by default. (If you have ffmpeg)",
+    "time": 1529390765,
+    "type": "comment"
+  },
+  {
+    "by": "ravenstine",
+    "id": 17340259,
+    "parent": 17339979,
+    "text": "Thanks!  I&#x27;ll be doing this from now on.  Had no idea about that.",
+    "time": 1529344850,
+    "type": "comment"
+  },
+  {
+    "by": "jwilk",
+    "id": 17341192,
+    "parent": 17339881,
+    "text": "youtube-dl has this in their FAQ:<p>&gt; <i>Do I always have to pass -citw?<\/i><p>&gt; <i>By default, youtube-dl intends to have the best options (incidentally, if you have a convincing case that these should be different, please file an issue where you explain that ( <a href=\"https:&#x2F;&#x2F;yt-dl.org&#x2F;bug\" rel=\"nofollow\">https:&#x2F;&#x2F;yt-dl.org&#x2F;bug<\/a> )). Therefore, it is unnecessary and sometimes harmful to copy long option strings from webpages. In particular, the only option out of -citw that is regularly useful is -i.<\/i><p>But OK, here&#x27;s explantion of the options you used:<p>\u2022 -f best: Select the best quality format represented by a single file with video and audio. (By default, yt-dl will merge best video with best audio if that&#x27;s what&#x27;s available.)<p>\u2022 -c: Force resume of partially downloaded files. (By default, yt-dl will resume downloads if possible.)<p>\u2022 -i: Continue on download errors, for example to skip unavailable videos in a playlist.<p>\u2022 -t: Use title in file name. (Deprecated. This is the default.)<p>\u2022 -w: Do not overwrite files.<p>\u2022 -v: Print various debugging information.",
+    "time": 1529351923,
+    "type": "comment"
+  },
+  {
+    "by": "toomuchtodo",
+    "id": 17339748,
+    "kids": [
+      17339858,
+      17340063
+    ],
+    "parent": 17339393,
+    "text": "<a href=\"https:&#x2F;&#x2F;www.backblaze.com&#x2F;blog&#x2F;open-source-data-storage-server&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;www.backblaze.com&#x2F;blog&#x2F;open-source-data-storage-serv...<\/a> ; it&#x27;s what I use to keep anything in cold storage that can&#x27;t immediately go into the Internet Archive or that they&#x27;re unable to dark after I upload.",
+    "time": 1529341112,
+    "type": "comment"
+  },
+  {
+    "by": "lucb1e",
+    "id": 17345602,
+    "parent": 17345586,
+    "text": "I recently had a video with very low views that just wouldn&#x27;t load for minutes on end. Was wondering if they were down, or if it had to be grabbed from some tape archive because a disk crashed. After about 10-15 minutes, it slowly loaded. This was at all qualities, browsers, and even when trying from another continent.",
+    "time": 1529407907,
+    "type": "comment"
+  },
+  {
+    "by": "TeMPOraL",
+    "id": 17344111,
+    "kids": [
+      17345637
+    ],
+    "parent": 17342817,
+    "text": "&gt; <i>but people enjoying your product (and obviously helping to promote it)? WTF.<\/i><p>The usual rationale is that walkthroughs &#x2F; let&#x27;s play videos show enough of the game that people may opt to just watch the video, instead of playing the game itself.<p>I can sort of understand this position when it comes to videos that e.g. show the entire single-player campaign with zero commentary. But I&#x27;m not convinced that people opting for such videos would have bought the game if the walkthroughs were not available.",
+    "time": 1529387493,
+    "type": "comment"
+  },
+  {
+    "by": "reificator",
+    "id": 17342925,
+    "parent": 17342791,
+    "text": "Yep, though I must admit I downloaded the lossless and uploaded it straight to Google Play Music where it gets converted to lossy.",
+    "time": 1529369695,
+    "type": "comment"
+  },
+  {
+    "by": "Silhouette",
+    "id": 17346638,
+    "parent": 17345732,
+    "text": "<i>i do think the search, recommendations, following, ease-of-uploading, and unlimited hosting capacity that youtube gives you are of real, incredible value.<\/i><p>They&#x27;re certainly useful. I just question whether we wouldn&#x27;t have found other ways to achieve these kinds of benefits if we didn&#x27;t have YouTube, with the entire Internet interested in the results and well over a decade to come up with something.",
+    "time": 1529416712,
+    "type": "comment"
+  },
+  {
+    "by": "ravenstine",
+    "id": 17346201,
+    "parent": 17341980,
+    "text": "Yeah, I&#x27;d definitely be interested in seeing something like that.",
+    "time": 1529413684,
+    "type": "comment"
+  },
+  {
+    "by": "ravenstine",
+    "id": 17346184,
+    "parent": 17344726,
+    "text": "I have a hard drive connected to a Raspberry Pi with Samba installed.  Samba is terribly slow, so I just ended up bypassing that and installing youtube-dl directly on the Raspberry Pi.  I&#x27;d like to find a more robust solution, but for now that works.<p>Streamlink looks like a great project.  Thanks for mentioning it!",
+    "time": 1529413617,
+    "type": "comment"
+  },
+  {
+    "by": "earenndil",
+    "id": 17340770,
+    "kids": [
+      17342498
+    ],
+    "parent": 17340272,
+    "text": "100k is peanuts compared to what you can make bitcoin mining on the computers of all pornhub users.",
+    "time": 1529348468,
+    "type": "comment"
+  },
+  {
+    "by": "MrStonedOne",
+    "id": 17349152,
+    "parent": 17348703,
+    "text": "Ya, youtube is obucating this, but it seems they are changing the terms to force monetization on certain kinds of content where they never did before. As in, force the creator to take a cut (as well as enable more ads to be shown.)<p>It seems like an odd play, increase supply of ad slots while dealing with a demand decrease from random companies dropping ads during drama. They must have signed some kind of deal recently.<p>If they are trying to increase the ad slot supply expect actions against ad blockers to come next.",
+    "time": 1529433063,
+    "type": "comment"
+  },
+  {
+    "by": "JackCh",
+    "id": 17343923,
+    "kids": [
+      17344160
+    ],
+    "parent": 17342828,
+    "text": "Easier to just not put anything worthwhile on bitchute to be frank.  youtube-dl needs constant vigalent updates to keep it working, maintaining a fork of it is a serious long-term commitment.",
+    "time": 1529383610,
+    "type": "comment"
+  },
+  {
+    "by": "shittyadmin",
+    "id": 17339807,
+    "parent": 17339451,
+    "text": "Seriously though, I dream of a world in which all apps had a &quot;subscribe on your news reader&quot; button which could open an RSS client, maybe something implemented by mobile OS providers so it&#x27;s easy for new users but overridable by users like the browser or calling apps would be ideal.",
+    "time": 1529341551,
+    "type": "comment"
+  },
+  {
+    "by": "gnulinux",
+    "id": 17343328,
+    "kids": [
+      17344178
+    ],
+    "parent": 17339451,
+    "text": "I think RSS is a vastly underused technology&#x2F;tool. I wonder at what point people lost hope in it and abandoned. Not to say, it&#x27;s completely abandoned, but it&#x27;s not used as much as it should be used.",
+    "time": 1529374898,
+    "type": "comment"
+  },
+  {
+    "by": "ben_w",
+    "id": 17347002,
+    "parent": 17346448,
+    "text": "I\u2019m no lawyer, but deliberately performing adversarial attacks to get rich from being automatically and incorrectly fined feels like it ought to be somewhere between fraud and hacking (in the Computer Misuse Act sense rather than thr hackernews sense).",
+    "time": 1529418707,
+    "type": "comment"
+  },
+  {
+    "by": "tylll",
+    "dead": true,
+    "id": 17345288,
+    "parent": 17341685,
+    "text": "<a href=\"https:&#x2F;&#x2F;bit.ly&#x2F;2JTdt8x\" rel=\"nofollow\">https:&#x2F;&#x2F;bit.ly&#x2F;2JTdt8x<\/a>",
+    "time": 1529403782,
+    "type": "comment"
+  },
+  {
+    "by": "glenneroo",
+    "id": 17345498,
+    "kids": [
+      17347016
+    ],
+    "parent": 17341685,
+    "text": "Or what about a system like they use in Finland to deal with speeding tickets - the fine is based on your income. The local paper has a weekly list of top offenders, which is amusing to say the least.",
+    "time": 1529406472,
+    "type": "comment"
+  },
+  {
+    "by": "barrkel",
+    "id": 17343958,
+    "kids": [
+      17344049
+    ],
+    "parent": 17343846,
+    "text": "No, that&#x27;s not what&#x27;s being argued will happen.<p>I own the copyright on the song X.<p>Person A uses the song X in a fair use way.<p>Person B claims A is infringing.<p>Person A challenges and wins.<p>Then I lose my copyright, without any involvement?",
+    "time": 1529384091,
+    "type": "comment"
+  },
+  {
+    "by": "Silhouette",
+    "id": 17344456,
+    "parent": 17343846,
+    "text": "Merely attempting to enforce a copyright that you legitimately hold against one instance that might be fair use, and then having a court find in a real case that it was fair use, would be enough to lose copyright of the work entirely in your view?<p>That&#x27;s so disproportionate that you might as well just abolish copyright.<p>Also, most of the world doesn&#x27;t have fair use like the US does, though many places have similar but weaker provisions in some respects. US fair use law is somewhat controversial, because it arguably doesn&#x27;t comply with international obligations.",
+    "time": 1529393256,
+    "type": "comment"
+  },
+  {
+    "by": "mrmr1993",
+    "id": 17346012,
+    "parent": 17345691,
+    "text": "This is all true, but it does do <i>something<\/i> to start redressing the balance. Once we&#x27;re at the stage where content creators have some of the control back, then we can start looking at reducing the stakes for non-profit content, limiting the claims rights holders can make if they abuse the system, etc.<p>Expecting a solution that covers everything first time -- and trying to persuade people that the special cases are necessary without seeing the system in action -- is a great way to achieve slow&#x2F;no progress.",
+    "time": 1529412087,
+    "type": "comment"
+  },
+  {
+    "by": "Wofiel",
+    "id": 17345349,
+    "kids": [
+      17347556
+    ],
+    "parent": 17344716,
+    "text": "When tobacco advertising was banned from TV, literally all tobacco companies profited. It was a classic example of game theory - If one of them advertised, they all needed to advertise to keep up, but if none of them do (or were unable to because of regulations), they all profit because people were still buying tobacco.",
+    "time": 1529404498,
+    "type": "comment"
+  },
+  {
+    "by": "Natanael_L",
+    "id": 17344814,
+    "kids": [
+      17345104
+    ],
+    "parent": 17344430,
+    "text": "It&#x27;s never going to be enforced in that way, though. It would just take too many lawyers to cover your ass if you tried that as a host.",
+    "time": 1529398104,
+    "type": "comment"
+  },
+  {
+    "by": "Natanael_L",
+    "id": 17344827,
+    "parent": 17343562,
+    "text": "100&#x2F;10 Mbps is a very common baseline in large parts of Europe. Some only has 10&#x2F;1 (often old people on old contracts), some has gigabit speeds. Prices vary between countries a lot, often $10-20 for the cheaper options, rarely above $100-150 for gigabit (when available). Usually no data caps on home internet.",
+    "time": 1529398352,
+    "type": "comment"
+  },
+  {
+    "by": "paulie_a",
+    "id": 17341788,
+    "parent": 17341407,
+    "text": "Will fill abuse of enforcement should invalidate the copyright entirety...it becomes public domain. Repeated violation revoke all copyrights under your control.",
+    "time": 1529356777,
+    "type": "comment"
+  },
+  {
+    "by": "reificator",
+    "id": 17342946,
+    "kids": [
+      17344192
+    ],
+    "parent": 17342331,
+    "text": "That&#x27;s fair and I don&#x27;t want to downplay that aspect.  But that&#x27;s not the only thing the DMCA does.",
+    "time": 1529369967,
+    "type": "comment"
+  },
+  {
+    "by": "narrator",
+    "id": 17341049,
+    "kids": [
+      17344175
+    ],
+    "parent": 17339980,
+    "text": "The real problem is when the task is no longer doable by Humans.  Then the AIs have taken over and we can&#x27;t turn them off.  Imagine what happens when the AIs run our cars and food production, security, etc.  We will be unable to turn them off and they will be unaccountable except to the people who set their policy which will be mired no doubt in layers of deep obscurity.",
+    "time": 1529350721,
+    "type": "comment"
+  },
+  {
+    "by": "mygo",
+    "id": 17340954,
+    "kids": [
+      17341112,
+      17343205
+    ],
+    "parent": 17339980,
+    "text": "today in order to do a Google search I had to prove to  Google that I wasn\u2019t a robot. And even though I did it right the second time, they still made me do it a third time. I just remember sitting there going, Google, I actually <i>am<\/i> a human and your AI sucks so if I have to tap on storefronts and cars one more time to do a freaking Google search then I\u2019m just using Bing.",
+    "time": 1529349777,
+    "type": "comment"
+  },
+  {
+    "by": "quikoa",
+    "id": 17340308,
+    "kids": [
+      17340437
+    ],
+    "parent": 17339980,
+    "text": "Google prefers to automate everything. Having human supervision would affect the bottomline so is out of the question.",
+    "time": 1529345360,
+    "type": "comment"
+  },
+  {
+    "by": "kazinator",
+    "id": 17340421,
+    "kids": [
+      17341385,
+      17342256
+    ],
+    "parent": 17340241,
+    "text": "Any algorithm that produces a Boolean result is &quot;automated decision making&quot;.\u3000You pop in the inputs, let the automaton run, and there is your yes or no.",
+    "time": 1529346100,
+    "type": "comment"
+  },
+  {
+    "by": "kazinator",
+    "id": 17340387,
+    "parent": 17340243,
+    "text": "ContentID isn&#x27;t learning because it doesn&#x27;t train to make inferences; it looks for exact signature matches on the audio, normalizing for alterations like pitch changes and equalization.<p>All sorts of computer applications that are not considered AI have replaced humans. For instance, databases replace clerks having to shuffle papers to and from filing cabinets.",
+    "time": 1529345861,
+    "type": "comment"
+  },
+  {
+    "by": "gnulinux",
+    "id": 17343293,
+    "parent": 17340243,
+    "text": "I think saying signal processing is AI is like saying the entire CS is AI, which is bizarre. There are all sorts of algorithms and disciplines in CS that are not AI. I think the commenter you&#x27;re replying to was complaining about this.",
+    "time": 1529374442,
+    "type": "comment"
+  },
+  {
+    "by": "kchr",
+    "id": 17344405,
+    "parent": 17343306,
+    "text": "Still, it is quite incredible for us laypersons :-)",
+    "time": 1529392379,
+    "type": "comment"
+  },
+  {
+    "by": "rosstex",
+    "id": 17347124,
+    "parent": 17343306,
+    "text": "Go Bears. I weaseled my way out of the requirement for 16A (when it was transitioning to replace EE 20&#x2F;40), and I kinda regret it now.",
+    "time": 1529419487,
+    "type": "comment"
+  },
+  {
+    "by": "craftyguy",
+    "id": 17339858,
+    "kids": [
+      17340047
+    ],
+    "parent": 17339748,
+    "text": "Wait so you bought a $10k 60 disk storage platform? Or built one?",
+    "time": 1529341821,
+    "type": "comment"
+  },
+  {
+    "by": "icebraining",
+    "id": 17340063,
+    "kids": [
+      17340123
+    ],
+    "parent": 17339748,
+    "text": "What does &quot;dark&quot; mean in this context?",
+    "time": 1529343313,
+    "type": "comment"
+  },
+  {
+    "by": "chii",
+    "id": 17345637,
+    "kids": [
+      17346064
+    ],
+    "parent": 17344111,
+    "text": "&gt; I&#x27;m not convinced that people opting for such videos would have bought the game if the walkthroughs were not available.<p>also, if the game has nothing else to offer when compared to a video playthrough, may be it&#x27;s the game that has the problem!",
+    "time": 1529408290,
+    "type": "comment"
+  },
+  {
+    "by": "zaroth",
+    "id": 17342498,
+    "parent": 17340770,
+    "text": "I meant to say, if such a piece of malware were ever actually deployed in the wild researchers would be scrambling to decompile and reverse engineer it, to determine how it worked in order to report the vulnerability.",
+    "time": 1529364738,
+    "type": "comment"
+  },
+  {
+    "by": "lucb1e",
+    "id": 17344160,
+    "parent": 17343923,
+    "text": "Just pull in updates from them... No need to maintain it all by yourself.",
+    "time": 1529388354,
+    "type": "comment"
+  },
+  {
+    "by": "no_wizard",
+    "id": 17344178,
+    "kids": [
+      17344730
+    ],
+    "parent": 17343328,
+    "text": "I personally feel like and I remember very distinctly that RSS (and Atom Feeds to boot) seemingly hit their peak with google reader and when google reader was discontinued RSS seemed to wane quickly thereafter. I\u2019d be very interested in knowing if hard statistics back this up or not but my anecdotal experience suggests that this is indeed the case",
+    "time": 1529388522,
+    "type": "comment"
+  },
+  {
+    "by": "scroogly",
+    "id": 17347016,
+    "parent": 17345498,
+    "text": "Sorry to hijack the thread slightly, but is only to introduce some visibility to the fact that this particular issue is nothing to do with the EU, or content ID, or anything like that.<p>Google is blackmailing the Blender foundation to try and get them to enable adverts.<p><a href=\"https:&#x2F;&#x2F;www.blender.org&#x2F;media-exposure&#x2F;youtube-blocks-blender-videos-worldwide&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;www.blender.org&#x2F;media-exposure&#x2F;youtube-blocks-blende...<\/a><p>edit - and Blender have now got <a href=\"https:&#x2F;&#x2F;video.blender.org&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;video.blender.org&#x2F;<\/a> in testing already. I didn&#x27;t think they&#x27;d be the ideal people to issue ultimatums to on video hosting, given their technical specialities.<p>A situation like this triggered the development of git, (after the licence to use bitkeeper was withdrawn from the linux kernel team) so I will be watching the fallout with interest.",
+    "time": 1529418764,
+    "type": "comment"
+  },
+  {
+    "by": "henrikeh",
+    "id": 17344049,
+    "kids": [
+      17344722
+    ],
+    "parent": 17343958,
+    "text": "You are replying to the person who proposed the \u201close copyright\u201d idea.",
+    "time": 1529386077,
+    "type": "comment"
+  },
+  {
+    "by": "golergka",
+    "id": 17347556,
+    "parent": 17345349,
+    "text": "All, except a hypothetical new tobacco startup company. Or not so hypothetical new wave of vaping devices (I don&#x27;t know much about this industry, just an armchair analyst here).",
+    "time": 1529422077,
+    "type": "comment"
+  },
+  {
+    "by": "BlackFly",
+    "id": 17345104,
+    "parent": 17344814,
+    "text": "Obviously you cannot just allow copyright infringement because you are a small content provider. However, this particular article would not apply to you. You would have the ordinary duties already in law. Once you start to be large, then this article places an obligation on you to work with copyright holders directly in an appropriate and proportionate amount.<p>Other than misreading or ignoring parts of the law, I don&#x27;t really see how it is unreasonable.",
+    "time": 1529401661,
+    "type": "comment"
+  },
+  {
+    "by": "jimbo999",
+    "id": 17344192,
+    "parent": 17342946,
+    "text": "for balance<p><a href=\"https:&#x2F;&#x2F;www.wired.com&#x2F;2008&#x2F;10&#x2F;ten-years-later&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;www.wired.com&#x2F;2008&#x2F;10&#x2F;ten-years-later&#x2F;<\/a>",
+    "time": 1529388731,
+    "type": "comment"
+  },
+  {
+    "by": "simion314",
+    "id": 17344175,
+    "parent": 17341049,
+    "text": "Or the problem where the developers will not know why the AI did something, say an AI decides to do some bad thing, the judge will ask the developer why and the dev will say:\n-I don&#x27;t know, we feed them a ton of input and it worked fine on my machine and without test data so we shipped it",
+    "time": 1529388506,
+    "type": "comment"
+  },
+  {
+    "by": "jstanley",
+    "id": 17341112,
+    "kids": [
+      17342681
+    ],
+    "parent": 17340954,
+    "text": "It&#x27;s partly checking that you&#x27;re a human.<p>It&#x27;s partly using you for free labour to train their next generation of SkyNet.<p>We&#x27;ve reached a point with CAPTCHAs (originally conceived as a way for humans to exert their will over machines) where the machines are now setting tasks for the humans, and the humans are carrying out the tasks without putting up too much of a fight.",
+    "time": 1529351141,
+    "type": "comment"
+  },
+  {
+    "by": "dvtv75",
+    "id": 17343205,
+    "kids": [
+      17344168
+    ],
+    "parent": 17340954,
+    "text": "A few days back, to allow me to download the software I had just bought, the site kept putting up those damned pictures for me to click on.  Street signs were the first three, I apparently got all of those wrong (even though I got them right), shop fronts was the next lot (that&#x27;s a little harder to work through, I can&#x27;t tell Chinese shop fronts from Chinese warehouses by text alone) and I had two of those, then more street signs, and finally cars.<p>It took longer to confirm I was human than it did to download the software.  My partner came through to see if I was alright, after I was shouting abuse at the computer for an extended period.  She sat through one of them with me, confirmed that I had it right, then swore and walked away when it decided I was wrong.<p>If I&#x27;d known that it was going to screw me over that much, I would have recorded it and put the video on YouTube.",
+    "time": 1529373290,
+    "type": "comment"
+  },
+  {
+    "by": "Asooka",
+    "id": 17340437,
+    "kids": [
+      17340684,
+      17340706,
+      17340603,
+      17343541
+    ],
+    "parent": 17340308,
+    "text": "Well, let&#x27;s say it takes 30 minutes to fully check for copyright compliance 10 minutes of video. This means that the speed of one person checking videos is 1&#x2F;3 unchecked-minutes per minute, or 1&#x2F;3upm. 400 hours of content are uploaded every minute to youtube, which makes for 24000upm. You will need to employ 96000 people 24&#x2F;7 to check all videos. Of course, they can&#x27;t work 24&#x2F;7, so a more realistic figure is 150000 people. This isn&#x27;t menial work, it requires legal knowledge and familiarity with copyright law, so you&#x27;re looking at hiring entry-level law clerks, which is about 16$&#x2F;hr or about 33k$&#x2F;yr. It will cost Google about 5bln$&#x2F;yr to check all uploaded content manually. Which seems like a lot but is like 10-20% of Alphabet Inc.&#x27;s gross profit, so not actually impossible.",
+    "time": 1529346183,
+    "type": "comment"
+  },
+  {
+    "by": "jexah",
+    "id": 17342256,
+    "parent": 17340421,
+    "text": "AI doesn&#x27;t have to learn to be classed as AI. Source: Every video game ever made. Just look at deep blue. Most would consider that AI, but AFAIK there is zero machine learning involved.<p>Edit: I think I hit the wrong reply button, meant to reply to parent, haha.",
+    "time": 1529362188,
+    "type": "comment"
+  },
+  {
+    "by": "gowld",
+    "id": 17341385,
+    "kids": [
+      17342037
+    ],
+    "parent": 17340421,
+    "text": "Yes, that&#x27;s right. The boundaries of AI are qualitative, not quantitative. AI can be simplistic or complex, dumb or smart.",
+    "time": 1529353307,
+    "type": "comment"
+  },
+  {
+    "by": "toomuchtodo",
+    "id": 17340047,
+    "kids": [
+      17340077
+    ],
+    "parent": 17339858,
+    "text": "Built (several). My background in tech is ops&#x2F;infrastructure&#x2F;networking&#x2F;devops.",
+    "time": 1529343172,
+    "type": "comment"
+  },
+  {
+    "by": "toomuchtodo",
+    "id": 17340123,
+    "parent": 17340063,
+    "text": "Publishing of content that would cause legal or other harm to the Internet Archive. It\u2019s still stored on disk, but not accessible.",
+    "time": 1529343764,
+    "type": "comment"
+  },
+  {
+    "by": "TeMPOraL",
+    "id": 17346064,
+    "parent": 17345637,
+    "text": "Not necessarily. Story-rich games are essentially one-time only experiences, even if they are very fun to play through.",
+    "time": 1529412659,
+    "type": "comment"
+  },
+  {
+    "by": "icebraining",
+    "id": 17344730,
+    "parent": 17344178,
+    "text": "I think Twitter&#x27;s coming of age was the big blow. When Reader shut down it was already waning.",
+    "time": 1529397343,
+    "type": "comment"
+  },
+  {
+    "by": "barrkel",
+    "id": 17344722,
+    "parent": 17344049,
+    "text": "That&#x27;s exactly right. The person repeated the concept, in a comment dated later than the other replies to the original; I tried to clarify why it wouldn&#x27;t work.",
+    "time": 1529397197,
+    "type": "comment"
+  },
+  {
+    "by": "eftychis",
+    "id": 17342681,
+    "kids": [
+      17343044,
+      17343705
+    ],
+    "parent": 17341112,
+    "text": "That. CAPTCHAs are used as free labour. The only reason you don&#x27;t see them everywhere is because people would stop using Google.",
+    "time": 1529366684,
+    "type": "comment"
+  },
+  {
+    "by": "sverhagen",
+    "id": 17344168,
+    "parent": 17343205,
+    "text": "Would that have infringed on Google&#x27;s copyright?",
+    "time": 1529388418,
+    "type": "comment"
+  },
+  {
+    "by": "earenndil",
+    "id": 17340684,
+    "kids": [
+      17340945,
+      17341479
+    ],
+    "parent": 17340437,
+    "text": "Why not simply have humans review the videos that are automatically flagged?  That would be a significant improvement over the current state of affairs, and would command a significantly more reasonable price.",
+    "time": 1529347896,
+    "type": "comment"
+  },
+  {
+    "by": "greglindahl",
+    "id": 17340603,
+    "parent": 17340437,
+    "text": "Are the only 2 choices (1) no human in the loop and (2) only humans in the loop?",
+    "time": 1529347318,
+    "type": "comment"
+  },
+  {
+    "by": "tomhallett",
+    "id": 17340706,
+    "parent": 17340437,
+    "text": "The question is whether you are more worried about false positives or false negatives.<p>If you are only worried about false positives, then the humans only need to review the content flagged by the AI.  This has 2 benefits: 1) the &quot;starting number&quot; would be much much lower than 400 hours of content per minute.  2) If a 10 minute video is obviously pirated, you don&#x27;t need to watch the entire video to decide that.",
+    "time": 1529348057,
+    "type": "comment"
+  },
+  {
+    "by": "IncRnd",
+    "id": 17343541,
+    "parent": 17340437,
+    "text": "There are some strong corrections that need to be made to your math.<p>1. Only a subset of uploaded videos need to be checked by humans, those that were flagged by the automated system.<p>2. Only a subset of the runtime of each flagged video needs to be checked.  In other words, if a human decides within 12 seconds of a video that it is infringing, there is no reason to check the remaining portion of the video.",
+    "time": 1529378194,
+    "type": "comment"
+  },
+  {
+    "deleted": true,
+    "id": 17342037,
+    "parent": 17341385,
+    "time": 1529359903,
+    "type": "comment"
+  },
+  {
+    "by": "craftyguy",
+    "id": 17340077,
+    "kids": [
+      17341017
+    ],
+    "parent": 17340047,
+    "text": "That&#x27;s awesome. I would like to build something similar, though maybe scaled down to 1&#x2F;2 size&#x2F;capacity. Did you follow their parts list exactly or deviate (e.g. what did you use for chassis since theirs is custom)?",
+    "time": 1529343408,
+    "type": "comment"
+  },
+  {
+    "by": "reificator",
+    "id": 17343044,
+    "kids": [
+      17343156
+    ],
+    "parent": 17342681,
+    "text": "We&#x27;ve done it.  We&#x27;ve cracked the code.<p>This thread is complaining about the fully automated process used by Google to check for copyright violations, and how infeasible it is to hire someone to check each video.<p>You&#x27;re talking about how CAPTCHAs are now being used to get free labour.<p>&gt; <i>Prove you&#x27;re human: Does the following video contain Beat It by Michael Jackson<\/i>?",
+    "time": 1529371106,
+    "type": "comment"
+  },
+  {
+    "by": "briandear",
+    "id": 17343705,
+    "kids": [
+      17344494
+    ],
+    "parent": 17342681,
+    "text": "Why do site owners use Google CAPTCHA? Even Cloudflare uses it. I resent being forced to help Google when not even on a Google site. I won\u2019t put any of my stuff on Cloudflare specifically because they force people to help train Google\u2019s image recognition.",
+    "time": 1529380438,
+    "type": "comment"
+  },
+  {
+    "by": "simion314",
+    "id": 17340945,
+    "parent": 17340684,
+    "text": "Exactly, have the code extract the exact section of video that it considers problematic on left side and on the right side put the copyrighted work, the human will lose a few seconds to have a look.<p>Also I do not understand why Google does not use a reputation system, if a channel has a good reputation then take this in consideration in the automatic detection.",
+    "time": 1529349745,
+    "type": "comment"
+  },
+  {
+    "by": "Dylan16807",
+    "id": 17341479,
+    "parent": 17340684,
+    "text": "At the <i>very<\/i> least do it for major accounts (4k hours a year).  It&#x27;s pretty ridiculous that pulling in hundreds of dollars won&#x27;t get you even a 30 second review.",
+    "time": 1529353964,
+    "type": "comment"
+  },
+  {
+    "by": "reitanqild",
+    "id": 17341017,
+    "kids": [
+      17341570
+    ],
+    "parent": 17340077,
+    "text": "&gt;  what did you use for chassis since theirs is custom<p>FWIW, in addition to their awesome disk stats Backblaze also provides blueprints for their chassis as well as a BOM for the parts inside",
+    "time": 1529350403,
+    "type": "comment"
+  },
+  {
+    "by": "eftychis",
+    "id": 17343156,
+    "parent": 17343044,
+    "text": "I am pretty sure they have considered it. Probably there is a legal hiccup laying here -- you either have reasonable suspicion that the material you show is copyrighted, or you acknowledge your algorithms and AI suck and you require crowd-sourcing. Kind of a lose-lose legally, and they would possibly introduce liability.<p>Recall the goal of Google is to avoid liability via the statement &quot;we are pretty good and have really low false negatives&quot;, and have as few false positives as not to make the platform unusable.<p>Google does not care about content creators or propagation of knowledge (instructive videos) and ideas. Simple statement here. Google engineers might (at least the friends I have), but not as a whole organization.<p>But yeah crowd-sourcing is a good way to do a second sifting through results. I know it is being used, by Google and others, already to classify video sources.",
+    "time": 1529372695,
+    "type": "comment"
+  },
+  {
+    "by": "icebraining",
+    "id": 17344494,
+    "parent": 17343705,
+    "text": "<i>Why do site owners use Google CAPTCHA?<\/i><p>Because it&#x27;s free, reasonably hard to beat by bots and reasonably low-effort for the user if they let Google track them (enabling the single-checkbox captcha).",
+    "time": 1529393825,
+    "type": "comment"
+  },
+  {
+    "by": "craftyguy",
+    "id": 17341570,
+    "parent": 17341017,
+    "text": "&gt; Backblaze also provides blueprints for their chassis<p>Wow, I had no idea they did that. I definitely have a new respect for them.",
+    "time": 1529354860,
+    "type": "comment"
+  }
+]

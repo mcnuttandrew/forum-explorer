@@ -1,0 +1,132 @@
+html,
+body,
+#extension-container {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+#extension-container {
+  padding: 10px;
+  width: calc(100% - 20px);
+}
+
+.full-size {
+  height: 100%;
+  width: 100%;
+}
+
+
+.flex {
+  display: flex;
+}
+
+.flex-down {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel {
+  background: #f6f6f0;
+  height: 100%;
+  width: 50%;
+
+  &:first-of-type {
+    border-right: thin solid black;
+  }
+}
+
+.header {
+  height: 50px;
+  width: 100%;
+}
+
+
+
+// GRAPH STYLING
+
+.node {
+  fill: #999;
+}
+
+.node--internal {
+  fill: #555;
+}
+
+.node--selected {
+  fill: #ff6600;
+}
+
+.link {
+  fill: none;
+  stroke: #555;
+  stroke-opacity: 0.4;
+  stroke-width: 1.5px;
+}
+
+
+
+/// header styling
+
+.header {
+  align-items: center;
+  background: #ff6600;
+  color: #828282;
+  display: flex;
+  font-family: Verdana, Geneva, sans-serif;
+  height: 24px;
+  padding: 2px;
+}
+
+.site-title {
+  color: #000000;
+  font-weight: bold;
+  padding: 5px;
+}
+
+.logo {
+  border: 1px white solid;
+  height: 18px;
+  width: 18px;
+}
+
+.header-link {
+
+  &:link {
+    color: #000000;
+    text-decoration: none;
+  }
+
+  &:visited {
+    color: #828282;
+  }
+
+  &::after {
+    content: '|';
+    padding: 5px;
+  }
+}
+
+
+// comment styles
+
+.overflow-y {
+  overflow-y: scroll;
+}
+
+.comment-block {
+  padding: 10px 20px;
+}
+
+.comment-head {
+  color: #828282;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 8pt;
+}
+
+.comment {
+  color: black;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 9pt;
+}
