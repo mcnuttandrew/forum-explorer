@@ -20,13 +20,13 @@ import React from 'react';
 class CommentPanel extends React.Component {
   render() {
     const {itemsToRender} = this.props;
-    console.log(itemsToRender.toJS())
     return (
       <div className="panel overflow-y" >
-        {itemsToRender.map(item => {
+        {itemsToRender.map((item, idx) => {
           const depth = 1;
           return (
             <div
+              key={idx}
               style={{
                 marginLeft: 10 * depth
               }}

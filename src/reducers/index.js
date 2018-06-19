@@ -9,6 +9,7 @@ const DEFAULT_STATE = Immutable.fromJS({
   toRequest: [],
   openRequests: [],
   data: TempCopy,
+  // data: [],
   itemsToRender: []
 });
 

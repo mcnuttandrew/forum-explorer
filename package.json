@@ -1,5 +1,5 @@
 {
-  "name": "forum-structured",
+  "name": "forum-explorer",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -47,8 +47,7 @@
     "redux-thunk": "^2.2.0"
   },
   "scripts": {
-    "start": "webpack-dev-server --progress --hot --port 3001 --open",
-    "alt-start": "webpack --watch",
+    "start": "webpack --watch",
     "build": "NODE_ENV=production webpack"
   },
   "babel": {
