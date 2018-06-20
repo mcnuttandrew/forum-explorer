@@ -47,6 +47,18 @@ class GraphPanel extends React.Component {
       bottom: 10,
       right: 10
     };
+
+
+    const data = props.data.toJS();
+    const svg = select(ReactDOM.findDOMNode(this.refs.chart));
+
+    const treeEval = useRing ? tree().size([2 * Math.PI, 1])
+      .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth) : tree().size([1, 1]);
+
+    const root = treeEval(stratify().id(d => d.id).parentId(d => d.parent)(data));
+    
+    // TRY EXPLORING MIN MAX??!
+    
     const plotWidth = width - margin.left - margin.right;
     const plotHeight = height - margin.top - margin.bottom;
     const xScale = scaleLinear().domain([0, 1])
@@ -57,14 +69,6 @@ class GraphPanel extends React.Component {
       xScale(radius * Math.cos(angle - Math.PI / 2)),
       yScale(radius * Math.sin(angle - Math.PI / 2))
     ];
-
-    const data = props.data.toJS();
-    const svg = select(ReactDOM.findDOMNode(this.refs.chart));
-
-    const treeEval = useRing ? tree().size([2 * Math.PI, 1])
-      .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth) : tree().size([1, 1]);
-
-    const root = treeEval(stratify().id(d => d.id).parentId(d => d.parent)(data));
 
     const link = svg.selectAll('.link').data(root.links());
     const path = useRing ? linkRadial()

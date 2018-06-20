@@ -1,22 +1,5 @@
 import React from 'react';
 
-// function decorateWithDepth(items) {
-//   const currentNode = items.getIn([0, 'id']);
-//   const currentDepth = 0;
-//   return items
-//     .sortBy(d => Number(d.get('id')))
-//     .map(item => {
-//       if (item.get('type') === 'story') {
-//         return item.set('depth', currentDepth);
-//       }
-//       // LEFT OFF HERE
-//       if () {
-//
-//       }
-//       item.
-//     })
-// }
-
 class CommentPanel extends React.Component {
   render() {
     const {itemsToRender} = this.props;
@@ -35,12 +18,12 @@ class CommentPanel extends React.Component {
               </div>
             </div>);
           }
-          const depth = 1;
+          // console.log(item.get('depth'))
           return (
             <div
               key={idx}
               style={{
-                marginLeft: 10 * depth
+                marginLeft: 10 * item.get('depth')
               }}
               className="comment-block">
               <div className="comment-head">

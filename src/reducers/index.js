@@ -9,7 +9,6 @@ const DEFAULT_STATE = Immutable.fromJS({
   toRequest: [],
   responsesExpected: 1,
   responsesObserved: 0,
-  // openRequests: [],
   data: DEV_MODE ? TempCopy : [],
   // data: [],
   itemsToRender: [],
@@ -24,25 +23,24 @@ export default createStore(
       switch (type) {
       case 'start-request':
         return state
-          // .set('openRequests', state.get('openRequests').push(payload.itemId))
-          .set('responsesExpected', state.get('responsesExpected') + 1)
           .set('toRequest', state.get('toRequest').filter(d => d !== payload.itemId));
       case 'get-item':
         if (!payload) {
           return state.set('responsesObserved', state.get('responsesObserved') + 1);
         }
+        const parent = payload.parent ? state.get('data').find(d => d.get('id') === payload.parent) : null;
+        const depth = parent ? parent.get('depth') + 1 : 0;
+
         return state
-          // this data thing is wrong
-          // how do you do multiple update simultaneously? I think its with mutable or something?
-          .set('data', state.get('data').push(Immutable.fromJS(payload)))
-          // .set('openRequests', state.get('openRequests').filter(d => d !== payload.id))
+          // how do you do multiple updates simultaneously? I think its with mutable or something?
+          .set('data', state.get('data').push(Immutable.fromJS({
+            ...payload,
+            depth
+          })))
           .set('toRequest', state.get('toRequest').concat(Immutable.fromJS(payload.kids)))
-        // console.log('????', updatedState.get('toRequest').size, updatedState.get('openRequests').size)
-        // return updatedState
-          .set('loading', Boolean(
-            state.get('toRequest').size ||
-            (state.get('responsesObserved') === state.get('responsesExpected'))
-          ));
+          .set('responsesObserved', state.get('responsesObserved') + 1)
+          .set('responsesExpected', parent ? state.get('responsesExpected') : payload.descendants)
+          .set('loading', state.get('responsesObserved') < state.get('responsesExpected'));
 
       case 'set-comment-path':
         const itemMap = payload.path.reduce((acc, row) => {
