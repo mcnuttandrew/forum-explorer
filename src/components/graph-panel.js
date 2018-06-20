@@ -27,9 +27,7 @@ class GraphPanel extends React.Component {
     return (
       <div className="panel" ref="graphPanel">
         <Graph
-          setSelectedCommentPath={this.props.setSelectedCommentPath}
-          selectedMap={this.props.selectedMap}
-          data={this.props.data}
+          {...this.props}
           height={this.state.height}
           width={this.state.width}
           />

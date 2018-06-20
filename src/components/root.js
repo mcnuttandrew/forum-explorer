@@ -25,9 +25,10 @@ class RootComponent extends React.Component {
   render() {
     return (
       <div className="flex-down full-size" >
-        <Header />
+        <Header toggleGraphLayout={this.props.toggleGraphLayout}/>
         <div className="flex full-size">
           <GraphPanel 
+            graphLayout={this.props.graphLayout}
             data={this.props.data} 
             setSelectedCommentPath={this.props.setSelectedCommentPath}
             selectedMap={
@@ -47,7 +48,8 @@ function mapStateToProps({base}) {
     openRequests: base.get('openRequests'),
     toRequest: base.get('toRequest'),
     data: base.get('data'),
-    itemsToRender: base.get('itemsToRender')
+    itemsToRender: base.get('itemsToRender'),
+    graphLayout: base.get('graphLayout')
   };
 }
 

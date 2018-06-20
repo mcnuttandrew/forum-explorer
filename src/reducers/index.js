@@ -10,13 +10,15 @@ const DEFAULT_STATE = Immutable.fromJS({
   openRequests: [],
   data: TempCopy,
   // data: [],
-  itemsToRender: []
+  itemsToRender: [],
+  graphLayout: 'ring'
 });
 
 export default createStore(
   combineReducers({
     base: function baseReducer(state = DEFAULT_STATE, action) {
       const {type, payload} = action;
+      console.log(type)
       switch (type) {
       case 'start-request':
         return state
@@ -45,6 +47,9 @@ export default createStore(
             )
           )
           .set('itemPath', Immutable.fromJS(payload.path));
+      case 'toggle-graph-layout':
+        return state
+          .set('graphLayout', state.get('graphLayout') === 'ring' ? 'tree' : 'ring');
       default:
         return state;
       }

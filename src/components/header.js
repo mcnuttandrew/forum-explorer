@@ -13,6 +13,9 @@ class Header extends React.Component {
         {['new', 'comments', 'show', 'ask', 'job', 'submit'].map(link => {
           return <a className="header-link" href={link} key={link}>{link}</a>;
         })}
+        <a
+          onClick={this.props.toggleGraphLayout}
+          className="header-link">Toggle Graph Layout</a>
         <a> login</a>
       </div>
     );

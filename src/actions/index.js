@@ -1,17 +1,3 @@
-
-export function exampleAction() {
-  return (dispatch) => {
-    dispatch({
-      type: 'EXAMPLE',
-      payload: null
-    });
-  };
-}
-
-export function didMount() {
-  return dispatch => dispatch({type: 'did-mount'});
-}
-
 export function startGetItem(itemId) {
   return dispatch => dispatch({type: 'start-request', payload: {itemId}});
 }
@@ -36,4 +22,8 @@ export function setSelectedCommentPath(path) {
       payload: {path}
     });
   };
+}
+
+export function toggleGraphLayout() {
+  return dispatch => dispatch({type: 'toggle-graph-layout'});
 }
