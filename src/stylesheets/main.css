@@ -1,6 +1,7 @@
 html,
 body,
 #extension-container {
+  font-family: Verdana, Geneva, sans-serif;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -31,10 +32,10 @@ body,
   background: #f6f6f0;
   height: 100%;
   width: 50%;
+}
 
-  &:first-of-type {
-    border-right: thin solid black;
-  }
+.panel:first-of-type {
+  border-right: thin solid black;
 }
 
 .header {
@@ -44,7 +45,7 @@ body,
 
 
 
-// GRAPH STYLING
+/* // GRAPH STYLING */
 
 .node {
   fill: #999;
@@ -65,9 +66,7 @@ body,
   stroke-width: 1.5px;
 }
 
-
-
-/// header styling
+/* /// header styling */
 
 .header {
   align-items: center;
@@ -91,25 +90,29 @@ body,
   width: 18px;
 }
 
-.header-link {
+a {
   color: #000000;
   text-decoration: none;
+}
 
-  &:visited {
-    color: #828282;
-  }
+a:visited {
+  color: #828282;
+}
 
-  &::after {
-    content: '|';
-    padding: 5px;
-  }
+.header-link::after {
+  content: '|';
+  padding: 5px;
 }
 
 
-// comment styles
+/* // comment styles */
 
 .overflow-y {
   overflow-y: scroll;
+}
+
+.comment-title {
+  text-decoration: none;
 }
 
 .comment-block {
@@ -118,7 +121,6 @@ body,
 
 .comment-head {
   color: #828282;
-  font-family: Verdana, Geneva, sans-serif;
   font-size: 8pt;
 }
 

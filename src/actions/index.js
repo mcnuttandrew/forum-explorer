@@ -2,14 +2,15 @@ export function startGetItem(itemId) {
   return dispatch => dispatch({type: 'start-request', payload: {itemId}});
 }
 
-export function getItem(itemId) {
+export function getItem(itemId, isRoot) {
   return dispatch => {
     fetch(`https://hacker-news.firebaseio.com/v0/item/${itemId}.json`)
     .then(response => response.json())
     .then((result) => {
       dispatch({
         type: 'get-item',
-        payload: result
+        payload: result,
+        isRoot
       });
     });
   };

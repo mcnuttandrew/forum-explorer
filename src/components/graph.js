@@ -37,7 +37,6 @@ class GraphPanel extends React.Component {
 
   updateChart(props) {
     const {height, width, setSelectedCommentPath, selectedMap, graphLayout} = props;
-    console.log(graphLayout)
     const useRing = graphLayout === 'ring';
     if (!width || !height) {
       return;
@@ -94,7 +93,7 @@ class GraphPanel extends React.Component {
     node.enter().append('circle')
         .attr('class', evaluateClassNames)
         .attr('transform', positioning)
-        .attr('r', 3)
+        .attr('r', 3.5)
         .on('mouseenter', d => setSelectedCommentPath(extractIdPathToRoot(d)));
 
     node.merge(node)

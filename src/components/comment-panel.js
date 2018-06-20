@@ -23,6 +23,18 @@ class CommentPanel extends React.Component {
     return (
       <div className="panel overflow-y" >
         {itemsToRender.map((item, idx) => {
+          if (item.get('type') === 'story') {
+            return (<div key={idx} className="comment-block">
+              <div className="comment-title">
+                <a href={item.get('url')}>
+                  {item.get('title')}
+                </a>
+              </div>
+              <div className="comment-head">
+                {`${item.get('score')} point by ${item.get('by')} N day ago`}
+              </div>
+            </div>);
+          }
           const depth = 1;
           return (
             <div

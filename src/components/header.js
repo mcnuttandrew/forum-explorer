@@ -15,7 +15,7 @@ class Header extends React.Component {
         })}
         <a
           onClick={this.props.toggleGraphLayout}
-          className="header-link">Toggle Graph Layout</a>
+          className="header-link">change graph</a>
         <a> login</a>
       </div>
     );

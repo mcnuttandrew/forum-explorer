@@ -6,7 +6,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "autoprefixer-loader": "^3.2.0",
     "babel-core": "^6.21.0",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.10",
@@ -14,19 +13,15 @@
     "babel-preset-es2017": "^6.22.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-2": "^6.22.0",
-    "css-loader": "^0.26.1",
+    "css-loader": "0.26.1",
     "eslint": "^3.13.1",
     "eslint-config-uber-es2015": "^3.0.1",
     "eslint-config-uber-jsx": "^3.0.1",
     "eslint-plugin-babel": "^4.0.0",
     "eslint-plugin-react": "^6.10.0",
-    "file-loader": "^0.10.1",
-    "node-sass": "^4.2.0",
     "request": "^2.81.0",
-    "sass-loader": "^4.1.1",
-    "style-loader": "^0.13.1",
-    "webpack": "^2.2.0-rc.3",
-    "webpack-dev-server": "^2.2.0-rc.0"
+    "style-loader": "0.13.1",
+    "webpack": "^2.2.0-rc.3"
   },
   "dependencies": {
     "d3-force": "^1.0.6",

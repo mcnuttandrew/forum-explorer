@@ -18,7 +18,6 @@ TODO:
 - Enable commenting (login/reply button/post button)
 - add a loading icon and prevent the graph from rendering while its loading
 - experiment with force direct graphs?
-- Style the root story
 - Make comments be styled correctly
 - write tests
 - add click select (selected node is colored differently? unclick on click away)

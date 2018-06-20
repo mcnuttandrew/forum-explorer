@@ -1,3 +1,15 @@
+const isProd = process.env.NODE_ENV === 'production'; // eslint-disable-line
+const webpack = require('webpack');
+
+const plugins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: JSON.stringify('production')
+    }
+  }),
+  new webpack.optimize.UglifyJsPlugin()
+];
+
 module.exports = {
   entry: {
     app: './src/app.js'
@@ -5,12 +17,10 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.scss$/,
+        test: /\.css$/,
         use: [
           'style-loader',
-          'css-loader',
-          'sass-loader',
-          'autoprefixer-loader'
+          'css-loader'
         ]
       },
       {
@@ -23,14 +33,9 @@ module.exports = {
       }
     ]
   },
-  devServer: {
-    stats: {
-      warnings: false
-    }
-  },
   output: {
     filename: 'bundle.js'
   },
-
+  plugins: isProd ? plugins : [],
   devtool: 'source-maps'
 };

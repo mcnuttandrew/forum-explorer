@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import AppState from './reducers/index';
 
-import './stylesheets/main.scss';
+import './stylesheets/main.css';
 import Root from './components/root.js';
 
 const extensionContainer = document.createElement('div');
