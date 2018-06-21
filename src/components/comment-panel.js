@@ -6,9 +6,9 @@ const createMarkup = __html => ({__html});
 class CommentPanel extends React.Component {
   render() {
     const {
-      itemsToRender, 
+      itemsToRender,
       itemPath,
-      setHoveredComment, 
+      setHoveredComment,
       hoveredComment,
       setSelectedCommentPath
     } = this.props;
@@ -38,25 +38,25 @@ class CommentPanel extends React.Component {
               <div className="comment-head">
                 {`${item.get('by')} N Minutes ago`}
               </div>
-              <div 
+              <div
                 className={classnames({
                   comment: true,
                   'hovered-comment': item.get('id') === hoveredComment
-                })} 
+                })}
                 dangerouslySetInnerHTML={createMarkup(item.get('text'))}/>
-              <div 
+              <div
                 onClick={() => {
                   console.log(itemPath.toJS())
                   const path = itemPath.toJS();
                   const itemIndx = path.findIndex(d => d === item.get('id'));
                   if (itemIndx >= 0) {
-                    setSelectedCommentPath(itemPath.reverse().slice(0, itemIndx + 1).reverse())
+                    setSelectedCommentPath(itemPath.reverse().slice(0, itemIndx + 1).reverse());
                     return;
                   }
                   setSelectedCommentPath(itemPath.concat(item.get('id')));
                 }}
                 className="comment-head">
-                  <a>Expand</a>
+                <a>Expand</a>
               </div>
             </div>
           );

@@ -12,20 +12,20 @@ class RootComponent extends React.Component {
   componentDidMount() {
     const rootItem = (window.location.search || '?id=17338700').split('?id=')[1];
     if (!DEV_MODE) {
-      
+
       this.props.getItem(rootItem, true);
     }
   }
-  
+
   componentWillReceiveProps(newProps) {
     if (!this.props.toRequest.equals(newProps.toRequest)) {
       newProps.toRequest.forEach(itemId => {
         newProps.startGetItem(itemId);
         newProps.getItem(itemId);
-      })
+      });
     }
   }
-  
+
   render() {
     return (
       <div className="flex-down full-size" >
@@ -35,16 +35,16 @@ class RootComponent extends React.Component {
         </div>}
         {
           !this.props.loading && <div className="flex full-size background-gray">
-            <GraphPanel 
+            <GraphPanel
             graphLayout={this.props.graphLayout}
-            data={this.props.data} 
+            data={this.props.data}
             setSelectedCommentPath={this.props.setSelectedCommentPath}
             selectedMap={
               this.props.itemsToRender.reduce((acc, row) => acc.set(row.get('id'), true), Map())
             }
             hoveredComment={this.props.hoveredComment}
             />
-            <CommentPanel 
+            <CommentPanel
               setHoveredComment={this.props.setHoveredComment}
               setSelectedCommentPath={this.props.setSelectedCommentPath}
               itemPath={this.props.itemPath}
