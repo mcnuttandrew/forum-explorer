@@ -32,3 +32,7 @@ export function toggleGraphLayout() {
 export function setHoveredComment(payload) {
   return dispatch => dispatch({type: 'set-hovered-comment', payload});
 }
+
+export function toggleCommentSelectionLock() {
+  return dispatch => dispatch({type: 'toggle-comment-selection-lock'});
+}

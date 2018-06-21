@@ -17,7 +17,5 @@ TODO:
 - Enable commenting (login/reply button/post button)
 - experiment with force direct graphs?
 - write tests
-- add click select (selected node is colored differently? unclick on click away)
 - get the logo
 - search?
-- voronoi for better hover interaction

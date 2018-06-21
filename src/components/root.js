@@ -27,6 +27,7 @@ class RootComponent extends React.Component {
   }
 
   render() {
+    const selectedMap = this.props.itemsToRender.reduce((acc, row) => acc.set(row.get('id'), true), Map());
     return (
       <div className="flex-down full-size" >
         <Header toggleGraphLayout={this.props.toggleGraphLayout}/>
@@ -39,10 +40,10 @@ class RootComponent extends React.Component {
             graphLayout={this.props.graphLayout}
             data={this.props.data}
             setSelectedCommentPath={this.props.setSelectedCommentPath}
-            selectedMap={
-              this.props.itemsToRender.reduce((acc, row) => acc.set(row.get('id'), true), Map())
-            }
+            selectedMap={selectedMap}
             hoveredComment={this.props.hoveredComment}
+            toggleCommentSelectionLock={this.props.toggleCommentSelectionLock}
+            commentSelectionLock={this.props.commentSelectionLock}
             />
             <CommentPanel
               setHoveredComment={this.props.setHoveredComment}
@@ -67,7 +68,8 @@ function mapStateToProps({base}) {
     itemPath: base.get('itemPath'),
     graphLayout: base.get('graphLayout'),
     loading: base.get('loading'),
-    hoveredComment: base.get('hoveredComment')
+    hoveredComment: base.get('hoveredComment'),
+    commentSelectionLock: base.get('commentSelectionLock')
   };
 }
 

@@ -66,7 +66,8 @@ class GraphPanel extends React.Component {
       selectedMap,
       graphLayout,
       hoveredComment,
-      margin
+      margin,
+      toggleCommentSelectionLock
     } = props;
     const useRing = graphLayout === 'ring';
     if (!width || !height || !props.data.size) {
@@ -95,12 +96,13 @@ class GraphPanel extends React.Component {
       d => [xScale(d.x), yScale(d.y)];
     const nodes = root.descendants();
 
-    this.renderLinks(root, selectedMap, useRing, xScale, yScale);
-    this.renderNodes(nodes, positioning, selectedMap, hoveredComment);
-    this.renderVoronoi(nodes, width, height, positioning, setSelectedCommentPath);
+    this.renderLinks(props, root, useRing, xScale, yScale);
+    this.renderNodes(props, nodes, positioning);
+    this.renderVoronoi(props, nodes, positioning);
   }
 
-  renderLinks(root, selectedMap, useRing, xScale, yScale) {
+  renderLinks(props, root, useRing, xScale, yScale) {
+    const {selectedMap} = props;
     const linesG = select(ReactDOM.findDOMNode(this.refs.lines));
     const link = linesG.selectAll('.link').data(root.links());
     const evalLineClasses = d => {
@@ -131,7 +133,8 @@ class GraphPanel extends React.Component {
 
   }
 
-  renderNodes(nodes, positioning, selectedMap, hoveredComment) {
+  renderNodes(props, nodes, positioning) {
+    const {hoveredComment, toggleCommentSelectionLock, selectedMap} = props;
     const nodesG = select(ReactDOM.findDOMNode(this.refs.nodes));
     const translateFunc = arr => `translate(${arr.join(',')})`;
     const evalCircClasses = d => {
@@ -148,14 +151,16 @@ class GraphPanel extends React.Component {
     node.enter().append('circle')
         .attr('class', evalCircClasses)
         .attr('transform', d => translateFunc(positioning(d)))
-        .attr('r', 3.5);
+        .attr('r', 3.5)
+        .on('click', toggleCommentSelectionLock);
 
     node.transition()
         .attr('transform', d => translateFunc(positioning(d)))
         .attr('class', evalCircClasses);
   }
 
-  renderVoronoi(nodes, width, height, positioning, setSelectedCommentPath) {
+  renderVoronoi(props, nodes, positioning) {
+    const {width, height, setSelectedCommentPath, toggleCommentSelectionLock} = props;
     const voronoiEval = voronoi().extent([[-width, -height], [width + 1, height + 1]]);
     const polygonsG = select(ReactDOM.findDOMNode(this.refs.polygons));
     const polygon = polygonsG.selectAll('.polygon').data(
@@ -166,25 +171,40 @@ class GraphPanel extends React.Component {
       .attr('fill', 'black')
       .attr('opacity', 0)
       .attr('d', d => `M${d.join('L')}Z`)
-      .on('mouseenter', d => setSelectedCommentPath(extractIdPathToRoot(d.data[2])));
+      .on('mouseenter', d => setSelectedCommentPath(extractIdPathToRoot(d.data[2])))
+      .on('click', toggleCommentSelectionLock);
     polygon.transition()
       .attr('d', d => `M${d.join('L')}Z`);
   }
 
   render() {
-    const {height, width, graphLayout} = this.props;
+    const {
+      commentSelectionLock,
+      graphLayout,
+      height,
+      width,
+      toggleCommentSelectionLock
+    } = this.props;
     const useRing = graphLayout === 'ring';
+    const translation = useRing ? `translate(${width / 2}, ${height / 2})` : '';
+
     return (
       <svg width={this.props.width} height={this.props.height}>
-        <g
-          ref="lines"
-          transform={useRing ? `translate(${width / 2}, ${height / 2})` : ''} />
-        <g
-          ref="nodes"
-          transform={useRing ? `translate(${width / 2}, ${height / 2})` : ''}/>
-        <g
-          ref="polygons"
-          transform={useRing ? `translate(${width / 2}, ${height / 2})` : ''} />
+        <g ref="lines" transform={translation} />
+        <g ref="polygons" transform={translation} />
+        <g ref="nodes" transform={translation}/>
+        {
+          commentSelectionLock && <rect
+          className="click-away-block"
+          onClick={toggleCommentSelectionLock}
+          width={width}
+          height={height}
+          x="0"
+          y="0"
+          fill="red"
+          opacity="0"
+          />
+        }
       </svg>
     );
   }

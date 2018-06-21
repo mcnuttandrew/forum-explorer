@@ -33,7 +33,7 @@ class CommentPanel extends React.Component {
               onMouseEnter={() => setHoveredComment(item)}
               onMouseLeave={() => setHoveredComment(null)}
               key={idx}
-              style={{marginLeft: 10 * (item.get('depth') || 0)}}
+              style={{marginLeft: 20 * (item.get('depth') || 0)}}
               className="comment-block">
               <div className="comment-head">
                 {`${item.get('by')} N Minutes ago`}
