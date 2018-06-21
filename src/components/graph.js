@@ -205,6 +205,9 @@ class GraphPanel extends React.Component {
           opacity="0"
           />
         }
+        <text x={20} y={height - 20} className="legend">
+          click to un/lock selection
+        </text>
       </svg>
     );
   }

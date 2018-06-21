@@ -9,8 +9,8 @@ body,
 }
 
 #extension-container {
-  padding: 10px;
-  width: calc(100% - 20px);
+  padding: 10px 90px;
+  width: calc(100% - 180px);
 }
 
 .full-size {
@@ -92,6 +92,11 @@ body,
   cursor: pointer;
 }
 
+.legend {
+  fill: #828282;
+  font-size: 10px;
+}
+
 /* /// header styling */
 
 .header {
@@ -101,13 +106,21 @@ body,
   display: flex;
   font-family: Verdana, Geneva, sans-serif;
   height: 24px;
-  padding: 2px;
+  padding: 1px 2px;
 }
 
 .site-title {
   color: #000000;
   font-weight: bold;
   padding: 5px;
+}
+
+.site-title:visited {
+  color: #000000;
+}
+
+a.site-title::after {
+  content: "";
 }
 
 .logo {
@@ -145,7 +158,8 @@ a:visited {
   padding: 10px 20px;
 }
 
-.comment-head {
+.comment-head,
+.comment-head a {
   color: #828282;
   font-size: 8pt;
 }
@@ -160,4 +174,10 @@ a:visited {
 
 .comment:hover {
   border-left: 1px solid #ff6600;
+}
+
+.expand-comment {
+  color: #828282;
+  cursor: pointer;
+  font-size: 7px;
 }

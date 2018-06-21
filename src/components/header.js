@@ -7,9 +7,9 @@ class Header extends React.Component {
         <a href="https://news.ycombinator.com">
           <img src="" className="logo"/>
         </a>
-        <div className="site-title">
-          Hacker News
-        </div>
+        <a
+          href="https://news.ycombinator.com/news"
+          className="header-link site-title">Hacker News</a>
         {['new', 'comments', 'show', 'ask', 'job', 'submit'].map(link => {
           return <a className="header-link" href={link} key={link}>{link}</a>;
         })}

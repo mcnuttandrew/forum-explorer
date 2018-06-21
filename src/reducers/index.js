@@ -2,14 +2,15 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import Immutable from 'immutable';
 import {DEV_MODE} from '../constants';
-import TempCopy from '../constants/temp-hold.json';
+import TestData from '../constants/test-data.json';
+// const TestData = DEV_MODE ? require('../constants/temp-hold.json') : [];
 
 const DEFAULT_STATE = Immutable.fromJS({
   itemId: null,
   toRequest: [],
   responsesExpected: 1,
   responsesObserved: 0,
-  data: DEV_MODE ? TempCopy : [],
+  data: DEV_MODE ? TestData : [],
   // data: [],
   itemsToRender: [],
   itemPath: [],

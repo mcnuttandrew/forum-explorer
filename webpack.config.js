@@ -10,6 +10,8 @@
 //   new webpack.optimize.UglifyJsPlugin()
 // ];
 
+const path = require('path');
+
 module.exports = {
   entry: {
     app: './src/app.js'
@@ -34,9 +36,10 @@ module.exports = {
     ]
   },
   output: {
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    path: path.join(__dirname, './')
   },
   // plugins: isProd ? plugins : [],
-  devtool: 'source-maps',
+  // devtool: 'source-maps',
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development'  // eslint-disable-line
 };
