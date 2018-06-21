@@ -9,9 +9,7 @@ yarn
 
 yarn start
 ```
-
-In another terminal fire up a static server with live reload (i like live-server).
-
+Point your browser to 8080
 
 TODO:
 - Enable commenting (login/reply button/post button)

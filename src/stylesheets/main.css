@@ -57,7 +57,6 @@ body,
 .node {
   cursor: pointer;
   fill: #999;
-  transition: fill 0.2s;
 }
 
 .node-internal {
@@ -66,12 +65,14 @@ body,
 
 .node-selected {
   fill: #ff6600;
+  transition: fill 0.2s;
 }
 
 .node-hovered {
   border: steelblue;
-  border-width: 3px;
+  border-width: 10px;
   fill: steelblue;
+  transition: fill 0.2s;
 }
 
 .link {

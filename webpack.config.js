@@ -1,14 +1,14 @@
-const isProd = process.env.NODE_ENV === 'production'; // eslint-disable-line
-const webpack = require('webpack');
+// const isProd = process.env.NODE_ENV === 'production'; // eslint-disable-line
+// const webpack = require('webpack');
 
-const plugins = [
-  new webpack.DefinePlugin({
-    'process.env': {
-      NODE_ENV: JSON.stringify('production')
-    }
-  }),
-  new webpack.optimize.UglifyJsPlugin()
-];
+// const plugins = [
+//   new webpack.DefinePlugin({
+//     'process.env': {
+//       NODE_ENV: JSON.stringify('production')
+//     }
+//   }),
+//   new webpack.optimize.UglifyJsPlugin()
+// ];
 
 module.exports = {
   entry: {
@@ -36,6 +36,7 @@ module.exports = {
   output: {
     filename: 'bundle.js'
   },
-  plugins: isProd ? plugins : [],
-  devtool: 'source-maps'
+  // plugins: isProd ? plugins : [],
+  devtool: 'source-maps',
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development'  // eslint-disable-line
 };
