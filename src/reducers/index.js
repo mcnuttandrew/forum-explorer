@@ -12,9 +12,13 @@ const DEFAULT_STATE = Immutable.fromJS({
   data: DEV_MODE ? TempCopy : [],
   // data: [],
   itemsToRender: [],
+  itemPath: [],
+  hoveredComment: null,
   graphLayout: 'ring',
   loading: false
 });
+
+// TODO CLEAN UP TO USE OBJECT STRUCTURING
 
 export default createStore(
   combineReducers({
@@ -31,12 +35,14 @@ export default createStore(
         const parent = payload.parent ? state.get('data').find(d => d.get('id') === payload.parent) : null;
         const depth = parent ? parent.get('depth') + 1 : 0;
 
+        const updatededData = state.get('data').push(Immutable.fromJS({
+          ...payload,
+          depth
+        }));
+
         return state
           // how do you do multiple updates simultaneously? I think its with mutable or something?
-          .set('data', state.get('data').push(Immutable.fromJS({
-            ...payload,
-            depth
-          })))
+          .set('data', updatededData)
           .set('toRequest', state.get('toRequest').concat(Immutable.fromJS(payload.kids)))
           .set('responsesObserved', state.get('responsesObserved') + 1)
           .set('responsesExpected', parent ? state.get('responsesExpected') : payload.descendants)
@@ -54,6 +60,9 @@ export default createStore(
             )
           )
           .set('itemPath', Immutable.fromJS(payload.path));
+      case 'set-hovered-comment':
+        return state
+          .set('hoveredComment', payload && payload.get('id') || null);
       case 'toggle-graph-layout':
         return state
           .set('graphLayout', state.get('graphLayout') === 'ring' ? 'tree' : 'ring');

@@ -7,7 +7,15 @@ import {linkRadial, linkVertical} from 'd3-shape';
 import {scaleLinear} from 'd3-scale';
 import {transition} from 'd3-transition';
 
+import {classnames} from '../utils';
+
 const pythag = arr => Math.sqrt(Math.pow(arr[0], 2) + Math.pow(arr[1], 2));
+
+// includes dumb d3 rotation
+const radialToCartesian = (angle, radius) => [
+  radius * Math.cos(angle - Math.PI / 2),
+  radius * Math.sin(angle - Math.PI / 2)
+];
 
 function extractIdPathToRoot(node) {
   const nodes = [];
@@ -22,8 +30,22 @@ function extractIdPathToRoot(node) {
   }
 }
 
-function classnames(classObject) {
-  return Object.keys(classObject).filter(name => classObject[name]).join(' ');
+// not used but still useful maybe
+function getDomain(root) {
+  root.descendants().reduce((acc, row) => {
+    const pos = radialToCartesian(row.x, row.y);
+    return {
+      xMin: Math.min(acc.xMin, pos[0]),
+      xMax: Math.max(acc.xMax, pos[0]),
+      yMin: Math.min(acc.yMin, pos[1]),
+      yMax: Math.max(acc.yMax, pos[1]),
+    }
+  }, {
+    xMin: Infinity,
+    xMax: -Infinity,
+    yMin: Infinity,
+    yMax: -Infinity
+  })
 }
 
 class GraphPanel extends React.Component {
@@ -36,9 +58,16 @@ class GraphPanel extends React.Component {
   }
 
   updateChart(props) {
-    const {height, width, setSelectedCommentPath, selectedMap, graphLayout} = props;
+    const {
+      height, 
+      width, 
+      setSelectedCommentPath, 
+      selectedMap, 
+      graphLayout,
+      hoveredComment
+    } = props;
     const useRing = graphLayout === 'ring';
-    if (!width || !height) {
+    if (!width || !height || !props.data.size) {
       return;
     }
     const margin = {
@@ -57,8 +86,6 @@ class GraphPanel extends React.Component {
 
     const root = treeEval(stratify().id(d => d.id).parentId(d => d.parent)(data));
     
-    // TRY EXPLORING MIN MAX??!
-    
     const plotWidth = width - margin.left - margin.right;
     const plotHeight = height - margin.top - margin.bottom;
     const xScale = scaleLinear().domain([0, 1])
@@ -71,22 +98,39 @@ class GraphPanel extends React.Component {
     ];
 
     const link = svg.selectAll('.link').data(root.links());
-    const path = useRing ? linkRadial()
-      .angle(d => d.x)
-      .radius(d => pythag(radialPoint(d.x, d.y))) :
+    const evalLineClasses = d => {
+      return classnames({
+        link: true,
+        'link-selected': selectedMap.get(d.target.data.id),
+      });
+    }
+    const path = useRing ? 
+      // linkRadial()
+      // .angle(d => d.x)
+      // .radius(d => pythag(radialPoint(d.x, d.y))) 
+      d => {
+        const sourcePos = radialToCartesian(d.source.x, d.source.y);
+        const targetPos = radialToCartesian(d.target.x, d.target.y);
+        return `M${xScale(sourcePos[0])} ${yScale(sourcePos[1])} L${xScale(targetPos[0])} ${yScale(targetPos[1])}`;
+      }  :
       linkVertical().x(d => xScale(d.x)).y(d => yScale(d.y));
     link.enter().append('path')
-        .attr('class', 'link')
+        .attr('class', evalLineClasses)
         // .transition(t)
         .attr('d', path);
-    link.transition().attr('d', path);
+    link.transition()
+      .attr('d', path)
+      .attr('class', evalLineClasses);
 
-    const evaluateClassNames = d => classnames({
-      node: true,
-      'node--internal': d.children,
-      'node--leaf': !d.children,
-      'node--selected': selectedMap.get(d.data.id)
-    });
+    const evalCircClasses = d => {
+      return classnames({
+        node: true,
+        'node-internal': d.children,
+        'node-leaf': !d.children,
+        'node-selected': selectedMap.get(d.data.id),
+        'node-hovered': d.data.id === hoveredComment
+      });
+    }
 
     const positioning = useRing ?
       d => `translate(${radialPoint(d.x, d.y).join(',')})` :
@@ -95,14 +139,15 @@ class GraphPanel extends React.Component {
       .data(root.descendants());
 
     node.enter().append('circle')
-        .attr('class', evaluateClassNames)
+        .attr('class', evalCircClasses)
         .attr('transform', positioning)
         .attr('r', 3.5)
         .on('mouseenter', d => setSelectedCommentPath(extractIdPathToRoot(d)));
 
-    node.merge(node)
+    // node.merge(node)
+    node.transition()
         .attr('transform', positioning)
-        .attr('class', evaluateClassNames);
+        .attr('class', evalCircClasses);
 
   }
 

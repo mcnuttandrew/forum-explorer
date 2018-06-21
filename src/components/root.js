@@ -30,11 +30,11 @@ class RootComponent extends React.Component {
     return (
       <div className="flex-down full-size" >
         <Header toggleGraphLayout={this.props.toggleGraphLayout}/>
-        {this.props.loading && <div className="flex full-size">
+        {this.props.loading && <div className="flex full-size background-gray centering">
           <h1>LOADING</h1>
         </div>}
         {
-          !this.props.loading && <div className="flex full-size">
+          !this.props.loading && <div className="flex full-size background-gray">
             <GraphPanel 
             graphLayout={this.props.graphLayout}
             data={this.props.data} 
@@ -42,8 +42,12 @@ class RootComponent extends React.Component {
             selectedMap={
               this.props.itemsToRender.reduce((acc, row) => acc.set(row.get('id'), true), Map())
             }
+            hoveredComment={this.props.hoveredComment}
             />
             <CommentPanel 
+              setHoveredComment={this.props.setHoveredComment}
+              setSelectedCommentPath={this.props.setSelectedCommentPath}
+              itemPath={this.props.itemPath}
               itemsToRender={
                 this.props.itemsToRender.size ? this.props.itemsToRender : this.props.data
               }/>
@@ -60,8 +64,10 @@ function mapStateToProps({base}) {
     toRequest: base.get('toRequest'),
     data: base.get('data'),
     itemsToRender: base.get('itemsToRender'),
+    itemPath: base.get('itemPath'),
     graphLayout: base.get('graphLayout'),
-    loading: base.get('loading')
+    loading: base.get('loading'),
+    hoveredComment: base.get('hoveredComment')
   };
 }
 

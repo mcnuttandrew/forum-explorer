@@ -1,8 +1,18 @@
 import React from 'react';
 
+import {classnames} from '../utils';
+const createMarkup = __html => ({__html});
+
 class CommentPanel extends React.Component {
   render() {
-    const {itemsToRender} = this.props;
+    const {
+      itemsToRender, 
+      itemPath,
+      setHoveredComment, 
+      hoveredComment,
+      setSelectedCommentPath
+    } = this.props;
+
     return (
       <div className="panel overflow-y" >
         {itemsToRender.map((item, idx) => {
@@ -18,19 +28,36 @@ class CommentPanel extends React.Component {
               </div>
             </div>);
           }
-          // console.log(item.get('depth'))
           return (
             <div
+              onMouseEnter={() => setHoveredComment(item)}
+              onMouseLeave={() => setHoveredComment(null)}
               key={idx}
-              style={{
-                marginLeft: 10 * item.get('depth')
-              }}
+              style={{marginLeft: 10 * (item.get('depth') || 0)}}
               className="comment-block">
               <div className="comment-head">
-                <span>{item.get('by')}</span>
-                <span>N minutes ago</span>
+                {`${item.get('by')} N Minutes ago`}
               </div>
-              <div className="comment">{item.get('text')}</div>
+              <div 
+                className={classnames({
+                  comment: true,
+                  'hovered-comment': item.get('id') === hoveredComment
+                })} 
+                dangerouslySetInnerHTML={createMarkup(item.get('text'))}/>
+              <div 
+                onClick={() => {
+                  console.log(itemPath.toJS())
+                  const path = itemPath.toJS();
+                  const itemIndx = path.findIndex(d => d === item.get('id'));
+                  if (itemIndx >= 0) {
+                    setSelectedCommentPath(itemPath.reverse().slice(0, itemIndx + 1).reverse())
+                    return;
+                  }
+                  setSelectedCommentPath(itemPath.concat(item.get('id')));
+                }}
+                className="comment-head">
+                  <a>Expand</a>
+              </div>
             </div>
           );
         })}

@@ -28,3 +28,7 @@ export function setSelectedCommentPath(path) {
 export function toggleGraphLayout() {
   return dispatch => dispatch({type: 'toggle-graph-layout'});
 }
+
+export function setHoveredComment(payload) {
+  return dispatch => dispatch({type: 'set-hovered-comment', payload});
+}
