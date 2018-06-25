@@ -42,7 +42,7 @@ body,
 }
 
 .panel:first-of-type {
-  border-right: thin solid black;
+  border-right: thin solid #828282;
 }
 
 .header {
@@ -50,6 +50,9 @@ body,
   width: 100%;
 }
 
+.main-container {
+  padding: 10px 0;
+}
 
 
 /* // GRAPH STYLING */
@@ -95,6 +98,7 @@ body,
 .legend {
   fill: #828282;
   font-size: 10px;
+  pointer-events: none;
 }
 
 /* /// header styling */

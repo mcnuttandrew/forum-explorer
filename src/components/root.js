@@ -32,10 +32,13 @@ class RootComponent extends React.Component {
       <div className="flex-down full-size" >
         <Header toggleGraphLayout={this.props.toggleGraphLayout}/>
         {this.props.loading && <div className="flex full-size background-gray centering">
-          <h1>LOADING</h1>
+          <h1>
+            {`${Math.floor((this.props.responsesObserved / this.props.responsesExpected) * 100)}% loaded`}
+          </h1>
         </div>}
         {
-          !this.props.loading && <div className="flex full-size background-gray">
+          !this.props.loading && <div
+            className="flex full-size background-gray main-container">
             <GraphPanel
             graphLayout={this.props.graphLayout}
             data={this.props.data}
@@ -69,7 +72,9 @@ function mapStateToProps({base}) {
     graphLayout: base.get('graphLayout'),
     loading: base.get('loading'),
     hoveredComment: base.get('hoveredComment'),
-    commentSelectionLock: base.get('commentSelectionLock')
+    commentSelectionLock: base.get('commentSelectionLock'),
+    responsesExpected: base.get('responsesExpected'),
+    responsesObserved: base.get('responsesObserved')
   };
 }
 

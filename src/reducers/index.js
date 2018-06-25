@@ -3,7 +3,6 @@ import thunk from 'redux-thunk';
 import Immutable from 'immutable';
 import {DEV_MODE} from '../constants';
 import TestData from '../constants/test-data.json';
-// const TestData = DEV_MODE ? require('../constants/temp-hold.json') : [];
 
 const DEFAULT_STATE = Immutable.fromJS({
   itemId: null,
@@ -11,12 +10,11 @@ const DEFAULT_STATE = Immutable.fromJS({
   responsesExpected: 1,
   responsesObserved: 0,
   data: DEV_MODE ? TestData : [],
-  // data: [],
   itemsToRender: [],
   itemPath: [],
   hoveredComment: null,
   graphLayout: 'ring',
-  loading: false,
+  loading: !DEV_MODE,
   commentSelectionLock: false
 });
 
@@ -25,7 +23,8 @@ const startRequest = (state, payload) => state
 
 const getItem = (state, payload) => {
   if (!payload) {
-    return state.set('responsesObserved', state.get('responsesObserved') + 1);
+    return state;
+    // .set('responsesObserved', state.get('responsesObserved') + 1);
   }
   const parent = payload.parent ? state.get('data').find(d => d.get('id') === payload.parent) : null;
   const depth = parent ? parent.get('depth') + 1 : 0;

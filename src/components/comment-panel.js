@@ -49,8 +49,7 @@ function renderComment(props, item, idx) {
         dangerouslySetInnerHTML={createMarkup(item.get('text'))}/>
       <div
         onClick={() => {
-          console.log(itemPath.toJS())
-          const path = itemPath.toJS();
+          const path = itemPath.toJS().reverse();
           const itemIndx = path.findIndex(d => d === item.get('id'));
           if (itemIndx >= 0) {
             setSelectedCommentPath(itemPath.reverse().slice(0, itemIndx + 1).reverse());

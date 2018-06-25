@@ -7,6 +7,7 @@ import {voronoi} from 'd3-voronoi';
 import {linkRadial, linkVertical} from 'd3-shape';
 import {scaleLinear} from 'd3-scale';
 import {transition} from 'd3-transition';
+import debounce from 'lodash.debounce';
 
 import {classnames} from '../utils';
 
@@ -49,25 +50,47 @@ function extractIdPathToRoot(node) {
   }
 }
 
+function balloonLayout(treelayout) {
+  let notDone = true;
+  let nodeQueue = [];
+  let currentNode = treelayout;
+  currentNode.x = 0;
+  currentNode.y = 0;
+  currentNode.rotation = 0;
+  while (notDone) {
+    if (currentNode.children) {
+      currentNode.children.forEach((child, idx) => {
+        const angle = idx / currentNode.children.length * Math.PI * 2 + currentNode.rotation;
+        child.x = 1 / Math.pow(child.depth, 1.5) * Math.cos(angle) + currentNode.x;
+        child.y = 1 / Math.pow(child.depth, 1.5) * Math.sin(angle) + currentNode.y;
+        child.rotation = currentNode.rotation + Math.PI / 8;
+      });
+      nodeQueue = nodeQueue.concat(currentNode.children);
+    }
+    currentNode = nodeQueue.shift();
+    if (!currentNode) {
+      notDone = false;
+    }
+  }
+  return treelayout;
+}
+
 class GraphPanel extends React.Component {
   componentDidMount() {
     this.updateChart(this.props);
+    this.debounceChartUpdate = debounce(this.updateChart, 50);
   }
 
   componentWillReceiveProps(newProps) {
-    this.updateChart(newProps);
+    this.debounceChartUpdate(newProps);
   }
 
   updateChart(props) {
     const {
       height,
       width,
-      setSelectedCommentPath,
-      selectedMap,
       graphLayout,
-      hoveredComment,
-      margin,
-      toggleCommentSelectionLock
+      margin
     } = props;
     const useRing = graphLayout === 'ring';
     if (!width || !height || !props.data.size) {
@@ -75,11 +98,13 @@ class GraphPanel extends React.Component {
     }
 
     const data = props.data.toJS();
+    // forcing the root node to be null necessary in order to run stratify
+    data[0].parent = null;
     const treeEval = useRing ? tree().size([2 * Math.PI, 1])
       .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth) : tree().size([1, 1]);
 
     const root = treeEval(stratify().id(d => d.id).parentId(d => d.parent)(data));
-
+    // const root = balloonLayout(stratify().id(d => d.id).parentId(d => d.parent)(data));
     const plotWidth = width - margin.left - margin.right;
     const plotHeight = height - margin.top - margin.bottom;
     const xScale = scaleLinear().domain([0, 1])
