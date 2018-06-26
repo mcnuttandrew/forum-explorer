@@ -5,7 +5,7 @@ class Header extends React.Component {
     return (
       <div className="header" >
         <a href="https://news.ycombinator.com">
-          <img src="" className="logo"/>
+          <img src="y18.gif" className="logo"/>
         </a>
         <a
           href="https://news.ycombinator.com/news"

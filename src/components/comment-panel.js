@@ -27,7 +27,7 @@ function renderComment(props, item, idx) {
     hoveredComment,
     setSelectedCommentPath
   } = props;
-
+  /* eslint-disable react/no-danger */
   return (
     <div
       onMouseEnter={() => setHoveredComment(item)}
@@ -47,20 +47,18 @@ function renderComment(props, item, idx) {
           'hovered-comment': item.get('id') === hoveredComment
         })}
         dangerouslySetInnerHTML={createMarkup(item.get('text'))}/>
-      <div
+      {item.get('kids') && item.get('kids').size && <div
         onClick={() => {
-          const path = itemPath.toJS().reverse();
-          const itemIndx = path.findIndex(d => d === item.get('id'));
-          if (itemIndx >= 0) {
-            setSelectedCommentPath(itemPath.reverse().slice(0, itemIndx + 1).reverse());
-            return;
-          }
-          setSelectedCommentPath(itemPath.concat(item.get('id')));
+          const path = itemPath.toJS();
+          const itemIdx = path.findIndex(id => id === item.get('id'));
+          const newPath = itemIdx >= 0 ? path.slice(itemIdx) : [item.get('id')].concat(path);
+          setSelectedCommentPath(newPath);
         }}
         className="expand-comment">
         Expand
-      </div>
+      </div>}
     </div>);
+    /* eslint-enable react/no-danger */
 }
 
 class CommentPanel extends React.Component {
