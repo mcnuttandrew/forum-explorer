@@ -103,7 +103,11 @@ class GraphPanel extends React.Component {
     const treeEval = useRing ? tree().size([2 * Math.PI, 1])
       .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth) : tree().size([1, 1]);
 
-    const root = treeEval(stratify().id(d => d.id).parentId(d => d.parent)(data));
+    const stratifyMap = stratify().id(d => d.id).parentId(d => d.parent);
+    const root = treeEval(stratifyMap(data)).sort((a, b) => {
+      // console.log(a.data.estimateScore, b.data.estimateScore)
+      return a.data.estimateScore - b.data.estimateScore;
+    });
     // const root = balloonLayout(stratify().id(d => d.id).parentId(d => d.parent)(data));
     const plotWidth = width - margin.left - margin.right;
     const plotHeight = height - margin.top - margin.bottom;

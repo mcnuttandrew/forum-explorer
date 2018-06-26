@@ -39,7 +39,7 @@ function renderComment(props, item, idx) {
         <a
           href={`https://news.ycombinator.com/user?id=${item.get('by')}`}
           >{item.get('by')}</a>
-        <span>{` ${timeSince(item.get('time'))} ago`}</span>
+        <span>{` ${timeSince(item.get('time'))} ago -> ${item.get('estimateScore')}`}</span>
       </div>
       <div
         className={classnames({
@@ -65,7 +65,11 @@ class CommentPanel extends React.Component {
   render() {
     return (
       <div className="panel overflow-y" >
-        {this.props.itemsToRender.map((item, idx) => {
+        {this.props.itemsToRender.sort((a, b) => {
+          return a.get('depth') === b.get('depth') ?
+          (a.get('estimateScore') - b.get('estimateScore')) :
+          (a.get('depth') - b.get('depth'));
+        }).map((item, idx) => {
           if (item.get('type') === 'story') {
             return renderStoryHead(item, idx);
           }

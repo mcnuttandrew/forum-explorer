@@ -2,6 +2,7 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import Immutable from 'immutable';
 import {DEV_MODE} from '../constants';
+import {timeSince} from '../utils';
 import TestData from '../constants/test-data.json';
 
 const DEFAULT_STATE = Immutable.fromJS({
@@ -15,7 +16,8 @@ const DEFAULT_STATE = Immutable.fromJS({
   hoveredComment: null,
   graphLayout: 'ring',
   loading: !DEV_MODE,
-  commentSelectionLock: false
+  commentSelectionLock: false,
+  foundOrderMap: {}
 });
 
 const startRequest = (state, payload) => state
@@ -28,10 +30,12 @@ const getItem = (state, payload) => {
   }
   const parent = payload.parent ? state.get('data').find(d => d.get('id') === payload.parent) : null;
   const depth = parent ? parent.get('depth') + 1 : 0;
+  const scoreKey = `${payload.by} ${timeSince(payload.time)} ago`;
 
   const updatededData = state.get('data').push(Immutable.fromJS({
     ...payload,
-    depth
+    depth,
+    estimateScore: state.getIn(['foundOrderMap', scoreKey]) || Infinity
   }));
 
   return state
@@ -72,11 +76,20 @@ const toggleCommentSelectionLock = (state, payload) => {
     .set('commentSelectionLock', !state.get('commentSelectionLock'));
 };
 
+const setFoundOrder = (state, payload) => {
+  const foundOrderMap = payload.reduce((acc, text, idx) => {
+    acc[text] = idx;
+    return acc;
+  }, {});
+  return state.set('foundOrderMap', Immutable.fromJS(foundOrderMap));
+};
+
 const actionFuncMap = {
   'start-request': startRequest,
   'get-item': getItem,
   'set-comment-path': setCommentPath,
   'set-hovered-comment': setHoveredComment,
+  'set-found-order': setFoundOrder,
   'toggle-graph-layout': toggleGraphLayout,
   'toggle-comment-selection-lock': toggleCommentSelectionLock
 };

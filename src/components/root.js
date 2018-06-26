@@ -9,6 +9,10 @@ import CommentPanel from './comment-panel';
 import Header from './header';
 
 class RootComponent extends React.Component {
+  componentWillMount() {
+    this.props.setFoundOrder(this.props.foundOrder);
+  }
+
   componentDidMount() {
     const rootItem = (window.location.search || '?id=17338700').split('?id=')[1];
     if (!DEV_MODE) {
@@ -64,7 +68,6 @@ class RootComponent extends React.Component {
 
 function mapStateToProps({base}) {
   return {
-    openRequests: base.get('openRequests'),
     toRequest: base.get('toRequest'),
     data: base.get('data'),
     itemsToRender: base.get('itemsToRender'),

@@ -36,3 +36,7 @@ export function setHoveredComment(payload) {
 export function toggleCommentSelectionLock() {
   return dispatch => dispatch({type: 'toggle-comment-selection-lock'});
 }
+
+export function setFoundOrder(payload) {
+  return dispatch => dispatch({type: 'set-found-order', payload});
+}

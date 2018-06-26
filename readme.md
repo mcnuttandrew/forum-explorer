@@ -11,7 +11,7 @@ yarn start
 ```
 Point your browser to 8080
 
-To create a build, make sure development mode is off (see constants file) and then run
+To create a build, make sure development mode is off (see constants file) run
 
 ```sh
 ./prepare-build.sh
