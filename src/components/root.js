@@ -31,7 +31,8 @@ class RootComponent extends React.Component {
   }
 
   render() {
-    const selectedMap = this.props.itemsToRender.reduce((acc, row) => acc.set(row.get('id'), true), Map());
+    const selectedMap = this.props.itemsToRender
+      .reduce((acc, row) => acc.set(row.get('id'), true), Map());
     return (
       <div className="flex-down full-size" >
         <Header toggleGraphLayout={this.props.toggleGraphLayout}/>

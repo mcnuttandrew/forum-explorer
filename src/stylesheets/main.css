@@ -87,8 +87,14 @@ body,
 }
 
 .link-selected {
+  stroke: #333;
+  stroke-opacity: 1;
+}
+
+.locked .link-selected {
   stroke: #111;
-  stroke-opacity: 1
+  stroke-opacity: 1;
+  stroke-width: 3px;
 }
 
 .click-away-block {

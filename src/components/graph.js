@@ -180,7 +180,7 @@ class GraphPanel extends React.Component {
     node.enter().append('circle')
         .attr('class', evalCircClasses)
         .attr('transform', d => translateFunc(positioning(d)))
-        .attr('r', 3.5)
+        .attr('r', d => d.depth ? 3.5 : 7)
         .on('click', toggleCommentSelectionLock);
 
     node.transition()
@@ -218,7 +218,12 @@ class GraphPanel extends React.Component {
     const translation = useRing ? `translate(${width / 2}, ${height / 2})` : '';
 
     return (
-      <svg width={this.props.width} height={this.props.height}>
+      <svg
+        width={width}
+        height={height}
+        className={classnames({
+          locked: commentSelectionLock
+        })}>
         <g ref="lines" transform={translation} />
         <g ref="polygons" transform={translation} />
         <g ref="nodes" transform={translation}/>

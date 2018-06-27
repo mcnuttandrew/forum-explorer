@@ -23,30 +23,6 @@ const DEFAULT_STATE = Immutable.fromJS({
 const startRequest = (state, payload) => state
   .set('toRequest', state.get('toRequest').filter(d => d !== payload.itemId));
 
-const getItem = (state, payload) => {
-  if (!payload) {
-    return state;
-    // .set('responsesObserved', state.get('responsesObserved') + 1);
-  }
-  const parent = payload.parent ? state.get('data').find(d => d.get('id') === payload.parent) : null;
-  const depth = parent ? parent.get('depth') + 1 : 0;
-  const scoreKey = `${payload.by} ${timeSince(payload.time)} ago`;
-
-  const updatededData = state.get('data').push(Immutable.fromJS({
-    ...payload,
-    depth,
-    estimateScore: state.getIn(['foundOrderMap', scoreKey]) || Infinity
-  }));
-
-  return state
-    // how do you do multiple updates simultaneously? I think its with mutable or something?
-    .set('data', updatededData)
-    .set('toRequest', state.get('toRequest').concat(Immutable.fromJS(payload.kids)))
-    .set('responsesObserved', state.get('responsesObserved') + 1)
-    .set('responsesExpected', parent ? state.get('responsesExpected') : payload.descendants)
-    .set('loading', state.get('responsesObserved') < state.get('responsesExpected'));
-};
-
 const setCommentPath = (state, payload) => {
   const itemMap = payload.path.reduce((acc, row) => {
     acc[row] = true;
@@ -59,6 +35,36 @@ const setCommentPath = (state, payload) => {
       )
     )
     .set('itemPath', Immutable.fromJS(payload.path));
+};
+
+const getItem = (state, payload) => {
+  if (!payload) {
+    return state;
+  }
+  const parent = payload.parent ? state.get('data').find(d => d.get('id') === payload.parent) : null;
+  const depth = parent ? parent.get('depth') + 1 : 0;
+  const scoreKey = `${payload.by} ${timeSince(payload.time)} ago`;
+  const loadingStateChange = state.get('loading') &&
+    state.get('responsesObserved') >= state.get('responsesExpected');
+
+  const updatededData = state.get('data').push(Immutable.fromJS({
+    ...payload,
+    depth,
+    estimateScore: state.getIn(['foundOrderMap', scoreKey]) || Infinity
+  }));
+
+  const updatededState = state
+    // how do you do multiple updates simultaneously? I think its with mutable or something?
+    .set('data', updatededData)
+    .set('toRequest', state.get('toRequest').concat(Immutable.fromJS(payload.kids)))
+    .set('responsesObserved', state.get('responsesObserved') + 1)
+    .set('responsesExpected', parent ? state.get('responsesExpected') : payload.descendants);
+
+  if (loadingStateChange) {
+    const rootId = state.getIn(['data', 0, 'id']);
+    return setCommentPath(updatededState.set('loading', false), {path: [rootId]});
+  }
+  return updatededState;
 };
 
 const setHoveredComment = (state, payload) => {
