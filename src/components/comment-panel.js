@@ -52,6 +52,15 @@ function renderComment(props, item, idx) {
       className="comment-block">
       <div className="comment-head">
         <a
+          onClick={() => {
+            fetch(`https://news.ycombinator.com/${item.get('upvoteLink')}`, {
+              method: 'GET'
+            });
+          }}
+          >
+          {'up '}
+        </a>
+        <a
           href={`https://news.ycombinator.com/user?id=${item.get('by')}`}
           >{item.get('by')}</a>
         <span>{` ${timeSince(item.get('time'))} ago`}</span>
@@ -63,6 +72,14 @@ function renderComment(props, item, idx) {
         })}
         dangerouslySetInnerHTML={createMarkup(item.get('text'))}/>
       {expandButton(item, itemPath, setSelectedCommentPath)}
+      <a
+        onClick={e => {
+          e.stopPropagation();
+        }}
+        href={`https://news.ycombinator.com/${item.get('replyLink')}`}
+        className="expand-comment">
+        reply
+      </a>
     </div>);
     /* eslint-enable react/no-danger */
 }
@@ -71,11 +88,13 @@ class CommentPanel extends React.Component {
   render() {
     return (
       <div className="panel overflow-y" >
-        {this.props.itemsToRender.sort((a, b) => {
-          return a.get('depth') === b.get('depth') ?
-          (a.get('estimateScore') - b.get('estimateScore')) :
-          (a.get('depth') - b.get('depth'));
-        }).map((item, idx) => {
+        {this.props.itemsToRender
+        //   .sort((a, b) => {
+        //   return a.get('depth') === b.get('depth') ?
+        //   (a.get('estimateScore') - b.get('estimateScore')) :
+        //   (a.get('depth') - b.get('depth'));
+        // })
+        .map((item, idx) => {
           const component = item.get('type') === 'story' ? renderStoryHead : renderComment;
           return component(this.props, item, idx);
           // if (item.get('type') === 'story') {
