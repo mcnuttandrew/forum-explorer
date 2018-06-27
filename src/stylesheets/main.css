@@ -182,7 +182,7 @@ a:visited {
   padding-left: 2px;
 }
 
-.comment:hover {
+.comment-block:hover .comment {
   border-left: 1px solid #ff6600;
 }
 

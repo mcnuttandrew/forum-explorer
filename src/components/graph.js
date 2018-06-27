@@ -4,9 +4,11 @@ import ReactDOM from 'react-dom';
 import {select} from 'd3-selection';
 import {tree, stratify} from 'd3-hierarchy';
 import {voronoi} from 'd3-voronoi';
+/* eslint-disable no-unused-vars */
 import {linkRadial, linkVertical} from 'd3-shape';
 import {scaleLinear} from 'd3-scale';
 import {transition} from 'd3-transition';
+/* eslint-enable no-unused-vars */
 import debounce from 'lodash.debounce';
 
 import {classnames} from '../utils';
@@ -59,12 +61,14 @@ function balloonLayout(treelayout) {
   currentNode.rotation = 0;
   while (notDone) {
     if (currentNode.children) {
+      /* eslint-disable no-loop-func */
       currentNode.children.forEach((child, idx) => {
         const angle = idx / currentNode.children.length * Math.PI * 2 + currentNode.rotation;
         child.x = 1 / Math.pow(child.depth, 1.5) * Math.cos(angle) + currentNode.x;
         child.y = 1 / Math.pow(child.depth, 1.5) * Math.sin(angle) + currentNode.y;
         child.rotation = currentNode.rotation + Math.PI / 8;
       });
+      /* eslint-enable no-loop-func */
       nodeQueue = nodeQueue.concat(currentNode.children);
     }
     currentNode = nodeQueue.shift();
