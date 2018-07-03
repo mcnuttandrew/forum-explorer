@@ -6,6 +6,7 @@ import {graphLayouts} from '../layouts';
 import TestData from '../constants/test-data.json';
 
 const DEFAULT_STATE = Immutable.fromJS({
+  // TODO i think itemId is unused
   itemId: null,
   toRequest: [],
   responsesExpected: 1,

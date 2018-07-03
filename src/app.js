@@ -25,6 +25,15 @@ let givenOrder = [...document.querySelectorAll('.comtr')].map(el => {
   return gatheredDetail;
 });
 
+const userQuery = document.querySelector('#me');
+const username = userQuery && userQuery.textContent || null;
+
+const logoutQuery = document.querySelector('#logout');
+const logoutLink = logoutQuery && logoutQuery.getAttribute('href') || null;
+
+const karmaQuery = (/\((.*)\)/).exec(document.querySelectorAll('.pagetop')[1].textContent);
+const karma = karmaQuery && karmaQuery[1] || null;
+
 const extensionContainer = document.createElement('div');
 extensionContainer.setAttribute('id', 'extension-container');
 document.querySelector('body').appendChild(extensionContainer);
@@ -37,7 +46,11 @@ if (center) {
 
 ReactDOM.render(
   <Provider store={AppState}>
-    <Root foundOrder={givenOrder}/>
+    <Root
+      foundOrder={givenOrder}
+      username={username}
+      logoutLink={logoutLink}
+      userKarma={karma}/>
   </Provider>,
   document.querySelector('#extension-container')
 );

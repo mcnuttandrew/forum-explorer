@@ -149,11 +149,22 @@ a:visited {
   color: #828282;
 }
 
+a.header-link:visited {
+  color: #000000;
+}
+
 .header-link::after {
   content: '|';
   padding: 5px;
 }
 
+.header .header-link:last-of-type::after {
+  content: ' ';
+}
+
+.right-links-container {
+  margin-left: auto;
+}
 
 /* // comment styles */
 

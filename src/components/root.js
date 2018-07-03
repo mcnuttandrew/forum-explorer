@@ -35,7 +35,12 @@ class RootComponent extends React.Component {
       .reduce((acc, row) => acc.set(row.get('id'), true), Map());
     return (
       <div className="flex-down full-size" >
-        <Header toggleGraphLayout={this.props.toggleGraphLayout}/>
+        <Header
+          rootId={this.props.rootId}
+          userKarma={this.props.userKarma}
+          toggleGraphLayout={this.props.toggleGraphLayout}
+          logoutLink={this.props.logoutLink}
+          username={this.props.username}/>
         {this.props.loading && <div className="flex full-size background-gray centering">
           <h1>
             {`${Math.floor((this.props.responsesObserved / this.props.responsesExpected) * 100)}% loaded`}
@@ -78,7 +83,8 @@ function mapStateToProps({base}) {
     hoveredComment: base.get('hoveredComment'),
     commentSelectionLock: base.get('commentSelectionLock'),
     responsesExpected: base.get('responsesExpected'),
-    responsesObserved: base.get('responsesObserved')
+    responsesObserved: base.get('responsesObserved'),
+    rootId: base.getIn(['data', 0, 'id'])
   };
 }
 
