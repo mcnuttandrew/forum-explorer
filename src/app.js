@@ -13,9 +13,16 @@ import TestOrder from './constants/test-order';
 
 let givenOrder = [...document.querySelectorAll('.comtr')].map(el => {
   const id = el.getAttribute('id');
-  const upvoteLink = el.querySelector('.votelinks a').getAttribute('href');
-  const replyLink = el.querySelector('.reply a').getAttribute('href');
-  return {id, upvoteLink, replyLink};
+  const gatheredDetail = {id, upvoteLink: '', replyLink: ''};
+  const upvoteLink = el.querySelector('.votelinks a');
+  if (upvoteLink) {
+    gatheredDetail.upvoteLink = upvoteLink.getAttribute('href');
+  }
+  const replyLink = el.querySelector('.reply a');
+  if (replyLink) {
+    gatheredDetail.replyLink = replyLink.getAttribute('href');
+  }
+  return gatheredDetail;
 });
 
 const extensionContainer = document.createElement('div');
