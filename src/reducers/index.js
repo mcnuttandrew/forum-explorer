@@ -32,7 +32,8 @@ const setCommentPath = (state, payload) => {
   return state
     .set('itemsToRender',
       state.get('data').filter(row =>
-        itemMap[row.get('id')] || (row.get('parent') === payload.path[0])
+        (itemMap[row.get('id')] || (row.get('parent') === payload.path[0])) &&
+        !row.get('deleted')
       )
     )
     .set('itemPath', Immutable.fromJS(payload.path));
