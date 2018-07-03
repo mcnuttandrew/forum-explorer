@@ -2,7 +2,6 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import Immutable, {Map} from 'immutable';
 import {DEV_MODE} from '../constants';
-import {timeSince} from '../utils';
 import TestData from '../constants/test-data.json';
 
 const DEFAULT_STATE = Immutable.fromJS({

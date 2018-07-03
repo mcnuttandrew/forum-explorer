@@ -10,6 +10,7 @@ body,
 
 #extension-container {
   padding: 10px 90px;
+  height: calc(100% - 20px);
   width: calc(100% - 180px);
 }
 
@@ -186,8 +187,15 @@ a:visited {
   border-left: 1px solid #ff6600;
 }
 
+.comment-head .up-arrow {
+  cursor: pointer;
+  font-size: 9px;
+}
+
 .expand-comment {
   color: #828282;
   cursor: pointer;
-  font-size: 7px;
+  font-size: 8pt;
+  padding-right: 10px;
+  text-decoration: underline;
 }

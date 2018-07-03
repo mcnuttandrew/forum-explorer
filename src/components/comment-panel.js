@@ -12,7 +12,7 @@ function expandButton(item, itemPath, setSelectedCommentPath) {
       setSelectedCommentPath(newPath);
     }}
     className="expand-comment">
-    Expand
+    expand
   </div> || <div />);
 }
 
@@ -52,13 +52,14 @@ function renderComment(props, item, idx) {
       className="comment-block">
       <div className="comment-head">
         <a
+          className="up-arrow"
           onClick={() => {
             fetch(`https://news.ycombinator.com/${item.get('upvoteLink')}`, {
               method: 'GET'
             });
           }}
           >
-          {'up '}
+          {'▲ '}
         </a>
         <a
           href={`https://news.ycombinator.com/user?id=${item.get('by')}`}
@@ -71,15 +72,17 @@ function renderComment(props, item, idx) {
           'hovered-comment': item.get('id') === hoveredComment
         })}
         dangerouslySetInnerHTML={createMarkup(item.get('text'))}/>
-      {expandButton(item, itemPath, setSelectedCommentPath)}
-      <a
-        onClick={e => {
-          e.stopPropagation();
-        }}
-        href={`https://news.ycombinator.com/${item.get('replyLink')}`}
-        className="expand-comment">
-        reply
-      </a>
+      <div className="flex">
+        {expandButton(item, itemPath, setSelectedCommentPath)}
+        <a
+          onClick={e => {
+            e.stopPropagation();
+          }}
+          href={`https://news.ycombinator.com/${item.get('replyLink')}`}
+          className="expand-comment">
+          reply
+        </a>
+      </div>
     </div>);
     /* eslint-enable react/no-danger */
 }
