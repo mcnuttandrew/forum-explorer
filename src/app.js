@@ -31,7 +31,8 @@ const username = userQuery && userQuery.textContent || null;
 const logoutQuery = document.querySelector('#logout');
 const logoutLink = logoutQuery && logoutQuery.getAttribute('href') || null;
 
-const karmaQuery = (/\((.*)\)/).exec(document.querySelectorAll('.pagetop')[1].textContent);
+const topQuery = document.querySelectorAll('.pagetop');
+const karmaQuery = topQuery && topQuery.length && (/\((.*)\)/).exec(topQuery[1].textContent);
 const karma = karmaQuery && karmaQuery[1] || null;
 
 const extensionContainer = document.createElement('div');
