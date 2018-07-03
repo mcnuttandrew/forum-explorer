@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {select} from 'd3-selection';
-import {tree, stratify} from 'd3-hierarchy';
+import {stratify} from 'd3-hierarchy';
 import {voronoi} from 'd3-voronoi';
 /* eslint-disable no-unused-vars */
-import {linkRadial, linkVertical} from 'd3-shape';
 import {scaleLinear} from 'd3-scale';
 import {transition} from 'd3-transition';
 /* eslint-enable no-unused-vars */
 import debounce from 'lodash.debounce';
 
+import {layouts} from '../layouts';
 import {classnames} from '../utils';
 
 // const pythag = arr => Math.sqrt(Math.pow(arr[0], 2) + Math.pow(arr[1], 2));
@@ -33,12 +33,6 @@ import {classnames} from '../utils';
 //   });
 // }
 
-// includes dumb d3 rotation
-const radialToCartesian = (angle, radius) => [
-  radius * Math.cos(angle - Math.PI / 2),
-  radius * Math.sin(angle - Math.PI / 2)
-];
-
 function extractIdPathToRoot(node) {
   const nodes = [];
   let currentNode = node;
@@ -50,33 +44,6 @@ function extractIdPathToRoot(node) {
     }
     currentNode = currentNode.parent;
   }
-}
-
-function balloonLayout(treelayout) {
-  let notDone = true;
-  let nodeQueue = [];
-  let currentNode = treelayout;
-  currentNode.x = 0;
-  currentNode.y = 0;
-  currentNode.rotation = 0;
-  while (notDone) {
-    if (currentNode.children) {
-      /* eslint-disable no-loop-func */
-      currentNode.children.forEach((child, idx) => {
-        const angle = idx / currentNode.children.length * Math.PI * 2 + currentNode.rotation;
-        child.x = 1 / Math.pow(child.depth, 1.5) * Math.cos(angle) + currentNode.x;
-        child.y = 1 / Math.pow(child.depth, 1.5) * Math.sin(angle) + currentNode.y;
-        child.rotation = currentNode.rotation + Math.PI / 8;
-      });
-      /* eslint-enable no-loop-func */
-      nodeQueue = nodeQueue.concat(currentNode.children);
-    }
-    currentNode = nodeQueue.shift();
-    if (!currentNode) {
-      notDone = false;
-    }
-  }
-  return treelayout;
 }
 
 class GraphPanel extends React.Component {
@@ -93,10 +60,9 @@ class GraphPanel extends React.Component {
     const {
       height,
       width,
-      graphLayout,
-      margin
+      graphLayout
     } = props;
-    const useRing = graphLayout === 'ring';
+
     if (!width || !height || !props.data.size) {
       return;
     }
@@ -104,39 +70,27 @@ class GraphPanel extends React.Component {
     const data = props.data.toJS();
     // forcing the root node to be null necessary in order to run stratify
     data[0].parent = null;
-    const treeEval = useRing ? tree().size([2 * Math.PI, 1])
-      .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth) : tree().size([1, 1]);
 
     const stratifyMap = stratify().id(d => d.id).parentId(d => d.parent);
+    const treeEval = layouts[graphLayout].layout();
     const root = treeEval(stratifyMap(data));
     // .sort((a, b) => {
     //   // console.log(a.data.estimateScore, b.data.estimateScore)
     //   return a.data.estimateScore - b.data.estimateScore;
     // });
-    // const root = balloonLayout(stratify().id(d => d.id).parentId(d => d.parent)(data));
-    const plotWidth = width - margin.left - margin.right;
-    const plotHeight = height - margin.top - margin.bottom;
-    const xScale = scaleLinear().domain([0, 1])
-      .range(useRing ? [0, width / 2] : [margin.left, plotWidth]);
-    const yScale = scaleLinear().domain([0, 1])
-      .range(useRing ? [0, height / 2] : [margin.top, plotHeight]);
-    const radialPoint = (angle, radius) => [
-      xScale(radius * Math.cos(angle - Math.PI / 2)),
-      yScale(radius * Math.sin(angle - Math.PI / 2))
-    ];
+    const xScale = layouts[graphLayout].getXScale(props);
+    const yScale = layouts[graphLayout].getYScale(props);
 
-    const positioning = useRing ?
-      d => radialPoint(d.x, d.y) :
-      d => [xScale(d.x), yScale(d.y)];
+    const positioning = layouts[graphLayout].positioning(xScale, yScale);
     const nodes = root.descendants();
 
-    this.renderLinks(props, root, useRing, xScale, yScale);
+    this.renderLinks(props, root, xScale, yScale);
     this.renderNodes(props, nodes, positioning);
     this.renderVoronoi(props, nodes, positioning);
   }
 
-  renderLinks(props, root, useRing, xScale, yScale) {
-    const {selectedMap} = props;
+  renderLinks(props, root, xScale, yScale) {
+    const {selectedMap, graphLayout} = props;
     const linesG = select(ReactDOM.findDOMNode(this.refs.lines));
     const link = linesG.selectAll('.link').data(root.links());
     const evalLineClasses = d => {
@@ -145,19 +99,7 @@ class GraphPanel extends React.Component {
         'link-selected': selectedMap.get(d.target.data.id)
       });
     };
-    const path = useRing ?
-      // linkRadial()
-      // .angle(d => d.x)
-      // .radius(d => pythag(radialPoint(d.x, d.y)))
-      d => {
-        const sourcePos = radialToCartesian(d.source.x, d.source.y);
-        const targetPos = radialToCartesian(d.target.x, d.target.y);
-        return `
-          M${xScale(sourcePos[0])} ${yScale(sourcePos[1])}
-          L${xScale(targetPos[0])} ${yScale(targetPos[1])}
-          `;
-      } :
-      linkVertical().x(d => xScale(d.x)).y(d => yScale(d.y));
+    const path = layouts[graphLayout].path(xScale, yScale);
     link.enter().append('path')
         .attr('class', evalLineClasses)
         .attr('d', path);
@@ -219,9 +161,8 @@ class GraphPanel extends React.Component {
       width,
       toggleCommentSelectionLock
     } = this.props;
-    const useRing = graphLayout === 'ring';
-    const translation = useRing ? `translate(${width / 2}, ${height / 2})` : '';
 
+    const translation = layouts[graphLayout].offset(this.props);
     return (
       <svg
         width={width}

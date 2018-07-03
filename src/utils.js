@@ -27,3 +27,9 @@ export function timeSince(date) {
   }
   return `${Math.floor(seconds)} seconds`;
 }
+
+// includes dumb d3 rotation
+export const radialToCartesian = (angle, radius) => [
+  radius * Math.cos(angle - Math.PI / 2),
+  radius * Math.sin(angle - Math.PI / 2)
+];

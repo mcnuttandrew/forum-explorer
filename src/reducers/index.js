@@ -2,6 +2,7 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import Immutable, {Map} from 'immutable';
 import {DEV_MODE} from '../constants';
+import {graphLayouts} from '../layouts';
 import TestData from '../constants/test-data.json';
 
 const DEFAULT_STATE = Immutable.fromJS({
@@ -13,7 +14,7 @@ const DEFAULT_STATE = Immutable.fromJS({
   itemsToRender: [],
   itemPath: [],
   hoveredComment: null,
-  graphLayout: 'ring',
+  graphLayout: graphLayouts[0],
   loading: !DEV_MODE,
   commentSelectionLock: false,
   foundOrderMap: {}
@@ -75,8 +76,8 @@ const setHoveredComment = (state, payload) => {
 };
 
 const toggleGraphLayout = (state, payload) => {
-  return state
-    .set('graphLayout', state.get('graphLayout') === 'ring' ? 'tree' : 'ring');
+  const currentIndex = graphLayouts.findIndex(d => state.get('graphLayout') === d);
+  return state.set('graphLayout', graphLayouts[(currentIndex + 1) % graphLayouts.length]);
 };
 
 const toggleCommentSelectionLock = (state, payload) => {
