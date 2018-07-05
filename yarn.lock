@@ -3723,6 +3723,12 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
+lda@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/lda/-/lda-0.2.0.tgz#04dc4e2022d71e5e4d1788a548f1aad9db241e75"
+  dependencies:
+    stem-porter "*"
+
 leb@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/leb/-/leb-0.3.0.tgz#32bee9fad168328d6aea8522d833f4180eed1da3"
@@ -5813,6 +5819,10 @@ static-extend@^0.1.1:
 statuses@~1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.4.0.tgz#bb73d446da2796106efcc1b601a253d6c46bd087"
+
+stem-porter@*:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/stem-porter/-/stem-porter-0.0.1.tgz#591a8b0d696c34252af593535228430a34de7001"
 
 stream-browserify@^2.0.1:
   version "2.0.1"

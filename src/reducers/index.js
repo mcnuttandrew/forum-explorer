@@ -4,6 +4,7 @@ import Immutable, {Map} from 'immutable';
 import {DEV_MODE} from '../constants';
 import {graphLayouts} from '../layouts';
 import TestData from '../constants/test-data.json';
+// import lda from 'lda';
 
 const DEFAULT_STATE = Immutable.fromJS({
   // TODO i think itemId is unused
@@ -67,6 +68,12 @@ const getItem = (state, payload) => {
 
   if (loadingStateChange) {
     const rootId = state.getIn(['data', 0, 'id']);
+    // LDA EXAMPLE STUFF!! IF KEEP PUSH TO WEBWORKER
+    // const startTime = new Date().getTime();
+    // const xxx = lda(state.get('data').toJS().map(d => d.text), 3, 1);
+    // const endTime = new Date().getTime();
+    // console.log(`TOOK: ${(endTime - startTime) / 1000} seconds`)
+    // console.log(xxx)
     return setCommentPath(updatededState.set('loading', false), {path: [rootId]});
   }
   return updatededState;
