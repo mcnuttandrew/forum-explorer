@@ -15,23 +15,6 @@ import {classnames} from '../utils';
 
 // const pythag = arr => Math.sqrt(Math.pow(arr[0], 2) + Math.pow(arr[1], 2));
 //
-// // not used but still useful maybe
-// function getDomain(root) {
-//   root.descendants().reduce((acc, row) => {
-//     const pos = radialToCartesian(row.x, row.y);
-//     return {
-//       xMin: Math.min(acc.xMin, pos[0]),
-//       xMax: Math.max(acc.xMax, pos[0]),
-//       yMin: Math.min(acc.yMin, pos[1]),
-//       yMax: Math.max(acc.yMax, pos[1])
-//     };
-//   }, {
-//     xMin: Infinity,
-//     xMax: -Infinity,
-//     yMin: Infinity,
-//     yMax: -Infinity
-//   });
-// }
 
 function extractIdPathToRoot(node) {
   const nodes = [];
@@ -46,7 +29,7 @@ function extractIdPathToRoot(node) {
   }
 }
 
-class GraphPanel extends React.Component {
+class Graph extends React.Component {
   componentDidMount() {
     this.updateChart(this.props);
     this.debounceChartUpdate = debounce(this.updateChart, 50);
@@ -78,14 +61,14 @@ class GraphPanel extends React.Component {
     //   // console.log(a.data.estimateScore, b.data.estimateScore)
     //   return a.data.estimateScore - b.data.estimateScore;
     // });
-    const xScale = layouts[graphLayout].getXScale(props);
-    const yScale = layouts[graphLayout].getYScale(props);
+    const xScale = layouts[graphLayout].getXScale(props, root);
+    const yScale = layouts[graphLayout].getYScale(props, root);
 
     const positioning = layouts[graphLayout].positioning(xScale, yScale);
     const nodes = root.descendants();
 
     this.renderLinks(props, root, xScale, yScale);
-    this.renderNodes(props, nodes, positioning);
+    this.renderNodes(props, nodes, positioning, xScale);
     this.renderVoronoi(props, nodes, positioning);
   }
 
@@ -109,7 +92,7 @@ class GraphPanel extends React.Component {
 
   }
 
-  renderNodes(props, nodes, positioning) {
+  renderNodes(props, nodes, positioning, xScale) {
     const {hoveredComment, toggleCommentSelectionLock, selectedMap} = props;
     const nodesG = select(ReactDOM.findDOMNode(this.refs.nodes));
     const translateFunc = arr => `translate(${arr.join(',')})`;
@@ -133,6 +116,21 @@ class GraphPanel extends React.Component {
     node.transition()
         .attr('transform', d => translateFunc(positioning(d)))
         .attr('class', evalCircClasses);
+    
+    // const outlines = nodesG.selectAll('.outlines').data(nodes);
+    // 
+    // outlines.enter().append('circle')
+    //     .attr('transform', d => translateFunc(positioning(d)))
+    //     .attr('r', d => xScale(d.radius) / 10)
+    //     .attr('stroke', 'black')
+    //     .attr('fill', 'none')
+    //     .on('click', toggleCommentSelectionLock);
+    // 
+    // outlines.transition()
+    //     .attr('transform', d => translateFunc(positioning(d)))
+    //     .attr('stroke', 'black')
+    //     .attr('fill', 'none')
+    //     .attr('class', evalCircClasses);    
   }
 
   renderVoronoi(props, nodes, positioning) {
@@ -192,7 +190,7 @@ class GraphPanel extends React.Component {
     );
   }
 }
-GraphPanel.defaultProps = {
+Graph.defaultProps = {
   margin: {
     top: 10,
     left: 10,
@@ -200,4 +198,4 @@ GraphPanel.defaultProps = {
     right: 10
   }
 };
-export default GraphPanel;
+export default Graph;
