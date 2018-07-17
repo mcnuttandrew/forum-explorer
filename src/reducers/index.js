@@ -42,7 +42,8 @@ const setCommentPath = (state, payload) => {
 
 const getItem = (state, payload) => {
   if (!payload) {
-    return state;
+    return state
+      .set('responsesObserved', state.get('responsesObserved') + 1);
   }
   const parent = payload.parent ? state.get('data').find(d => d.get('id') === payload.parent) : null;
   const depth = parent ? parent.get('depth') + 1 : 0;
@@ -116,7 +117,9 @@ const actionFuncMap = {
 function base(state = DEFAULT_STATE, action) {
   const {type, payload} = action;
   const response = actionFuncMap[type];
-  return response ? response(state, payload) : state;
+  const xx = response ? response(state, payload) : state;
+  console.log(xx.get('responsesExpected'), xx.get('responsesObserved'))
+  return xx;
 }
 
 export default createStore(
