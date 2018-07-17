@@ -13,9 +13,6 @@ import debounce from 'lodash.debounce';
 import {layouts} from '../layouts';
 import {classnames} from '../utils';
 
-// const pythag = arr => Math.sqrt(Math.pow(arr[0], 2) + Math.pow(arr[1], 2));
-//
-
 function extractIdPathToRoot(node) {
   const nodes = [];
   let currentNode = node;
@@ -116,21 +113,21 @@ class Graph extends React.Component {
     node.transition()
         .attr('transform', d => translateFunc(positioning(d)))
         .attr('class', evalCircClasses);
-    
+
     // const outlines = nodesG.selectAll('.outlines').data(nodes);
-    // 
+    //
     // outlines.enter().append('circle')
     //     .attr('transform', d => translateFunc(positioning(d)))
     //     .attr('r', d => xScale(d.radius) / 10)
     //     .attr('stroke', 'black')
     //     .attr('fill', 'none')
     //     .on('click', toggleCommentSelectionLock);
-    // 
+    //
     // outlines.transition()
     //     .attr('transform', d => translateFunc(positioning(d)))
     //     .attr('stroke', 'black')
     //     .attr('fill', 'none')
-    //     .attr('class', evalCircClasses);    
+    //     .attr('class', evalCircClasses);
   }
 
   renderVoronoi(props, nodes, positioning) {

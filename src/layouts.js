@@ -1,9 +1,17 @@
 import {tree} from 'd3-hierarchy';
 /* eslint-disable no-unused-vars */
-import {linkRadial, linkVertical} from 'd3-shape';
+import {linkRadial, linkVertical, linkHorizontal} from 'd3-shape';
 /* eslint-enable no-unused-vars */
-import {scaleLinear} from 'd3-scale';
+import {scaleLinear, scaleLog, scalePow} from 'd3-scale';
 import {radialToCartesian} from './utils';
+
+function xRange(width, margin) {
+  return [margin.left, width - margin.left - margin.right];
+}
+
+function yRange(height, margin) {
+  return [margin.top, height - margin.top - margin.bottom];
+}
 
 function getDomain(root, accessor = d => [d.x, d.y]) {
   return root.descendants().reduce((acc, row) => {
@@ -26,9 +34,9 @@ function getDomain(root, accessor = d => [d.x, d.y]) {
 const treeLayout = {
   layout: () => tree().size([1, 1]),
   getXScale: ({width, margin}) =>
-    scaleLinear().domain([0, 1]).range([margin.left, width - margin.left - margin.right]),
+    scaleLinear().domain([0, 1]).range(xRange(width, margin)),
   getYScale: ({height, margin}) =>
-    scaleLinear().domain([0, 1]).range([margin.top, height - margin.top - margin.bottom]),
+    scaleLinear().domain([0, 1]).range(yRange(height, margin)),
   positioning: (xScale, yScale) => d => [xScale(d.x), yScale(d.y)],
   path: (xScale, yScale) => linkVertical().x(d => xScale(d.x)).y(d => yScale(d.y)),
   offset: () => ''
@@ -97,11 +105,11 @@ const balloonLayout = {
   },
   getXScale: ({width, margin}, root) => {
     const {xMin, xMax} = getDomain(root);
-    return scaleLinear().domain([xMin, xMax]).range([margin.left, width - margin.left - margin.right]);
+    return scaleLinear().domain([xMin, xMax]).range(xRange(width, margin));
   },
   getYScale: ({height, margin}, root) => {
     const {yMin, yMax} = getDomain(root);
-    return scaleLinear().domain([yMin, yMax]).range([margin.top, height - margin.top - margin.bottom]);
+    return scaleLinear().domain([yMin, yMax]).range(yRange(height, margin));
   },
   positioning: (xScale, yScale) => d => [xScale(d.x), yScale(d.y)],
   // path: (xScale, yScale) => linkVertical().x(d => xScale(d.x)).y(d => yScale(d.y)),
@@ -114,6 +122,50 @@ const balloonLayout = {
   offset: () => ''
 };
 
+const timeEmbedY = {
+  layout: () => tree().size([1, 1]),
+  getXScale: ({width, margin}, root) => {
+    const {xMin, xMax} = getDomain(root, d => [d.x, d.data.time]);
+    return scaleLinear().domain([xMin, xMax]).range(xRange(width, margin));
+  },
+  getYScale: ({height, margin}, root) => {
+    const {yMin, yMax} = getDomain(root, d => [d.x, d.data.time]);
+    return scaleLog().domain([yMin, yMax]).range(yRange(height, margin));
+  },
+  positioning: (xScale, yScale) => d => [xScale(d.x), yScale(d.data.time)],
+  path: (xScale, yScale) => linkVertical().x(d => xScale(d.x)).y(d => yScale(d.data.time)),
+  offset: () => ''
+};
+
+const timeEmbedX = {
+  layout: () => {
+    const layout = tree().size([1, 1]);
+    return input => {
+      const root = layout(input);
+      root.descendants().forEach(node => {
+        const hold = node.x;
+        node.x = node.y;
+        node.y = hold;
+      });
+      return root;
+    };
+  },
+  getXScale: ({width, margin}, root) => {
+    const {xMin, xMax} = getDomain(root, d => [d.data.time, d.y]);
+    const scale = scalePow().exponent(0.2).domain([1, (xMax - xMin)]).range(xRange(width, margin));
+    return value => {
+      return scale(value - xMin + 1);
+    };
+  },
+  getYScale: ({height, margin}, root) => {
+    const {yMin, yMax} = getDomain(root, d => [d.data.time, d.y]);
+    return scaleLinear().domain([yMin, yMax]).range(yRange(height, margin));
+  },
+  positioning: (xScale, yScale) => d => [xScale(d.data.time), yScale(d.y)],
+  path: (xScale, yScale) => linkHorizontal().x(d => xScale(d.data.time)).y(d => yScale(d.y)),
+  offset: () => ''
+};
+
 const ringLayout = {
   layout: () => tree().size([2 * Math.PI, 1])
     .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth),
@@ -122,12 +174,12 @@ const ringLayout = {
   // getYScale: ({height}) => scaleLinear().domain([0, 1]).range([0, height / 2]),
   getXScale: ({width, margin}, root) => {
     const {xMin, xMax} = getDomain(root, d => radialToCartesian(d.x, d.y));
-    return scaleLinear().domain([xMin, xMax]).range([margin.left, width - margin.left - margin.right]);
+    return scaleLinear().domain([xMin, xMax]).range(xRange(width, margin));
   },
   getYScale: ({height, margin}, root) => {
     const {yMin, yMax} = getDomain(root, d => radialToCartesian(d.x, d.y));
     // console.log(yMin, yMax)
-    return scaleLinear().domain([yMin, yMax]).range([margin.top, height - margin.top - margin.bottom]);
+    return scaleLinear().domain([yMin, yMax]).range(yRange(height, margin));
   },
   positioning: (xScale, yScale) => d => {
     const pos = radialToCartesian(d.x, d.y);
@@ -150,8 +202,10 @@ const ringLayout = {
 export const layouts = {
   tree: treeLayout,
   balloon: balloonLayout,
-  ring: ringLayout
+  ring: ringLayout,
+  timeX: timeEmbedX,
+  timeY: timeEmbedY
 };
 
 // this is imported into the reducer and used to order the layouts
-export const graphLayouts = ['ring', 'balloon', 'tree'];
+export const graphLayouts = ['timeX', 'timeY', 'ring', 'balloon', 'tree'];
