@@ -4,7 +4,6 @@ import Immutable, {Map} from 'immutable';
 import {DEV_MODE} from '../constants';
 import {graphLayouts} from '../layouts';
 import TestData from '../constants/test-data.json';
-// import lda from 'lda';
 
 const DEFAULT_STATE = Immutable.fromJS({
   // TODO i think itemId is unused

@@ -6511,6 +6511,10 @@ websocket-extensions@>=0.1.1:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.3.tgz#5d2ff22977003ec687a4b87073dfbbac146ccf29"
 
+webworkify-webpack@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/webworkify-webpack/-/webworkify-webpack-2.1.3.tgz#a3c694f7e0e67fc0479cb29f42860c27ce3b6ef5"
+
 whatwg-fetch@>=0.10.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"

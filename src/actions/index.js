@@ -1,3 +1,16 @@
+import work from 'webworkify-webpack';
+const topicModeler = work(require.resolve('../workers/topic-modeling.js'));
+
+export function modelData(data) {
+  return dispatch => {
+    topicModeler.addEventListener('message', function waitForMessage(event) {
+      removeEventListener('message', waitForMessage);
+      dispatch({type: 'topic-modeling', data: event.data});
+    });
+    topicModeler.postMessage(data);
+  };
+}
+
 export function startGetItem(itemId) {
   return dispatch => dispatch({type: 'start-request', payload: {itemId}});
 }
@@ -10,6 +23,13 @@ export function getItem(itemId, isRoot) {
       dispatch({
         type: 'get-item',
         payload: result,
+        isRoot
+      });
+    })
+    .catch(() => {
+      dispatch({
+        type: 'get-item',
+        payload: null,
         isRoot
       });
     });

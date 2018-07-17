@@ -13,7 +13,7 @@ import TestOrder from './constants/test-order';
 
 let givenOrder = [...document.querySelectorAll('.comtr')].map(el => {
   const id = el.getAttribute('id');
-  const gatheredDetail = {id, upvoteLink: '', replyLink: ''};
+  const gatheredDetail = {id, upvoteLink: '', replyLink: '', textContent: ''};
   const upvoteLink = el.querySelector('.votelinks a');
   if (upvoteLink) {
     gatheredDetail.upvoteLink = upvoteLink.getAttribute('href');
@@ -21,6 +21,10 @@ let givenOrder = [...document.querySelectorAll('.comtr')].map(el => {
   const replyLink = el.querySelector('.reply a');
   if (replyLink) {
     gatheredDetail.replyLink = replyLink.getAttribute('href');
+  }
+  const textContent = el.querySelector('.comment');
+  if (textContent) {
+    gatheredDetail.textContent = textContent.textContent;
   }
   return gatheredDetail;
 });
