@@ -5820,7 +5820,7 @@ statuses@~1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.4.0.tgz#bb73d446da2796106efcc1b601a253d6c46bd087"
 
-stem-porter@*:
+stem-porter@*, stem-porter@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/stem-porter/-/stem-porter-0.0.1.tgz#591a8b0d696c34252af593535228430a34de7001"
 
