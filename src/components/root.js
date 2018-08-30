@@ -11,9 +11,11 @@ import Header from './header';
 class RootComponent extends React.Component {
   componentWillMount() {
     this.props.setFoundOrder(this.props.foundOrder);
-    this.props.modelData(this.props.foundOrder.map(({textContent}) =>
-      textContent.replace(/reply↵ /g, '').replace(/↵\s*/g, ''))
-    );
+    const rootItem = (window.location.search || '?id=17338700').split('?id=')[1];
+    this.props.modelData(rootItem);
+    // this.props.modelData(this.props.foundOrder.map(({textContent}) =>
+    //   textContent.replace(/reply↵ /g, '').replace(/↵\s*/g, ''))
+    // );
   }
 
   componentDidMount() {

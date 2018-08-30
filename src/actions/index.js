@@ -1,13 +1,10 @@
-import work from 'webworkify-webpack';
-const topicModeler = work(require.resolve('../workers/topic-modeling.js'));
-
-export function modelData(data) {
+export function modelData(item) {
   return dispatch => {
-    topicModeler.addEventListener('message', function waitForMessage(event) {
-      removeEventListener('message', waitForMessage);
-      dispatch({type: 'topic-modeling', data: event.data});
-    });
-    topicModeler.postMessage(data);
+    fetch(`http://localhost:3000/?item=${item}`, {
+      mode: 'cors'
+    })
+    .then(d => d.json())
+    .then(d => console.log(d));
   };
 }
 
