@@ -3,15 +3,18 @@ import {pie} from 'd3-shape';
 import {getDomain, xRange, yRange} from '../utils';
 
 // code cribbed from elijah meeks d3.layout.orbit
-function tickRadianFunction() {
-  return 1;
-}
+// function tickRadianFunction() {
+//   return 1;
+// }
+const tickRadianFunction = d => d.depth;
 
 function orbitStart(flattenedNodes, orbitalRings) {
   flattenedNodes.forEach(node => {
-    if (node.parent) {
-      node.x = node.parent.x + (node.parent.ring / 2) * Math.sin(node.angle + tickRadianFunction(node));
-      node.y = node.parent.y + (node.parent.ring / 2) * Math.cos(node.angle + tickRadianFunction(node));
+    const parent = node.parent;
+    if (parent) {
+      const angle = node.angle + tickRadianFunction(node);
+      node.x = parent.x + (parent.ring / 2) * Math.sin(angle);
+      node.y = parent.y + (parent.ring / 2) * Math.cos(angle);
     }
   });
 
@@ -22,26 +25,13 @@ function orbitStart(flattenedNodes, orbitalRings) {
 }
 
 const orbitSize = [100, 100];
-const childrenAccessor = d => d.children;
-const orbitDepthAdjust = _ => 7;
-function calculateNodes(nestedNodes, flattenedNodes, orbitalRings) {
-  const data = nestedNodes;
-  let orbitNodes;
-  // If you have an array of elements, then create a root node (center)
-  // In the future, maybe make a binary star kind of thing?
-  if (!childrenAccessor(data)) {
-    orbitNodes = {key: 'root', values: data};
-    childrenAccessor(orbitNodes).forEach(node => {
-      node.parent = orbitNodes;
-    });
-  } else {
-    // otherwise assume it is an object with a root node
-    orbitNodes = data;
-  }
+const getChildren = d => d.children;
+const orbitDepthAdjust = () => 5;
+function calculateNodes(orbitNodes, flattenedNodes, orbitalRings) {
   orbitNodes.x = orbitSize[0] / 2;
   orbitNodes.y = orbitSize[1] / 2;
   orbitNodes.deltaX = x => x;
-  orbitNodes.deltaY = _y => _y;
+  orbitNodes.deltaY = y => y;
   orbitNodes.ring = orbitSize[0] / 2;
   orbitNodes.depth = 0;
 
@@ -50,14 +40,14 @@ function calculateNodes(nestedNodes, flattenedNodes, orbitalRings) {
   traverseNestedData(orbitNodes);
 
   function traverseNestedData(node) {
-    if (childrenAccessor(node)) {
-      const thisPie = pie().value(d => childrenAccessor(d) ? 4 : 1);
-      const piedValues = thisPie(childrenAccessor(node));
+    if (getChildren(node)) {
+      const thisPie = pie().value(d => getChildren(d) ? 4 : 1);
+      const piedValues = thisPie(getChildren(node));
 
       orbitalRings.push({source: node, x: node.x, y: node.y, r: node.ring / 2});
 
-      for (let x = 0; x < childrenAccessor(node).length; x++) {
-        const child = childrenAccessor(node)[x];
+      for (let x = 0; x < getChildren(node).length; x++) {
+        const child = getChildren(node)[x];
         child.angle = ((piedValues[x].endAngle - piedValues[x].startAngle) / 2) + piedValues[x].startAngle;
 
         child.parent = node;
