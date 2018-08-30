@@ -1,1 +1,1 @@
-export const DEV_MODE = false; // eslint-disable-line;
+export const DEV_MODE = true; // eslint-disable-line;

@@ -117,9 +117,7 @@ const actionFuncMap = {
 function base(state = DEFAULT_STATE, action) {
   const {type, payload} = action;
   const response = actionFuncMap[type];
-  const xx = response ? response(state, payload) : state;
-  console.log(xx.get('responsesExpected'), xx.get('responsesObserved'))
-  return xx;
+  return response ? response(state, payload) : state;
 }
 
 export default createStore(
