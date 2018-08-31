@@ -3,19 +3,7 @@ import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 
 import Graph from './graph';
-
-const COLORS = [
-  // 'red',
-  // 'green',
-  // 'blue',
-  // 'yellow',
-  // 'orange'
-  '#BA0009',
-  '#DAD2D8',
-  '#0F8B8D',
-  '#EC9A29',
-  '#143642'
-]
+import TopicBadge from './topic-badge';
 
 class GraphPanel extends React.Component {
   state = {
@@ -41,15 +29,7 @@ class GraphPanel extends React.Component {
     return (
       <div className="panel" ref="graphPanel">
         <div className="flex">
-          {model && model.map((d, i) => {
-            return (
-              <div 
-                key={`${d}-${i}`}
-                className={`topic-badge topic-badge-${i}`}>
-                {d[0].term}
-              </div>
-            );
-          })}
+          {(model || []).map((d, i) => <TopicBadge modelIndex={i} model={d} key={i}/>)}
         </div>
         <Graph
           {...this.props}
