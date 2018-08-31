@@ -208,4 +208,4 @@ export const layouts = {
 };
 
 // this is imported into the reducer and used to order the layouts
-export const graphLayouts = ['timeX', 'timeY', 'ring', 'balloon', 'tree'];
+export const graphLayouts = ['ring', 'timeX', 'timeY', 'balloon', 'tree'];

@@ -4,7 +4,7 @@ export function modelData(item) {
       mode: 'cors'
     })
     .then(d => d.json())
-    .then(d => console.log(d));
+    .then(payload => dispatch({type: 'model-data', payload}));
   };
 }
 
