@@ -103,7 +103,11 @@ function renderComment(props, item, idx) {
 class CommentPanel extends React.Component {
   render() {
     return (
-      <div className="panel overflow-y" >
+      <div
+        className={classnames({
+          'overflow-y': true,
+          panel: this.props.showGraph
+        })}>
         {this.props.itemsToRender
         //   .sort((a, b) => {
         //   return a.get('depth') === b.get('depth') ?

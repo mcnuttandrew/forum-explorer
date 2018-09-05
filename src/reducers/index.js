@@ -14,6 +14,9 @@ const DEFAULT_CONFIGS = [{
 }, {
   name: 'topic modeling',
   options: ['on', 'off'].map((name, idx) => ({name, selected: !idx}))
+}, {
+  name: 'show graph',
+  options: ['on', 'off'].map((name, idx) => ({name, selected: !idx}))
 }];
 
 const DEFAULT_STATE = Immutable.fromJS({

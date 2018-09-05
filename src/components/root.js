@@ -37,6 +37,7 @@ class RootComponent extends React.Component {
       .reduce((acc, row) => acc.set(row.get('id'), true), Map());
 
     const showModeling = getSelectedOption(this.props.configs, 2) === 'on';
+    const showGraph = getSelectedOption(this.props.configs, 3) === 'on';
     return (
       <div
         className={classnames({
@@ -60,7 +61,7 @@ class RootComponent extends React.Component {
         {
           !this.props.loading && <div
             className="flex full-size background-gray main-container">
-            <GraphPanel
+            {showGraph && <GraphPanel
               commentSelectionLock={this.props.commentSelectionLock}
               configs={this.props.configs}
               data={this.props.data}
@@ -70,11 +71,12 @@ class RootComponent extends React.Component {
               setSelectedCommentPath={this.props.setSelectedCommentPath}
               selectedMap={selectedMap}
               toggleCommentSelectionLock={this.props.toggleCommentSelectionLock}
-              />
+              />}
             <CommentPanel
               setHoveredComment={this.props.setHoveredComment}
               setSelectedCommentPath={this.props.setSelectedCommentPath}
               model={this.props.model}
+              showGraph={showGraph}
               itemPath={this.props.itemPath}
               itemsToRender={
                 this.props.itemsToRender.size ? this.props.itemsToRender : this.props.data

@@ -9,7 +9,11 @@ yarn
 
 yarn start
 ```
-Point your browser to 8080
+Point your browser to 8080. For topic modeling it is also necessary to have the model server running, this can be done by running
+
+```sh
+yarn serve
+```
 
 To create a build, make sure development mode is off (see constants file) run
 
@@ -21,3 +25,5 @@ TODO:
 - experiment with force direct graphs?
 - write tests
 - search?
+- persist settings
+- automatic defaults
