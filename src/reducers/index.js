@@ -4,7 +4,6 @@ import Immutable, {Map} from 'immutable';
 import {DEV_MODE} from '../constants';
 import {graphLayouts} from '../layouts';
 import TestData from '../constants/test-data.json';
-// import lda from 'lda';
 
 const DEFAULT_STATE = Immutable.fromJS({
   // TODO i think itemId is unused
@@ -19,8 +18,21 @@ const DEFAULT_STATE = Immutable.fromJS({
   graphLayout: graphLayouts[0],
   loading: !DEV_MODE,
   commentSelectionLock: false,
-  foundOrderMap: {}
+  foundOrderMap: {},
+  model: null
 });
+
+function modelComment(model, text) {
+  return model.reduce((acc, row, modelIndex) => {
+    const modelScore = row.reduce((score, feature) => {
+      return score + (text.includes(feature.term) ? feature.probability : 0);
+    }, 0);
+    if (modelScore > acc.modelScore) {
+      return {modelScore, modelIndex};
+    }
+    return acc;
+  }, {modelIndex: null, modelScore: -Infinity});
+}
 
 const startRequest = (state, payload) => state
   .set('toRequest', state.get('toRequest').filter(d => d !== payload.itemId));
@@ -53,11 +65,15 @@ const getItem = (state, payload) => {
 
   const metadata = state.getIn(['foundOrderMap', `${payload.id}`]) ||
     Map({upvoteLink: null, replyLink: null});
+
+  const evalModel = modelComment(state.get('model') || [], payload.text || '');
+
   const updatededData = state.get('data').push(Immutable.fromJS({
     ...payload,
     depth,
     upvoteLink: metadata.get('upvoteLink'),
-    replyLink: metadata.get('replyLink')
+    replyLink: metadata.get('replyLink'),
+    modeledTopic: evalModel.modelIndex
   }));
 
   const updatededState = state
@@ -69,12 +85,6 @@ const getItem = (state, payload) => {
 
   if (loadingStateChange) {
     const rootId = state.getIn(['data', 0, 'id']);
-    // LDA EXAMPLE STUFF!! IF KEEP PUSH TO WEBWORKER
-    // const startTime = new Date().getTime();
-    // const xxx = lda(state.get('data').toJS().map(d => d.text), 3, 1);
-    // const endTime = new Date().getTime();
-    // console.log(`TOOK: ${(endTime - startTime) / 1000} seconds`)
-    // console.log(xxx)
     return setCommentPath(updatededState.set('loading', false), {path: [rootId]});
   }
   return updatededState;
@@ -104,7 +114,18 @@ const setFoundOrder = (state, payload) => {
   return state.set('foundOrderMap', Immutable.fromJS(foundOrderMap));
 };
 
+const modelData = (state, payload) => {
+  console.log(payload)
+  return state
+    .set('model', payload)
+    .set('data', state.get('data').map(row => {
+      const evalModel = modelComment(payload, row.get('text') || '');
+      return row.set('modeledTopic', evalModel);
+    }));
+};
+
 const actionFuncMap = {
+  'model-data': modelData,
   'start-request': startRequest,
   'get-item': getItem,
   'set-comment-path': setCommentPath,

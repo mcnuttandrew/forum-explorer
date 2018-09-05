@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 
 import Graph from './graph';
+import TopicBadge from './topic-badge';
 
 class GraphPanel extends React.Component {
   state = {
@@ -24,8 +25,12 @@ class GraphPanel extends React.Component {
   }
 
   render() {
+    const {model} = this.props;
     return (
       <div className="panel" ref="graphPanel">
+        <div className="flex">
+          {(model || []).map((d, i) => <TopicBadge modelIndex={i} model={d} key={i}/>)}
+        </div>
         <Graph
           {...this.props}
           height={this.state.height}
