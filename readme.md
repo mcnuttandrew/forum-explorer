@@ -18,7 +18,6 @@ To create a build, make sure development mode is off (see constants file) run
 ```
 
 TODO:
-- Enable commenting (login/reply button/post button)
 - experiment with force direct graphs?
 - write tests
 - search?
