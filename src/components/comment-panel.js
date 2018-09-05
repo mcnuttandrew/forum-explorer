@@ -40,7 +40,8 @@ function renderComment(props, item, idx) {
     itemPath,
     setHoveredComment,
     hoveredComment,
-    setSelectedCommentPath
+    setSelectedCommentPath,
+    model
   } = props;
   /* eslint-disable react/no-danger */
   return (
@@ -61,6 +62,15 @@ function renderComment(props, item, idx) {
           >
           {'▲ '}
         </a>
+        <span
+          className={classnames({
+            'topic-box': true,
+            [`topic-box-${item.get('modeledTopic')}`]: true
+          })}
+          title={`This comment is related to the content topic "${model[item.get('modeledTopic')][0].term}"`}
+          >
+          {'▇ '}
+        </span>
         <a
           href={`https://news.ycombinator.com/user?id=${item.get('by')}`}
           >{item.get('by')}</a>
@@ -100,10 +110,6 @@ class CommentPanel extends React.Component {
         .map((item, idx) => {
           const component = item.get('type') === 'story' ? renderStoryHead : renderComment;
           return component(this.props, item, idx);
-          // if (item.get('type') === 'story') {
-          //   return renderStoryHead(this.props, item, idx);
-          // }
-          // return renderComment(this.props, item, idx);
         })}
       </div>
     );

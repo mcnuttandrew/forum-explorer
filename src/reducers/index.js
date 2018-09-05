@@ -115,12 +115,11 @@ const setFoundOrder = (state, payload) => {
 };
 
 const modelData = (state, payload) => {
-  console.log(payload)
   return state
     .set('model', payload)
     .set('data', state.get('data').map(row => {
       const evalModel = modelComment(payload, row.get('text') || '');
-      return row.set('modeledTopic', evalModel);
+      return row.set('modeledTopic', evalModel.modelIndex);
     }));
 };
 

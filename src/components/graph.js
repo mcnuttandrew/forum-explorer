@@ -91,11 +91,10 @@ class Graph extends React.Component {
     const nodesG = select(ReactDOM.findDOMNode(this.refs.nodes));
     const translateFunc = arr => `translate(${arr.join(',')})`;
     const evalCircClasses = d => {
-      // console.log(d.data.modeledTopic)
       return classnames({
         node: true,
-        // 'node-internal': d.children,
-        // 'node-leaf': !d.children,
+        'node-internal': d.children,
+        'node-leaf': !d.children,
         'node-selected': selectedMap.get(d.data.id),
         'node-hovered': d.data.id === hoveredComment,
         [`node-topic-modeled-${d.data.modeledTopic}`]: true

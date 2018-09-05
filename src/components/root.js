@@ -67,6 +67,7 @@ class RootComponent extends React.Component {
             <CommentPanel
               setHoveredComment={this.props.setHoveredComment}
               setSelectedCommentPath={this.props.setSelectedCommentPath}
+              model={this.props.model}
               itemPath={this.props.itemPath}
               itemsToRender={
                 this.props.itemsToRender.size ? this.props.itemsToRender : this.props.data
@@ -91,7 +92,7 @@ function mapStateToProps({base}) {
     responsesExpected: base.get('responsesExpected'),
     responsesObserved: base.get('responsesObserved'),
     rootId: base.getIn(['data', 0, 'id']),
-    model: base.get('model')
+    model: base.get('model') || []
   };
 }
 
