@@ -15,7 +15,7 @@ class TopicBadge extends React.Component {
           });
         }}
         className={`topic-badge topic-badge-${modelIndex}`}>
-        {model[termIndex].term}
+        {model[termIndex] && model[termIndex].term || ''}
       </div>
     );
   }

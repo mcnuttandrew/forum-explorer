@@ -67,18 +67,23 @@ body,
   fill: #555;
 }
 
+.model-loading .node-selected {
+  fill: #ff6600;
+}
+
+.model-loading .node-selected {
+  border: steelblue;
+  stroke: steelblue;
+}
+
 .node.node-selected {
-  /* fill: #ff6600; */
   stroke: black;
   stroke-width: 2px;
   transition: fill 0.2s;
 }
 
 .node.node-hovered {
-  /* border: steelblue; */
-  /* stroke: steelblue; */
   stroke-width: 4px;
-  /* fill: steelblue; */
   transition: stroke-width 0.2s;
 }
 
@@ -136,6 +141,7 @@ body,
 .topic-badge {
   color: #fff;
   cursor: pointer;
+  font-size: 10px;
   padding: 0 10px;
 }
 
@@ -274,4 +280,13 @@ a.header-link:visited {
   font-size: 8pt;
   padding-right: 10px;
   text-decoration: underline;
+}
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

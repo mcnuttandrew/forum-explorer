@@ -44,6 +44,9 @@ function renderComment(props, item, idx) {
     model
   } = props;
   /* eslint-disable react/no-danger */
+
+  const subModel = model[item.get('modeledTopic')];
+  const modeledTopic = subModel && subModel[0] && subModel[0].term;
   return (
     <div
       onMouseEnter={() => setHoveredComment(item)}
@@ -62,15 +65,15 @@ function renderComment(props, item, idx) {
           >
           {'▲ '}
         </a>
-        <span
+        {modeledTopic && <span
           className={classnames({
             'topic-box': true,
             [`topic-box-${item.get('modeledTopic')}`]: true
           })}
-          title={`This comment is related to the content topic "${model[item.get('modeledTopic')][0].term}"`}
+          title={`This comment is related to the content topic "${modeledTopic}"`}
           >
           {'▇ '}
-        </span>
+        </span>}
         <a
           href={`https://news.ycombinator.com/user?id=${item.get('by')}`}
           >{item.get('by')}</a>

@@ -4,6 +4,7 @@ import * as actionCreators from '../actions';
 import {Map} from 'immutable';
 
 import {DEV_MODE} from '../constants';
+import {classnames} from '../utils';
 import GraphPanel from './graph-panel';
 import CommentPanel from './comment-panel';
 import Header from './header';
@@ -39,7 +40,12 @@ class RootComponent extends React.Component {
     const selectedMap = this.props.itemsToRender
       .reduce((acc, row) => acc.set(row.get('id'), true), Map());
     return (
-      <div className="flex-down full-size" >
+      <div
+        className={classnames({
+          'flex-down': true,
+          'full-size': true,
+          'model-loading': !this.props.model.length
+        })}>
         <Header
           rootId={this.props.rootId}
           userKarma={this.props.userKarma}

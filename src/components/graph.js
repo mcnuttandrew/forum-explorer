@@ -163,7 +163,7 @@ class Graph extends React.Component {
           opacity="0"
           />
         }
-        <text x={20} y={height - 20} className="legend">
+        <text x={20} y={height - 20} className="legend unselectable">
           click to un/lock selection
         </text>
       </svg>
