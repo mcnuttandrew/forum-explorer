@@ -1,14 +1,55 @@
 import React from 'react';
+import {classnames} from '../utils';
+
+function tooltip(configs, setConfig, toggleTooltip) {
+  return (
+    <div
+      className="tooltip">
+      <div className="tooltip-header">
+        <div
+          className="tooltip-close"
+          onClick={toggleTooltip}>X</div>
+      </div>
+      {configs.map((row, rowIdx) => {
+        return (<div
+          className="tooltip-row"
+          key={row.get('name')}>
+          <div className="tooltip-row-name">{row.get('name')}</div>
+          <div className="tooltip-row-options-container">
+            {row.get('options').map((option, valueIdx) => {
+              return (<div
+                key={`${option.get('name')}-${row.get('name')}`}
+                className={classnames({
+                  'tooltip-row-option': true,
+                  'tooltip-row-option-selected': option.get('selected')
+                })}
+                onClick={() => setConfig(rowIdx, valueIdx)}
+                >{option.get('name')}</div>);
+            })}
+          </div>
+        </div>);
+      })}
+    </div>
+  );
+}
 
 class Header extends React.Component {
+  state = {
+    tooltipOpen: false
+  }
+
   render() {
+    const {tooltipOpen} = this.state;
     const {
       rootId,
       username,
-      toggleGraphLayout,
+      setConfig,
       logoutLink,
-      userKarma
+      userKarma,
+      configs
     } = this.props;
+
+    const toggleTooltip = () => this.setState({tooltipOpen: !tooltipOpen});
 
     return (
       <div className="header" >
@@ -21,9 +62,11 @@ class Header extends React.Component {
         {['new', 'comments', 'show', 'ask', 'job', 'submit'].map(link => {
           return <a className="header-link" href={link} key={link}>{link}</a>;
         })}
-        <a
-          onClick={toggleGraphLayout}
-          className="header-link">change graph</a>
+        <a onClick={toggleTooltip}>settings</a>
+        {tooltipOpen && <div onClick={toggleTooltip} className="tooltip-background" />}
+        {tooltipOpen && <div className="tooltip-container">
+          {tooltip(configs, setConfig, toggleTooltip)}
+        </div>}
         <div className="right-links-container">
           {username ?
             <div>

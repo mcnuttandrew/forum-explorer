@@ -5,6 +5,17 @@ import {DEV_MODE} from '../constants';
 import {graphLayouts} from '../layouts';
 import TestData from '../constants/test-data.json';
 
+const DEFAULT_CONFIGS = [{
+  name: 'graph layout',
+  options: graphLayouts.map((name, idx) => ({name, selected: !idx}))
+}, {
+  name: 'dot size',
+  options: ['small', 'medium', 'large'].map((name, idx) => ({name, selected: idx === 1}))
+}, {
+  name: 'topic modeling',
+  options: ['on', 'off'].map((name, idx) => ({name, selected: !idx}))
+}];
+
 const DEFAULT_STATE = Immutable.fromJS({
   // TODO i think itemId is unused
   itemId: null,
@@ -15,11 +26,11 @@ const DEFAULT_STATE = Immutable.fromJS({
   itemsToRender: [],
   itemPath: [],
   hoveredComment: null,
-  graphLayout: graphLayouts[0],
   loading: !DEV_MODE,
   commentSelectionLock: false,
   foundOrderMap: {},
-  model: null
+  model: null,
+  configs: DEFAULT_CONFIGS
 });
 
 function modelComment(model, text) {
@@ -123,6 +134,13 @@ const modelData = (state, payload) => {
     }));
 };
 
+const setConfig = (state, {rowIdx, valueIdx}) => {
+  const rowToUpdate = state
+    .getIn(['configs', rowIdx, 'options'])
+    .map((d, idx) => d.set('selected', idx === valueIdx));
+  return state.setIn(['configs', rowIdx, 'options'], rowToUpdate);
+};
+
 const actionFuncMap = {
   'model-data': modelData,
   'start-request': startRequest,
@@ -130,6 +148,7 @@ const actionFuncMap = {
   'set-comment-path': setCommentPath,
   'set-hovered-comment': setHoveredComment,
   'set-found-order': setFoundOrder,
+  'set-config-value': setConfig,
   'toggle-graph-layout': toggleGraphLayout,
   'toggle-comment-selection-lock': toggleCommentSelectionLock
 };

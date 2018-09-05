@@ -59,3 +59,10 @@ export function getDomain(root, accessor = d => [d.x, d.y]) {
     yMax: -Infinity
   });
 }
+
+export function getSelectedOption(configs, optionIdx) {
+  return configs
+  .getIn([optionIdx, 'options'])
+  .filter(row => row.get('selected'))
+  .getIn([0, 'name']);
+}

@@ -43,8 +43,16 @@ export function setSelectedCommentPath(path) {
   };
 }
 
+// TODO delete
 export function toggleGraphLayout() {
   return dispatch => dispatch({type: 'toggle-graph-layout'});
+}
+
+export function setConfig(rowIdx, valueIdx) {
+  return dispatch => dispatch({
+    type: 'set-config-value',
+    payload: {rowIdx, valueIdx}
+  });
 }
 
 export function setHoveredComment(payload) {

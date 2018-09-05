@@ -5,6 +5,8 @@ const app = express();
 const request = require('request');
 const cheerio = require('cheerio');
 
+const log = msg => console.log(`${new Date().getTime()}: ${msg}`);
+
 function dedupeModel(model) {
   return model.reduce((acc, row) => {
     const modelTerm = row[0];
@@ -29,18 +31,17 @@ app.get('/', (req, res) => {
   if (!item) {
     return res.send('Invalid query');
   }
-  console.log(`request for ${item}`);
+  log(`request for ${item}`);
   const currentTime = new Date().getTime();
   const fiveMinutes = 5 * 60 * 1000;
   if (modelCache[item] && (modelCache[item].time - currentTime) < fiveMinutes) {
-    console.log(`request for ${item} fulfilled by cache`);
+    log(`request for ${item} fulfilled by cache`);
     // TODO: record cache hit, if cache hits happen to many times invalidate the cache
     return res.send(modelCache[item].model);
   }
 
   request(`https://news.ycombinator.com/item?id=${item}`, (error, response, html) => {
-    console.log(`recieved html for ${item}`);
-    // console.log(html)
+    log(`recieved html for ${item}`);
     if (!error && response.statusCode === 200) {
       const $ = cheerio.load(html);
       const texts = $('.comment').text()
@@ -48,9 +49,9 @@ app.get('/', (req, res) => {
         .split('\n')
         .map(d => d.trim())
         .filter(d => d.length);
-      console.log(`building model for ${item}`);
+      log(`building model for ${item}`);
       const model = lda(texts, 5, 15, ['en'], null, null, 10).filter(d => d.length);
-      console.log(`sending model for ${item}`);
+      log(`sending model for ${item}`);
       res.send(model);
       modelCache[item] = {
         time: currentTime,
@@ -60,5 +61,5 @@ app.get('/', (req, res) => {
   });
 });
 
-app.listen(3000, () => console.log('listening on 3000'));
+app.listen(3000, () => log('listening on 3000'));
 /* eslint-enable no-console */

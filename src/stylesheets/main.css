@@ -60,20 +60,27 @@ body,
 
 .node {
   cursor: pointer;
+}
+
+.no-model-coloring .node {
   fill: #999;
 }
 
-.node-internal {
+.no-model-coloring .node-internal {
   fill: #555;
 }
 
-.model-loading .node-selected {
+.no-model-coloring .node-selected {
   fill: #ff6600;
 }
 
-.model-loading .node-selected {
+.no-model-coloring .node-selected {
   border: steelblue;
   stroke: steelblue;
+}
+
+.no-model-coloring .topic-box {
+  display: none;
 }
 
 .node.node-selected {
@@ -289,4 +296,68 @@ a.header-link:visited {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+
+/* Tool tip stuff */
+.tooltip-background {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.tooltip-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.tooltip {
+  background: #f6f6f0;
+  box-shadow: 0 0 8px 3px rgba(0,0,0,0.50);
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  padding: 10px;
+  position: absolute;
+  width: 150px;
+  z-index: 100;
+}
+
+.tooltip-header {
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 8pt;
+}
+
+.tooltip-close {
+  cursor: pointer;
+}
+
+.tooltip-row {
+  padding: 5px 0;
+}
+
+.tooltip-row-options-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.tooltip-row-name {
+  font-size: 8pt;
+}
+
+.tooltip-row-option {
+  cursor: pointer;
+  padding: 0 3px;
+}
+
+.tooltip-row-option-selected {
+  color: black;
 }

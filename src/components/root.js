@@ -4,26 +4,22 @@ import * as actionCreators from '../actions';
 import {Map} from 'immutable';
 
 import {DEV_MODE} from '../constants';
-import {classnames} from '../utils';
+import {classnames, getSelectedOption} from '../utils';
 import GraphPanel from './graph-panel';
 import CommentPanel from './comment-panel';
 import Header from './header';
 
+const getId = () => (window.location.search || '?id=17338700').split('?id=')[1];
+
 class RootComponent extends React.Component {
   componentWillMount() {
     this.props.setFoundOrder(this.props.foundOrder);
-    const rootItem = (window.location.search || '?id=17338700').split('?id=')[1];
-    this.props.modelData(rootItem);
-    // this.props.modelData(this.props.foundOrder.map(({textContent}) =>
-    //   textContent.replace(/reply↵ /g, '').replace(/↵\s*/g, ''))
-    // );
+    this.props.modelData(getId());
   }
 
   componentDidMount() {
-    const rootItem = (window.location.search || '?id=17338700').split('?id=')[1];
     if (!DEV_MODE) {
-
-      this.props.getItem(rootItem, true);
+      this.props.getItem(getId(), true);
     }
   }
 
@@ -39,17 +35,21 @@ class RootComponent extends React.Component {
   render() {
     const selectedMap = this.props.itemsToRender
       .reduce((acc, row) => acc.set(row.get('id'), true), Map());
+
+    const showModeling = getSelectedOption(this.props.configs, 2) === 'on';
     return (
       <div
         className={classnames({
           'flex-down': true,
           'full-size': true,
-          'model-loading': !this.props.model.length
+          // TODO update to configs
+          'no-model-coloring': !showModeling || !this.props.model.length
         })}>
         <Header
+          configs={this.props.configs}
           rootId={this.props.rootId}
           userKarma={this.props.userKarma}
-          toggleGraphLayout={this.props.toggleGraphLayout}
+          setConfig={this.props.setConfig}
           logoutLink={this.props.logoutLink}
           username={this.props.username}/>
         {this.props.loading && <div className="flex full-size background-gray centering">
@@ -62,6 +62,7 @@ class RootComponent extends React.Component {
             className="flex full-size background-gray main-container">
             <GraphPanel
               commentSelectionLock={this.props.commentSelectionLock}
+              configs={this.props.configs}
               data={this.props.data}
               graphLayout={this.props.graphLayout}
               hoveredComment={this.props.hoveredComment}
@@ -86,19 +87,20 @@ class RootComponent extends React.Component {
 }
 
 function mapStateToProps({base}) {
+  // TODO alphabetize
   return {
     toRequest: base.get('toRequest'),
     data: base.get('data'),
     itemsToRender: base.get('itemsToRender'),
     itemPath: base.get('itemPath'),
-    graphLayout: base.get('graphLayout'),
     loading: base.get('loading'),
     hoveredComment: base.get('hoveredComment'),
     commentSelectionLock: base.get('commentSelectionLock'),
     responsesExpected: base.get('responsesExpected'),
     responsesObserved: base.get('responsesObserved'),
     rootId: base.getIn(['data', 0, 'id']),
-    model: base.get('model') || []
+    model: base.get('model') || [],
+    configs: base.get('configs')
   };
 }
 

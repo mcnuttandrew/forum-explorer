@@ -26,6 +26,18 @@ function extractIdPathToRoot(node) {
   }
 }
 
+const nodeSizes = {
+  small: 3,
+  medium: 7,
+  large: 10
+};
+
+const rootSizes = {
+  small: 7,
+  medium: 10,
+  large: 14
+};
+
 class Graph extends React.Component {
   componentDidMount() {
     this.updateChart(this.props);
@@ -40,7 +52,8 @@ class Graph extends React.Component {
     const {
       height,
       width,
-      graphLayout
+      graphLayout,
+      markSize
     } = props;
 
     if (!width || !height || !props.data.size) {
@@ -62,7 +75,7 @@ class Graph extends React.Component {
     const nodes = root.descendants();
 
     this.renderLinks(props, root, xScale, yScale);
-    this.renderNodes(props, nodes, positioning, xScale);
+    this.renderNodes(props, nodes, positioning, markSize);
     this.renderVoronoi(props, nodes, positioning);
   }
 
@@ -86,7 +99,7 @@ class Graph extends React.Component {
 
   }
 
-  renderNodes(props, nodes, positioning, xScale) {
+  renderNodes(props, nodes, positioning, markSize) {
     const {hoveredComment, toggleCommentSelectionLock, selectedMap} = props;
     const nodesG = select(ReactDOM.findDOMNode(this.refs.nodes));
     const translateFunc = arr => `translate(${arr.join(',')})`;
@@ -105,11 +118,12 @@ class Graph extends React.Component {
     node.enter().append('circle')
         .attr('class', evalCircClasses)
         .attr('transform', d => translateFunc(positioning(d)))
-        .attr('r', d => d.depth ? 7 : 10)
+        .attr('r', d => d.depth ? nodeSizes[markSize] : rootSizes[markSize])
         .on('click', toggleCommentSelectionLock);
 
     node.transition()
         .attr('transform', d => translateFunc(positioning(d)))
+        .attr('r', d => d.depth ? nodeSizes[markSize] : rootSizes[markSize])
         .attr('class', evalCircClasses);
   }
 

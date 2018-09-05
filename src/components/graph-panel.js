@@ -4,6 +4,7 @@ import debounce from 'lodash.debounce';
 
 import Graph from './graph';
 import TopicBadge from './topic-badge';
+import {getSelectedOption} from '../utils';
 
 class GraphPanel extends React.Component {
   state = {
@@ -25,14 +26,19 @@ class GraphPanel extends React.Component {
   }
 
   render() {
-    const {model} = this.props;
+    const {configs, model} = this.props;
+
+    const showTopics = getSelectedOption(configs, 2) === 'on';
+    const modelToMap = showTopics ? (model || []) : [];
     return (
       <div className="panel" ref="graphPanel">
         <div className="flex">
-          {(model || []).map((d, i) => <TopicBadge modelIndex={i} model={d} key={i}/>)}
+          {modelToMap.map((d, i) => <TopicBadge modelIndex={i} model={d} key={i}/>)}
         </div>
         <Graph
           {...this.props}
+          graphLayout={getSelectedOption(configs, 0)}
+          markSize={getSelectedOption(configs, 1)}
           height={this.state.height}
           width={this.state.width}
           />
