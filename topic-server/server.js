@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
         .map(d => d.trim())
         .filter(d => d.length);
       console.log(`building model for ${item}`);
-      const model = (lda(texts, 5, 15, ['en'], null, null, 10));
+      const model = lda(texts, 5, 15, ['en'], null, null, 10).filter(d => d.length);
       console.log(`sending model for ${item}`);
       res.send(model);
       modelCache[item] = {
