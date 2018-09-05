@@ -54,10 +54,7 @@ class Graph extends React.Component {
     const stratifyMap = stratify().id(d => d.id).parentId(d => d.parent);
     const treeEval = layouts[graphLayout].layout();
     const root = treeEval(stratifyMap(data));
-    // .sort((a, b) => {
-    //   // console.log(a.data.estimateScore, b.data.estimateScore)
-    //   return a.data.estimateScore - b.data.estimateScore;
-    // });
+
     const xScale = layouts[graphLayout].getXScale(props, root);
     const yScale = layouts[graphLayout].getYScale(props, root);
 

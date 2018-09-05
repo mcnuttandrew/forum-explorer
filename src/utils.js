@@ -33,3 +33,29 @@ export const radialToCartesian = (angle, radius) => [
   radius * Math.cos(angle - Math.PI / 2),
   radius * Math.sin(angle - Math.PI / 2)
 ];
+
+export function xRange(width, margin) {
+  return [margin.left, width - margin.left - margin.right];
+}
+
+export function yRange(height, margin) {
+  return [margin.top, height - margin.top - margin.bottom];
+}
+
+export function getDomain(root, accessor = d => [d.x, d.y]) {
+  return root.descendants().reduce((acc, row) => {
+    const pos = accessor(row);
+
+    return {
+      xMin: Math.min(acc.xMin, pos[0]),
+      xMax: Math.max(acc.xMax, pos[0]),
+      yMin: Math.min(acc.yMin, pos[1]),
+      yMax: Math.max(acc.yMax, pos[1])
+    };
+  }, {
+    xMin: Infinity,
+    xMax: -Infinity,
+    yMin: Infinity,
+    yMax: -Infinity
+  });
+}
