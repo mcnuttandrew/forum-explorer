@@ -1,3 +1,13 @@
+export function modelData(item) {
+  return dispatch => {
+    fetch(`http://localhost:3000/?item=${item}`, {
+      mode: 'cors'
+    })
+    .then(d => d.json())
+    .then(payload => dispatch({type: 'model-data', payload}));
+  };
+}
+
 export function startGetItem(itemId) {
   return dispatch => dispatch({type: 'start-request', payload: {itemId}});
 }
@@ -10,6 +20,13 @@ export function getItem(itemId, isRoot) {
       dispatch({
         type: 'get-item',
         payload: result,
+        isRoot
+      });
+    })
+    .catch(() => {
+      dispatch({
+        type: 'get-item',
+        payload: null,
         isRoot
       });
     });

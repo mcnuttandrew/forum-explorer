@@ -11,6 +11,11 @@ import Header from './header';
 class RootComponent extends React.Component {
   componentWillMount() {
     this.props.setFoundOrder(this.props.foundOrder);
+    const rootItem = (window.location.search || '?id=17338700').split('?id=')[1];
+    this.props.modelData(rootItem);
+    // this.props.modelData(this.props.foundOrder.map(({textContent}) =>
+    //   textContent.replace(/reply↵ /g, '').replace(/↵\s*/g, ''))
+    // );
   }
 
   componentDidMount() {
@@ -50,14 +55,15 @@ class RootComponent extends React.Component {
           !this.props.loading && <div
             className="flex full-size background-gray main-container">
             <GraphPanel
-            graphLayout={this.props.graphLayout}
-            data={this.props.data}
-            setSelectedCommentPath={this.props.setSelectedCommentPath}
-            selectedMap={selectedMap}
-            hoveredComment={this.props.hoveredComment}
-            toggleCommentSelectionLock={this.props.toggleCommentSelectionLock}
-            commentSelectionLock={this.props.commentSelectionLock}
-            />
+              commentSelectionLock={this.props.commentSelectionLock}
+              data={this.props.data}
+              graphLayout={this.props.graphLayout}
+              hoveredComment={this.props.hoveredComment}
+              model={this.props.model}
+              setSelectedCommentPath={this.props.setSelectedCommentPath}
+              selectedMap={selectedMap}
+              toggleCommentSelectionLock={this.props.toggleCommentSelectionLock}
+              />
             <CommentPanel
               setHoveredComment={this.props.setHoveredComment}
               setSelectedCommentPath={this.props.setSelectedCommentPath}
@@ -84,7 +90,8 @@ function mapStateToProps({base}) {
     commentSelectionLock: base.get('commentSelectionLock'),
     responsesExpected: base.get('responsesExpected'),
     responsesObserved: base.get('responsesObserved'),
-    rootId: base.getIn(['data', 0, 'id'])
+    rootId: base.getIn(['data', 0, 'id']),
+    model: base.get('model')
   };
 }
 
