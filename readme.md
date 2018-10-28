@@ -24,7 +24,6 @@ To create a build, make sure development mode is off (see constants file) run
 TODO:
 - experiment with force direct graphs?
 - write tests
-- search?
 - persist settings
 - automatic defaults
 - add annotation mode (eg we highlight which posts we think are the most important)

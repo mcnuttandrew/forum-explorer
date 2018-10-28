@@ -50,21 +50,21 @@ function modelComment(model, text) {
 }
 
 const startRequest = (state, payload) => state
-  .set('toRequest', state.get('toRequest').filter(d => d !== payload.itemId));
+  .set('toRequest', state.get('toRequest').filter(d => d !== payload));
 
 const setCommentPath = (state, payload) => {
-  const itemMap = payload.path.reduce((acc, row) => {
+  const itemMap = payload.reduce((acc, row) => {
     acc[row] = true;
     return acc;
   }, {});
   return state
     .set('itemsToRender',
       state.get('data').filter(row =>
-        (itemMap[row.get('id')] || (row.get('parent') === payload.path[0])) &&
+        (itemMap[row.get('id')] || (row.get('parent') === payload[0])) &&
         !row.get('deleted')
       )
     )
-    .set('itemPath', Immutable.fromJS(payload.path));
+    .set('itemPath', Immutable.fromJS(payload));
 };
 
 const getItem = (state, payload) => {
@@ -100,7 +100,7 @@ const getItem = (state, payload) => {
 
   if (loadingStateChange) {
     const rootId = state.getIn(['data', 0, 'id']);
-    return setCommentPath(updatededState.set('loading', false), {path: [rootId]});
+    return setCommentPath(updatededState.set('loading', false), [rootId]);
   }
   return updatededState;
 };
@@ -108,11 +108,6 @@ const getItem = (state, payload) => {
 const setHoveredComment = (state, payload) => {
   return state
     .set('hoveredComment', payload && payload.get('id') || null);
-};
-
-const toggleGraphLayout = (state, payload) => {
-  const currentIndex = graphLayouts.findIndex(d => state.get('graphLayout') === d);
-  return state.set('graphLayout', graphLayouts[(currentIndex + 1) % graphLayouts.length]);
 };
 
 const toggleCommentSelectionLock = (state, payload) => {
@@ -164,29 +159,28 @@ const setSearch = (state, payload) => {
   if (state.get('commentSelectionLock')) {
     return newState;
   }
-  return setCommentPath(newState, {path: []});
+  return setCommentPath(newState, []);
 };
 
 const actionFuncMap = {
+  'get-item': getItem,
   'model-data': modelData,
   'start-request': startRequest,
-  'get-item': getItem,
   'set-comment-path': setCommentPath,
-  'set-hovered-comment': setHoveredComment,
-  'set-found-order': setFoundOrder,
   'set-config-value': setConfig,
+  'set-found-order': setFoundOrder,
+  'set-hovered-comment': setHoveredComment,
   'set-search': setSearch,
-  'toggle-graph-layout': toggleGraphLayout,
   'toggle-comment-selection-lock': toggleCommentSelectionLock
 };
 
-function base(state = DEFAULT_STATE, action) {
-  const {type, payload} = action;
-  const response = actionFuncMap[type];
-  return response ? response(state, payload) : state;
-}
-
 export default createStore(
-  combineReducers({base}),
+  combineReducers({
+    base: function base(state = DEFAULT_STATE, action) {
+      const {type, payload} = action;
+      const response = actionFuncMap[type];
+      return response ? response(state, payload) : state;
+    }
+  }),
   applyMiddleware(thunk),
 );

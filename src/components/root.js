@@ -91,21 +91,20 @@ class RootComponent extends React.Component {
 }
 
 function mapStateToProps({base}) {
-  // TODO alphabetize
   return {
-    toRequest: base.get('toRequest'),
+    commentSelectionLock: base.get('commentSelectionLock'),
+    configs: base.get('configs'),
     data: base.get('data').filter(d => !d.get('deleted')),
+    hoveredComment: base.get('hoveredComment'),
     itemsToRender: base.get('itemsToRender'),
     itemPath: base.get('itemPath'),
     loading: base.get('loading'),
-    hoveredComment: base.get('hoveredComment'),
-    commentSelectionLock: base.get('commentSelectionLock'),
+    model: base.get('model') || [],
     responsesExpected: base.get('responsesExpected'),
     responsesObserved: base.get('responsesObserved'),
     rootId: base.getIn(['data', 0, 'id']),
-    model: base.get('model') || [],
-    configs: base.get('configs'),
-    searchValue: base.get('searchValue')
+    searchValue: base.get('searchValue'),
+    toRequest: base.get('toRequest')
   };
 }
 

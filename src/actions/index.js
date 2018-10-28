@@ -1,3 +1,11 @@
+const buildEasyAction = type => payload => dispatch => dispatch({type, payload});
+export const setHoveredComment = buildEasyAction('set-hovered-comment');
+export const toggleCommentSelectionLock = buildEasyAction('toggle-comment-selection-lock');
+export const setFoundOrder = buildEasyAction('set-found-order');
+export const setSearch = buildEasyAction('set-search');
+export const startGetItem = buildEasyAction('start-request');
+export const setSelectedCommentPath = buildEasyAction('set-comment-path');
+
 export function modelData(item) {
   return dispatch => {
     fetch(`http://localhost:3000/?item=${item}`, {
@@ -7,10 +15,6 @@ export function modelData(item) {
     .then(payload => dispatch({type: 'model-data', payload}))
     .catch(() => {});
   };
-}
-
-export function startGetItem(itemId) {
-  return dispatch => dispatch({type: 'start-request', payload: {itemId}});
 }
 
 export function getItem(itemId, isRoot) {
@@ -34,40 +38,9 @@ export function getItem(itemId, isRoot) {
   };
 }
 
-export function setSelectedCommentPath(path) {
-  return dispatch => {
-    dispatch({
-      type: 'set-comment-path',
-      payload: {path}
-    });
-  };
-}
-
-// TODO delete
-export function toggleGraphLayout() {
-  return dispatch => dispatch({type: 'toggle-graph-layout'});
-}
-
 export function setConfig(rowIdx, valueIdx) {
   return dispatch => dispatch({
     type: 'set-config-value',
     payload: {rowIdx, valueIdx}
   });
-}
-
-// TODO build HOF for generic actions
-export function setHoveredComment(payload) {
-  return dispatch => dispatch({type: 'set-hovered-comment', payload});
-}
-
-export function toggleCommentSelectionLock() {
-  return dispatch => dispatch({type: 'toggle-comment-selection-lock'});
-}
-
-export function setFoundOrder(payload) {
-  return dispatch => dispatch({type: 'set-found-order', payload});
-}
-
-export function setSearch(payload) {
-  return dispatch => dispatch({type: 'set-search', payload});
 }
