@@ -3,14 +3,18 @@ import React from 'react';
 import {classnames, timeSince} from '../utils';
 const createMarkup = __html => ({__html});
 
+function expandCallback(item, itemPath, setSelectedCommentPath) {
+  return e => {
+    const path = itemPath.toJS();
+    const itemIdx = path.findIndex(id => id === item.get('id'));
+    const newPath = itemIdx >= 0 ? path.slice(itemIdx) : [item.get('id')].concat(path);
+    setSelectedCommentPath(newPath);
+  };
+}
+
 function expandButton(item, itemPath, setSelectedCommentPath) {
   return (item.get('kids') && item.get('kids').size && <div
-    onClick={() => {
-      const path = itemPath.toJS();
-      const itemIdx = path.findIndex(id => id === item.get('id'));
-      const newPath = itemIdx >= 0 ? path.slice(itemIdx) : [item.get('id')].concat(path);
-      setSelectedCommentPath(newPath);
-    }}
+    onClick={expandCallback(item, itemPath, setSelectedCommentPath)}
     className="expand-comment">
     expand
   </div> || <div />);
@@ -47,6 +51,7 @@ function renderComment(props, item, idx) {
 
   const subModel = model[item.get('modeledTopic')];
   const modeledTopic = subModel && subModel[0] && subModel[0].term;
+  const hasChildren = item.get('kids') && item.get('kids').size;
   return (
     <div
       onMouseEnter={() => setHoveredComment(item)}
@@ -80,12 +85,14 @@ function renderComment(props, item, idx) {
         <span>{` ${timeSince(item.get('time'))} ago`}</span>
       </div>
       <div
+        onClick={expandCallback(item, itemPath, setSelectedCommentPath)}
         className={classnames({
           comment: true,
-          'hovered-comment': item.get('id') === hoveredComment
+          'hovered-comment': item.get('id') === hoveredComment,
+          'comment-no-expand': !hasChildren
         })}
         dangerouslySetInnerHTML={createMarkup(item.get('text'))}/>
-      <div className="flex">
+      <div className="flex comment-footer">
         {expandButton(item, itemPath, setSelectedCommentPath)}
         <a
           onClick={e => {

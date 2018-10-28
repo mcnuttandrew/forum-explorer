@@ -20,20 +20,18 @@ const DEFAULT_CONFIGS = [{
 }];
 
 const DEFAULT_STATE = Immutable.fromJS({
-  // TODO i think itemId is unused
-  itemId: null,
+  commentSelectionLock: false,
+  configs: DEFAULT_CONFIGS,
+  data: DEV_MODE ? TestData : [],
+  foundOrderMap: {},
+  hoveredComment: null,
+  itemsToRender: [],
+  itemPath: [],
+  loading: !DEV_MODE,
+  model: null,
   toRequest: [],
   responsesExpected: 1,
   responsesObserved: 0,
-  data: DEV_MODE ? TestData : [],
-  itemsToRender: [],
-  itemPath: [],
-  hoveredComment: null,
-  loading: !DEV_MODE,
-  commentSelectionLock: false,
-  foundOrderMap: {},
-  model: null,
-  configs: DEFAULT_CONFIGS,
   searchValue: ''
 });
 

@@ -269,20 +269,29 @@ a.header-link:visited {
 }
 
 .comment {
-  border-left: 1px solid rgba(0, 0, 0, 0);
+  border-left: 3px solid rgba(0, 0, 0, 0);
+  cursor: pointer;
   color: black;
   font-family: Verdana, Geneva, sans-serif;
   font-size: 9pt;
   padding-left: 2px;
 }
 
+.comment-no-expand {
+  cursor: auto;
+}
+
 .comment-block:hover .comment {
-  border-left: 1px solid #ff6600;
+  border-left: 3px solid #ff6600;
 }
 
 .comment-head .up-arrow {
   cursor: pointer;
   font-size: 9px;
+}
+
+.comment-footer {
+  margin-left: 3px;
 }
 
 .expand-comment {
