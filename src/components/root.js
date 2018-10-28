@@ -92,7 +92,7 @@ function mapStateToProps({base}) {
   // TODO alphabetize
   return {
     toRequest: base.get('toRequest'),
-    data: base.get('data'),
+    data: base.get('data').filter(d => !d.get('deleted')),
     itemsToRender: base.get('itemsToRender'),
     itemPath: base.get('itemPath'),
     loading: base.get('loading'),
