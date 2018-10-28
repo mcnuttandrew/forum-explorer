@@ -4,6 +4,7 @@ import debounce from 'lodash.debounce';
 
 import Graph from './graph';
 import TopicBadge from './topic-badge';
+import SearchBox from './search-box';
 import {getSelectedOption} from '../utils';
 
 class GraphPanel extends React.Component {
@@ -26,13 +27,14 @@ class GraphPanel extends React.Component {
   }
 
   render() {
-    const {configs, model} = this.props;
+    const {configs, model, setSearch, searchValue} = this.props;
 
     const showTopics = getSelectedOption(configs, 2) === 'on';
     const modelToMap = showTopics ? (model || []) : [];
     return (
       <div className="panel" ref="graphPanel">
         <div className="flex">
+          <SearchBox setSearch={setSearch} searchValue={searchValue}/>
           {modelToMap.map((d, i) => <TopicBadge modelIndex={i} model={d} key={i}/>)}
         </div>
         <Graph

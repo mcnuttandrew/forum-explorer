@@ -55,6 +55,7 @@ export function setConfig(rowIdx, valueIdx) {
   });
 }
 
+// TODO build HOF for generic actions
 export function setHoveredComment(payload) {
   return dispatch => dispatch({type: 'set-hovered-comment', payload});
 }
@@ -65,4 +66,8 @@ export function toggleCommentSelectionLock() {
 
 export function setFoundOrder(payload) {
   return dispatch => dispatch({type: 'set-found-order', payload});
+}
+
+export function setSearch(payload) {
+  return dispatch => dispatch({type: 'set-search', payload});
 }

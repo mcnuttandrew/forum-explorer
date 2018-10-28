@@ -83,6 +83,10 @@ body,
   display: none;
 }
 
+.no-model-coloring .node-searched {
+  fill: steelblue;
+}
+
 .node.node-selected {
   stroke: black;
   stroke-width: 2px;
@@ -360,4 +364,14 @@ a.header-link:visited {
 
 .tooltip-row-option-selected {
   color: black;
+}
+
+.search-bar {
+  background: none;
+  border: none;
+  border-bottom: thin solid #828282;
+}
+
+.search-clear {
+  cursor: pointer;
 }

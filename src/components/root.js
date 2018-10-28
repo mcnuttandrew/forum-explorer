@@ -71,6 +71,8 @@ class RootComponent extends React.Component {
               setSelectedCommentPath={this.props.setSelectedCommentPath}
               selectedMap={selectedMap}
               toggleCommentSelectionLock={this.props.toggleCommentSelectionLock}
+              searchValue={this.props.searchValue}
+              setSearch={this.props.setSearch}
               />}
             <CommentPanel
               setHoveredComment={this.props.setHoveredComment}
@@ -102,7 +104,8 @@ function mapStateToProps({base}) {
     responsesObserved: base.get('responsesObserved'),
     rootId: base.getIn(['data', 0, 'id']),
     model: base.get('model') || [],
-    configs: base.get('configs')
+    configs: base.get('configs'),
+    searchValue: base.get('searchValue')
   };
 }
 

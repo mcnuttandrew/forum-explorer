@@ -33,7 +33,8 @@ const DEFAULT_STATE = Immutable.fromJS({
   commentSelectionLock: false,
   foundOrderMap: {},
   model: null,
-  configs: DEFAULT_CONFIGS
+  configs: DEFAULT_CONFIGS,
+  searchValue: ''
 });
 
 function modelComment(model, text) {
@@ -144,6 +145,28 @@ const setConfig = (state, {rowIdx, valueIdx}) => {
   return state.setIn(['configs', rowIdx, 'options'], rowToUpdate);
 };
 
+const setSearch = (state, payload) => {
+  const nullSearch = (payload === '' || !payload.length);
+  const searchTerm = payload.toLowerCase();
+  const updatedData = nullSearch ?
+    state.get('data').map(row => row.set('searched', false)) :
+    state.get('data')
+      .map(row => {
+        const searchMatchesUser = (row.get('by') || '').toLowerCase().includes(searchTerm);
+        const searchMatchesText = (row.get('text') || '').toLowerCase().includes(searchTerm);
+        return row.set('searched', searchMatchesText || searchMatchesUser);
+      });
+
+  const newState = state
+    .set('searchValue', payload)
+    .set('data', updatedData);
+  // Don't clear the selection if the user has locked it
+  if (state.get('commentSelectionLock')) {
+    return newState;
+  }
+  return setCommentPath(newState, {path: []});
+};
+
 const actionFuncMap = {
   'model-data': modelData,
   'start-request': startRequest,
@@ -152,6 +175,7 @@ const actionFuncMap = {
   'set-hovered-comment': setHoveredComment,
   'set-found-order': setFoundOrder,
   'set-config-value': setConfig,
+  'set-search': setSearch,
   'toggle-graph-layout': toggleGraphLayout,
   'toggle-comment-selection-lock': toggleCommentSelectionLock
 };

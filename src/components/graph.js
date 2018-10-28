@@ -109,6 +109,7 @@ class Graph extends React.Component {
         'node-internal': d.children,
         'node-leaf': !d.children,
         'node-selected': selectedMap.get(d.data.id),
+        'node-searched': d.data.searched,
         'node-hovered': d.data.id === hoveredComment,
         [`node-topic-modeled-${d.data.modeledTopic}`]: true
       });
