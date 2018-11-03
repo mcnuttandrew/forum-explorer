@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const request = require('request');
 const cheerio = require('cheerio');
+const PORT = process.env.PORT || 5000;
 
 const log = msg => console.log(`${new Date().getTime()}: ${msg}`);
 
@@ -61,5 +62,5 @@ app.get('/', (req, res) => {
   });
 });
 
-app.listen(3000, () => log('listening on 3000'));
+app.listen(PORT, () => log(`listening on ${PORT}`));
 /* eslint-enable no-console */
