@@ -1,3 +1,5 @@
+import {SERVER_DEV_MODE} from '../constants';
+
 const buildEasyAction = type => payload => dispatch => dispatch({type, payload});
 export const setHoveredComment = buildEasyAction('set-hovered-comment');
 export const toggleCommentSelectionLock = buildEasyAction('toggle-comment-selection-lock');
@@ -6,11 +8,13 @@ export const setSearch = buildEasyAction('set-search');
 export const startGetItem = buildEasyAction('start-request');
 export const setSelectedCommentPath = buildEasyAction('set-comment-path');
 
+const serverTemplate = SERVER_DEV_MODE ?
+  item => `http://localhost:3000/?item=${item}` :
+  item => `https://hn-ex.herokuapp.com/?item=${item}`;
+
 export function modelData(item) {
   return dispatch => {
-    fetch(`http://localhost:3000/?item=${item}`, {
-      mode: 'cors'
-    })
+    fetch(serverTemplate(item), {mode: 'cors'})
     .then(d => d.json())
     .then(payload => dispatch({type: 'model-data', payload}))
     .catch(() => {});
@@ -18,6 +22,9 @@ export function modelData(item) {
 }
 
 export function getItem(itemId, isRoot) {
+  if (!itemId) {
+    return dispatch => dispatch({type: 'no-get-item'});
+  }
   return dispatch => {
     fetch(`https://hacker-news.firebaseio.com/v0/item/${itemId}.json`)
     .then(response => response.json())
