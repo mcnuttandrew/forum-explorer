@@ -39,7 +39,8 @@ const balloonLayout = {
         let usedAngle = 0;
         currentNode.children.forEach((child, idx) => {
           const angleFraction = (child.value / currentNode.value) * Math.PI * 2;
-          const angle = angleFraction / 2 + usedAngle;// + currentNode.rotation;
+          const angle = angleFraction / 2 + usedAngle;
+          // + currentNode.rotation;
           usedAngle += angleFraction;
           child.radius = currentNode.radius * (Math.max(child.value, 2) / currentNode.value);
           child.x = child.radius * Math.cos(angle) + currentNode.x;

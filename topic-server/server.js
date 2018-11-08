@@ -4,20 +4,11 @@ const express = require('express');
 const app = express();
 const request = require('request');
 const cheerio = require('cheerio');
+/* eslint-disable */
 const PORT = process.env.PORT || 5000;
+/* eslint-enable */
 
 const log = msg => console.log(`${new Date().getTime()}: ${msg}`);
-
-function dedupeModel(model) {
-  return model.reduce((acc, row) => {
-    const modelTerm = row[0];
-    if (!acc[modelTerm.term]) {
-      acc[modelTerm.term] = 0;
-    }
-    acc[modelTerm.term] += modelTerm.probability;
-    return acc;
-  }, {});
-}
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');

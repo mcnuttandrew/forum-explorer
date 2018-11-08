@@ -28,7 +28,7 @@ class GraphPanel extends React.Component {
   }
 
   render() {
-    const {configs, model, setSearch, searchValue} = this.props;
+    const {configs, model, setSearch, searchValue, unlockAndSearch} = this.props;
 
     const showTopics = getSelectedOption(configs, 2) === 'on';
     const modelToMap = showTopics ? (model || []) : [];
@@ -54,10 +54,10 @@ class GraphPanel extends React.Component {
           {Object.entries(topUsers).map(d => {
             return (
               <span
-                onClick={() => setSearch(d[0])}
+                onClick={() => unlockAndSearch(d[0])}
                 className={`top-poster-${d[1]}`}
                 key={d[0]}>{d[0]}</span>
-              );
+            );
           })}
         </div>}
       </div>

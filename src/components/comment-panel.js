@@ -31,9 +31,9 @@ function renderStoryHead(props, item, idx) {
     <div className="comment-head">
       <span>Topics: </span>
       {props.serializedModel.map(keyword => {
-        return (<span 
+        return (<span
           className="comment-keyword"
-          onClick={() => props.setSearch(keyword)}
+          onClick={() => props.unlockAndSearch(keyword)}
           key={keyword}> {keyword} </span>);
       })}
     </div>

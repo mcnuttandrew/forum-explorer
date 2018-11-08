@@ -66,7 +66,8 @@ const setCommentPath = (state, payload) => {
   }, {});
   return state
     .set('itemsToRender',
-      state.get('data').filter(row =>
+      state.get('data').filter((row, idx) =>
+        !idx ||
         (itemMap[row.get('id')] || (row.get('parent') === payload[0])) &&
         !row.get('deleted')
       )
@@ -193,6 +194,10 @@ const setSearch = (state, payload) => {
     .set('itemsToRender', chain);
 };
 
+const unlockAndSearch = (state, payload) => {
+  return setSearch(state.set('commentSelectionLock', false), payload);
+};
+
 const actionFuncMap = {
   'get-item': getItem,
   'get-user': getUser,
@@ -203,7 +208,8 @@ const actionFuncMap = {
   'set-found-order': setFoundOrder,
   'set-hovered-comment': setHoveredComment,
   'set-search': setSearch,
-  'toggle-comment-selection-lock': toggleCommentSelectionLock
+  'toggle-comment-selection-lock': toggleCommentSelectionLock,
+  'unlock-and-search': unlockAndSearch
 };
 
 export default createStore(

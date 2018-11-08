@@ -28,7 +28,7 @@ class RootComponent extends React.Component {
       newProps.toRequest.forEach(request => {
         newProps.startGetItem(request.get('id'));
         if (request.get('type') === 'item') {
-          newProps.getItem(request.get('id'));          
+          newProps.getItem(request.get('id'));
         } else {
           newProps.getUser(request.get('id'));
         }
@@ -79,6 +79,7 @@ class RootComponent extends React.Component {
               toggleCommentSelectionLock={this.props.toggleCommentSelectionLock}
               searchValue={this.props.searchValue}
               setSearch={this.props.setSearch}
+              unlockAndSearch={this.props.unlockAndSearch}
               />}
             <CommentPanel
               setHoveredComment={this.props.setHoveredComment}
@@ -90,7 +91,9 @@ class RootComponent extends React.Component {
               itemPath={this.props.itemPath}
               itemsToRender={
                 this.props.itemsToRender.size ? this.props.itemsToRender : this.props.data
-              }/>
+              }
+              unlockAndSearch={this.props.unlockAndSearch}
+              />
           </div>
         }
       </div>

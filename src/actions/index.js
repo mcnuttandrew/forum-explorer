@@ -3,6 +3,7 @@ import {SERVER_DEV_MODE} from '../constants';
 const buildEasyAction = type => payload => dispatch => dispatch({type, payload});
 export const setHoveredComment = buildEasyAction('set-hovered-comment');
 export const toggleCommentSelectionLock = buildEasyAction('toggle-comment-selection-lock');
+export const unlockAndSearch = buildEasyAction('unlock-and-search');
 export const setFoundOrder = buildEasyAction('set-found-order');
 export const setSearch = buildEasyAction('set-search');
 export const startGetItem = buildEasyAction('start-request');

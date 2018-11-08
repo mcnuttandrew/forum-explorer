@@ -106,7 +106,7 @@ class Graph extends React.Component {
     const translateFunc = arr => `translate(${arr.join(',')})`;
     const evalCircClasses = d => {
       const tops = [...new Array(numUsersToHighlight)].reduce((acc, _, i) => {
-        const idx = i + 1
+        const idx = i + 1;
         if (topUsers[d.data.by] !== idx) {
           return acc;
         }
