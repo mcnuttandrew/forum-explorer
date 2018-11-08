@@ -25,9 +25,13 @@ class RootComponent extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (!this.props.toRequest.equals(newProps.toRequest)) {
-      newProps.toRequest.forEach(itemId => {
-        newProps.startGetItem(itemId);
-        newProps.getItem(itemId);
+      newProps.toRequest.forEach(request => {
+        newProps.startGetItem(request.get('id'));
+        if (request.get('type') === 'item') {
+          newProps.getItem(request.get('id'));          
+        } else {
+          newProps.getUser(request.get('id'));
+        }
       });
     }
   }
@@ -36,15 +40,17 @@ class RootComponent extends React.Component {
     const selectedMap = this.props.itemsToRender
       .reduce((acc, row) => acc.set(row.get('id'), true), Map());
 
-    const showModeling = getSelectedOption(this.props.configs, 2) === 'on';
+    const colorBy = getSelectedOption(this.props.configs, 2);
     const showGraph = getSelectedOption(this.props.configs, 3) === 'on';
+
     return (
       <div
         className={classnames({
           'flex-down': true,
           'full-size': true,
           // TODO update to configs
-          'no-model-coloring': !showModeling || !this.props.model.length
+          'topic-model-coloring': colorBy === 'topic-modeling' && this.props.model.length,
+          'top-user-coloring': colorBy === 'top-users'
         })}>
         <Header
           configs={this.props.configs}
@@ -104,7 +110,8 @@ function mapStateToProps({base}) {
     responsesObserved: base.get('responsesObserved'),
     rootId: base.getIn(['data', 0, 'id']),
     searchValue: base.get('searchValue'),
-    toRequest: base.get('toRequest')
+    toRequest: base.get('toRequest'),
+    users: base.get('users')
   };
 }
 

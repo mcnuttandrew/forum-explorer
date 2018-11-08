@@ -12,42 +12,30 @@ const serverTemplate = SERVER_DEV_MODE ?
   item => `http://localhost:3000/?item=${item}` :
   item => `https://hn-ex.herokuapp.com/?item=${item}`;
 
-export function modelData(item) {
-  return dispatch => {
-    fetch(serverTemplate(item), {mode: 'cors'})
-    .then(d => d.json())
-    .then(payload => dispatch({type: 'model-data', payload}))
-    .catch(() => {});
-  };
-}
+export const modelData = item => dispatch => {
+  fetch(serverTemplate(item), {mode: 'cors'})
+  .then(d => d.json())
+  .then(payload => dispatch({type: 'model-data', payload}))
+  .catch(() => {});
+};
 
-export function getItem(itemId, isRoot) {
+const generateHNcall = getType => (itemId, isRoot) => {
   if (!itemId) {
-    return dispatch => dispatch({type: 'no-get-item'});
+    return dispatch => dispatch({type: `no-get-${getType}`});
   }
+  const common = {type: `get-${getType}`, isRoot};
   return dispatch => {
-    fetch(`https://hacker-news.firebaseio.com/v0/item/${itemId}.json`)
+    fetch(`https://hacker-news.firebaseio.com/v0/${getType}/${itemId}.json`)
     .then(response => response.json())
-    .then((result) => {
-      dispatch({
-        type: 'get-item',
-        payload: result,
-        isRoot
-      });
-    })
-    .catch(() => {
-      dispatch({
-        type: 'get-item',
-        payload: null,
-        isRoot
-      });
-    });
+    .then(payload => dispatch({...common, payload}))
+    .catch(() => dispatch({...common, payload: null}));
   };
-}
+};
 
-export function setConfig(rowIdx, valueIdx) {
-  return dispatch => dispatch({
-    type: 'set-config-value',
-    payload: {rowIdx, valueIdx}
-  });
-}
+export const getItem = generateHNcall('item');
+export const getUser = generateHNcall('user');
+
+export const setConfig = (rowIdx, valueIdx) => dispatch => dispatch({
+  type: 'set-config-value',
+  payload: {rowIdx, valueIdx}
+});

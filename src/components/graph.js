@@ -11,7 +11,7 @@ import {transition} from 'd3-transition';
 import debounce from 'lodash.debounce';
 
 import {layouts} from '../layouts';
-import {classnames} from '../utils';
+import {classnames, computeTopUsers} from '../utils';
 
 function extractIdPathToRoot(node) {
   const nodes = [];
@@ -101,9 +101,19 @@ class Graph extends React.Component {
 
   renderNodes(props, nodes, positioning, markSize) {
     const {hoveredComment, toggleCommentSelectionLock, selectedMap} = props;
+    const numUsersToHighlight = 5;
+    const topUsers = computeTopUsers(props.data, numUsersToHighlight);
     const nodesG = select(ReactDOM.findDOMNode(this.refs.nodes));
     const translateFunc = arr => `translate(${arr.join(',')})`;
     const evalCircClasses = d => {
+      const tops = [...new Array(numUsersToHighlight)].reduce((acc, _, i) => {
+        const idx = i + 1
+        if (topUsers[d.data.by] !== idx) {
+          return acc;
+        }
+        acc[`node-highlighted-top-${idx}`] = true;
+        return acc;
+      }, {});
       return classnames({
         node: true,
         'node-internal': d.children,
@@ -111,7 +121,8 @@ class Graph extends React.Component {
         'node-selected': selectedMap.get(d.data.id),
         'node-searched': d.data.searched,
         'node-hovered': d.data.id === hoveredComment,
-        [`node-topic-modeled-${d.data.modeledTopic}`]: true
+        [`node-topic-modeled-${d.data.modeledTopic}`]: true,
+        ...tops
       });
     };
     const node = nodesG.selectAll('.node').data(nodes);

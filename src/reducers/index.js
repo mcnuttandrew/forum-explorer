@@ -7,22 +7,31 @@ import TestData from '../constants/test-data.json';
 
 const DEFAULT_CONFIGS = [{
   name: 'graph layout',
-  options: graphLayouts.map((name, idx) => ({name, selected: !idx}))
+  options: graphLayouts,
+  defaultOption: 'ring'
 }, {
   name: 'dot size',
-  options: ['small', 'medium', 'large'].map((name, idx) => ({name, selected: idx === 1}))
+  options: ['small', 'medium', 'large'],
+  defaultOption: 'medium'
 }, {
-  name: 'topic modeling',
-  options: ['on', 'off'].map((name, idx) => ({name, selected: !idx}))
+  name: 'color by',
+  options: ['nothing', 'top-users', 'topic-modeling'],
+  defaultOption: 'top-users'
 }, {
   name: 'show graph',
-  options: ['on', 'off'].map((name, idx) => ({name, selected: !idx}))
-}];
+  options: ['on', 'off'],
+  defaultOption: 'on'
+}]
+.map(({name, options, defaultOption}) => ({
+  name,
+  options: options.map(val => ({name: val, selected: val === defaultOption}))
+}));
 
 const DEFAULT_STATE = Immutable.fromJS({
   commentSelectionLock: false,
   configs: DEFAULT_CONFIGS,
   data: DEV_MODE ? TestData : [],
+  users: {},
   foundOrderMap: {},
   hoveredComment: null,
   itemsToRender: [],
@@ -48,7 +57,7 @@ function modelComment(model, text) {
 }
 
 const startRequest = (state, payload) => state
-  .set('toRequest', state.get('toRequest').filter(d => d !== payload));
+  .set('toRequest', state.get('toRequest').filter(d => d.get('id') !== payload));
 
 const setCommentPath = (state, payload) => {
   const itemMap = payload.reduce((acc, row) => {
@@ -89,10 +98,15 @@ const getItem = (state, payload) => {
     modeledTopic: evalModel.modelIndex
   }));
 
+  const requestList = (payload.kids || []).map(id => ({id, type: 'item'}));
+  if (!state.getIn(['users', payload.by])) {
+    requestList.push({type: 'user', id: payload.by});
+  }
+
   const updatededState = state
     // how do you do multiple updates simultaneously? I think its with mutable or something?
     .set('data', updatededData)
-    .set('toRequest', state.get('toRequest').concat(Immutable.fromJS(payload.kids)))
+    .set('toRequest', state.get('toRequest').concat(Immutable.fromJS(requestList)))
     .set('responsesObserved', state.get('responsesObserved') + 1)
     .set('responsesExpected', parent ? state.get('responsesExpected') : payload.descendants);
 
@@ -101,6 +115,11 @@ const getItem = (state, payload) => {
     return setCommentPath(updatededState.set('loading', false), [rootId]);
   }
   return updatededState;
+};
+
+const getUser = (state, payload) => {
+  return state
+    .setIn(['users', payload.id], Immutable.fromJS(payload));
 };
 
 const setHoveredComment = (state, payload) => {
@@ -162,6 +181,7 @@ const setSearch = (state, payload) => {
 
 const actionFuncMap = {
   'get-item': getItem,
+  'get-user': getUser,
   'model-data': modelData,
   'start-request': startRequest,
   'set-comment-path': setCommentPath,

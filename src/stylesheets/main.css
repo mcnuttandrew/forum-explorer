@@ -62,28 +62,28 @@ body,
   cursor: pointer;
 }
 
-.no-model-coloring .node {
+.node {
   fill: #999;
 }
 
-.no-model-coloring .node-internal {
+.node-internal {
   fill: #555;
 }
 
-.no-model-coloring .node-selected {
+.node-selected {
   fill: #ff6600;
 }
 
-.no-model-coloring .node-selected {
+.node-selected {
   border: steelblue;
   stroke: steelblue;
 }
 
-.no-model-coloring .topic-box {
+.topic-box {
   display: none;
 }
 
-.no-model-coloring .node-searched {
+.node-searched {
   fill: steelblue;
 }
 
@@ -98,17 +98,17 @@ body,
   transition: stroke-width 0.2s;
 }
 
-.node-topic-modeled-0,
-.topic-badge-0,
-.topic-box-0 {
+.topic-model-coloring .node-topic-modeled-0,
+.topic-model-coloring .topic-badge-0,
+.topic-model-coloring .topic-box-0 {
   background: #BA0009;
   color: #BA0009;
   fill: #BA0009;
 }
 
-.node-topic-modeled-1,
-.topic-badge-1,
-.topic-box-1 {
+.topic-model-coloring .node-topic-modeled-1,
+.topic-model-coloring .topic-badge-1,
+.topic-model-coloring .topic-box-1 {
   /*
   background: #DAD2D8;
   color: #DAD2D8;
@@ -120,25 +120,25 @@ body,
 
 }
 
-.node-topic-modeled-2,
-.topic-badge-2,
-.topic-box-2 {
+.topic-model-coloring .node-topic-modeled-2,
+.topic-model-coloring .topic-badge-2,
+.topic-model-coloring .topic-box-2 {
   background: #0F8B8D;
   color: #0F8B8D;
   fill: #0F8B8D;
 }
 
-.node-topic-modeled-3,
-.topic-badge-3,
-.topic-box-3 {
+.topic-model-coloring .node-topic-modeled-3,
+.topic-model-coloring .topic-badge-3,
+.topic-model-coloring .topic-box-3 {
   background: #EC9A29;
   color: #EC9A29;
   fill: #EC9A29;
 }
 
-.node-topic-modeled-4,
-.topic-badge-4,
-.topic-box-4 {
+.topic-model-coloring .node-topic-modeled-4,
+.topic-model-coloring .topic-badge-4,
+.topic-model-coloring .topic-box-4 {
   /*
   background: #143642;
   color: #143642;
@@ -383,4 +383,25 @@ a.header-link:visited {
 
 .search-clear {
   cursor: pointer;
+}
+
+
+.top-user-coloring .node.node-highlighted-top-1 {
+  fill: #BA0009;
+}
+
+.top-user-coloring .node.node-highlighted-top-2 {
+  fill: #852374;
+}
+
+.top-user-coloring .node.node-highlighted-top-3 {
+  fill: #0F8B8D;
+}
+
+.top-user-coloring .node.node-highlighted-top-4 {
+  fill: #EC9A29;
+}
+
+.top-user-coloring .node.node-highlighted-top-5 {
+  fill: #1c4d5f;
 }
