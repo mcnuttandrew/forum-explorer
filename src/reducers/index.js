@@ -112,7 +112,8 @@ const getItem = (state, payload) => {
 
   if (loadingStateChange) {
     const rootId = state.getIn(['data', 0, 'id']);
-    return setCommentPath(updatededState.set('loading', false), [rootId]);
+    return setCommentPath(updatededState.set('loading', false), [rootId])
+      .set('data', state.get('data').sortBy(d => d.get('time')));
   }
   return updatededState;
 };
@@ -142,8 +143,17 @@ const setFoundOrder = (state, payload) => {
 };
 
 const modelData = (state, payload) => {
+  const serializedModel = Object.entries(payload.reduce((acc, row) => {
+    row.forEach(({term, probability}) => {
+      acc[term] = (acc[term] || 0) + probability;
+    });
+    return acc;
+  }, {})).sort((a, b) => b[1] - a[1])
+    .slice(0, 10).map(d => d[0]);
+
   return state
     .set('model', payload)
+    .set('serialized-model', serializedModel)
     .set('data', state.get('data').map(row => {
       const evalModel = modelComment(payload, row.get('text') || '');
       return row.set('modeledTopic', evalModel.modelIndex);

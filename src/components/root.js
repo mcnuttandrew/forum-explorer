@@ -84,6 +84,8 @@ class RootComponent extends React.Component {
               setHoveredComment={this.props.setHoveredComment}
               setSelectedCommentPath={this.props.setSelectedCommentPath}
               model={this.props.model}
+              serializedModel={this.props.serializedModel}
+              setSearch={this.props.setSearch}
               showGraph={showGraph}
               itemPath={this.props.itemPath}
               itemsToRender={
@@ -106,6 +108,7 @@ function mapStateToProps({base}) {
     itemPath: base.get('itemPath'),
     loading: base.get('loading'),
     model: base.get('model') || [],
+    serializedModel: base.get('serialized-model') || [],
     responsesExpected: base.get('responsesExpected'),
     responsesObserved: base.get('responsesObserved'),
     rootId: base.getIn(['data', 0, 'id']),

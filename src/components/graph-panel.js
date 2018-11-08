@@ -5,7 +5,8 @@ import debounce from 'lodash.debounce';
 import Graph from './graph';
 import TopicBadge from './topic-badge';
 import SearchBox from './search-box';
-import {getSelectedOption} from '../utils';
+import {getSelectedOption, computeTopUsers} from '../utils';
+import {numUsersToHighlight} from '../constants';
 
 class GraphPanel extends React.Component {
   state = {
@@ -31,6 +32,8 @@ class GraphPanel extends React.Component {
 
     const showTopics = getSelectedOption(configs, 2) === 'on';
     const modelToMap = showTopics ? (model || []) : [];
+    // HACK this should live in the reducer somewhere
+    const topUsers = computeTopUsers(this.props.data, numUsersToHighlight);
     return (
       <div className="panel" ref="graphPanel">
         <div className="flex">
@@ -39,6 +42,7 @@ class GraphPanel extends React.Component {
         </div>
         <Graph
           {...this.props}
+          topUsers={topUsers}
           graphLayout={getSelectedOption(configs, 0)}
           markSize={getSelectedOption(configs, 1)}
           height={this.state.height}

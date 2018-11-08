@@ -11,7 +11,8 @@ import {transition} from 'd3-transition';
 import debounce from 'lodash.debounce';
 
 import {layouts} from '../layouts';
-import {classnames, computeTopUsers} from '../utils';
+import {classnames} from '../utils';
+import {numUsersToHighlight} from '../constants';
 
 function extractIdPathToRoot(node) {
   const nodes = [];
@@ -100,9 +101,7 @@ class Graph extends React.Component {
   }
 
   renderNodes(props, nodes, positioning, markSize) {
-    const {hoveredComment, toggleCommentSelectionLock, selectedMap} = props;
-    const numUsersToHighlight = 5;
-    const topUsers = computeTopUsers(props.data, numUsersToHighlight);
+    const {hoveredComment, toggleCommentSelectionLock, selectedMap, topUsers} = props;
     const nodesG = select(ReactDOM.findDOMNode(this.refs.nodes));
     const translateFunc = arr => `translate(${arr.join(',')})`;
     const evalCircClasses = d => {

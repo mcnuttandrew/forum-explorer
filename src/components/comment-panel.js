@@ -29,6 +29,15 @@ function renderStoryHead(props, item, idx) {
       </a>
     </div>
     <div className="comment-head">
+      <span>Keywords: </span>
+      {props.serializedModel.map(keyword => {
+        return (<span 
+          className="comment-keyword"
+          onClick={() => props.setSearch(keyword)}
+          key={keyword}> {keyword} </span>);
+      })}
+    </div>
+    <div className="comment-head">
       <span>{`${item.get('score')} points by `}</span>
       <a
         href={`https://news.ycombinator.com/user?id=${item.get('by')}`}

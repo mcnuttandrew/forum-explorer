@@ -281,6 +281,17 @@ a.header-link:visited {
   cursor: auto;
 }
 
+.comment-keyword {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.comment-keyword::after {
+  content: '◆';
+  text-decoration: none;
+  margin: 0 3px;
+}
+
 .comment-block:hover .comment {
   border-left: 3px solid #ff6600;
 }
