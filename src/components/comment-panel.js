@@ -29,7 +29,7 @@ function renderStoryHead(props, item, idx) {
       </a>
     </div>
     <div className="comment-head">
-      <span>Keywords: </span>
+      <span>Topics: </span>
       {props.serializedModel.map(keyword => {
         return (<span 
           className="comment-keyword"

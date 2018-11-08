@@ -34,8 +34,9 @@ class GraphPanel extends React.Component {
     const modelToMap = showTopics ? (model || []) : [];
     // HACK this should live in the reducer somewhere
     const topUsers = computeTopUsers(this.props.data, numUsersToHighlight);
+    const colorByTopUsers = getSelectedOption(configs, 2);
     return (
-      <div className="panel" ref="graphPanel">
+      <div className="panel relative" ref="graphPanel">
         <div className="flex">
           <SearchBox setSearch={setSearch} searchValue={searchValue}/>
           {modelToMap.map((d, i) => <TopicBadge modelIndex={i} model={d} key={i}/>)}
@@ -48,6 +49,17 @@ class GraphPanel extends React.Component {
           height={this.state.height}
           width={this.state.width}
           />
+        {colorByTopUsers && <div className="top-posters">
+          <span>Top Posters</span>
+          {Object.entries(topUsers).map(d => {
+            return (
+              <span
+                onClick={() => setSearch(d[0])}
+                className={`top-poster-${d[1]}`}
+                key={d[0]}>{d[0]}</span>
+              );
+          })}
+        </div>}
       </div>
     );
   }

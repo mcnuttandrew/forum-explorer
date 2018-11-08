@@ -186,7 +186,11 @@ const setSearch = (state, payload) => {
   if (state.get('commentSelectionLock')) {
     return newState;
   }
-  return setCommentPath(newState, []);
+  const chain = nullSearch ? [] : newState
+    .get('data').filter((d, idx) => !idx || d.get('searched'));
+
+  return setCommentPath(newState, [])
+    .set('itemsToRender', chain);
 };
 
 const actionFuncMap = {

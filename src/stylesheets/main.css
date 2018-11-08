@@ -24,6 +24,10 @@ body,
   justify-content: center;
 }
 
+.relative {
+  position: relative;
+}
+
 .flex {
   display: flex;
 }
@@ -291,6 +295,9 @@ a.header-link:visited {
   text-decoration: none;
   margin: 0 3px;
 }
+.comment-keyword:last-of-type::after {
+  content: ' ';
+}
 
 .comment-block:hover .comment {
   border-left: 3px solid #ff6600;
@@ -397,22 +404,44 @@ a.header-link:visited {
 }
 
 
-.top-user-coloring .node.node-highlighted-top-1 {
+.top-user-coloring .node.node-highlighted-top-1,
+.top-poster-1 {
+  color: #BA0009;
   fill: #BA0009;
 }
 
-.top-user-coloring .node.node-highlighted-top-2 {
+.top-user-coloring .node.node-highlighted-top-2,
+.top-poster-2 {
+  color: #852374;
   fill: #852374;
 }
 
-.top-user-coloring .node.node-highlighted-top-3 {
+.top-user-coloring .node.node-highlighted-top-3,
+.top-poster-3 {
+  color: #0F8B8D;
   fill: #0F8B8D;
 }
 
-.top-user-coloring .node.node-highlighted-top-4 {
+.top-user-coloring .node.node-highlighted-top-4,
+.top-poster-4 {
+  color: #EC9A29;
   fill: #EC9A29;
 }
 
-.top-user-coloring .node.node-highlighted-top-5 {
+.top-user-coloring .node.node-highlighted-top-5,
+.top-poster-5 {
+  color: #1c4d5f;
   fill: #1c4d5f;
+}
+
+.top-posters {
+  align-items: flex-end;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-size: 8px;
+  padding: 0 5px;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
