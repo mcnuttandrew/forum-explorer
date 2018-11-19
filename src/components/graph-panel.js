@@ -55,8 +55,8 @@ class GraphPanel extends React.Component {
             return (
               <span
                 onClick={() => unlockAndSearch(d[0])}
-                className={`top-poster-${d[1]}`}
-                key={d[0]}>{d[0]}</span>
+                className={`top-poster-${d[1].rank}`}
+                key={d[0]}>{d[0]} - {d[1].numPosts} posts</span>
             );
           })}
         </div>}

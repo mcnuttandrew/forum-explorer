@@ -68,19 +68,11 @@ body,
 
 .node {
   fill: #999;
-}
-
-.node-internal {
-  fill: #555;
+  stroke: #555;
 }
 
 .node-selected {
-  fill: #ff6600;
-}
-
-.node-selected {
-  border: steelblue;
-  stroke: steelblue;
+  stroke: #ff6600;
 }
 
 .topic-box {
@@ -406,32 +398,47 @@ a.header-link:visited {
 
 .top-user-coloring .node.node-highlighted-top-1,
 .top-poster-1 {
-  color: #BA0009;
+  color: white;
+  background: #BA0009;
+  border-radius: 5px;
   fill: #BA0009;
+  padding: 0 5px;
 }
 
 .top-user-coloring .node.node-highlighted-top-2,
 .top-poster-2 {
-  color: #852374;
+  color: white;
+  background: #852374;
+  border-radius: 5px;
   fill: #852374;
+  padding: 0 5px;
 }
 
 .top-user-coloring .node.node-highlighted-top-3,
 .top-poster-3 {
-  color: #0F8B8D;
+  color: white;
+  background: #0F8B8D;
+  border-radius: 5px;
   fill: #0F8B8D;
+  padding: 0 5px;
 }
 
 .top-user-coloring .node.node-highlighted-top-4,
 .top-poster-4 {
-  color: #EC9A29;
+  color: white;
+  background: #EC9A29;
+  border-radius: 5px;
   fill: #EC9A29;
+  padding: 0 5px;
 }
 
 .top-user-coloring .node.node-highlighted-top-5,
 .top-poster-5 {
-  color: #1c4d5f;
+  color: white;
+  background: #1c4d5f;
+  border-radius: 5px;
   fill: #1c4d5f;
+  padding: 0 5px;
 }
 
 .top-posters {

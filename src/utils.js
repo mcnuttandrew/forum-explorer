@@ -74,8 +74,8 @@ export function computeTopUsers(data, numUsers) {
     return acc;
   }, {});
   const posters = Object.entries(counts).sort((a, b) => a[1] - b[1]).reverse();
-  return posters.slice(0, numUsers).map(d => d[0]).reduce((acc, row, idx) => {
-    acc[row] = idx + 1;
+  return posters.slice(0, numUsers).reduce((acc, row, idx) => {
+    acc[row[0]] = {rank: idx + 1, numPosts: row[1]};
     return acc;
   }, {});
 }
