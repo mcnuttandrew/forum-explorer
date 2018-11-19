@@ -80,7 +80,7 @@ body,
 }
 
 .node-searched {
-  fill: steelblue;
+  fill: #ff6600;
 }
 
 .node.node-selected {
