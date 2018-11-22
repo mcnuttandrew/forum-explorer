@@ -64,16 +64,13 @@ class Graph extends React.Component {
     const data = props.data.toJS();
     // forcing the root node to be null necessary in order to run stratify
     data[0].parent = null;
-    let root;
-    let treeEval;
-    let stratifyMap;
-    try {
-      stratifyMap = stratify().id(d => d.id).parentId(d => d.parent);
-      treeEval = layouts[graphLayout].layout();
-      root = treeEval(stratifyMap(data));
-    } catch(err) {
-      return;
-    }
+    const stratifyMap = stratify().id(d => d.id).parentId(d => d.parent);
+    const treeEval = layouts[graphLayout].layout();
+    const idMap = data.reduce((acc, row) => {
+      acc[row.id] = true;
+      return acc;
+    }, {});
+    const root = treeEval(stratifyMap(data.filter(d => !d.parent || idMap[d.parent])));
 
     const xScale = layouts[graphLayout].getXScale(props, root);
     const yScale = layouts[graphLayout].getYScale(props, root);
