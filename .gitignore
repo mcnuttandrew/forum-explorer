@@ -1,5 +1,5 @@
 node_modules/
 bundle.js
 bundle.js.map
-dist
+dist/bundle.js
 .DS_Store
