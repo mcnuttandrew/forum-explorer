@@ -1,9 +1,10 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import Immutable, {Map} from 'immutable';
-import {DEV_MODE} from '../constants';
+import {DEV_MODE, numUsersToHighlight} from '../constants';
 import {graphLayouts} from '../layouts';
 import TestData from '../constants/test-data.json';
+import {computeTopUsers} from '../utils';
 
 const DEFAULT_CONFIGS = [{
   name: 'graph layout',
@@ -38,12 +39,16 @@ const DEFAULT_STATE = Immutable.fromJS({
   itemPath: [],
   loading: !DEV_MODE,
   model: null,
+  tree: null,
+  topUsers: [],
   // toRequest: [],
   // responsesExpected: 1,
   // responsesObserved: 0,
   searchValue: '',
   searchedMap: {}
-});
+})
+.set('tree', DEV_MODE ? prepareTree(TestData, null) : [])
+.set('topUsers', DEV_MODE ? computeTopUsers(Immutable.fromJS(TestData), numUsersToHighlight) : []);
 
 function modelComment(model, text) {
   return model.reduce((acc, row, modelIndex) => {
@@ -167,7 +172,7 @@ const setSearch = (state, payload) => {
     state.get('data').reduce((acc, row) => {
       const searchMatchesUser = (row.get('by') || '').toLowerCase().includes(searchTerm);
       const searchMatchesText = (row.get('text') || '').toLowerCase().includes(searchTerm);
-      return row.set(row.get('id'), searchMatchesText || searchMatchesUser);
+      return acc.set(row.get('id'), Boolean(searchMatchesText || searchMatchesUser));
     }, Map());
 
   const newState = state
@@ -179,10 +184,9 @@ const setSearch = (state, payload) => {
     return newState;
   }
   const chain = nullSearch ? [] : newState
-    .get('data').filter((d, idx) => !idx || searchedMap(d.get('id')));
+    .get('data').filter((d, idx) => !idx || searchedMap.get(d.get('id')));
 
-  return setCommentPath(newState, [])
-    .set('itemsToRender', chain);
+  return setCommentPath(newState, []).set('itemsToRender', chain);
 };
 
 const unlockAndSearch = (state, payload) =>
@@ -191,7 +195,29 @@ const unlockAndSearch = (state, payload) =>
 const getAllUsers = (state, users) => state
   .set('users', users.reduce((acc, row) => acc.set(row.id, row), Map()));
 
-const getAllItems = (state, {data, tree}) => {
+function prepareTree(data, root) {
+  const maxDepth = data.reduce((acc, row) => Math.max(acc, row.depth), 0);
+  const nodesByParentId = data.reduce((acc, child) => {
+    if (child.parent && !acc[child.parent]) {
+      acc[child.parent] = [];
+    }
+    acc[!child.parent ? 'root' : child.parent].push(child);
+    return acc;
+  }, {root: []});
+  const formToTree = node => ({
+    depth: node.depth,
+    height: maxDepth - node.depth - 1,
+    id: `${node.id}`,
+    data: node,
+    parent: node.parent || null,
+    children: (nodesByParentId[node.id] || [])
+      .map(child => formToTree(child))
+  });
+  const tree = formToTree(nodesByParentId.root[0]);
+  return tree;
+}
+
+const getAllItems = (state, {data, root}) => {
   let updatedData = Immutable.fromJS(data).map(row => {
     const metadata = state.getIn(['foundOrderMap', `${row.id}`]) ||
       Map({upvoteLink: null, replyLink: null});
@@ -203,11 +229,11 @@ const getAllItems = (state, {data, tree}) => {
     updatedData = updatedData.map(row => row.set('modeledTopic',
       modelComment(state.get('model'), row.get('text') || '').modelIndex));
   }
-  // TODO compute top users
   return state
     .set('loading', false)
     .set('data', updatedData)
-    .set('tree', tree);
+    .set('tree', prepareTree(updatedData.toJS(), root))
+    .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight));
 };
 
 const actionFuncMap = {

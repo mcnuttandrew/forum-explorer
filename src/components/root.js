@@ -92,6 +92,7 @@ function mapStateToProps({base}) {
     rootId: base.getIn(['data', 0, 'id']),
     searchValue: base.get('searchValue'),
     searchedMap: base.get('searchedMap'),
+    topUsers: base.get('topUsers'),
     tree: base.get('tree'),
     // toRequest: base.get('toRequest'),
     users: base.get('users')

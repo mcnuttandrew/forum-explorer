@@ -68,9 +68,8 @@ export function getSelectedOption(configs, optionIdx) {
 }
 
 export function computeTopUsers(data, numUsers) {
-  // good lord this is not efficent
-  const counts = data.toJS().reduce((acc, row) => {
-    acc[row.by] = (acc[row.by] || 0) + 1;
+  const counts = data.reduce((acc, row) => {
+    acc[row.get('by')] = (acc[row.get('by')] || 0) + 1;
     return acc;
   }, {});
   const posters = Object.entries(counts).sort((a, b) => a[1] - b[1]).reverse();
