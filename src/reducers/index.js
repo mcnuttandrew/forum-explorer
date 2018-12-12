@@ -38,10 +38,11 @@ const DEFAULT_STATE = Immutable.fromJS({
   itemPath: [],
   loading: !DEV_MODE,
   model: null,
-  toRequest: [],
+  // toRequest: [],
   responsesExpected: 1,
   responsesObserved: 0,
-  searchValue: ''
+  searchValue: '',
+  searchedMap: {}
 });
 
 function modelComment(model, text) {
@@ -56,14 +57,15 @@ function modelComment(model, text) {
   }, {modelIndex: null, modelScore: -Infinity});
 }
 
-const startRequest = (state, payload) => state
-  .set('toRequest', state.get('toRequest').filter(d => d.get('id') !== payload));
+// const startRequest = (state, payload) => state
+//   .set('toRequest', state.get('toRequest').filter(d => d.get('id') !== payload));
 
 const setCommentPath = (state, payload) => {
   const itemMap = payload.reduce((acc, row) => {
     acc[row] = true;
     return acc;
   }, {});
+  console.log(itemMap)
   return state
     .set('itemsToRender',
       state.get('data').filter((row, idx) =>
@@ -75,64 +77,58 @@ const setCommentPath = (state, payload) => {
     .set('itemPath', Immutable.fromJS(payload));
 };
 
-const getItem = (state, payload) => {
-  if (!payload) {
-    return state
-      .set('responsesObserved', state.get('responsesObserved') + 1);
-  }
-  const parent = payload.parent ? state.get('data').find(d => d.get('id') === payload.parent) : null;
-  const depth = parent ? parent.get('depth') + 1 : 0;
+// const getItem = (state, payload) => {
+//   if (!payload) {
+//     return state
+//       .set('responsesObserved', state.get('responsesObserved') + 1);
+//   }
+//   const parent = payload.parent ? state.get('data').find(d => d.get('id') === payload.parent) : null;
+//   const depth = parent ? parent.get('depth') + 1 : 0;
+//
+//   const loadingStateChange = state.get('loading') &&
+//     state.get('responsesObserved') >= state.get('responsesExpected');
+//
+//   const metadata = state.getIn(['foundOrderMap', `${payload.id}`]) ||
+//     Map({upvoteLink: null, replyLink: null});
+//
+//   const evalModel = modelComment(state.get('model') || [], payload.text || '');
+//
+//   const updatededData = state.get('data').push(Immutable.fromJS({
+//     ...payload,
+//     depth,
+//     upvoteLink: metadata.get('upvoteLink'),
+//     replyLink: metadata.get('replyLink'),
+//     modeledTopic: evalModel.modelIndex
+//   }));
+//
+//   const requestList = (payload.kids || []).map(id => ({id, type: 'item'}));
+//   if (!state.getIn(['users', payload.by])) {
+//     requestList.push({type: 'user', id: payload.by});
+//   }
+//
+//   const updatededState = state
+//     // how do you do multiple updates simultaneously? I think its with mutable or something?
+//     .set('data', updatededData)
+//     .set('toRequest', state.get('toRequest').concat(Immutable.fromJS(requestList)))
+//     .set('responsesObserved', state.get('responsesObserved') + 1)
+//     .set('responsesExpected', parent ? state.get('responsesExpected') : payload.descendants);
+//
+//   if (loadingStateChange) {
+//     const rootId = state.getIn(['data', 0, 'id']);
+//     return setCommentPath(updatededState.set('loading', false), [rootId])
+//       .set('data', state.get('data').sortBy(d => d.get('time')));
+//   }
+//   return updatededState;
+// };
 
-  const loadingStateChange = state.get('loading') &&
-    state.get('responsesObserved') >= state.get('responsesExpected');
+// const getUser = (state, payload) => state
+//   .setIn(['users', payload.id], Immutable.fromJS(payload));
 
-  const metadata = state.getIn(['foundOrderMap', `${payload.id}`]) ||
-    Map({upvoteLink: null, replyLink: null});
+const setHoveredComment = (state, payload) => state
+  .set('hoveredComment', payload && payload.get('id') || null);
 
-  const evalModel = modelComment(state.get('model') || [], payload.text || '');
-
-  const updatededData = state.get('data').push(Immutable.fromJS({
-    ...payload,
-    depth,
-    upvoteLink: metadata.get('upvoteLink'),
-    replyLink: metadata.get('replyLink'),
-    modeledTopic: evalModel.modelIndex
-  }));
-
-  const requestList = (payload.kids || []).map(id => ({id, type: 'item'}));
-  if (!state.getIn(['users', payload.by])) {
-    requestList.push({type: 'user', id: payload.by});
-  }
-
-  const updatededState = state
-    // how do you do multiple updates simultaneously? I think its with mutable or something?
-    .set('data', updatededData)
-    .set('toRequest', state.get('toRequest').concat(Immutable.fromJS(requestList)))
-    .set('responsesObserved', state.get('responsesObserved') + 1)
-    .set('responsesExpected', parent ? state.get('responsesExpected') : payload.descendants);
-
-  if (loadingStateChange) {
-    const rootId = state.getIn(['data', 0, 'id']);
-    return setCommentPath(updatededState.set('loading', false), [rootId])
-      .set('data', state.get('data').sortBy(d => d.get('time')));
-  }
-  return updatededState;
-};
-
-const getUser = (state, payload) => {
-  return state
-    .setIn(['users', payload.id], Immutable.fromJS(payload));
-};
-
-const setHoveredComment = (state, payload) => {
-  return state
-    .set('hoveredComment', payload && payload.get('id') || null);
-};
-
-const toggleCommentSelectionLock = (state, payload) => {
-  return state
-    .set('commentSelectionLock', !state.get('commentSelectionLock'));
-};
+const toggleCommentSelectionLock = (state, payload) => state
+  .set('commentSelectionLock', !state.get('commentSelectionLock'));
 
 const setFoundOrder = (state, payload) => {
   const foundOrderMap = payload.reduce((acc, content, order) => {
@@ -171,38 +167,51 @@ const setConfig = (state, {rowIdx, valueIdx}) => {
 const setSearch = (state, payload) => {
   const nullSearch = (payload === '' || !payload.length);
   const searchTerm = payload.toLowerCase();
-  const updatedData = nullSearch ?
-    state.get('data').map(row => row.set('searched', false)) :
-    state.get('data')
-      .map(row => {
-        const searchMatchesUser = (row.get('by') || '').toLowerCase().includes(searchTerm);
-        const searchMatchesText = (row.get('text') || '').toLowerCase().includes(searchTerm);
-        return row.set('searched', searchMatchesText || searchMatchesUser);
-      });
+  const searchedMap = nullSearch ? Map() :
+    state.get('data').reduce((acc, row) => {
+      const searchMatchesUser = (row.get('by') || '').toLowerCase().includes(searchTerm);
+      const searchMatchesText = (row.get('text') || '').toLowerCase().includes(searchTerm);
+      return row.set(row.get('id'), searchMatchesText || searchMatchesUser);
+    }, Map());
 
   const newState = state
     .set('searchValue', payload)
-    .set('data', updatedData);
+    .set('searchedMap', searchedMap);
+
   // Don't clear the selection if the user has locked it
   if (state.get('commentSelectionLock')) {
     return newState;
   }
   const chain = nullSearch ? [] : newState
-    .get('data').filter((d, idx) => !idx || d.get('searched'));
+    .get('data').filter((d, idx) => !idx || searchedMap(d.get('id')));
 
   return setCommentPath(newState, [])
     .set('itemsToRender', chain);
 };
 
-const unlockAndSearch = (state, payload) => {
-  return setSearch(state.set('commentSelectionLock', false), payload);
+const unlockAndSearch = (state, payload) =>
+  setSearch(state.set('commentSelectionLock', false), payload);
+
+const getAllUsers = (state, users) => state
+  .set('users', users.reduce((acc, row) => acc.set(row.id, row), Map()));
+
+const getAllItems = (state, {data, tree}) => {
+  let updatedData = Immutable.fromJS(data);
+  if (state.get('model')) {
+    updatedData = updatedData.map(row => row.set('modeledTopic',
+      modelComment(state.get('model'), row.get('text') || '').modelIndex));
+  }
+  // TODO compute top users
+  return state
+    .set('loading', false)
+    .set('data', updatedData)
+    .set('tree', tree);
 };
 
 const actionFuncMap = {
-  'get-item': getItem,
-  'get-user': getUser,
+  'get-all-items': getAllItems,
+  'get-all-users': getAllUsers,
   'model-data': modelData,
-  'start-request': startRequest,
   'set-comment-path': setCommentPath,
   'set-config-value': setConfig,
   'set-found-order': setFoundOrder,

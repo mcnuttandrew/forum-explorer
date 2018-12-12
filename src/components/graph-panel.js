@@ -9,10 +9,12 @@ import {getSelectedOption, computeTopUsers} from '../utils';
 import {numUsersToHighlight} from '../constants';
 
 class GraphPanel extends React.Component {
+  /* eslint-disable no-undef */
   state = {
     height: 0,
     width: 0
   }
+  /* eslint-enable no-undef */
 
   componentDidMount() {
     window.addEventListener('resize', debounce(this.resize.bind(this), 50));
@@ -28,7 +30,13 @@ class GraphPanel extends React.Component {
   }
 
   render() {
-    const {configs, model, setSearch, searchValue, unlockAndSearch} = this.props;
+    const {
+      configs,
+      model,
+      setSearch,
+      searchValue,
+      unlockAndSearch
+    } = this.props;
 
     const showTopics = getSelectedOption(configs, 2) === 'on';
     const modelToMap = showTopics ? (model || []) : [];

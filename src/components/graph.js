@@ -2,10 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {select} from 'd3-selection';
-import {stratify} from 'd3-hierarchy';
+import {hierarchy} from 'd3-hierarchy';
 import {voronoi} from 'd3-voronoi';
 /* eslint-disable no-unused-vars */
-import {scaleLinear} from 'd3-scale';
 import {transition} from 'd3-transition';
 /* eslint-enable no-unused-vars */
 import debounce from 'lodash.debounce';
@@ -54,23 +53,16 @@ class Graph extends React.Component {
       height,
       width,
       graphLayout,
-      markSize
+      markSize,
+      tree
     } = props;
 
-    if (!width || !height || !props.data.size) {
+    if (!width || !height || !tree) {
       return;
     }
 
-    const data = props.data.toJS();
-    // forcing the root node to be null necessary in order to run stratify
-    data[0].parent = null;
-    const stratifyMap = stratify().id(d => d.id).parentId(d => d.parent);
     const treeEval = layouts[graphLayout].layout();
-    const idMap = data.reduce((acc, row) => {
-      acc[row.id] = true;
-      return acc;
-    }, {});
-    const root = treeEval(stratifyMap(data.filter(d => !d.parent || idMap[d.parent])));
+    const root = treeEval(hierarchy(tree));
 
     const xScale = layouts[graphLayout].getXScale(props, root);
     const yScale = layouts[graphLayout].getYScale(props, root);
@@ -90,7 +82,7 @@ class Graph extends React.Component {
     const evalLineClasses = d => {
       return classnames({
         link: true,
-        'link-selected': selectedMap.get(d.target.data.id)
+        'link-selected': selectedMap.get(d.target.data.data.id)
       });
     };
     const path = layouts[graphLayout].path(xScale, yScale);
@@ -104,26 +96,33 @@ class Graph extends React.Component {
   }
 
   renderNodes(props, nodes, positioning, markSize) {
-    const {hoveredComment, toggleCommentSelectionLock, selectedMap, topUsers} = props;
+    const {
+      hoveredComment,
+      toggleCommentSelectionLock,
+      selectedMap,
+      searchedMap,
+      topUsers
+    } = props;
     const nodesG = select(ReactDOM.findDOMNode(this.refs.nodes));
     const translateFunc = arr => `translate(${arr.join(',')})`;
     const evalCircClasses = d => {
       const tops = [...new Array(numUsersToHighlight)].reduce((acc, _, i) => {
         const idx = i + 1;
-        if (!topUsers[d.data.by] || topUsers[d.data.by].rank !== idx) {
+        if (!topUsers[d.data.data.by] || topUsers[d.data.data.by].rank !== idx) {
           return acc;
         }
         acc[`node-highlighted-top-${idx}`] = true;
         return acc;
       }, {});
+
       return classnames({
         node: true,
         'node-internal': d.children,
         'node-leaf': !d.children,
-        'node-selected': selectedMap.get(d.data.id),
-        'node-searched': d.data.searched,
-        'node-hovered': d.data.id === hoveredComment,
-        [`node-topic-modeled-${d.data.modeledTopic}`]: true,
+        'node-selected': selectedMap.get(d.data.data.id),
+        'node-searched': searchedMap.get(d.data.data.id),
+        'node-hovered': d.data.data.id === hoveredComment,
+        // [`node-topic-modeled-${d.data.data.modeledTopic}`]: true,
         ...tops
       });
     };
@@ -153,7 +152,10 @@ class Graph extends React.Component {
       .attr('fill', 'black')
       .attr('opacity', 0)
       .attr('d', d => `M${d.join('L')}Z`)
-      .on('mouseenter', d => setSelectedCommentPath(extractIdPathToRoot(d.data[2])))
+      .on('mouseenter', d => {
+        console.log(d)
+        setSelectedCommentPath(extractIdPathToRoot(d.data[2]));
+      })
       .on('click', toggleCommentSelectionLock);
     polygon.transition()
       .attr('d', d => `M${d.join('L')}Z`);
