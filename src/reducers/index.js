@@ -41,9 +41,6 @@ const DEFAULT_STATE = Immutable.fromJS({
   model: null,
   tree: null,
   topUsers: [],
-  // toRequest: [],
-  // responsesExpected: 1,
-  // responsesObserved: 0,
   searchValue: '',
   searchedMap: {}
 })
@@ -77,53 +74,6 @@ const setCommentPath = (state, payload) => {
     )
     .set('itemPath', Immutable.fromJS(payload));
 };
-
-// const getItem = (state, payload) => {
-//   if (!payload) {
-//     return state
-//       .set('responsesObserved', state.get('responsesObserved') + 1);
-//   }
-//   const parent = payload.parent ? state.get('data').find(d => d.get('id') === payload.parent) : null;
-//   const depth = parent ? parent.get('depth') + 1 : 0;
-//
-//   const loadingStateChange = state.get('loading') &&
-//     state.get('responsesObserved') >= state.get('responsesExpected');
-//
-  // const metadata = state.getIn(['foundOrderMap', `${payload.id}`]) ||
-  //   Map({upvoteLink: null, replyLink: null});
-//
-//   const evalModel = modelComment(state.get('model') || [], payload.text || '');
-//
-//   const updatededData = state.get('data').push(Immutable.fromJS({
-//     ...payload,
-//     depth,
-//     upvoteLink: metadata.get('upvoteLink'),
-//     replyLink: metadata.get('replyLink'),
-//     modeledTopic: evalModel.modelIndex
-//   }));
-//
-//   const requestList = (payload.kids || []).map(id => ({id, type: 'item'}));
-//   if (!state.getIn(['users', payload.by])) {
-//     requestList.push({type: 'user', id: payload.by});
-//   }
-//
-//   const updatededState = state
-//     // how do you do multiple updates simultaneously? I think its with mutable or something?
-//     .set('data', updatededData)
-//     .set('toRequest', state.get('toRequest').concat(Immutable.fromJS(requestList)))
-//     .set('responsesObserved', state.get('responsesObserved') + 1)
-//     .set('responsesExpected', parent ? state.get('responsesExpected') : payload.descendants);
-//
-//   if (loadingStateChange) {
-//     const rootId = state.getIn(['data', 0, 'id']);
-//     return setCommentPath(updatededState.set('loading', false), [rootId])
-//       .set('data', state.get('data').sortBy(d => d.get('time')));
-//   }
-//   return updatededState;
-// };
-
-// const getUser = (state, payload) => state
-//   .setIn(['users', payload.id], Immutable.fromJS(payload));
 
 const setHoveredComment = (state, payload) => state
   .set('hoveredComment', payload && payload.get('id') || null);
