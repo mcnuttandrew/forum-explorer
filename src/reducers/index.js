@@ -39,8 +39,8 @@ const DEFAULT_STATE = Immutable.fromJS({
   loading: !DEV_MODE,
   model: null,
   // toRequest: [],
-  responsesExpected: 1,
-  responsesObserved: 0,
+  // responsesExpected: 1,
+  // responsesObserved: 0,
   searchValue: '',
   searchedMap: {}
 });
@@ -57,15 +57,11 @@ function modelComment(model, text) {
   }, {modelIndex: null, modelScore: -Infinity});
 }
 
-// const startRequest = (state, payload) => state
-//   .set('toRequest', state.get('toRequest').filter(d => d.get('id') !== payload));
-
 const setCommentPath = (state, payload) => {
   const itemMap = payload.reduce((acc, row) => {
     acc[row] = true;
     return acc;
   }, {});
-  console.log(itemMap)
   return state
     .set('itemsToRender',
       state.get('data').filter((row, idx) =>
@@ -88,8 +84,8 @@ const setCommentPath = (state, payload) => {
 //   const loadingStateChange = state.get('loading') &&
 //     state.get('responsesObserved') >= state.get('responsesExpected');
 //
-//   const metadata = state.getIn(['foundOrderMap', `${payload.id}`]) ||
-//     Map({upvoteLink: null, replyLink: null});
+  // const metadata = state.getIn(['foundOrderMap', `${payload.id}`]) ||
+  //   Map({upvoteLink: null, replyLink: null});
 //
 //   const evalModel = modelComment(state.get('model') || [], payload.text || '');
 //
@@ -196,7 +192,13 @@ const getAllUsers = (state, users) => state
   .set('users', users.reduce((acc, row) => acc.set(row.id, row), Map()));
 
 const getAllItems = (state, {data, tree}) => {
-  let updatedData = Immutable.fromJS(data);
+  let updatedData = Immutable.fromJS(data).map(row => {
+    const metadata = state.getIn(['foundOrderMap', `${row.id}`]) ||
+      Map({upvoteLink: null, replyLink: null});
+    return row
+      .set('upvoteLink', metadata.get('upvoteLink'))
+      .set('replyLink', metadata.get('replyLink'));
+  });
   if (state.get('model')) {
     updatedData = updatedData.map(row => row.set('modeledTopic',
       modelComment(state.get('model'), row.get('text') || '').modelIndex));

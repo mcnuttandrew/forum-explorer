@@ -87,13 +87,13 @@ function mapStateToProps({base}) {
     loading: base.get('loading'),
     model: base.get('model') || [],
     serializedModel: base.get('serialized-model') || [],
-    responsesExpected: base.get('responsesExpected'),
-    responsesObserved: base.get('responsesObserved'),
+    // responsesExpected: base.get('responsesExpected'),
+    // responsesObserved: base.get('responsesObserved'),
     rootId: base.getIn(['data', 0, 'id']),
     searchValue: base.get('searchValue'),
     searchedMap: base.get('searchedMap'),
     tree: base.get('tree'),
-    toRequest: base.get('toRequest'),
+    // toRequest: base.get('toRequest'),
     users: base.get('users')
   };
 }

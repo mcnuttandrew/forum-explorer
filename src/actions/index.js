@@ -39,7 +39,7 @@ function getAllUsers(dispatch, data) {
     }));
 }
 
-function prepareTree(data, maxDepth) {
+function prepareTree(data, maxDepth, root) {
   const nodesByParentId = data.reduce((acc, child) => {
     if (child.parent && !acc[child.parent]) {
       acc[child.parent] = [];
@@ -47,6 +47,8 @@ function prepareTree(data, maxDepth) {
     acc[!child.parent ? 'root' : child.parent].push(child);
     return acc;
   }, {root: []});
+  nodesByParentId.root = nodesByParentId[root];
+  console.log(nodesByParentId, root, nodesByParentId.root)
   const formToTree = node => ({
     depth: node.depth,
     height: maxDepth - node.depth - 1,
@@ -60,11 +62,9 @@ function prepareTree(data, maxDepth) {
         return child;
       })
   });
-
-  return {
-    data,
-    tree: formToTree(nodesByParentId.root[0])
-  };
+  const tree = formToTree(nodesByParentId.root[0]);
+  console.log(tree)
+  return {data, tree};
 }
 
 const itemUrl = id => `https://hacker-news.firebaseio.com/v0/item/${id}.json`;
@@ -76,6 +76,7 @@ export const getAllItems = root => {
     Promise.all(generation.map(child => getChild(child)))
     .then(offspring => {
       children = children.concat(offspring.map(d => ({...d, depth})));
+      console.log(offspring, children)
       depth += 1;
       const newgen = offspring
         .reduce((acc, child) => acc.concat(child.kids || []), []);
@@ -91,7 +92,7 @@ export const getAllItems = root => {
     .then(data => {
       dispatch({
         type: 'get-all-items',
-        payload: prepareTree(data, depth)
+        payload: prepareTree(data, depth, root)
       });
       getAllUsers(dispatch, data);
     });
