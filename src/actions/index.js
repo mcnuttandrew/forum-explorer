@@ -39,13 +39,17 @@ function getAllUsers(dispatch, data) {
 }
 
 const itemUrl = id => `https://hacker-news.firebaseio.com/v0/item/${id}.json`;
-export const getAllItems = root => {
+export const getAllItems = root => dispatch => {
   let children = [];
   const getChild = child => fetch(itemUrl(child)).then(response => response.json());
   let depth = 0;
   const doGeneration = generation =>
     Promise.all(generation.map(child => getChild(child)))
     .then(offspring => {
+      dispatch({
+        type: 'increase-loaded-count',
+        payload: {newCount: children.length}
+      });
       children = children.concat(offspring.map(d => ({...d, depth})));
       depth += 1;
       const newgen = offspring
@@ -56,7 +60,7 @@ export const getAllItems = root => {
       return children;
     });
 
-  return dispatch => Promise.resolve()
+  return Promise.resolve()
     .then(() => doGeneration([root]))
     .then(data => data.sort((a, b) => a.time - b.time))
     .then(data => {

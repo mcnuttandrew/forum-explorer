@@ -47,7 +47,7 @@ class RootComponent extends React.Component {
           logoutLink={this.props.logoutLink}
           username={this.props.username}/>
         {this.props.loading && <div className="flex full-size background-gray centering">
-          <h1> Loading... </h1>
+          <h1> Loading, {this.props.loadedCount} so far</h1>
         </div>}
         {
           !this.props.loading && <div
@@ -84,6 +84,7 @@ function mapStateToProps({base}) {
     hoveredComment: base.get('hoveredComment'),
     itemsToRender: base.get('itemsToRender'),
     itemPath: base.get('itemPath'),
+    loadedCount: base.get('loadedCount'),
     loading: base.get('loading'),
     model: base.get('model') || [],
     serializedModel: base.get('serialized-model') || [],

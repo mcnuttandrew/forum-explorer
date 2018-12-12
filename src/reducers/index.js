@@ -38,6 +38,7 @@ const DEFAULT_STATE = Immutable.fromJS({
   itemsToRender: [],
   itemPath: [],
   loading: !DEV_MODE,
+  loadedCount: 0,
   model: null,
   tree: null,
   topUsers: [],
@@ -74,6 +75,9 @@ const setCommentPath = (state, payload) => {
     )
     .set('itemPath', Immutable.fromJS(payload));
 };
+
+const increaseLoadedCount = (state, {newCount}) =>
+  state.set('loadedCount', newCount);
 
 const setHoveredComment = (state, payload) => state
   .set('hoveredComment', payload && payload.get('id') || null);
@@ -195,6 +199,7 @@ const getAllItems = (state, {data, root}) => {
 const actionFuncMap = {
   'get-all-items': getAllItems,
   'get-all-users': getAllUsers,
+  'increase-loaded-count': increaseLoadedCount,
   'model-data': modelData,
   'set-comment-path': setCommentPath,
   'set-config-value': setConfig,
@@ -207,11 +212,8 @@ const actionFuncMap = {
 
 export default createStore(
   combineReducers({
-    base: function base(state = DEFAULT_STATE, action) {
-      const {type, payload} = action;
-      const response = actionFuncMap[type];
-      return response ? response(state, payload) : state;
-    }
+    base: (state = DEFAULT_STATE, {type, payload}) =>
+      actionFuncMap[type] ? actionFuncMap[type](state, payload) : state
   }),
   applyMiddleware(thunk),
 );
