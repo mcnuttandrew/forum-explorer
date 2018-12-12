@@ -209,11 +209,12 @@ const actionFuncMap = {
   'toggle-comment-selection-lock': toggleCommentSelectionLock,
   'unlock-and-search': unlockAndSearch
 };
+const NULL_ACTION = (state, payload) => state;
 
 export default createStore(
   combineReducers({
     base: (state = DEFAULT_STATE, {type, payload}) =>
-      actionFuncMap[type] ? actionFuncMap[type](state, payload) : state
+      (actionFuncMap[type] || NULL_ACTION)(state, payload)
   }),
   applyMiddleware(thunk),
 );
