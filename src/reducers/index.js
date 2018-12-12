@@ -163,8 +163,14 @@ function prepareTree(data, root) {
     children: (nodesByParentId[node.id] || [])
       .map(child => formToTree(child))
   });
-  const tree = formToTree(nodesByParentId.root[0]);
-  return tree;
+  if (root && nodesByParentId[root].length > 1) {
+    nodesByParentId.root = [{
+      depth: 0,
+      id: root,
+      children: [root]
+    }];
+  }
+  return formToTree(nodesByParentId.root[0]);
 }
 
 const getAllItems = (state, {data, root}) => {

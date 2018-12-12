@@ -6,7 +6,6 @@ export const toggleCommentSelectionLock = buildEasyAction('toggle-comment-select
 export const unlockAndSearch = buildEasyAction('unlock-and-search');
 export const setFoundOrder = buildEasyAction('set-found-order');
 export const setSearch = buildEasyAction('set-search');
-// export const startGetItem = buildEasyAction('start-request');
 export const setSelectedCommentPath = buildEasyAction('set-comment-path');
 
 const serverTemplate = SERVER_DEV_MODE ?
