@@ -34,9 +34,11 @@ function tooltip(configs, setConfig, toggleTooltip) {
 }
 
 class Header extends React.Component {
+  /* eslint-disable no-undef */
   state = {
     tooltipOpen: false
   }
+  /* eslint-enable no-undef */
 
   render() {
     const {tooltipOpen} = this.state;

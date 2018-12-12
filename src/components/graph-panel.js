@@ -6,7 +6,6 @@ import Graph from './graph';
 import TopicBadge from './topic-badge';
 import SearchBox from './search-box';
 import {getSelectedOption} from '../utils';
-import {numUsersToHighlight} from '../constants';
 
 class GraphPanel extends React.Component {
   /* eslint-disable no-undef */
