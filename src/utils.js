@@ -68,12 +68,11 @@ export function getSelectedOption(configs, optionIdx) {
 }
 
 export function computeTopUsers(data, numUsers) {
-  // good lord this is not efficent
-  const counts = data.toJS().reduce((acc, row) => {
-    acc[row.by] = (acc[row.by] || 0) + 1;
+  const counts = data.reduce((acc, row) => {
+    acc[row.get('by')] = (acc[row.get('by')] || 0) + 1;
     return acc;
   }, {});
-  const posters = Object.entries(counts).sort((a, b) => a[1] - b[1]).reverse();
+  const posters = Object.entries(counts).sort((a, b) => b[1] - a[1]);
   return posters.slice(0, numUsers).reduce((acc, row, idx) => {
     acc[row[0]] = {rank: idx + 1, numPosts: row[1]};
     return acc;

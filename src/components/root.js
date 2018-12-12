@@ -19,20 +19,7 @@ class RootComponent extends React.Component {
 
   componentDidMount() {
     if (!DEV_MODE) {
-      this.props.getItem(getId(), true);
-    }
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (!this.props.toRequest.equals(newProps.toRequest)) {
-      newProps.toRequest.forEach(request => {
-        newProps.startGetItem(request.get('id'));
-        if (request.get('type') === 'item') {
-          newProps.getItem(request.get('id'));
-        } else {
-          newProps.getUser(request.get('id'));
-        }
-      });
+      this.props.getAllItems(getId());
     }
   }
 
@@ -60,26 +47,14 @@ class RootComponent extends React.Component {
           logoutLink={this.props.logoutLink}
           username={this.props.username}/>
         {this.props.loading && <div className="flex full-size background-gray centering">
-          <h1>
-            {`${Math.floor((this.props.responsesObserved / this.props.responsesExpected) * 100)}% loaded`}
-          </h1>
+          <h1> Loading, {this.props.loadedCount} so far</h1>
         </div>}
         {
           !this.props.loading && <div
             className="flex full-size background-gray main-container">
             {showGraph && <GraphPanel
-              commentSelectionLock={this.props.commentSelectionLock}
-              configs={this.props.configs}
-              data={this.props.data}
-              graphLayout={this.props.graphLayout}
-              hoveredComment={this.props.hoveredComment}
-              model={this.props.model}
-              setSelectedCommentPath={this.props.setSelectedCommentPath}
+              {...this.props}
               selectedMap={selectedMap}
-              toggleCommentSelectionLock={this.props.toggleCommentSelectionLock}
-              searchValue={this.props.searchValue}
-              setSearch={this.props.setSearch}
-              unlockAndSearch={this.props.unlockAndSearch}
               />}
             <CommentPanel
               setHoveredComment={this.props.setHoveredComment}
@@ -109,14 +84,15 @@ function mapStateToProps({base}) {
     hoveredComment: base.get('hoveredComment'),
     itemsToRender: base.get('itemsToRender'),
     itemPath: base.get('itemPath'),
+    loadedCount: base.get('loadedCount'),
     loading: base.get('loading'),
     model: base.get('model') || [],
     serializedModel: base.get('serialized-model') || [],
-    responsesExpected: base.get('responsesExpected'),
-    responsesObserved: base.get('responsesObserved'),
     rootId: base.getIn(['data', 0, 'id']),
     searchValue: base.get('searchValue'),
-    toRequest: base.get('toRequest'),
+    searchedMap: base.get('searchedMap'),
+    topUsers: base.get('topUsers'),
+    tree: base.get('tree'),
     users: base.get('users')
   };
 }

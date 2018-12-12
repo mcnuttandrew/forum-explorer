@@ -1,9 +1,10 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import Immutable, {Map} from 'immutable';
-import {DEV_MODE} from '../constants';
+import {DEV_MODE, numUsersToHighlight} from '../constants';
 import {graphLayouts} from '../layouts';
 import TestData from '../constants/test-data.json';
+import {computeTopUsers} from '../utils';
 
 const DEFAULT_CONFIGS = [{
   name: 'graph layout',
@@ -37,12 +38,15 @@ const DEFAULT_STATE = Immutable.fromJS({
   itemsToRender: [],
   itemPath: [],
   loading: !DEV_MODE,
+  loadedCount: 0,
   model: null,
-  toRequest: [],
-  responsesExpected: 1,
-  responsesObserved: 0,
-  searchValue: ''
-});
+  tree: null,
+  topUsers: [],
+  searchValue: '',
+  searchedMap: {}
+})
+.set('tree', DEV_MODE ? prepareTree(TestData, null) : [])
+.set('topUsers', DEV_MODE ? computeTopUsers(Immutable.fromJS(TestData), numUsersToHighlight) : []);
 
 function modelComment(model, text) {
   return model.reduce((acc, row, modelIndex) => {
@@ -55,9 +59,6 @@ function modelComment(model, text) {
     return acc;
   }, {modelIndex: null, modelScore: -Infinity});
 }
-
-const startRequest = (state, payload) => state
-  .set('toRequest', state.get('toRequest').filter(d => d.get('id') !== payload));
 
 const setCommentPath = (state, payload) => {
   const itemMap = payload.reduce((acc, row) => {
@@ -75,64 +76,14 @@ const setCommentPath = (state, payload) => {
     .set('itemPath', Immutable.fromJS(payload));
 };
 
-const getItem = (state, payload) => {
-  if (!payload) {
-    return state
-      .set('responsesObserved', state.get('responsesObserved') + 1);
-  }
-  const parent = payload.parent ? state.get('data').find(d => d.get('id') === payload.parent) : null;
-  const depth = parent ? parent.get('depth') + 1 : 0;
+const increaseLoadedCount = (state, {newCount}) =>
+  state.set('loadedCount', newCount);
 
-  const loadingStateChange = state.get('loading') &&
-    state.get('responsesObserved') >= state.get('responsesExpected');
+const setHoveredComment = (state, payload) => state
+  .set('hoveredComment', payload && payload.get('id') || null);
 
-  const metadata = state.getIn(['foundOrderMap', `${payload.id}`]) ||
-    Map({upvoteLink: null, replyLink: null});
-
-  const evalModel = modelComment(state.get('model') || [], payload.text || '');
-
-  const updatededData = state.get('data').push(Immutable.fromJS({
-    ...payload,
-    depth,
-    upvoteLink: metadata.get('upvoteLink'),
-    replyLink: metadata.get('replyLink'),
-    modeledTopic: evalModel.modelIndex
-  }));
-
-  const requestList = (payload.kids || []).map(id => ({id, type: 'item'}));
-  if (!state.getIn(['users', payload.by])) {
-    requestList.push({type: 'user', id: payload.by});
-  }
-
-  const updatededState = state
-    // how do you do multiple updates simultaneously? I think its with mutable or something?
-    .set('data', updatededData)
-    .set('toRequest', state.get('toRequest').concat(Immutable.fromJS(requestList)))
-    .set('responsesObserved', state.get('responsesObserved') + 1)
-    .set('responsesExpected', parent ? state.get('responsesExpected') : payload.descendants);
-
-  if (loadingStateChange) {
-    const rootId = state.getIn(['data', 0, 'id']);
-    return setCommentPath(updatededState.set('loading', false), [rootId])
-      .set('data', state.get('data').sortBy(d => d.get('time')));
-  }
-  return updatededState;
-};
-
-const getUser = (state, payload) => {
-  return state
-    .setIn(['users', payload.id], Immutable.fromJS(payload));
-};
-
-const setHoveredComment = (state, payload) => {
-  return state
-    .set('hoveredComment', payload && payload.get('id') || null);
-};
-
-const toggleCommentSelectionLock = (state, payload) => {
-  return state
-    .set('commentSelectionLock', !state.get('commentSelectionLock'));
-};
+const toggleCommentSelectionLock = (state, payload) => state
+  .set('commentSelectionLock', !state.get('commentSelectionLock'));
 
 const setFoundOrder = (state, payload) => {
   const foundOrderMap = payload.reduce((acc, content, order) => {
@@ -171,38 +122,85 @@ const setConfig = (state, {rowIdx, valueIdx}) => {
 const setSearch = (state, payload) => {
   const nullSearch = (payload === '' || !payload.length);
   const searchTerm = payload.toLowerCase();
-  const updatedData = nullSearch ?
-    state.get('data').map(row => row.set('searched', false)) :
-    state.get('data')
-      .map(row => {
-        const searchMatchesUser = (row.get('by') || '').toLowerCase().includes(searchTerm);
-        const searchMatchesText = (row.get('text') || '').toLowerCase().includes(searchTerm);
-        return row.set('searched', searchMatchesText || searchMatchesUser);
-      });
+  const searchedMap = nullSearch ? Map() :
+    state.get('data').reduce((acc, row) => {
+      const searchMatchesUser = (row.get('by') || '').toLowerCase().includes(searchTerm);
+      const searchMatchesText = (row.get('text') || '').toLowerCase().includes(searchTerm);
+      return acc.set(row.get('id'), Boolean(searchMatchesText || searchMatchesUser));
+    }, Map());
 
   const newState = state
     .set('searchValue', payload)
-    .set('data', updatedData);
+    .set('searchedMap', searchedMap);
+
   // Don't clear the selection if the user has locked it
   if (state.get('commentSelectionLock')) {
     return newState;
   }
   const chain = nullSearch ? [] : newState
-    .get('data').filter((d, idx) => !idx || d.get('searched'));
+    .get('data').filter((d, idx) => !idx || searchedMap.get(d.get('id')));
 
-  return setCommentPath(newState, [])
-    .set('itemsToRender', chain);
+  return setCommentPath(newState, []).set('itemsToRender', chain);
 };
 
-const unlockAndSearch = (state, payload) => {
-  return setSearch(state.set('commentSelectionLock', false), payload);
+const unlockAndSearch = (state, payload) =>
+  setSearch(state.set('commentSelectionLock', false), payload);
+
+const getAllUsers = (state, users) => state
+  .set('users', users.reduce((acc, row) => acc.set(row.id, row), Map()));
+
+function prepareTree(data, root) {
+  const maxDepth = data.reduce((acc, row) => Math.max(acc, row.depth), 0);
+  const nodesByParentId = data.reduce((acc, child) => {
+    if (child.parent && !acc[child.parent]) {
+      acc[child.parent] = [];
+    }
+    acc[!child.parent ? 'root' : child.parent].push(child);
+    return acc;
+  }, {root: []});
+  const formToTree = node => ({
+    depth: node.depth,
+    height: maxDepth - node.depth - 1,
+    id: `${node.id}`,
+    data: node,
+    parent: node.parent || null,
+    children: (nodesByParentId[node.id] || [])
+      .map(child => formToTree(child))
+  });
+  if (root && nodesByParentId[root].length > 1) {
+    nodesByParentId.root = [{
+      depth: 0,
+      id: root,
+      children: [root]
+    }];
+  }
+  return formToTree(nodesByParentId.root[0]);
+}
+
+const getAllItems = (state, {data, root}) => {
+  let updatedData = Immutable.fromJS(data).map(row => {
+    const metadata = state.getIn(['foundOrderMap', `${row.id}`]) ||
+      Map({upvoteLink: null, replyLink: null});
+    return row
+      .set('upvoteLink', metadata.get('upvoteLink'))
+      .set('replyLink', metadata.get('replyLink'));
+  });
+  if (state.get('model')) {
+    updatedData = updatedData.map(row => row.set('modeledTopic',
+      modelComment(state.get('model'), row.get('text') || '').modelIndex));
+  }
+  return state
+    .set('loading', false)
+    .set('data', updatedData)
+    .set('tree', prepareTree(updatedData.toJS(), root))
+    .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight));
 };
 
 const actionFuncMap = {
-  'get-item': getItem,
-  'get-user': getUser,
+  'get-all-items': getAllItems,
+  'get-all-users': getAllUsers,
+  'increase-loaded-count': increaseLoadedCount,
   'model-data': modelData,
-  'start-request': startRequest,
   'set-comment-path': setCommentPath,
   'set-config-value': setConfig,
   'set-found-order': setFoundOrder,
@@ -211,14 +209,12 @@ const actionFuncMap = {
   'toggle-comment-selection-lock': toggleCommentSelectionLock,
   'unlock-and-search': unlockAndSearch
 };
+const NULL_ACTION = (state, payload) => state;
 
 export default createStore(
   combineReducers({
-    base: function base(state = DEFAULT_STATE, action) {
-      const {type, payload} = action;
-      const response = actionFuncMap[type];
-      return response ? response(state, payload) : state;
-    }
+    base: (state = DEFAULT_STATE, {type, payload}) =>
+      (actionFuncMap[type] || NULL_ACTION)(state, payload)
   }),
   applyMiddleware(thunk),
 );

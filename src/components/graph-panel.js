@@ -5,14 +5,15 @@ import debounce from 'lodash.debounce';
 import Graph from './graph';
 import TopicBadge from './topic-badge';
 import SearchBox from './search-box';
-import {getSelectedOption, computeTopUsers} from '../utils';
-import {numUsersToHighlight} from '../constants';
+import {getSelectedOption} from '../utils';
 
 class GraphPanel extends React.Component {
+  /* eslint-disable no-undef */
   state = {
     height: 0,
     width: 0
   }
+  /* eslint-enable no-undef */
 
   componentDidMount() {
     window.addEventListener('resize', debounce(this.resize.bind(this), 50));
@@ -28,12 +29,17 @@ class GraphPanel extends React.Component {
   }
 
   render() {
-    const {configs, model, setSearch, searchValue, unlockAndSearch} = this.props;
+    const {
+      configs,
+      model,
+      setSearch,
+      searchValue,
+      topUsers,
+      unlockAndSearch
+    } = this.props;
 
     const showTopics = getSelectedOption(configs, 2) === 'on';
     const modelToMap = showTopics ? (model || []) : [];
-    // HACK this should live in the reducer somewhere
-    const topUsers = computeTopUsers(this.props.data, numUsersToHighlight);
     const colorByTopUsers = getSelectedOption(configs, 2);
     return (
       <div className="panel relative" ref="graphPanel">
@@ -43,7 +49,6 @@ class GraphPanel extends React.Component {
         </div>
         <Graph
           {...this.props}
-          topUsers={topUsers}
           graphLayout={getSelectedOption(configs, 0)}
           markSize={getSelectedOption(configs, 1)}
           height={this.state.height}
