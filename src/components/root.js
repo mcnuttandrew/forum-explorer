@@ -36,7 +36,6 @@ class RootComponent extends React.Component {
           'flex-down': true,
           'full-size': true,
           // TODO update to configs
-          'topic-model-coloring': colorBy === 'topic-modeling' && this.props.model.length,
           'top-user-coloring': colorBy === 'top-users'
         })}>
         <Header

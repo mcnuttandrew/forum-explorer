@@ -16,7 +16,7 @@ const DEFAULT_CONFIGS = [{
   defaultOption: 'medium'
 }, {
   name: 'color by',
-  options: ['nothing', 'top-users', 'topic-modeling'],
+  options: ['nothing', 'top-users'],
   defaultOption: 'top-users'
 }, {
   name: 'show graph',
@@ -184,7 +184,7 @@ const getAllItems = (state, {data, root}) => {
     return row
       .set('upvoteLink', metadata.get('upvoteLink'))
       .set('replyLink', metadata.get('replyLink'));
-  });
+  }).filter(row => !row.get('deleted'));
   if (state.get('model')) {
     updatedData = updatedData.map(row => row.set('modeledTopic',
       modelComment(state.get('model'), row.get('text') || '').modelIndex));

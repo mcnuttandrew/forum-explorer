@@ -75,9 +75,6 @@ body,
   stroke: #ff6600;
 }
 
-.topic-box {
-  display: none;
-}
 
 .node-searched {
   fill: #ff6600;
@@ -92,69 +89,6 @@ body,
 .node.node-hovered {
   stroke-width: 4px;
   transition: stroke-width 0.2s;
-}
-
-.topic-model-coloring .node-topic-modeled-0,
-.topic-model-coloring .topic-badge-0,
-.topic-model-coloring .topic-box-0 {
-  background: #BA0009;
-  color: #BA0009;
-  fill: #BA0009;
-}
-
-.topic-model-coloring .node-topic-modeled-1,
-.topic-model-coloring .topic-badge-1,
-.topic-model-coloring .topic-box-1 {
-  /*
-  background: #DAD2D8;
-  color: #DAD2D8;
-  fill: #DAD2D8;
-  */
-  background: #852374;
-  color: #852374;
-  fill: #852374;
-
-}
-
-.topic-model-coloring .node-topic-modeled-2,
-.topic-model-coloring .topic-badge-2,
-.topic-model-coloring .topic-box-2 {
-  background: #0F8B8D;
-  color: #0F8B8D;
-  fill: #0F8B8D;
-}
-
-.topic-model-coloring .node-topic-modeled-3,
-.topic-model-coloring .topic-badge-3,
-.topic-model-coloring .topic-box-3 {
-  background: #EC9A29;
-  color: #EC9A29;
-  fill: #EC9A29;
-}
-
-.topic-model-coloring .node-topic-modeled-4,
-.topic-model-coloring .topic-badge-4,
-.topic-model-coloring .topic-box-4 {
-  /*
-  background: #143642;
-  color: #143642;
-  fill: #143642;
-  */
-  background: #1c4d5f;
-  color: #1c4d5f;
-  fill: #1c4d5f;
-}
-
-.topic-badge {
-  color: #fff;
-  cursor: pointer;
-  font-size: 10px;
-  padding: 0 10px;
-}
-
-.topic-box {
-  font-size: 9px;
-  margin-right: 5px;
 }
 
 .link {
