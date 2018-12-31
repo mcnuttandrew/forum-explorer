@@ -33,6 +33,23 @@ function tooltip(configs, setConfig, toggleTooltip) {
   );
 }
 
+function headerLinks(username) {
+  return [
+    {name: 'new', link: 'newest'},
+    username ? {name: 'threads', link: `threads?id=${username}`} : false,
+    {name: 'comments', link: 'newcomments'},
+    {name: 'show'},
+    {name: 'ask'},
+    {name: 'jobs'},
+    {name: 'submit'}
+  ]
+  .filter(d => d)
+  .map(({name, link}) => {
+    const url = link || name;
+    return <a className="header-link" href={url} key={url}>{name}</a>;
+  });
+}
+
 class Header extends React.Component {
   /* eslint-disable no-undef */
   state = {
@@ -61,9 +78,7 @@ class Header extends React.Component {
         <a
           href="https://news.ycombinator.com/news"
           className="header-link site-title">Hacker News</a>
-        {['new', 'comments', 'show', 'ask', 'job', 'submit'].map(link => {
-          return <a className="header-link" href={link} key={link}>{link}</a>;
-        })}
+        {headerLinks(username)}
         <a onClick={toggleTooltip}>settings</a>
         {tooltipOpen && <div onClick={toggleTooltip} className="tooltip-background" />}
         {tooltipOpen && <div className="tooltip-container">
