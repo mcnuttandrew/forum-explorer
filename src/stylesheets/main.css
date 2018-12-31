@@ -118,6 +118,10 @@ body,
   cursor: pointer;
 }
 
+.fade-block {
+  pointer-events: none;
+}
+
 .legend {
   fill: #828282;
   font-size: 10px;

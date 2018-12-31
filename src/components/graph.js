@@ -54,7 +54,8 @@ class Graph extends React.Component {
       width,
       graphLayout,
       markSize,
-      tree
+      tree,
+      searchedMap
     } = props;
 
     if (!width || !height || !tree) {
@@ -72,6 +73,7 @@ class Graph extends React.Component {
 
     this.renderLinks(props, root, xScale, yScale);
     this.renderNodes(props, nodes, positioning, markSize);
+    this.renderSelectedNodes(props, nodes, positioning, markSize);
     this.renderVoronoi(props, nodes, positioning);
   }
 
@@ -96,6 +98,20 @@ class Graph extends React.Component {
   }
 
   renderNodes(props, nodes, positioning, markSize) {
+    this.renderAnyNodes(props, nodes, positioning, markSize, false);
+  }
+
+  renderSelectedNodes(props, nodes, positioning, markSize) {
+    const {searchedMap} = props;
+    // const filteredNodes = nodes.filter(node => searchedMap.get(Number(node.data.id)));
+    // if (!filteredNodes.length) {
+    //   return;
+    // }
+    // console.log('double', filteredNodes.length)
+    this.renderAnyNodes(props, nodes, positioning, markSize, searchedMap);
+  }
+
+  renderAnyNodes(props, nodes, positioning, markSize, useSelectedNodes) {
     const {
       hoveredComment,
       toggleCommentSelectionLock,
@@ -103,8 +119,11 @@ class Graph extends React.Component {
       searchedMap,
       topUsers
     } = props;
-    const nodesG = select(ReactDOM.findDOMNode(this.refs.nodes));
+    const ref = useSelectedNodes ? this.refs.selectedNodes : this.refs.nodes;
+    const nodesG = select(ReactDOM.findDOMNode(ref));
     const translateFunc = arr => `translate(${arr.join(',')})`;
+    const showSelected = searchedMap
+      .reduce((acc, val, key) => acc + val ? 1 : 0, 0) > 0;
     const evalCircClasses = d => {
       const tops = [...new Array(numUsersToHighlight)].reduce((acc, _, i) => {
         const idx = i + 1;
@@ -114,7 +133,6 @@ class Graph extends React.Component {
         acc[`node-highlighted-top-${idx}`] = true;
         return acc;
       }, {});
-
       return classnames({
         node: true,
         'node-internal': d.children,
@@ -126,16 +144,22 @@ class Graph extends React.Component {
       });
     };
     const node = nodesG.selectAll('.node').data(nodes);
-
+    const setCircSize = d => {
+      const selected = searchedMap.get(Number(d.data.id));
+      if (useSelectedNodes && (!showSelected || !selected)) {
+        return 0;
+      }
+      return d.depth ? nodeSizes[markSize] : rootSizes[markSize];
+    };
     node.enter().append('circle')
         .attr('class', evalCircClasses)
         .attr('transform', d => translateFunc(positioning(d)))
-        .attr('r', d => d.depth ? nodeSizes[markSize] : rootSizes[markSize])
+        .attr('r', setCircSize)
         .on('click', toggleCommentSelectionLock);
 
     node.transition()
         .attr('transform', d => translateFunc(positioning(d)))
-        .attr('r', d => d.depth ? nodeSizes[markSize] : rootSizes[markSize])
+        .attr('r', setCircSize)
         .attr('class', evalCircClasses);
   }
 
@@ -151,12 +175,7 @@ class Graph extends React.Component {
       .attr('fill', 'black')
       .attr('opacity', 0)
       .attr('d', d => `M${d.join('L')}Z`)
-      .on('mouseenter', d => {
-        const node = d.data[2];
-        // const childIds = (node.children || []).map(child => child.data.id);
-        // setSelectedCommentPath(extractIdPathToRoot(node).concat(childIds));
-        setSelectedCommentPath(extractIdPathToRoot(node));
-      })
+      .on('mouseenter', d => setSelectedCommentPath(extractIdPathToRoot(d.data[2])))
       .on('click', toggleCommentSelectionLock);
     polygon.transition()
       .attr('d', d => `M${d.join('L')}Z`);
@@ -168,9 +187,9 @@ class Graph extends React.Component {
       graphLayout,
       height,
       width,
-      toggleCommentSelectionLock
+      toggleCommentSelectionLock,
+      searchValue
     } = this.props;
-
     const translation = layouts[graphLayout].offset(this.props);
     return (
       <svg
@@ -182,6 +201,19 @@ class Graph extends React.Component {
         <g ref="lines" transform={translation} />
         <g ref="polygons" transform={translation} />
         <g ref="nodes" transform={translation}/>
+        {
+          searchValue && <rect
+          className="fade-block"
+          onClick={toggleCommentSelectionLock}
+          width={width}
+          height={height}
+          x="0"
+          y="0"
+          fill="#f6f6f0"
+          opacity="0.7"
+          />
+        }
+        <g ref="selectedNodes" transform={translation}/>
         {
           commentSelectionLock && <rect
           className="click-away-block"

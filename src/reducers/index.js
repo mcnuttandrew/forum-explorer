@@ -65,7 +65,6 @@ const setCommentPath = (state, payload) => {
     acc[row] = true;
     return acc;
   }, {});
-  console.log(payload)
   return state
     .set('itemsToRender',
       state.get('data').filter((row, idx) =>
