@@ -54,8 +54,7 @@ class Graph extends React.Component {
       width,
       graphLayout,
       markSize,
-      tree,
-      searchedMap
+      tree
     } = props;
 
     if (!width || !height || !tree) {
@@ -102,13 +101,7 @@ class Graph extends React.Component {
   }
 
   renderSelectedNodes(props, nodes, positioning, markSize) {
-    const {searchedMap} = props;
-    // const filteredNodes = nodes.filter(node => searchedMap.get(Number(node.data.id)));
-    // if (!filteredNodes.length) {
-    //   return;
-    // }
-    // console.log('double', filteredNodes.length)
-    this.renderAnyNodes(props, nodes, positioning, markSize, searchedMap);
+    this.renderAnyNodes(props, nodes, positioning, markSize, true);
   }
 
   renderAnyNodes(props, nodes, positioning, markSize, useSelectedNodes) {
