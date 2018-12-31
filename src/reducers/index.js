@@ -65,13 +65,17 @@ const setCommentPath = (state, payload) => {
     acc[row] = true;
     return acc;
   }, {});
+  console.log(payload)
   return state
     .set('itemsToRender',
       state.get('data').filter((row, idx) =>
         !idx ||
-        (itemMap[row.get('id')] || (row.get('parent') === payload[0])) &&
-        !row.get('deleted')
+        (
+          itemMap[row.get('id')] ||
+          (`${row.get('parent')}` === payload[0])
+        )
       )
+      .filter((row) => !row.get('deleted'))
     )
     .set('itemPath', Immutable.fromJS(payload));
 };

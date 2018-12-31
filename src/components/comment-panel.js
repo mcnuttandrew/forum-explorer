@@ -4,21 +4,31 @@ import {classnames, timeSince} from '../utils';
 const createMarkup = __html => ({__html});
 
 function expandCallback(item, itemPath, setSelectedCommentPath) {
+  const itemId = `${item.get('id')}`;
   return e => {
-    const path = itemPath.toJS();
-    const itemIdx = path.findIndex(id => id === item.get('id'));
-    const newPath = itemIdx >= 0 ? path.slice(itemIdx) : [item.get('id')].concat(path);
-    setSelectedCommentPath(newPath);
+    const path = itemPath.reverse().toJS();
+    const itemIdx = path.findIndex(id => id === itemId);
+    // root
+    if (itemIdx === 0) {
+      setSelectedCommentPath([itemId]);
+      return;
+    }
+    // leaf
+    if (itemIdx === -1) {
+      setSelectedCommentPath([itemId].concat(path));
+      return;
+    }
+    // branch
+    setSelectedCommentPath(path.reverse().slice(itemIdx));
   };
 }
 
-function expandButton(item, itemPath, setSelectedCommentPath) {
-  return (item.get('kids') && item.get('kids').size && <div
+const expandButton = (item, itemPath, setSelectedCommentPath) =>
+  (item.get('kids') && item.get('kids').size && <div
     onClick={expandCallback(item, itemPath, setSelectedCommentPath)}
     className="expand-comment">
     expand
   </div> || <div />);
-}
 
 function renderStoryHead(props, item, idx) {
   const {setSelectedCommentPath, itemPath} = props;
@@ -104,7 +114,7 @@ function renderComment(props, item, idx) {
     /* eslint-enable react/no-danger */
 }
 
-class CommentPanel extends React.Component {
+class CommentPanel extends React.PureComponent {
   render() {
     return (
       <div

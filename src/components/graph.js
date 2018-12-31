@@ -153,8 +153,9 @@ class Graph extends React.Component {
       .attr('d', d => `M${d.join('L')}Z`)
       .on('mouseenter', d => {
         const node = d.data[2];
-        const childIds = (node.children || []).map(child => child.data.id);
-        setSelectedCommentPath(extractIdPathToRoot(node).concat(childIds));
+        // const childIds = (node.children || []).map(child => child.data.id);
+        // setSelectedCommentPath(extractIdPathToRoot(node).concat(childIds));
+        setSelectedCommentPath(extractIdPathToRoot(node));
       })
       .on('click', toggleCommentSelectionLock);
     polygon.transition()
