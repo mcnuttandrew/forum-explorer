@@ -78,3 +78,19 @@ export function computeTopUsers(data, numUsers) {
     return acc;
   }, {});
 }
+
+export const flattenData = tree => {
+  if (!tree.children || tree.children.length < 1) {
+    return [tree];
+  }
+  return tree.children.reduce((acc, child) =>
+    acc.concat(flattenData(child)), [tree]);
+};
+
+export const computeDomainForAcessor = (data, accessor) => data.reduce((acc, row) => {
+  const val = accessor(row);
+  return {
+    min: Math.min(val, acc.min),
+    max: Math.max(val, acc.max)
+  };
+}, {min: Infinity, max: -Infinity});

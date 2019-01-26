@@ -61,8 +61,9 @@ class Graph extends React.Component {
       return;
     }
 
-    const treeEval = layouts[graphLayout].layout();
+    const treeEval = layouts[graphLayout].layout({height, width});
     const root = treeEval(hierarchy(tree));
+    const labels = root.labels && root.labels() || [];
 
     const xScale = layouts[graphLayout].getXScale(props, root);
     const yScale = layouts[graphLayout].getYScale(props, root);
@@ -74,6 +75,7 @@ class Graph extends React.Component {
     this.renderNodes(props, nodes, positioning, markSize);
     this.renderSelectedNodes(props, nodes, positioning, markSize);
     this.renderVoronoi(props, nodes, positioning);
+    this.renderLabels(props, labels, positioning);
   }
 
   renderLinks(props, root, xScale, yScale) {
@@ -93,6 +95,7 @@ class Graph extends React.Component {
     link.transition()
       .attr('d', path)
       .attr('class', evalLineClasses);
+    link.exit().remove();
 
   }
 
@@ -174,6 +177,21 @@ class Graph extends React.Component {
       .attr('d', d => `M${d.join('L')}Z`);
   }
 
+  renderLabels(props, labels, positioning) {
+    const labelsG = select(ReactDOM.findDOMNode(this.refs.labels));
+    const translateFunc = arr => `translate(${arr.join(',')})`;
+    const label = labelsG.selectAll('.label').data(labels);
+    label.enter().append('text')
+        .attr('class', 'label')
+        .attr('transform', d => translateFunc(positioning(d)))
+        .text(d => d.label);
+
+    label.transition()
+        .attr('transform', d => translateFunc(positioning(d)))
+        .text(d => d.label);
+    label.exit().remove();
+  }
+
   render() {
     const {
       commentSelectionLock,
@@ -206,6 +224,7 @@ class Graph extends React.Component {
           opacity="0.7"
           />
         }
+        <g ref="labels" transform={translation} className="unselectable"/>
         <g ref="selectedNodes" transform={translation}/>
         {
           commentSelectionLock && <rect

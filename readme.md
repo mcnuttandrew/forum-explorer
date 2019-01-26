@@ -28,3 +28,4 @@ TODO:
 - automatic defaults
 - add annotation mode (eg we highlight which posts we think are the most important)
 - allow return to base
+- make leaves square (optionally?)
