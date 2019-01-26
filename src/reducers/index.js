@@ -9,7 +9,7 @@ import {computeTopUsers} from '../utils';
 const DEFAULT_CONFIGS = [{
   name: 'graph layout',
   options: graphLayouts,
-  defaultOption: 'ring'
+  defaultOption: 'gridTree'
 }, {
   name: 'dot size',
   options: ['small', 'medium', 'large'],

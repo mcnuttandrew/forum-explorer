@@ -80,6 +80,7 @@ const orbitLayout = {
       }
       return acc.concat({target, source});
     }, []);
+    console.log('orbit', flattenedNodes.length)
     return {
       descendants: () => flattenedNodes,
       links: () => links

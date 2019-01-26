@@ -228,10 +228,10 @@ class Graph extends React.Component {
 }
 Graph.defaultProps = {
   margin: {
-    top: 10,
-    left: 10,
-    bottom: 10,
-    right: 10
+    top: 30,
+    left: 30,
+    bottom: 30,
+    right: 30
   }
 };
 export default Graph;
