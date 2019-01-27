@@ -145,17 +145,26 @@ class Graph extends React.Component {
       if (useSelectedNodes && (!showSelected || !selected)) {
         return 0;
       }
-      return d.depth ? nodeSizes[markSize] : rootSizes[markSize];
+      const scalingFactor = (!d.children || !d.children.length) ? 1 : 1.75;
+      return scalingFactor * (d.depth ? nodeSizes[markSize] : rootSizes[markSize]);
     };
-    node.enter().append('circle')
+    node.enter().append('rect')
         .attr('class', evalCircClasses)
         .attr('transform', d => translateFunc(positioning(d)))
-        .attr('r', setCircSize)
+        .attr('height', setCircSize)
+        .attr('width', setCircSize)
+        .attr('x', d => -setCircSize(d) / 2)
+        .attr('y', d => -setCircSize(d) / 2)
+        .attr('rx', d => (!d.children || !d.children.length) ? 0 : 20)
         .on('click', toggleCommentSelectionLock);
 
     node.transition()
         .attr('transform', d => translateFunc(positioning(d)))
-        .attr('r', setCircSize)
+        .attr('height', setCircSize)
+        .attr('width', setCircSize)
+        .attr('x', d => -setCircSize(d) / 2)
+        .attr('y', d => -setCircSize(d) / 2)
+        .attr('rx', d => (!d.children || !d.children.length) ? 0 : 20)
         .attr('class', evalCircClasses);
   }
 
