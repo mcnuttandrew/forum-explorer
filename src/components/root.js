@@ -91,6 +91,7 @@ function mapStateToProps({base}) {
     commentSelectionLock: base.get('commentSelectionLock'),
     configs: base.get('configs'),
     data: base.get('data').filter(d => !d.get('deleted')),
+    graphPanelDimensions: base.get('graphPanelDimensions'),
     hoveredComment: base.get('hoveredComment'),
     itemsToRender: base.get('itemsToRender'),
     itemPath: base.get('itemPath'),
@@ -103,7 +104,7 @@ function mapStateToProps({base}) {
     searchedMap: base.get('searchedMap'),
     storyHead: base.get('data').filter(item => item.get('type') === 'story').get(0),
     topUsers: base.get('topUsers'),
-    tree: base.get('tree'),
+    treeLayout: base.get('treeLayout'),
     users: base.get('users')
   };
 }
