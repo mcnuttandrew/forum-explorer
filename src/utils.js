@@ -1,3 +1,12 @@
+export function area(points) {
+  const segmentSum = points
+  .reduce((acc, row, index) => {
+    const nextRow = points[(index + 1) % points.length];
+    return acc + (row[0] * nextRow[1] - nextRow[0] * row[1]);
+  }, 0);
+  return 0.5 * Math.abs(segmentSum);
+}
+
 export function classnames(classObject) {
   return Object.keys(classObject).filter(name => classObject[name]).join(' ');
 }

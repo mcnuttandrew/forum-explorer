@@ -391,3 +391,9 @@ a.header-link:visited {
   font-size: 8px;
   padding: 0 5px;
 }
+
+.label {
+  color: #828282;
+  font-size: 6pt;
+  text-anchor: middle;
+}

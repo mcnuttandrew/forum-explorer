@@ -23,14 +23,24 @@ const treemapLayout = USE_BINARY ? treemapBinary : treemapResquarify;
 const ringEval = RingLayout.layout();
 
 // UTILS
-const generateLabels = branches => [{x: 0, y: 0, label: '', key: 'root'}]
-  .concat(branches.map((branch, idx) => ({
-    // label: `branch ${idx}`,
-    label: '',
-    key: branch.key,
-    x: 0,
-    y: 0
-  })));
+const generateLabels = branches => {
+  const longestIdx = branches.reduce((acc, row, idx) => {
+    if (acc.value < row.weight) {
+      return {value: row.weight, idx};
+    }
+    return acc;
+  }, {value: -Infinity, idx: -1}).idx;
+  return [{x: 0, y: 0, label: 'root', key: 'root'}]
+    .concat(branches.map((branch, idx) => {
+      // let label = `started by ${branch.data.data.by}`;
+      // let label = '';
+      let label = `subconversation ${idx}`;
+      if (longestIdx === idx) {
+        label = 'subconversation containing most popular comment';
+      }
+      return ({label, key: branch.key});
+    }));
+};
 
 const weighTree = tree => {
   if (!tree.children || tree.children.length < 1) {
@@ -143,7 +153,7 @@ export const forestLayout = {
         return;
       }
       otherBranches[idx - 1].containerGeom = containerGeom;
-      otherBranches[idx - 1].key = `${Math.floor(Math.random() * 1000)}`;
+      otherBranches[idx - 1].key = otherBranches[idx - 1].data.id;
       propagateOffsets(otherBranches[idx - 1]);
     });
     // apply ring layout to all the branches
