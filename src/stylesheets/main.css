@@ -23,6 +23,14 @@ body,
   width: 100%;
 }
 
+.margin-left {
+  margin-left: 5px;
+}
+
+.margin-bottom {
+  margin-bottom: 5px;
+}
+
 .centering {
   align-items: center;
   justify-content: center;

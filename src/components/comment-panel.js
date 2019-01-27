@@ -1,5 +1,4 @@
 import React from 'react';
-// import StoryHead from './story-head';
 import {expandButton, expandCallback} from './expand-button';
 import {classnames, timeSince} from '../utils';
 const createMarkup = __html => ({__html});

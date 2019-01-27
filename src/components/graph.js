@@ -147,7 +147,8 @@ class Graph extends React.Component {
       if (useSelectedNodes && (!showSelected || !selected)) {
         return 0;
       }
-      const scalingFactor = false && (!d.children || !d.children.length) ? 1 : 1.75;
+      // const scalingFactor = (!d.children || !d.children.length) ? 1 : 1.75;
+      const scalingFactor = (!d.children || !d.children.length) ? 1.75 : 1.75;
       return scalingFactor * (d.depth ? nodeSizes[markSize] : rootSizes[markSize]);
     };
     node.enter().append('rect')
@@ -211,16 +212,24 @@ class Graph extends React.Component {
 
     const labelsG = select(ReactDOM.findDOMNode(this.refs.labels));
     const translateFunc = arr => `translate(${arr.join(',')})`;
+
     const label = labelsG.selectAll('.label').data(Object.values(biggestVoronois));
-    label.enter().append('text')
+    label.enter().append('g')
         .attr('class', 'label')
-        .attr('transform', d => translateFunc(d.centroid))
-        .text(d => d.label);
+        .attr('transform', d => translateFunc(d.centroid));
 
     label.transition()
-        .attr('transform', d => translateFunc(d.centroid))
-        .text(d => d.label);
+        .attr('transform', d => translateFunc(d.centroid));
+        // .text(d => d.label);
     label.exit().remove();
+
+    const subLabels = label.selectAll('text').data(d => d.label);
+    subLabels.enter().append('text').text(d => d)
+      .attr('transform', (d, idx) => `translate(0, ${idx * 11})`);
+    subLabels.transition()
+      .attr('transform', (d, idx) => `translate(0, ${idx * 11})`);
+    subLabels.exit().remove();
+
   }
 
   render() {

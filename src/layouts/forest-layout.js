@@ -1,6 +1,6 @@
 
 import {scaleLinear} from 'd3-scale';
-import {linkVertical} from 'd3-shape';
+// import {linkVertical} from 'd3-shape';
 import {
   treemapBinary,
   treemapResquarify,
@@ -30,13 +30,15 @@ const generateLabels = branches => {
     }
     return acc;
   }, {value: -Infinity, idx: -1}).idx;
-  return [{x: 0, y: 0, label: 'root', key: 'root'}]
+  const rootLabel = {label: branches.length ? ['conversation', 'root'] : [], key: 'root'};
+  return [rootLabel]
     .concat(branches.map((branch, idx) => {
       // let label = `started by ${branch.data.data.by}`;
       // let label = '';
-      let label = `subconversation ${idx}`;
+      let label = [`subconversation ${idx}`];
       if (longestIdx === idx) {
-        label = 'subconversation containing most popular comment';
+        // label = ['subconversation containing', ' most popular comment'];
+        label = ['notable subconversation'];
       }
       return ({label, key: branch.key});
     }));

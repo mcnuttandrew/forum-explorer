@@ -1,5 +1,5 @@
 import React from 'react';
-import {classnames, timeSince} from '../utils';
+import {timeSince} from '../utils';
 import {expandButton} from './expand-button';
 
 export default function StoryHead(props) {
@@ -10,7 +10,7 @@ export default function StoryHead(props) {
     unlockAndSearch,
     serializedModel
   } = props;
-  return (<div className="comment-block">
+  return (<div className="comment-block margin-bottom">
     <div className="comment-title">
       <a href={storyHead.get('url')}>
         {storyHead.get('title')}
@@ -33,7 +33,8 @@ export default function StoryHead(props) {
       <span>
         {` ${timeSince(storyHead.get('time'))} ago`}
       </span>
+      {expandButton(storyHead, itemPath, setSelectedCommentPath, true)}
     </div>
-    {expandButton(storyHead, itemPath, setSelectedCommentPath)}
+
   </div>);
 }

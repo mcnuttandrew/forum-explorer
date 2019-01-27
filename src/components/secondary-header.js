@@ -19,12 +19,12 @@ class SecondaryHeader extends React.Component {
     const colorByTopUsers = getSelectedOption(configs, 2);
     return (
       <div className="secondary-header background-gray flex" >
-        <StoryHead
+        {storyHead && <StoryHead
           setSelectedCommentPath={setSelectedCommentPath}
           itemPath={itemPath}
           storyHead={storyHead}
           unlockAndSearch={unlockAndSearch}
-          serializedModel={serializedModel}/>
+          serializedModel={serializedModel}/>}
         <div >
 
           {colorByTopUsers && <div className="top-posters">

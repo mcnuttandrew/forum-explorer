@@ -20,9 +20,13 @@ export function expandCallback(item, itemPath, setSelectedCommentPath) {
   };
 }
 
-export const expandButton = (item, itemPath, setSelectedCommentPath) =>
-  (item.get('kids') && item.get('kids').size && <div
-    onClick={expandCallback(item, itemPath, setSelectedCommentPath)}
-    className="expand-comment">
-    expand
-  </div> || <div />);
+export const expandButton = (item, itemPath, setSelectedCommentPath, useSpan) => {
+  if (!(item.get('kids') && item.get('kids').size)) {
+    return useSpan ? <span /> : <div />;
+  }
+  const props = {
+    onClick: expandCallback(item, itemPath, setSelectedCommentPath),
+    className: 'expand-comment margin-left'
+  };
+  return useSpan ? <span {...props}>expand</span> : <div {...props}>expand</div>;
+};
