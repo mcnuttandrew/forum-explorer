@@ -51,11 +51,12 @@ function headerLinks(username) {
 }
 
 class Header extends React.Component {
-  /* eslint-disable no-undef */
-  state = {
-    tooltipOpen: false
+  constructor() {
+    super();
+    this.state = {
+      tooltipOpen: false
+    };
   }
-  /* eslint-enable no-undef */
 
   render() {
     const {tooltipOpen} = this.state;

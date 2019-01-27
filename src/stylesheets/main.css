@@ -50,6 +50,7 @@ body,
   width: 50%;
 }
 
+
 .panel:first-of-type {
   border-right: thin solid #828282;
 }
@@ -384,13 +385,9 @@ a.header-link:visited {
 }
 
 .top-posters {
-  align-items: flex-end;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   font-size: 8px;
   padding: 0 5px;
-  position: absolute;
-  right: 0;
-  top: 0;
 }
