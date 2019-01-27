@@ -94,3 +94,14 @@ export const computeDomainForAcessor = (data, accessor) => data.reduce((acc, row
     max: Math.max(val, acc.max)
   };
 }, {min: Infinity, max: -Infinity});
+
+export const extractLinksFromFlatNodeList = nodeList => nodeList.reduce((acc, target) => {
+  const source = target.parent;
+  if (!source) {
+    return acc;
+  }
+  return acc.concat({target, source});
+}, []);
+
+export const elbow = ({source, target}) =>
+  `M${source.x},${source.y}V${target.y}H${target.x}`;

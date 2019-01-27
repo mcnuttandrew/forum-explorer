@@ -23,8 +23,9 @@ export const graphLayouts = [
   'ring',
   'tree',
   'orbit',
-  'timeX',
-  'timeY',
+  // time layouts are currently busted
+  // 'timeX',
+  // 'timeY',
   'balloon',
   'gridTree',
   'forest'

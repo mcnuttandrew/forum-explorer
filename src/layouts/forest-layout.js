@@ -1,31 +1,36 @@
-import RingLayout from './ring-layout';
-import {scaleLinear} from 'd3-scale';
-import {
-  getDomain,
-  xRange,
-  yRange,
-  radialToCartesian,
-  flattenData,
-  computeDomainForAcessor
-} from '../utils';
-import {linkVertical} from 'd3-shape';
 
+import {scaleLinear} from 'd3-scale';
+import {linkVertical} from 'd3-shape';
 import {
-  treemapSquarify,
+  treemapBinary,
+  treemapResquarify,
   treemap,
   hierarchy
 } from 'd3-hierarchy';
 
+import {
+  xRange,
+  yRange,
+  radialToCartesian,
+  flattenData,
+  computeDomainForAcessor,
+  extractLinksFromFlatNodeList
+} from '../utils';
+import RingLayout from './ring-layout';
+const USE_TREES = true;
+const USE_BINARY = false;
+const treemapLayout = USE_BINARY ? treemapBinary : treemapResquarify;
 const ringEval = RingLayout.layout();
-const extractLinksFromFlatNodeList = nodeList => {
-  return nodeList.reduce((acc, target) => {
-    const source = target.parent;
-    if (!source) {
-      return acc;
-    }
-    return acc.concat({target, source});
-  }, []);
-};
+
+// UTILS
+const generateLabels = branches => [{x: 0, y: 0, label: '', key: 'root'}]
+  .concat(branches.map((branch, idx) => ({
+    // label: `branch ${idx}`,
+    label: '',
+    key: branch.key,
+    x: 0,
+    y: 0
+  })));
 
 const weighTree = tree => {
   if (!tree.children || tree.children.length < 1) {
@@ -43,15 +48,26 @@ const propagateOffsets = tree => (tree.children || []).forEach(child => {
   propagateOffsets(child);
 });
 
-function buildScales(range, root, key) {
+function buildScales(range, root, key, {height, width}) {
   const nodes = root.descendants();
   const groupedNodes = nodes.reduce((acc, row) => {
     acc[row.key] = (acc[row.key] || []).concat(row);
     return acc;
   }, {});
-  const domains = Object.entries(groupedNodes).reduce((acc, [rowKey, values]) => {
+  // This controls which direction the coordinates are laid out in
+  const directions = Object.entries(groupedNodes).reduce((acc, [rowKey, values]) => {
+    const {x0, x1, y0, y1} = values[0].containerGeom;
+    if (!USE_TREES || rowKey === 'root') {
+      acc[rowKey] = radialToCartesian;
+      return acc;
+    }
+    acc[rowKey] = !((x1 - x0) > (y1 - y0)) ? (x, y) => [x, y] : (x, y) => [y, x];
+    return acc;
+  }, {});
+
+  const dataDomains = Object.entries(groupedNodes).reduce((acc, [rowKey, values]) => {
     acc[rowKey] = computeDomainForAcessor(values, d =>
-      radialToCartesian(d.x, d.y)[key === 'x' ? 0 : 1]);
+      directions[rowKey](d.x, d.y)[key === 'x' ? 0 : 1]);
     return acc;
   }, {});
 
@@ -60,43 +76,58 @@ function buildScales(range, root, key) {
       return acc;
     }
     const geom = row.containerGeom;
-    const localRange = key === 'x' ? [geom.x0, geom.x1] : [geom.y0, geom.y1];
-    const domain = domains[row.key];
+    const localRange = [geom[`${key}0`], geom[`${key}1`]];
+    const domain = dataDomains[row.key];
     const scale = scaleLinear().domain([domain.min, domain.max]).range(localRange);
-    const scale2 = scaleLinear().domain([0, 1]).range(range);
-    acc[row.key] = v => {
-      return scale2(scale(v));
-    };
+    const totalDomain = [0, key === 'x' ? width : height];
+    const scale2 = scaleLinear().domain(totalDomain).range(range);
+    acc[row.key] = v => scale2(scale(v));
     return acc;
-  }, {});
+  }, {directions});
 }
 
+const generateScale = dir => ({height, width, margin}, root) => {
+  const isX = dir === 'x';
+  const range = isX ? xRange(width, margin) : yRange(height, margin);
+  const scales = buildScales(range, root, dir, {height, width});
+  return d => scales[d.key](scales.directions[d.key](d.x, d.y)[isX ? 0 : 1]);
+};
+
+function generateTreemapLayout(height, width, rootBranch, otherBranches) {
+  const rootBranchWeight = rootBranch.slice(1).reduce((acc, row) => {
+    return (row.weight || 1) + acc;
+  }, 0) + rootBranch.length;
+  const structuredInput = hierarchy({children: [{
+    weight: rootBranchWeight,
+    idx: 0
+  }].concat(otherBranches.map((d, idx) => ({
+    weight: d.weight,
+    idx: idx + 1
+  })))}).sum(d => d.weight);
+  const treemapingFunction = treemap(treemapLayout)
+    .tile(treemapLayout)
+    // TODO should be in proportion to the sizing of the container
+    .size([width, height])
+    .paddingInner(0.05 * width);
+  return treemapingFunction(structuredInput).descendants().slice(1);
+}
+
+const childThreshold = 10;
+const childWithinThreshold = negate => child => {
+  const childWithin = !child.children || (child.weight < childThreshold);
+  return negate ? !childWithin : childWithin;
+};
+
+// THE MAIN LAYOUT CLASS INSTANCE
 export const forestLayout = {
   layout: ({height, width}) => data => {
-    const ratio = height / width;
     weighTree(data);
-    const childThreshold = 20;
-    const rootBranch = [data].concat(data.children.filter(child =>
-      !child.children || (child.weight < childThreshold)));
-    const otherBranches = data.children.filter(child =>
-      child.children && (child.weight >= childThreshold));
+    // break apart the root from heavy branches
+    const rootBranch = [data].concat(data.children.filter(childWithinThreshold(false)));
+    const otherBranches = data.children.filter(childWithinThreshold(true));
 
-    const rootBranchWeight = rootBranch.slice(1).reduce((acc, row) => {
-      return (row.weight || 1) + acc;
-    }, 0) + rootBranch.length;
-    const structuredInput = hierarchy({children: [{
-      weight: rootBranchWeight,
-      idx: 0
-    }].concat(otherBranches.map((d, idx) => ({
-      weight: d.weight,
-      idx: idx + 1
-    })))}).sum(d => d.weight);
-    const treemapingFunction = treemap(treemapSquarify)
-      .tile(treemapSquarify)
-      // TODO should be in proportion to the sizing of the container
-      .size([1, ratio])
-      .padding(0.05);
-    const treeLayout = treemapingFunction(structuredInput).descendants().slice(1);
+    // generate treemap layout and decorate branch division
+    const treeLayout = generateTreemapLayout(height, width, rootBranch, otherBranches);
     treeLayout.forEach(sizing => {
       const idx = sizing.data.idx;
 
@@ -107,6 +138,7 @@ export const forestLayout = {
 
       if (!idx) {
         data.containerGeom = containerGeom;
+        data.key = 'root';
         propagateOffsets(data);
         return;
       }
@@ -116,24 +148,18 @@ export const forestLayout = {
     });
     // apply ring layout to all the branches
     const cloneChildren = data.children.slice();
-    const tempChildren = cloneChildren.slice().filter(child =>
-      !child.children || (child.weight < childThreshold));
+    const tempChildren = cloneChildren.slice().filter(childWithinThreshold(false));
     data.children = tempChildren;
     ringEval(data);
     data.children = cloneChildren;
     otherBranches.forEach(branch => ringEval(branch));
 
+    // prepare output content
     const flattenedNodes = flattenData(data);
     const links = extractLinksFromFlatNodeList(flattenedNodes)
       .filter(({source, target}) => source.key === target.key);
-    const labels = [{x: 0, y: 0, label: 'root'}].concat(otherBranches.map((branch, idx) => {
-      return {
-        label: `branch ${idx}`,
-        key: branch.key,
-        x: -Math.PI * 2 / 3,
-        y: 1,
-      };
-    }));
+    const labels = generateLabels(otherBranches);
+
     return {
       descendants: () => flattenedNodes,
       links: () => links,
@@ -141,23 +167,13 @@ export const forestLayout = {
     };
   },
 
-  getXScale: ({width, margin}, root) => {
-    const scales = buildScales(xRange(width, margin), root, 'x');
-    return d => scales[d.key](radialToCartesian(d.x, d.y)[0]);
-  },
-  // BUG: yScale requires width instead of height for some reason
-  getYScale: ({width, margin}, root) => {
-    const scales = buildScales(yRange(width, margin), root, 'y');
-    return d => scales[d.key](radialToCartesian(d.x, d.y)[1]);
-  },
+  getXScale: generateScale('x'),
+  getYScale: generateScale('y'),
   positioning: (xScale, yScale) => d => [xScale(d), yScale(d)],
-  path: (xScale, yScale) => d => {
-    return `
-    M${xScale(d.source)} ${yScale(d.source)}
-    L${xScale(d.target)} ${yScale(d.target)}
-    `;
-  },
-  offset: ({width, height}) => ''
+  // path: (xScale, yScale) => linkVertical().x(d => xScale(d)).y(d => yScale(d)),
+  path: (xScale, yScale) => ({source, target}) =>
+    `M${xScale(source)} ${yScale(source)}L${xScale(target)} ${yScale(target)}`,
+  offset: () => ''
 };
 
 export default forestLayout;
