@@ -47,7 +47,8 @@ const DEFAULT_STATE = Immutable.fromJS({
   tree: null,
   topUsers: [],
   searchValue: '',
-  searchedMap: {}
+  searchedMap: {},
+  graphPanelDimensions: {height: 0, width: 0}
 })
 .set('tree', DEV_MODE ? prepareTree(TestData, null) : [])
 .set('topUsers', DEV_MODE ? computeTopUsers(Immutable.fromJS(TestData), numUsersToHighlight) : []);
@@ -156,6 +157,9 @@ const unlockAndSearch = (state, payload) =>
 const getAllUsers = (state, users) => state
   .set('users', users.reduce((acc, row) => acc.set(row.id, row), Map()));
 
+const updateGraphPanelDimensions = (state, payload) => state
+  .set('graphPanelDimensions', Immutable.fromJS(payload));
+
 function prepareTree(data, root) {
   const maxDepth = data.reduce((acc, row) => Math.max(acc, row.depth), 0);
   const nodesByParentId = data.reduce((acc, child) => {
@@ -214,7 +218,8 @@ const actionFuncMap = {
   'set-hovered-comment': setHoveredComment,
   'set-search': setSearch,
   'toggle-comment-selection-lock': toggleCommentSelectionLock,
-  'unlock-and-search': unlockAndSearch
+  'unlock-and-search': unlockAndSearch,
+  'update-graph-panel-dimensions': updateGraphPanelDimensions
 };
 const NULL_ACTION = (state, payload) => state;
 

@@ -3,17 +3,9 @@ import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 
 import Graph from './graph';
-// import SearchBox from './search-box';
 import {getSelectedOption} from '../utils';
 
 class GraphPanel extends React.Component {
-  /* eslint-disable no-undef */
-  state = {
-    height: 0,
-    width: 0
-  }
-  /* eslint-enable no-undef */
-
   componentDidMount() {
     window.addEventListener('resize', debounce(this.resize.bind(this), 50));
     this.resize();
@@ -21,14 +13,14 @@ class GraphPanel extends React.Component {
 
   resize() {
     const currentNode = ReactDOM.findDOMNode(this.refs.graphPanel);
-    this.setState({
+    this.props.updateGraphPanelDimensions({
       height: currentNode.clientHeight,
       width: currentNode.clientWidth
     });
   }
 
   render() {
-    const {configs} = this.props;
+    const {configs, graphPanelDimensions} = this.props;
     return (
       <div className="panel relative" ref="graphPanel">
         <Graph
@@ -36,8 +28,8 @@ class GraphPanel extends React.Component {
           graphLayout={getSelectedOption(configs, 0)}
           markSize={getSelectedOption(configs, 1)}
           squareLeafs={getSelectedOption(configs, 4) === 'on'}
-          height={this.state.height}
-          width={this.state.width}
+          height={graphPanelDimensions.get('height')}
+          width={graphPanelDimensions.get('width')}
           />
       </div>
     );

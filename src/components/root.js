@@ -91,6 +91,7 @@ function mapStateToProps({base}) {
     commentSelectionLock: base.get('commentSelectionLock'),
     configs: base.get('configs'),
     data: base.get('data').filter(d => !d.get('deleted')),
+    graphPanelDimensions: base.get('graphPanelDimensions'),
     hoveredComment: base.get('hoveredComment'),
     itemsToRender: base.get('itemsToRender'),
     itemPath: base.get('itemPath'),
