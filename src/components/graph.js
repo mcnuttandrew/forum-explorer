@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {select} from 'd3-selection';
-import {hierarchy} from 'd3-hierarchy';
 import {voronoi} from 'd3-voronoi';
 /* eslint-disable no-unused-vars */
 import {transition} from 'd3-transition';
@@ -60,9 +59,6 @@ class Graph extends React.Component {
     if (!width || !height || !treeLayout) {
       return;
     }
-
-    // const treeLayoutEval = layouts[graphLayout].layout({height, width});
-    // const root = treeLayoutEval(hierarchy(treeLayout));
 
     const xScale = layouts[graphLayout].getXScale(props, treeLayout);
     const yScale = layouts[graphLayout].getYScale(props, treeLayout);
@@ -226,7 +222,7 @@ class Graph extends React.Component {
         // .text(d => d.label);
     label.exit().remove();
 
-    const subLabels = label.selectAll('text').data(d => d.label);
+    const subLabels = label.selectAll('text').data(d => d.label || '');
     subLabels.enter().append('text').text(d => d)
       .attr('transform', (d, idx) => `translate(0, ${idx * 11})`);
     subLabels.transition()

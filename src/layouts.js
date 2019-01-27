@@ -39,10 +39,8 @@ export const computeGraphLayout = state => {
   const {height, width} = state.get('graphPanelDimensions').toJS();
   const tree = state.get('tree');
   if (!tree) {
-    console.log('reject', tree)
     return {descendants: () => [], links: () => []};
   }
-  console.log('compute', tree)
   const treeEval = layouts[graphLayout].layout({height, width});
   return treeEval(hierarchy(tree));
 };
