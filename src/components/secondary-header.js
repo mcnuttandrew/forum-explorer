@@ -17,14 +17,17 @@ class SecondaryHeader extends React.Component {
       searchValue
     } = this.props;
     const colorByTopUsers = getSelectedOption(configs, 2);
+    if (!storyHead) {
+      return <div />;
+    }
     return (
       <div className="secondary-header background-gray flex" >
-        {storyHead && <StoryHead
+        <StoryHead
           setSelectedCommentPath={setSelectedCommentPath}
           itemPath={itemPath}
           storyHead={storyHead}
           unlockAndSearch={unlockAndSearch}
-          serializedModel={serializedModel}/>}
+          serializedModel={serializedModel}/>
         <div >
 
           {colorByTopUsers && <div className="top-posters">
