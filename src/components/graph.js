@@ -10,7 +10,7 @@ import {transition} from 'd3-transition';
 import debounce from 'lodash.debounce';
 
 import {layouts} from '../layouts';
-import {classnames} from '../utils';
+import {classnames, area} from '../utils';
 import {numUsersToHighlight} from '../constants';
 
 function extractIdPathToRoot(node) {
@@ -61,8 +61,9 @@ class Graph extends React.Component {
       return;
     }
 
-    const treeEval = layouts[graphLayout].layout();
+    const treeEval = layouts[graphLayout].layout({height, width});
     const root = treeEval(hierarchy(tree));
+    const labels = root.labels && root.labels() || [];
 
     const xScale = layouts[graphLayout].getXScale(props, root);
     const yScale = layouts[graphLayout].getYScale(props, root);
@@ -73,7 +74,10 @@ class Graph extends React.Component {
     this.renderLinks(props, root, xScale, yScale);
     this.renderNodes(props, nodes, positioning, markSize);
     this.renderSelectedNodes(props, nodes, positioning, markSize);
-    this.renderVoronoi(props, nodes, positioning);
+    const voronoiEval = voronoi().extent([[0, 0], [width + 1, height + 1]]);
+    const voronois = voronoiEval.polygons(nodes.map(d => [...positioning(d), d])).filter(d => d.length);
+    this.renderVoronoi(props, nodes, positioning, voronois);
+    this.renderLabels(props, labels, nodes, positioning, voronois);
   }
 
   renderLinks(props, root, xScale, yScale) {
@@ -93,6 +97,7 @@ class Graph extends React.Component {
     link.transition()
       .attr('d', path)
       .attr('class', evalLineClasses);
+    link.exit().remove();
 
   }
 
@@ -142,36 +147,89 @@ class Graph extends React.Component {
       if (useSelectedNodes && (!showSelected || !selected)) {
         return 0;
       }
-      return d.depth ? nodeSizes[markSize] : rootSizes[markSize];
+      // const scalingFactor = (!d.children || !d.children.length) ? 1 : 1.75;
+      const scalingFactor = (!d.children || !d.children.length) ? 1.75 : 1.75;
+      return scalingFactor * (d.depth ? nodeSizes[markSize] : rootSizes[markSize]);
     };
-    node.enter().append('circle')
+    node.enter().append('rect')
         .attr('class', evalCircClasses)
         .attr('transform', d => translateFunc(positioning(d)))
-        .attr('r', setCircSize)
+        .attr('height', setCircSize)
+        .attr('width', setCircSize)
+        .attr('x', d => -setCircSize(d) / 2)
+        .attr('y', d => -setCircSize(d) / 2)
+        .attr('rx', d => (!d.children || !d.children.length) ? 20 : 20)
         .on('click', toggleCommentSelectionLock);
 
     node.transition()
         .attr('transform', d => translateFunc(positioning(d)))
-        .attr('r', setCircSize)
+        .attr('height', setCircSize)
+        .attr('width', setCircSize)
+        .attr('x', d => -setCircSize(d) / 2)
+        .attr('y', d => -setCircSize(d) / 2)
+        .attr('rx', d => (!d.children || !d.children.length) ? 20 : 20)
         .attr('class', evalCircClasses);
   }
 
-  renderVoronoi(props, nodes, positioning) {
-    const {width, height, setSelectedCommentPath, toggleCommentSelectionLock} = props;
-    const voronoiEval = voronoi().extent([[-width, -height], [width + 1, height + 1]]);
+  renderVoronoi(props, nodes, positioning, voronois) {
+    const {setSelectedCommentPath, toggleCommentSelectionLock} = props;
     const polygonsG = select(ReactDOM.findDOMNode(this.refs.polygons));
-    const polygon = polygonsG.selectAll('.polygon').data(
-      voronoiEval.polygons(nodes.map(d => [...positioning(d), d])).filter(d => d.length)
-    );
+    const polygon = polygonsG.selectAll('.polygon').data(voronois);
     polygon.enter().append('path')
       .attr('class', 'polygon')
       .attr('fill', 'black')
+      .attr('stroke', 'white')
       .attr('opacity', 0)
       .attr('d', d => `M${d.join('L')}Z`)
       .on('mouseenter', d => setSelectedCommentPath(extractIdPathToRoot(d.data[2])))
       .on('click', toggleCommentSelectionLock);
     polygon.transition()
       .attr('d', d => `M${d.join('L')}Z`);
+  }
+
+  renderLabels(props, labels, nodes, positioning, voronois) {
+    const labelMap = labels.reduce((acc, row) => {
+      acc[row.key] = row.label;
+      return acc;
+    }, {});
+    const biggestVoronois = voronois
+      .reduce((acc, row) => {
+        const data = row.data[2];
+        const key = data.key;
+        const polygonArea = area(row);
+        if (!acc[key] || acc[key].polygonArea < polygonArea) {
+          acc[key] = {
+            data,
+            polygonArea,
+            centroid: row
+              .reduce((mem, d) => [mem[0] + d[0], mem[1] + d[1]], [0, 0])
+              .map(d => d / row.length),
+            label: labelMap[key]
+          };
+        }
+        return acc;
+      }, {});
+
+    const labelsG = select(ReactDOM.findDOMNode(this.refs.labels));
+    const translateFunc = arr => `translate(${arr.join(',')})`;
+
+    const label = labelsG.selectAll('.label').data(Object.values(biggestVoronois));
+    label.enter().append('g')
+        .attr('class', 'label')
+        .attr('transform', d => translateFunc(d.centroid));
+
+    label.transition()
+        .attr('transform', d => translateFunc(d.centroid));
+        // .text(d => d.label);
+    label.exit().remove();
+
+    const subLabels = label.selectAll('text').data(d => d.label);
+    subLabels.enter().append('text').text(d => d)
+      .attr('transform', (d, idx) => `translate(0, ${idx * 11})`);
+    subLabels.transition()
+      .attr('transform', (d, idx) => `translate(0, ${idx * 11})`);
+    subLabels.exit().remove();
+
   }
 
   render() {
@@ -206,6 +264,7 @@ class Graph extends React.Component {
           opacity="0.7"
           />
         }
+        <g ref="labels" transform={translation} className="unselectable"/>
         <g ref="selectedNodes" transform={translation}/>
         {
           commentSelectionLock && <rect
@@ -228,10 +287,10 @@ class Graph extends React.Component {
 }
 Graph.defaultProps = {
   margin: {
-    top: 30,
-    left: 30,
-    bottom: 30,
-    right: 30
+    top: 20,
+    left: 20,
+    bottom: 20,
+    right: 20
   }
 };
 export default Graph;

@@ -23,6 +23,14 @@ body,
   width: 100%;
 }
 
+.margin-left {
+  margin-left: 5px;
+}
+
+.margin-bottom {
+  margin-bottom: 5px;
+}
+
 .centering {
   align-items: center;
   justify-content: center;
@@ -49,6 +57,7 @@ body,
   height: 100%;
   width: 50%;
 }
+
 
 .panel:first-of-type {
   border-right: thin solid #828282;
@@ -384,13 +393,15 @@ a.header-link:visited {
 }
 
 .top-posters {
-  align-items: flex-end;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   font-size: 8px;
   padding: 0 5px;
-  position: absolute;
-  right: 0;
-  top: 0;
+}
+
+.label {
+  color: #828282;
+  font-size: 6pt;
+  text-anchor: middle;
 }

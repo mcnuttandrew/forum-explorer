@@ -1,5 +1,12 @@
 import {scaleLinear} from 'd3-scale';
-import {getDomain, xRange, yRange} from '../utils';
+import {
+  getDomain,
+  xRange,
+  yRange,
+  flattenData,
+  computeDomainForAcessor,
+  extractLinksFromFlatNodeList
+} from '../utils';
 import {linkVertical} from 'd3-shape';
 
 const computePositionsMutatively = data => {
@@ -14,37 +21,11 @@ const computePositionsMutatively = data => {
   minimumWs(data);
 };
 
-const flattenData = tree => {
-  if (!tree.children || tree.children.length < 1) {
-    return [tree];
-  }
-  return tree.children.reduce((acc, child) =>
-    acc.concat(flattenData(child)), [tree]);
-};
-
-const extractLinksFromFlatNodeList = nodeList => {
-  return nodeList.reduce((acc, target) => {
-    const source = target.parent;
-    if (!source) {
-      return acc;
-    }
-    return acc.concat({target, source});
-  }, []);
-};
-
-const computeDomainForAcessor = (data, accessor) => data.reduce((acc, row) => {
-  const val = accessor(row);
-  return {
-    min: Math.min(val, acc.min),
-    max: Math.max(val, acc.max)
-  };
-}, {min: Infinity, max: -Infinity});
-
 export const gridTree = {
   layout: () => data => {
     computePositionsMutatively(data);
     const flattenedNodes = flattenData(data);
-    const links = extractLinksFromFlatNodeList(flattenData(data));
+    const links = extractLinksFromFlatNodeList(flattenedNodes);
     return {
       descendants: () => flattenedNodes,
       links: () => links

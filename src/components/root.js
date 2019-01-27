@@ -8,6 +8,7 @@ import {classnames, getSelectedOption} from '../utils';
 import GraphPanel from './graph-panel';
 import CommentPanel from './comment-panel';
 import Header from './header';
+import SecondaryHeader from './secondary-header';
 
 const getId = () => (window.location.search || '?id=17338700').split('?id=')[1];
 
@@ -45,6 +46,16 @@ class RootComponent extends React.Component {
           setConfig={this.props.setConfig}
           logoutLink={this.props.logoutLink}
           username={this.props.username}/>
+        <SecondaryHeader
+          configs={this.props.configs}
+          topUsers={this.props.topUsers}
+          setSelectedCommentPath={this.props.setSelectedCommentPath}
+          itemPath={this.props.itemPath}
+          storyHead={this.props.storyHead}
+          unlockAndSearch={this.props.unlockAndSearch}
+          serializedModel={this.props.serializedModel}
+          setSearch={this.props.setSearch}
+          searchValue={this.props.searchValue} />
         {this.props.loading && <div className="flex full-size background-gray centering">
           <h1> Loading, {this.props.loadedCount} so far</h1>
         </div>}
@@ -90,6 +101,7 @@ function mapStateToProps({base}) {
     rootId: base.getIn(['data', 0, 'id']),
     searchValue: base.get('searchValue'),
     searchedMap: base.get('searchedMap'),
+    storyHead: base.get('data').filter(item => item.get('type') === 'story').get(0),
     topUsers: base.get('topUsers'),
     tree: base.get('tree'),
     users: base.get('users')

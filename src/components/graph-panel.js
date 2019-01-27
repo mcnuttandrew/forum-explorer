@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 
 import Graph from './graph';
-import SearchBox from './search-box';
+// import SearchBox from './search-box';
 import {getSelectedOption} from '../utils';
 
 class GraphPanel extends React.Component {
@@ -28,20 +28,9 @@ class GraphPanel extends React.Component {
   }
 
   render() {
-    const {
-      configs,
-      setSearch,
-      searchValue,
-      topUsers,
-      unlockAndSearch
-    } = this.props;
-
-    const colorByTopUsers = getSelectedOption(configs, 2);
+    const {configs} = this.props;
     return (
       <div className="panel relative" ref="graphPanel">
-        <div className="flex">
-          <SearchBox setSearch={setSearch} searchValue={searchValue}/>
-        </div>
         <Graph
           {...this.props}
           graphLayout={getSelectedOption(configs, 0)}
@@ -49,17 +38,6 @@ class GraphPanel extends React.Component {
           height={this.state.height}
           width={this.state.width}
           />
-        {colorByTopUsers && <div className="top-posters">
-          <span>Top Posters</span>
-          {Object.entries(topUsers).map(d => {
-            return (
-              <span
-                onClick={() => unlockAndSearch(d[0])}
-                className={`top-poster-${d[1].rank}`}
-                key={d[0]}>{d[0]} - {d[1].numPosts} posts</span>
-            );
-          })}
-        </div>}
       </div>
     );
   }

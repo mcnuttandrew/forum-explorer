@@ -1,3 +1,12 @@
+export function area(points) {
+  const segmentSum = points
+  .reduce((acc, row, index) => {
+    const nextRow = points[(index + 1) % points.length];
+    return acc + (row[0] * nextRow[1] - nextRow[0] * row[1]);
+  }, 0);
+  return 0.5 * Math.abs(segmentSum);
+}
+
 export function classnames(classObject) {
   return Object.keys(classObject).filter(name => classObject[name]).join(' ');
 }
@@ -78,3 +87,30 @@ export function computeTopUsers(data, numUsers) {
     return acc;
   }, {});
 }
+
+export const flattenData = tree => {
+  if (!tree.children || tree.children.length < 1) {
+    return [tree];
+  }
+  return tree.children.reduce((acc, child) =>
+    acc.concat(flattenData(child)), [tree]);
+};
+
+export const computeDomainForAcessor = (data, accessor) => data.reduce((acc, row) => {
+  const val = accessor(row);
+  return {
+    min: Math.min(val, acc.min),
+    max: Math.max(val, acc.max)
+  };
+}, {min: Infinity, max: -Infinity});
+
+export const extractLinksFromFlatNodeList = nodeList => nodeList.reduce((acc, target) => {
+  const source = target.parent;
+  if (!source) {
+    return acc;
+  }
+  return acc.concat({target, source});
+}, []);
+
+export const elbow = ({source, target}) =>
+  `M${source.x},${source.y}V${target.y}H${target.x}`;
