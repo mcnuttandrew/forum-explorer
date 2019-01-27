@@ -35,6 +35,7 @@ class GraphPanel extends React.Component {
           {...this.props}
           graphLayout={getSelectedOption(configs, 0)}
           markSize={getSelectedOption(configs, 1)}
+          squareLeafs={getSelectedOption(configs, 4) === 'on'}
           height={this.state.height}
           width={this.state.width}
           />

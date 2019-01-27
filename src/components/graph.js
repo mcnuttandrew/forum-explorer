@@ -115,6 +115,7 @@ class Graph extends React.Component {
       toggleCommentSelectionLock,
       selectedMap,
       searchedMap,
+      squareLeafs,
       topUsers
     } = props;
     const ref = useSelectedNodes ? this.refs.selectedNodes : this.refs.nodes;
@@ -147,10 +148,11 @@ class Graph extends React.Component {
       if (useSelectedNodes && (!showSelected || !selected)) {
         return 0;
       }
-      // const scalingFactor = (!d.children || !d.children.length) ? 1 : 1.75;
-      const scalingFactor = (!d.children || !d.children.length) ? 1.75 : 1.75;
+      const scalingSizes = squareLeafs ? [1, 1.75] : [1.75, 1.75];
+      const scalingFactor = (!d.children || !d.children.length) ? scalingSizes[0] : scalingSizes[1];
       return scalingFactor * (d.depth ? nodeSizes[markSize] : rootSizes[markSize]);
     };
+    const circleness = squareLeafs ? [0, 20] : [20, 20];
     node.enter().append('rect')
         .attr('class', evalCircClasses)
         .attr('transform', d => translateFunc(positioning(d)))
@@ -158,7 +160,7 @@ class Graph extends React.Component {
         .attr('width', setCircSize)
         .attr('x', d => -setCircSize(d) / 2)
         .attr('y', d => -setCircSize(d) / 2)
-        .attr('rx', d => (!d.children || !d.children.length) ? 20 : 20)
+        .attr('rx', d => (!d.children || !d.children.length) ? circleness[0] : circleness[1])
         .on('click', toggleCommentSelectionLock);
 
     node.transition()
@@ -167,7 +169,7 @@ class Graph extends React.Component {
         .attr('width', setCircSize)
         .attr('x', d => -setCircSize(d) / 2)
         .attr('y', d => -setCircSize(d) / 2)
-        .attr('rx', d => (!d.children || !d.children.length) ? 20 : 20)
+        .attr('rx', d => (!d.children || !d.children.length) ? circleness[0] : circleness[1])
         .attr('class', evalCircClasses);
   }
 

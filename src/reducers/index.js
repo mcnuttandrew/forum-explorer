@@ -22,6 +22,10 @@ const DEFAULT_CONFIGS = [{
   name: 'show graph',
   options: ['on', 'off'],
   defaultOption: 'on'
+}, {
+  name: 'leafs as squares',
+  options: ['on', 'off'],
+  defaultOption: 'on'
 }]
 .map(({name, options, defaultOption}) => ({
   name,
