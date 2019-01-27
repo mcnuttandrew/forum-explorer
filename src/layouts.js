@@ -1,3 +1,6 @@
+import {hierarchy} from 'd3-hierarchy';
+import {getSelectedOption} from './utils';
+
 import balloonLayout from './layouts/balloon-layout.js';
 import forestLayout from './layouts/forest-layout.js';
 import gridTreeLayout from './layouts/grid-tree-layout.js';
@@ -30,3 +33,16 @@ export const graphLayouts = [
   'gridTree',
   'forest'
 ];
+
+export const computeGraphLayout = state => {
+  const graphLayout = getSelectedOption(state.get('configs'), 0);
+  const {height, width} = state.get('graphPanelDimensions').toJS();
+  const tree = state.get('tree');
+  if (!tree) {
+    console.log('reject', tree)
+    return {descendants: () => [], links: () => []};
+  }
+  console.log('compute', tree)
+  const treeEval = layouts[graphLayout].layout({height, width});
+  return treeEval(hierarchy(tree));
+};

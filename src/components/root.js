@@ -104,7 +104,7 @@ function mapStateToProps({base}) {
     searchedMap: base.get('searchedMap'),
     storyHead: base.get('data').filter(item => item.get('type') === 'story').get(0),
     topUsers: base.get('topUsers'),
-    tree: base.get('tree'),
+    treeLayout: base.get('treeLayout'),
     users: base.get('users')
   };
 }

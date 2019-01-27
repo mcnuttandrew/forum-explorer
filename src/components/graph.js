@@ -54,24 +54,25 @@ class Graph extends React.Component {
       width,
       graphLayout,
       markSize,
-      tree
+      treeLayout
     } = props;
 
-    if (!width || !height || !tree) {
+    if (!width || !height || !treeLayout) {
       return;
     }
 
-    const treeEval = layouts[graphLayout].layout({height, width});
-    const root = treeEval(hierarchy(tree));
-    const labels = root.labels && root.labels() || [];
+    // const treeLayoutEval = layouts[graphLayout].layout({height, width});
+    // const root = treeLayoutEval(hierarchy(treeLayout));
 
-    const xScale = layouts[graphLayout].getXScale(props, root);
-    const yScale = layouts[graphLayout].getYScale(props, root);
+    const xScale = layouts[graphLayout].getXScale(props, treeLayout);
+    const yScale = layouts[graphLayout].getYScale(props, treeLayout);
 
     const positioning = layouts[graphLayout].positioning(xScale, yScale);
-    const nodes = root.descendants();
+    const nodes = treeLayout.descendants();
 
-    this.renderLinks(props, root, xScale, yScale);
+    const labels = treeLayout.labels && treeLayout.labels() || [];
+
+    this.renderLinks(props, treeLayout, xScale, yScale);
     this.renderNodes(props, nodes, positioning, markSize);
     this.renderSelectedNodes(props, nodes, positioning, markSize);
     const voronoiEval = voronoi().extent([[0, 0], [width + 1, height + 1]]);

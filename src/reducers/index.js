@@ -2,7 +2,7 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import Immutable, {Map} from 'immutable';
 import {DEV_MODE, numUsersToHighlight} from '../constants';
-import {graphLayouts} from '../layouts';
+import {graphLayouts, computeGraphLayout} from '../layouts';
 import TestData from '../constants/test-data.json';
 import {computeTopUsers} from '../utils';
 
@@ -32,7 +32,7 @@ const DEFAULT_CONFIGS = [{
   options: options.map(val => ({name: val, selected: val === defaultOption}))
 }));
 
-const DEFAULT_STATE = Immutable.fromJS({
+let DEFAULT_STATE = Immutable.fromJS({
   commentSelectionLock: false,
   configs: DEFAULT_CONFIGS,
   data: DEV_MODE ? TestData : [],
@@ -45,13 +45,16 @@ const DEFAULT_STATE = Immutable.fromJS({
   loadedCount: 0,
   model: null,
   tree: null,
+  treeLayout: null,
   topUsers: [],
   searchValue: '',
   searchedMap: {},
   graphPanelDimensions: {height: 0, width: 0}
 })
-.set('tree', DEV_MODE ? prepareTree(TestData, null) : [])
+.set('tree', DEV_MODE ? prepareTree(TestData, null) : null)
 .set('topUsers', DEV_MODE ? computeTopUsers(Immutable.fromJS(TestData), numUsersToHighlight) : []);
+
+DEFAULT_STATE = DEFAULT_STATE.set('treeLayout', computeGraphLayout(DEFAULT_STATE));
 
 function modelComment(model, text) {
   return model.reduce((acc, row, modelIndex) => {
@@ -124,7 +127,11 @@ const setConfig = (state, {rowIdx, valueIdx}) => {
   const rowToUpdate = state
     .getIn(['configs', rowIdx, 'options'])
     .map((d, idx) => d.set('selected', idx === valueIdx));
-  return state.setIn(['configs', rowIdx, 'options'], rowToUpdate);
+  const updatedState = state.setIn(['configs', rowIdx, 'options'], rowToUpdate);
+  if (rowIdx !== 0) {
+    return updatedState;
+  }
+  return updatedState.set('treeLayout', computeGraphLayout(updatedState));
 };
 
 const setSearch = (state, payload) => {
@@ -157,8 +164,10 @@ const unlockAndSearch = (state, payload) =>
 const getAllUsers = (state, users) => state
   .set('users', users.reduce((acc, row) => acc.set(row.id, row), Map()));
 
-const updateGraphPanelDimensions = (state, payload) => state
-  .set('graphPanelDimensions', Immutable.fromJS(payload));
+const updateGraphPanelDimensions = (state, payload) => {
+  const tempState = state.set('graphPanelDimensions', Immutable.fromJS(payload));
+  return tempState.set('treeLayout', computeGraphLayout(tempState));
+};
 
 function prepareTree(data, root) {
   const maxDepth = data.reduce((acc, row) => Math.max(acc, row.depth), 0);
@@ -200,11 +209,12 @@ const getAllItems = (state, {data, root}) => {
     updatedData = updatedData.map(row => row.set('modeledTopic',
       modelComment(state.get('model'), row.get('text') || '').modelIndex));
   }
-  return state
+  const tempState = state
     .set('loading', false)
     .set('data', updatedData)
     .set('tree', prepareTree(updatedData.toJS(), root))
     .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight));
+  return tempState.set('treeLayout', computeGraphLayout(tempState));
 };
 
 const actionFuncMap = {
