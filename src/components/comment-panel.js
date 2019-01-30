@@ -68,7 +68,7 @@ class CommentPanel extends React.PureComponent {
           panel: this.props.showGraph
         })}>
         {this.props.itemsToRender
-        .filter(item => item.get('type') !== 'story')
+        .filter(item => item.get('type') !== 'story' || item.get('text'))
         .map((item, idx) => (renderComment(this.props, item, idx)))}
       </div>
     );

@@ -54,7 +54,7 @@ export const getAllItems = root => dispatch => {
       children = children.concat(offspring.map(d => ({...d, depth})));
       depth += 1;
       const newgen = offspring
-        .reduce((acc, child) => acc.concat(child.kids || []), []);
+        .reduce((acc, child) => acc.concat(child && child.kids || []), []);
       if (newgen.length) {
         return doGeneration(newgen);
       }
@@ -63,7 +63,6 @@ export const getAllItems = root => dispatch => {
 
   return Promise.resolve()
     .then(() => doGeneration([root]))
-    .then(data => data.sort((a, b) => a.time - b.time))
     .then(data => {
       dispatch({
         type: 'get-all-items',

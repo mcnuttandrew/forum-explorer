@@ -123,7 +123,8 @@ class Graph extends React.Component {
     const evalCircClasses = d => {
       const tops = [...new Array(numUsersToHighlight)].reduce((acc, _, i) => {
         const idx = i + 1;
-        if (!topUsers[d.data.data.by] || topUsers[d.data.data.by].rank !== idx) {
+        const user = d.data.data.by || (d.data.data.data && d.data.data.data.by);
+        if (!topUsers[user] || topUsers[user].rank !== idx) {
           return acc;
         }
         acc[`node-highlighted-top-${idx}`] = true;
