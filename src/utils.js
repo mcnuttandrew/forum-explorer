@@ -77,13 +77,19 @@ export function getSelectedOption(configs, optionIdx) {
 }
 
 export function computeTopUsers(data, numUsers) {
+  // first execute count by user
   const counts = data.reduce((acc, row) => {
     acc[row.get('by')] = (acc[row.get('by')] || 0) + 1;
     return acc;
   }, {});
+  // sort the user-count pairs by their counts
   const posters = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-  return posters.slice(0, numUsers).reduce((acc, row, idx) => {
-    acc[row[0]] = {rank: idx + 1, numPosts: row[1]};
+  // create a map between user name and data about them
+  return posters.slice(0, numUsers).reduce((acc, [userName, numPosts], idx) => {
+    if (numPosts <= 1) {
+      return acc;
+    }
+    acc[userName] = {rank: idx + 1, numPosts};
     return acc;
   }, {});
 }

@@ -194,6 +194,7 @@ function prepareTree(data, root) {
       children: [root]
     }];
   }
+  nodesByParentId.root[0].data = {...data.find(row => row.id === Number(root))};
   return formToTree(nodesByParentId.root[0]);
 }
 
@@ -204,7 +205,8 @@ const getAllItems = (state, {data, root}) => {
     return row
       .set('upvoteLink', metadata.get('upvoteLink'))
       .set('replyLink', metadata.get('replyLink'));
-  }).filter(row => !row.get('deleted'));
+  }).filter(row => !row.get('deleted'))
+    .sort((a, b) => a.get('time') - a.get('time'));
   if (state.get('model')) {
     updatedData = updatedData.map(row => row.set('modeledTopic',
       modelComment(state.get('model'), row.get('text') || '').modelIndex));
