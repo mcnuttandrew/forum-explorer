@@ -1,4 +1,5 @@
 import React from 'react';
+import SearchForUser from './icons/search-for-user.js';
 import {expandButton, expandCallback} from './expand-button';
 import {classnames, timeSince} from '../utils';
 const createMarkup = __html => ({__html});
@@ -8,11 +9,13 @@ function renderComment(props, item, idx) {
     itemPath,
     setHoveredComment,
     hoveredComment,
-    setSelectedCommentPath
+    setSelectedCommentPath,
+    setSearch
   } = props;
   /* eslint-disable react/no-danger */
 
   const hasChildren = item.get('kids') && item.get('kids').size;
+  const userName = item.get('by');
   return (
     <div
       onMouseEnter={() => setHoveredComment(item)}
@@ -20,7 +23,7 @@ function renderComment(props, item, idx) {
       key={idx}
       style={{marginLeft: 20 * ((item.get('depth') || 1) - 1)}}
       className="comment-block">
-      <div className="comment-head">
+      <div className="comment-head flex">
         <a
           className="up-arrow"
           onClick={() => {
@@ -32,8 +35,13 @@ function renderComment(props, item, idx) {
           {'▲ '}
         </a>
         <a
-          href={`https://news.ycombinator.com/user?id=${item.get('by')}`}
-          >{item.get('by')}</a>
+          href={`https://news.ycombinator.com/user?id=${userName}`}
+          >{userName}</a>
+        <div style={{position: 'relative', width: '15px'}}>
+          <span className="search-user" onClick={() => setSearch(userName)}>
+            <SearchForUser/>
+          </span>
+        </div>
         <span>{` ${timeSince(item.get('time'))} ago`}</span>
       </div>
       <div

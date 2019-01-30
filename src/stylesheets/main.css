@@ -255,6 +255,12 @@ a.header-link:visited {
   margin-left: 3px;
 }
 
+.search-user {
+  cursor: pointer;
+  fill: #828282;
+  position: absolute;
+}
+
 .expand-comment {
   color: #828282;
   cursor: pointer;
