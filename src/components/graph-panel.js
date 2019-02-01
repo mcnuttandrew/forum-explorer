@@ -20,7 +20,12 @@ class GraphPanel extends React.Component {
   }
 
   render() {
-    const {configs, graphPanelDimensions} = this.props;
+    const {
+      configs,
+      graphPanelDimensions,
+      searchValue,
+      timeFilter
+    } = this.props;
     return (
       <div className="panel relative" ref="graphPanel">
         <Graph
@@ -28,6 +33,7 @@ class GraphPanel extends React.Component {
           graphLayout={getSelectedOption(configs, 0)}
           markSize={getSelectedOption(configs, 1)}
           squareLeafs={getSelectedOption(configs, 4) === 'on'}
+          muteUnselected={searchValue || (timeFilter.min !== timeFilter.max)}
           height={graphPanelDimensions.get('height')}
           width={graphPanelDimensions.get('width')}
           />

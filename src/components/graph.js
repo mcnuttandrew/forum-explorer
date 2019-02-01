@@ -239,7 +239,7 @@ class Graph extends React.Component {
       height,
       width,
       toggleCommentSelectionLock,
-      searchValue
+      muteUnselected
     } = this.props;
     const translation = layouts[graphLayout].offset(this.props);
     return (
@@ -253,7 +253,7 @@ class Graph extends React.Component {
         <g ref="polygons" transform={translation} />
         <g ref="nodes" transform={translation}/>
         {
-          searchValue && <rect
+          muteUnselected && <rect
           className="fade-block"
           onClick={toggleCommentSelectionLock}
           width={width}

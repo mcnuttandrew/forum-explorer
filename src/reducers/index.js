@@ -47,6 +47,7 @@ let DEFAULT_STATE = Immutable.fromJS({
   loading: !DEV_MODE,
   loadedCount: 0,
   model: null,
+  timeFilter: {min: 0, max: 0},
   treeLayout: null,
   searchValue: '',
   searchedMap: {}
@@ -131,19 +132,8 @@ const setConfig = (state, {rowIdx, valueIdx}) => {
   return updatedState.set('treeLayout', computeGraphLayout(updatedState));
 };
 
-const setSearch = (state, payload) => {
-  const nullSearch = (payload === '' || !payload.length);
-  const searchTerm = payload.toLowerCase();
-  const searchedMap = nullSearch ? Map() :
-    state.get('data').reduce((acc, row) => {
-      const searchMatchesUser = (row.get('by') || '').toLowerCase().includes(searchTerm);
-      const searchMatchesText = (row.get('text') || '').toLowerCase().includes(searchTerm);
-      return acc.set(row.get('id'), Boolean(searchMatchesText || searchMatchesUser));
-    }, Map());
-
-  const newState = state
-    .set('searchValue', payload)
-    .set('searchedMap', searchedMap);
+const selectSubset = (state, searchedMap, nullSearch) => {
+  const newState = state.set('searchedMap', searchedMap);
 
   // Don't clear the selection if the user has locked it
   if (state.get('commentSelectionLock')) {
@@ -153,6 +143,18 @@ const setSearch = (state, payload) => {
     .get('data').filter((d, idx) => !idx || searchedMap.get(d.get('id')));
 
   return setCommentPath(newState, []).set('itemsToRender', chain);
+};
+
+const setSearch = (state, payload) => {
+  const nullSearch = (payload === '' || !payload.length);
+  const searchTerm = payload.toLowerCase();
+  const searchedMap = nullSearch ? Map() :
+    state.get('data').reduce((acc, row) => {
+      const searchMatchesUser = (row.get('by') || '').toLowerCase().includes(searchTerm);
+      const searchMatchesText = (row.get('text') || '').toLowerCase().includes(searchTerm);
+      return acc.set(row.get('id'), Boolean(searchMatchesText || searchMatchesUser));
+    }, Map());
+  return selectSubset(state.set('searchValue', payload), searchedMap, nullSearch);
 };
 
 const unlockAndSearch = (state, payload) =>
@@ -195,8 +197,6 @@ function prepareTree(data, root) {
   return formToTree(nodesByParentId.root[0]);
 }
 
-
-
 const getAllItems = (state, {data, root}) => {
   let updatedData = Immutable.fromJS(data).map(row => {
     const metadata = state.getIn(['foundOrderMap', `${row.id}`]) ||
@@ -223,6 +223,17 @@ const getAllItems = (state, {data, root}) => {
 const toggleCommentSelectionLock = (state, payload) => setSearch(state
   .set('commentSelectionLock', !state.get('commentSelectionLock')), '');
 
+const setTimeFilter = (state, {min, max}) => {
+  const nullSearch = min === max;
+  const filter = Immutable.fromJS({min, max});
+  const searchedMap = nullSearch ? Map() :
+    state.get('data').reduce((acc, row) => {
+      const time = row.get('time');
+      return acc.set(row.get('id'), time >= min && time < max);
+    }, Map());
+  return selectSubset(state.set('timeFilter', filter), searchedMap, nullSearch);
+};
+
 const actionFuncMap = {
   'get-all-items': getAllItems,
   'get-all-users': getAllUsers,
@@ -233,6 +244,7 @@ const actionFuncMap = {
   'set-found-order': setFoundOrder,
   'set-hovered-comment': setHoveredComment,
   'set-search': setSearch,
+  'set-time-filter': setTimeFilter,
   'toggle-comment-selection-lock': toggleCommentSelectionLock,
   'unlock-and-search': unlockAndSearch,
   'update-graph-panel-dimensions': updateGraphPanelDimensions

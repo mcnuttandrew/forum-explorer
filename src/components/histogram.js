@@ -11,7 +11,7 @@ export default class Histogram extends React.Component {
 
   render() {
     const {hoveredRow} = this.state;
-    const {histogram} = this.props;
+    const {histogram, setTimeFilter} = this.props;
     const totalComments = histogram.reduce((acc, {y}) => acc + y, 0);
     const maxComments = histogram.reduce((acc, {y}) => Math.max(acc, y), 0);
     return (
@@ -22,12 +22,21 @@ export default class Histogram extends React.Component {
           left: 15,
           bottom: 10
         }}
-        onMouseLeave={() => this.setState({hoveredRow: false})}
-        xDomain={[histogram[0].x0, histogram[histogram.length - 1].x]}>
+        onMouseLeave={() => {
+          this.setState({hoveredRow: false});
+          setTimeFilter({min: 0, max: 0});
+        }}
+        xDomain={[
+          histogram[0].x0 - (histogram[0].x - histogram[0].x0) / 2,
+          histogram[histogram.length - 1].x
+        ]}>
 
         <XAxis tickFormat={timeSince} tickTotal={3}/>
         <VerticalRectSeries
-          onValueMouseOver={(row) => this.setState({hoveredRow: row})}
+          onValueMouseOver={(row) => {
+            this.setState({hoveredRow: row});
+            setTimeFilter({min: row.x0, max: row.x});
+          }}
           data={histogram}
           getColor={({x0}) => x0 === hoveredRow.x0 ? '#ff6600' : 'rgb(215, 205, 190)'}
           colorType="literal"/>

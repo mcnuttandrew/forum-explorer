@@ -7,6 +7,7 @@ export const unlockAndSearch = buildEasyAction('unlock-and-search');
 export const setFoundOrder = buildEasyAction('set-found-order');
 export const setSearch = buildEasyAction('set-search');
 export const setSelectedCommentPath = buildEasyAction('set-comment-path');
+export const setTimeFilter = buildEasyAction('set-time-filter');
 export const updateGraphPanelDimensions = buildEasyAction('update-graph-panel-dimensions');
 
 const serverTemplate = SERVER_DEV_MODE ?

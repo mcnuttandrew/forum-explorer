@@ -17,6 +17,7 @@ class SecondaryHeader extends React.Component {
       unlockAndSearch,
       serializedModel,
       setSearch,
+      setTimeFilter,
       searchValue
     } = this.props;
     const colorByTopUsers = getSelectedOption(configs, 2);
@@ -33,7 +34,7 @@ class SecondaryHeader extends React.Component {
           serializedModel={serializedModel}/>
         <div className="secondary-header-data-container">
           <div className="flex">
-            <Histogram histogram={histogram}/>
+            <Histogram histogram={histogram} setTimeFilter={setTimeFilter}/>
             {colorByTopUsers && <div className="top-posters">
               <span>{'Top Posters (click to search)'}</span>
               <div className="flex tile-top-users">
