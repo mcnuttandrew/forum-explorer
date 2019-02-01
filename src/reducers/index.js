@@ -10,7 +10,7 @@ import {computeTopUsers, computeHistrogram} from '../utils';
 const DEFAULT_CONFIGS = [{
   name: 'graph layout',
   options: graphLayouts,
-  defaultOption: 'forest'
+  defaultOption: 'tree'
 }, {
   name: 'dot size',
   options: ['small', 'medium', 'large'],
@@ -186,7 +186,7 @@ function prepareTree(data, root) {
     children: (nodesByParentId[node.id] || [])
       .map(child => formToTree(child))
   });
-  if (root && nodesByParentId[root].length > 1) {
+  if (root && nodesByParentId[root] && nodesByParentId[root].length > 1) {
     nodesByParentId.root = [{
       depth: 0,
       id: root,

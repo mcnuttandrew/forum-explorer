@@ -52,7 +52,7 @@ export const getAllItems = root => dispatch => {
         type: 'increase-loaded-count',
         payload: {newCount: children.length}
       });
-      children = children.concat(offspring.map(d => ({...d, depth})));
+      children = children.concat(offspring.map(d => ({children: [], ...d, depth})));
       depth += 1;
       const newgen = offspring
         .reduce((acc, child) => acc.concat(child && child.kids || []), []);

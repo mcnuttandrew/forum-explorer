@@ -54,6 +54,7 @@ class RootComponent extends React.Component {
           itemPath={this.props.itemPath}
           storyHead={this.props.storyHead}
           unlockAndSearch={this.props.unlockAndSearch}
+          showData={this.props.data.size > 1}
           serializedModel={this.props.serializedModel}
           setSearch={this.props.setSearch}
           setTimeFilter={this.props.setTimeFilter}
