@@ -383,12 +383,17 @@ a.header-link:visited {
 
 
 .top-poster {
-  border-radius: 5px;
-  color: white;
   display: flex;
   flex-wrap: nowrap;
   font-size: 8px;
   padding: 0 5px;
+}
+
+.top-poster-card {
+  border-radius: 2px;
+  color: white;
+  margin-right: 2px;
+  padding: 0 3px;
 }
 
 .top-user-coloring .node.node-highlighted-top-1,

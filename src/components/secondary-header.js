@@ -42,8 +42,12 @@ class SecondaryHeader extends React.Component {
                   return (
                     <div
                       onClick={() => unlockAndSearch(d[0])}
-                      className={`top-poster top-poster-${d[1].rank}`}
-                      key={d[0]}>{d[0]}: {d[1].numPosts}</div>
+                      className="top-poster" key={d[0]}>
+                      <div
+                        className={`top-poster-card top-poster-${d[1].rank}`}
+                        >{d[1].numPosts}</div>
+                      <div>{d[0]}</div>
+                    </div>
                   );
                 })}
               </div>

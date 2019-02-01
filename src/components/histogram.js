@@ -33,12 +33,17 @@ export default class Histogram extends React.Component {
 
         <XAxis tickFormat={timeSince} tickTotal={3}/>
         <VerticalRectSeries
+          data={histogram}
+          getColor={({x0}) => x0 === hoveredRow.x0 ? '#ff6600' : 'rgb(215, 205, 190)'}
+          colorType="literal"/>
+        <VerticalRectSeries
           onValueMouseOver={(row) => {
             this.setState({hoveredRow: row});
             setTimeFilter({min: row.x0, max: row.x});
           }}
           data={histogram}
-          getColor={({x0}) => x0 === hoveredRow.x0 ? '#ff6600' : 'rgb(215, 205, 190)'}
+          opacity={0}
+          getY={d => maxComments}
           colorType="literal"/>
         <LabelSeries style={{pointerEvents: 'none'}}
           data={[{
