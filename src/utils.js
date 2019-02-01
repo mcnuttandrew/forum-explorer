@@ -1,3 +1,7 @@
+import {histogram} from 'd3-array';
+import {scaleLinear} from 'd3-scale';
+import Immutable from 'immutable';
+
 export function area(points) {
   const segmentSum = points
   .reduce((acc, row, index) => {
@@ -120,3 +124,14 @@ export const extractLinksFromFlatNodeList = nodeList => nodeList.reduce((acc, ta
 
 export const elbow = ({source, target}) =>
   `M${source.x},${source.y}V${target.y}H${target.x}`;
+
+export const computeHistrogram = data => {
+  const {min, max} = data.reduce((acc, {time}) => ({
+    min: time ? Math.min(acc.min, time) : acc.min,
+    max: time ? Math.max(acc.max, time) : acc.max
+  }), {min: Infinity, max: -Infinity});
+  const xScale = scaleLinear().domain([min, max]).range([0, 100]);
+  return Immutable.fromJS(histogram().domain(xScale.domain())
+    .thresholds(xScale.ticks(15))(data.map(({time}) => time))
+    .map(bin => ({x0: bin.x0, x: bin.x1, y: bin.length})));
+};

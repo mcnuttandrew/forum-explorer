@@ -10,7 +10,7 @@ function renderComment(props, item, idx) {
     setHoveredComment,
     hoveredComment,
     setSelectedCommentPath,
-    setSearch
+    unlockAndSearch
   } = props;
   /* eslint-disable react/no-danger */
 
@@ -38,7 +38,7 @@ function renderComment(props, item, idx) {
           href={`https://news.ycombinator.com/user?id=${userName}`}
           >{userName}</a>
         <div style={{position: 'relative', width: '15px'}}>
-          <span className="search-user" onClick={() => setSearch(userName)}>
+          <span className="search-user" onClick={() => unlockAndSearch(userName)}>
             <SearchForUser/>
           </span>
         </div>

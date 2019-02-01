@@ -1,10 +1,11 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import Immutable, {Map} from 'immutable';
+
 import {DEV_MODE, numUsersToHighlight} from '../constants';
 import {graphLayouts, computeGraphLayout} from '../layouts';
 import TestData from '../constants/test-data.json';
-import {computeTopUsers} from '../utils';
+import {computeTopUsers, computeHistrogram} from '../utils';
 
 const DEFAULT_CONFIGS = [{
   name: 'graph layout',
@@ -38,18 +39,17 @@ let DEFAULT_STATE = Immutable.fromJS({
   data: DEV_MODE ? TestData : [],
   users: {},
   foundOrderMap: {},
+  graphPanelDimensions: {height: 0, width: 0},
   hoveredComment: null,
+  histogram: DEV_MODE ? computeHistrogram(TestData) : [],
   itemsToRender: [],
   itemPath: [],
   loading: !DEV_MODE,
   loadedCount: 0,
   model: null,
-  tree: null,
   treeLayout: null,
-  topUsers: [],
   searchValue: '',
-  searchedMap: {},
-  graphPanelDimensions: {height: 0, width: 0}
+  searchedMap: {}
 })
 .set('tree', DEV_MODE ? prepareTree(TestData, null) : null)
 .set('topUsers', DEV_MODE ? computeTopUsers(Immutable.fromJS(TestData), numUsersToHighlight) : []);
@@ -92,10 +92,6 @@ const increaseLoadedCount = (state, {newCount}) =>
 
 const setHoveredComment = (state, payload) => state
   .set('hoveredComment', payload && payload.get('id') || null);
-
-const toggleCommentSelectionLock = (state, payload) => state
-  .set('commentSelectionLock', !state.get('commentSelectionLock'))
-  .set('searchValue', '');
 
 const setFoundOrder = (state, payload) => {
   const foundOrderMap = payload.reduce((acc, content, order) => {
@@ -199,6 +195,8 @@ function prepareTree(data, root) {
   return formToTree(nodesByParentId.root[0]);
 }
 
+
+
 const getAllItems = (state, {data, root}) => {
   let updatedData = Immutable.fromJS(data).map(row => {
     const metadata = state.getIn(['foundOrderMap', `${row.id}`]) ||
@@ -216,9 +214,14 @@ const getAllItems = (state, {data, root}) => {
     .set('loading', false)
     .set('data', updatedData)
     .set('tree', prepareTree(updatedData.toJS(), root))
-    .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight));
+    .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight))
+    .set('histogram', computeHistrogram(data));
+
   return tempState.set('treeLayout', computeGraphLayout(tempState));
 };
+
+const toggleCommentSelectionLock = (state, payload) => setSearch(state
+  .set('commentSelectionLock', !state.get('commentSelectionLock')), '');
 
 const actionFuncMap = {
   'get-all-items': getAllItems,

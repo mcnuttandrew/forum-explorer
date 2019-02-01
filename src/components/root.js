@@ -48,6 +48,7 @@ class RootComponent extends React.Component {
           username={this.props.username}/>
         <SecondaryHeader
           configs={this.props.configs}
+          histogram={this.props.histogram}
           topUsers={this.props.topUsers}
           setSelectedCommentPath={this.props.setSelectedCommentPath}
           itemPath={this.props.itemPath}
@@ -92,6 +93,7 @@ function mapStateToProps({base}) {
     configs: base.get('configs'),
     data: base.get('data').filter(d => !d.get('deleted')),
     graphPanelDimensions: base.get('graphPanelDimensions'),
+    histogram: base.get('histogram').toJS(),
     hoveredComment: base.get('hoveredComment'),
     itemsToRender: base.get('itemsToRender'),
     itemPath: base.get('itemPath'),

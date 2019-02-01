@@ -135,7 +135,7 @@ class Graph extends React.Component {
         'node-internal': d.children,
         'node-leaf': !d.children,
         'node-selected': selectedMap.get(d.data.data.id),
-        'node-searched': searchedMap.get(d.data.data.id),
+        // 'node-searched': searchedMap.get(d.data.data.id),
         'node-hovered': d.data.data.id === hoveredComment,
         ...tops
       });
