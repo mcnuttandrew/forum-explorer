@@ -18,7 +18,8 @@ class SecondaryHeader extends React.Component {
       serializedModel,
       setSearch,
       setTimeFilter,
-      searchValue
+      searchValue,
+      showData
     } = this.props;
     const colorByTopUsers = getSelectedOption(configs, 2);
     if (!storyHead) {
@@ -32,7 +33,7 @@ class SecondaryHeader extends React.Component {
           storyHead={storyHead}
           unlockAndSearch={unlockAndSearch}
           serializedModel={serializedModel}/>
-        <div className="secondary-header-data-container">
+        {showData && <div className="secondary-header-data-container">
           <div className="flex">
             <Histogram histogram={histogram} setTimeFilter={setTimeFilter}/>
             {colorByTopUsers && <div className="top-posters">
@@ -54,7 +55,10 @@ class SecondaryHeader extends React.Component {
             </div>}
           </div>
           <SearchBox setSearch={setSearch} searchValue={searchValue}/>
-        </div>
+        </div>}
+        {!showData && <div className="secondary-header-data-container">
+          {'No comments on this post'}
+        </div>}
       </div>
     );
   }

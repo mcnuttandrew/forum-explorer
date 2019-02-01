@@ -14,6 +14,8 @@ export default class Histogram extends React.Component {
     const {histogram, setTimeFilter} = this.props;
     const totalComments = histogram.reduce((acc, {y}) => acc + y, 0);
     const maxComments = histogram.reduce((acc, {y}) => Math.max(acc, y), 0);
+    const binWidth = histogram[0].x - histogram[0].x0;
+    const binMin = histogram[0].x0;
     return (
       <XYPlot height={50} width={165}
         margin={{
@@ -27,7 +29,7 @@ export default class Histogram extends React.Component {
           setTimeFilter({min: 0, max: 0});
         }}
         xDomain={[
-          histogram[0].x0 - (histogram[0].x - histogram[0].x0) / 2,
+          binMin - binWidth / 2,
           histogram[histogram.length - 1].x
         ]}>
 
@@ -47,7 +49,7 @@ export default class Histogram extends React.Component {
           colorType="literal"/>
         <LabelSeries style={{pointerEvents: 'none'}}
           data={[{
-            x: histogram[2].x,
+            x: binWidth * 2 + binMin,
             y: 0,
             label: `${hoveredRow ? hoveredRow.y : totalComments}`,
             style: {
@@ -56,7 +58,7 @@ export default class Histogram extends React.Component {
               opacity: 0.4
             }
           }, {
-            x: histogram[histogram.length - 2].x,
+            x: binWidth * 2 + binMin,
             y: maxComments * 0.6,
             label: hoveredRow ? 'comments' : 'total comments',
             style: {

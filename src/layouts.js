@@ -9,6 +9,7 @@ import treeLayout from './layouts/tree-layout.js';
 import ringLayout from './layouts/ring-layout.js';
 import timeEmbedX from './layouts/time-embed-x.js';
 import timeEmbedY from './layouts/time-embed-y.js';
+import nullLayout from './layouts/null-layout';
 
 export const layouts = {
   balloon: balloonLayout,
@@ -18,7 +19,8 @@ export const layouts = {
   ring: ringLayout,
   timeY: timeEmbedY,
   tree: treeLayout,
-  forest: forestLayout
+  forest: forestLayout,
+  null: nullLayout
 };
 
 // this is imported into the reducer and used to order the layouts
@@ -35,12 +37,13 @@ export const graphLayouts = [
 ];
 
 export const computeGraphLayout = state => {
+  const useNullLayout = state.get('data').size <= 1;
   const graphLayout = getSelectedOption(state.get('configs'), 0);
   const {height, width} = state.get('graphPanelDimensions').toJS();
   const tree = state.get('tree');
   if (!tree) {
     return {descendants: () => [], links: () => []};
   }
-  const treeEval = layouts[graphLayout].layout({height, width});
+  const treeEval = layouts[useNullLayout ? 'null' : graphLayout].layout({height, width});
   return treeEval(hierarchy(tree));
 };

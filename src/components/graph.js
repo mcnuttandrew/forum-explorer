@@ -49,6 +49,7 @@ class Graph extends React.Component {
 
   updateChart(props) {
     const {
+      data,
       height,
       width,
       graphLayout,
@@ -59,13 +60,12 @@ class Graph extends React.Component {
     if (!width || !height || !treeLayout) {
       return;
     }
+    const layoutToUse = data.size > 1 ? graphLayout : 'null';
+    const xScale = layouts[layoutToUse].getXScale(props, treeLayout);
+    const yScale = layouts[layoutToUse].getYScale(props, treeLayout);
 
-    const xScale = layouts[graphLayout].getXScale(props, treeLayout);
-    const yScale = layouts[graphLayout].getYScale(props, treeLayout);
-
-    const positioning = layouts[graphLayout].positioning(xScale, yScale);
+    const positioning = layouts[layoutToUse].positioning(xScale, yScale);
     const nodes = treeLayout.descendants();
-
     const labels = treeLayout.labels && treeLayout.labels() || [];
 
     this.renderLinks(props, treeLayout, xScale, yScale);
