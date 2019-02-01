@@ -94,7 +94,8 @@ const setHoveredComment = (state, payload) => state
   .set('hoveredComment', payload && payload.get('id') || null);
 
 const toggleCommentSelectionLock = (state, payload) => state
-  .set('commentSelectionLock', !state.get('commentSelectionLock'));
+  .set('commentSelectionLock', !state.get('commentSelectionLock'))
+  .set('searchValue', '');
 
 const setFoundOrder = (state, payload) => {
   const foundOrderMap = payload.reduce((acc, content, order) => {
