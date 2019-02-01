@@ -375,33 +375,6 @@ a.header-link:visited {
   cursor: pointer;
 }
 
-/* #a6cee3
-#1f78b4
-#b2df8a
-#33a02c
-#fb9a99
-#e31a1c
-#fdbf6f
-#ff7f00
-#cab2d6
-#6a3d9a
-#ffff99
-#b15928 */
-/*
-BA0009
-852374
-0F8B8D
-EC9A29
-1c4d5f */
-/*
-.top-user-coloring .node.node-highlighted-top-1,
-.top-poster-1 {
-  color: white;
-  background: #BA0009;
-  border-radius: 5px;
-  fill: #BA0009;
-  padding: 0 5px;
-} */
 .tile-top-users {
   display: flex;
   flex-wrap: wrap;
