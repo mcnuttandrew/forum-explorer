@@ -48,6 +48,7 @@ class RootComponent extends React.Component {
           username={this.props.username}/>
         <SecondaryHeader
           configs={this.props.configs}
+          histogram={this.props.histogram}
           topUsers={this.props.topUsers}
           setSelectedCommentPath={this.props.setSelectedCommentPath}
           itemPath={this.props.itemPath}
@@ -55,6 +56,7 @@ class RootComponent extends React.Component {
           unlockAndSearch={this.props.unlockAndSearch}
           serializedModel={this.props.serializedModel}
           setSearch={this.props.setSearch}
+          setTimeFilter={this.props.setTimeFilter}
           searchValue={this.props.searchValue} />
         {this.props.loading && <div className="flex full-size background-gray centering">
           <h1> Loading, {this.props.loadedCount} so far</h1>
@@ -92,6 +94,7 @@ function mapStateToProps({base}) {
     configs: base.get('configs'),
     data: base.get('data').filter(d => !d.get('deleted')),
     graphPanelDimensions: base.get('graphPanelDimensions'),
+    histogram: base.get('histogram').toJS(),
     hoveredComment: base.get('hoveredComment'),
     itemsToRender: base.get('itemsToRender'),
     itemPath: base.get('itemPath'),
@@ -103,6 +106,7 @@ function mapStateToProps({base}) {
     searchValue: base.get('searchValue'),
     searchedMap: base.get('searchedMap'),
     storyHead: base.get('data').filter(item => item.get('type') === 'story').get(0),
+    timeFilter: base.get('timeFilter').toJS(),
     topUsers: base.get('topUsers'),
     treeLayout: base.get('treeLayout'),
     users: base.get('users')

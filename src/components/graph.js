@@ -135,7 +135,6 @@ class Graph extends React.Component {
         'node-internal': d.children,
         'node-leaf': !d.children,
         'node-selected': selectedMap.get(d.data.data.id),
-        'node-searched': searchedMap.get(d.data.data.id),
         'node-hovered': d.data.data.id === hoveredComment,
         ...tops
       });
@@ -239,7 +238,7 @@ class Graph extends React.Component {
       height,
       width,
       toggleCommentSelectionLock,
-      searchValue
+      muteUnselected
     } = this.props;
     const translation = layouts[graphLayout].offset(this.props);
     return (
@@ -253,7 +252,7 @@ class Graph extends React.Component {
         <g ref="polygons" transform={translation} />
         <g ref="nodes" transform={translation}/>
         {
-          searchValue && <rect
+          muteUnselected && <rect
           className="fade-block"
           onClick={toggleCommentSelectionLock}
           width={width}

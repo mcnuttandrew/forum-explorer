@@ -1,10 +1,11 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import Immutable, {Map} from 'immutable';
+
 import {DEV_MODE, numUsersToHighlight} from '../constants';
 import {graphLayouts, computeGraphLayout} from '../layouts';
 import TestData from '../constants/test-data.json';
-import {computeTopUsers} from '../utils';
+import {computeTopUsers, computeHistrogram} from '../utils';
 
 const DEFAULT_CONFIGS = [{
   name: 'graph layout',
@@ -38,18 +39,18 @@ let DEFAULT_STATE = Immutable.fromJS({
   data: DEV_MODE ? TestData : [],
   users: {},
   foundOrderMap: {},
+  graphPanelDimensions: {height: 0, width: 0},
   hoveredComment: null,
+  histogram: DEV_MODE ? computeHistrogram(TestData) : [],
   itemsToRender: [],
   itemPath: [],
   loading: !DEV_MODE,
   loadedCount: 0,
   model: null,
-  tree: null,
+  timeFilter: {min: 0, max: 0},
   treeLayout: null,
-  topUsers: [],
   searchValue: '',
-  searchedMap: {},
-  graphPanelDimensions: {height: 0, width: 0}
+  searchedMap: {}
 })
 .set('tree', DEV_MODE ? prepareTree(TestData, null) : null)
 .set('topUsers', DEV_MODE ? computeTopUsers(Immutable.fromJS(TestData), numUsersToHighlight) : []);
@@ -93,9 +94,6 @@ const increaseLoadedCount = (state, {newCount}) =>
 const setHoveredComment = (state, payload) => state
   .set('hoveredComment', payload && payload.get('id') || null);
 
-const toggleCommentSelectionLock = (state, payload) => state
-  .set('commentSelectionLock', !state.get('commentSelectionLock'));
-
 const setFoundOrder = (state, payload) => {
   const foundOrderMap = payload.reduce((acc, content, order) => {
     acc[content.id] = {...content, order};
@@ -134,19 +132,8 @@ const setConfig = (state, {rowIdx, valueIdx}) => {
   return updatedState.set('treeLayout', computeGraphLayout(updatedState));
 };
 
-const setSearch = (state, payload) => {
-  const nullSearch = (payload === '' || !payload.length);
-  const searchTerm = payload.toLowerCase();
-  const searchedMap = nullSearch ? Map() :
-    state.get('data').reduce((acc, row) => {
-      const searchMatchesUser = (row.get('by') || '').toLowerCase().includes(searchTerm);
-      const searchMatchesText = (row.get('text') || '').toLowerCase().includes(searchTerm);
-      return acc.set(row.get('id'), Boolean(searchMatchesText || searchMatchesUser));
-    }, Map());
-
-  const newState = state
-    .set('searchValue', payload)
-    .set('searchedMap', searchedMap);
+const selectSubset = (state, searchedMap, nullSearch) => {
+  const newState = state.set('searchedMap', searchedMap);
 
   // Don't clear the selection if the user has locked it
   if (state.get('commentSelectionLock')) {
@@ -156,6 +143,18 @@ const setSearch = (state, payload) => {
     .get('data').filter((d, idx) => !idx || searchedMap.get(d.get('id')));
 
   return setCommentPath(newState, []).set('itemsToRender', chain);
+};
+
+const setSearch = (state, payload) => {
+  const nullSearch = (payload === '' || !payload.length);
+  const searchTerm = payload.toLowerCase();
+  const searchedMap = nullSearch ? Map() :
+    state.get('data').reduce((acc, row) => {
+      const searchMatchesUser = (row.get('by') || '').toLowerCase().includes(searchTerm);
+      const searchMatchesText = (row.get('text') || '').toLowerCase().includes(searchTerm);
+      return acc.set(row.get('id'), Boolean(searchMatchesText || searchMatchesUser));
+    }, Map());
+  return selectSubset(state.set('searchValue', payload), searchedMap, nullSearch);
 };
 
 const unlockAndSearch = (state, payload) =>
@@ -215,8 +214,24 @@ const getAllItems = (state, {data, root}) => {
     .set('loading', false)
     .set('data', updatedData)
     .set('tree', prepareTree(updatedData.toJS(), root))
-    .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight));
+    .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight))
+    .set('histogram', computeHistrogram(data));
+
   return tempState.set('treeLayout', computeGraphLayout(tempState));
+};
+
+const toggleCommentSelectionLock = (state, payload) => setSearch(state
+  .set('commentSelectionLock', !state.get('commentSelectionLock')), '');
+
+const setTimeFilter = (state, {min, max}) => {
+  const nullSearch = min === max;
+  const filter = Immutable.fromJS({min, max});
+  const searchedMap = nullSearch ? Map() :
+    state.get('data').reduce((acc, row) => {
+      const time = row.get('time');
+      return acc.set(row.get('id'), time >= min && time < max);
+    }, Map());
+  return selectSubset(state.set('timeFilter', filter), searchedMap, nullSearch);
 };
 
 const actionFuncMap = {
@@ -229,6 +244,7 @@ const actionFuncMap = {
   'set-found-order': setFoundOrder,
   'set-hovered-comment': setHoveredComment,
   'set-search': setSearch,
+  'set-time-filter': setTimeFilter,
   'toggle-comment-selection-lock': toggleCommentSelectionLock,
   'unlock-and-search': unlockAndSearch,
   'update-graph-panel-dimensions': updateGraphPanelDimensions

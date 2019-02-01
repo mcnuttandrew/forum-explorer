@@ -1,4 +1,6 @@
 import React from 'react';
+
+import Histogram from './histogram';
 import StoryHead from './story-head';
 import SearchBox from './search-box';
 import {getSelectedOption} from '../utils';
@@ -7,6 +9,7 @@ class SecondaryHeader extends React.Component {
   render() {
     const {
       configs,
+      histogram,
       topUsers,
       setSelectedCommentPath,
       itemPath,
@@ -14,6 +17,7 @@ class SecondaryHeader extends React.Component {
       unlockAndSearch,
       serializedModel,
       setSearch,
+      setTimeFilter,
       searchValue
     } = this.props;
     const colorByTopUsers = getSelectedOption(configs, 2);
@@ -28,21 +32,27 @@ class SecondaryHeader extends React.Component {
           storyHead={storyHead}
           unlockAndSearch={unlockAndSearch}
           serializedModel={serializedModel}/>
-        <div >
-
-          {colorByTopUsers && <div className="top-posters">
-            <span>{'Top Posters (click to search)'}</span>
-            <div className="flex">
-              {Object.entries(topUsers).map(d => {
-                return (
-                  <span
-                    onClick={() => unlockAndSearch(d[0])}
-                    className={`top-poster-${d[1].rank}`}
-                    key={d[0]}>{d[0]} - {d[1].numPosts} posts</span>
-                );
-              })}
-            </div>
-          </div>}
+        <div className="secondary-header-data-container">
+          <div className="flex">
+            <Histogram histogram={histogram} setTimeFilter={setTimeFilter}/>
+            {colorByTopUsers && <div className="top-posters">
+              <span>{'Top Posters (click to search)'}</span>
+              <div className="flex tile-top-users">
+                {Object.entries(topUsers).map(d => {
+                  return (
+                    <div
+                      onClick={() => unlockAndSearch(d[0])}
+                      className="top-poster" key={d[0]}>
+                      <div
+                        className={`top-poster-card top-poster-${d[1].rank}`}
+                        >{d[1].numPosts}</div>
+                      <div>{d[0]}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>}
+          </div>
           <SearchBox setSearch={setSearch} searchValue={searchValue}/>
         </div>
       </div>
