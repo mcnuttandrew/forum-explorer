@@ -68,16 +68,16 @@ class Graph extends React.Component {
     const nodes = treeLayout.descendants();
     const labels = treeLayout.labels && treeLayout.labels() || [];
 
-    this.renderLinks(props, treeLayout, xScale, yScale);
-    this.renderNodes(props, nodes, positioning, markSize);
-    this.renderSelectedNodes(props, nodes, positioning, markSize);
     const voronoiEval = voronoi().extent([[0, 0], [width + 1, height + 1]]);
     const voronois = voronoiEval.polygons(nodes.map(d => [...positioning(d), d])).filter(d => d.length);
+    this.renderLinks(props, treeLayout, xScale, yScale, voronois);
+    this.renderNodes(props, nodes, positioning, markSize, voronois);
+    this.renderSelectedNodes(props, nodes, positioning, markSize, voronois);
     this.renderVoronoi(props, nodes, positioning, voronois);
     this.renderLabels(props, labels, nodes, positioning, voronois);
   }
 
-  renderLinks(props, root, xScale, yScale) {
+  renderLinks(props, root, xScale, yScale, voronois) {
     const {selectedMap, graphLayout} = props;
     const linesG = select(ReactDOM.findDOMNode(this.refs.lines));
     const link = linesG.selectAll('.link').data(root.links());
@@ -88,25 +88,40 @@ class Graph extends React.Component {
       });
     };
     const path = layouts[graphLayout].path(xScale, yScale);
+    const vornoiNodeMap = voronois.reduce((acc, row) => {
+      const cell = row.data[2];
+      acc[cell.data.id] = row
+        .reduce((mem, d) => [mem[0] + d[0], mem[1] + d[1]], [0, 0])
+        .map(d => d / row.length);
+      return acc;
+    }, {});
     link.enter().append('path')
         .attr('class', evalLineClasses)
-        .attr('d', path);
+        .attr('d', d => {
+          const source = vornoiNodeMap[d.source.data.data.id];
+          const target = vornoiNodeMap[d.target.data.data.id];
+          return `M${source[0]} ${source[1]}L${target[0]} ${target[1]}`;
+        });
     link.transition()
-      .attr('d', path)
+      .attr('d', d => {
+        const source = vornoiNodeMap[d.source.data.data.id];
+        const target = vornoiNodeMap[d.target.data.data.id];
+        return `M${source[0]} ${source[1]}L${target[0]} ${target[1]}`;
+      })
       .attr('class', evalLineClasses);
     link.exit().remove();
 
   }
 
-  renderNodes(props, nodes, positioning, markSize) {
-    this.renderAnyNodes(props, nodes, positioning, markSize, false);
+  renderNodes(props, nodes, positioning, markSize, voronois) {
+    this.renderAnyNodes(props, nodes, positioning, markSize, false, voronois);
   }
 
-  renderSelectedNodes(props, nodes, positioning, markSize) {
-    this.renderAnyNodes(props, nodes, positioning, markSize, true);
+  renderSelectedNodes(props, nodes, positioning, markSize, voronois) {
+    this.renderAnyNodes(props, nodes, positioning, markSize, true, voronois);
   }
 
-  renderAnyNodes(props, nodes, positioning, markSize, useSelectedNodes) {
+  renderAnyNodes(props, nodes, positioning, markSize, useSelectedNodes, voronois) {
     const {
       hoveredComment,
       toggleCommentSelectionLock,
@@ -115,6 +130,13 @@ class Graph extends React.Component {
       squareLeafs,
       topUsers
     } = props;
+    const vornoiNodeMap = voronois.reduce((acc, row) => {
+      const cell = row.data[2];
+      acc[cell.data.id] = row
+        .reduce((mem, d) => [mem[0] + d[0], mem[1] + d[1]], [0, 0])
+        .map(d => d / row.length);
+      return acc;
+    }, {});
     const ref = useSelectedNodes ? this.refs.selectedNodes : this.refs.nodes;
     const nodesG = select(ReactDOM.findDOMNode(ref));
     const translateFunc = arr => `translate(${arr.join(',')})`;
@@ -152,7 +174,9 @@ class Graph extends React.Component {
     const circleness = squareLeafs ? [0, 20] : [20, 20];
     node.enter().append('rect')
         .attr('class', evalCircClasses)
-        .attr('transform', d => translateFunc(positioning(d)))
+        .attr('transform', d => {
+          return translateFunc(vornoiNodeMap[`${d.data.data.id}`]);
+        })
         .attr('height', setCircSize)
         .attr('width', setCircSize)
         .attr('x', d => -setCircSize(d) / 2)
@@ -161,7 +185,9 @@ class Graph extends React.Component {
         .on('click', toggleCommentSelectionLock);
 
     node.transition()
-        .attr('transform', d => translateFunc(positioning(d)))
+        .attr('transform', d => {
+          return translateFunc(vornoiNodeMap[d.data.id]);
+        })
         .attr('height', setCircSize)
         .attr('width', setCircSize)
         .attr('x', d => -setCircSize(d) / 2)
