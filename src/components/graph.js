@@ -211,7 +211,7 @@ class Graph extends React.Component {
       .attr('class', 'polygon')
       .attr('fill', 'black')
       .attr('stroke', 'white')
-      .attr('opacity', 0.1)
+      .attr('opacity', 0)
       .attr('d', d => `M${d.join('L')}Z`)
       .on('mouseenter', d => setSelectedCommentPath(extractIdPathToRoot(d.data[2])))
       .on('click', toggleCommentSelectionLock);
