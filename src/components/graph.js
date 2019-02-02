@@ -31,10 +31,16 @@ const nodeSizes = {
   large: 10
 };
 
+// const rootSizes = {
+//   small: 7,
+//   medium: 10,
+//   large: 14
+// };
+
 const rootSizes = {
   small: 7,
-  medium: 10,
-  large: 14
+  medium: 15,
+  large: 19
 };
 
 class Graph extends React.Component {
@@ -71,10 +77,36 @@ class Graph extends React.Component {
     this.renderLinks(props, treeLayout, xScale, yScale);
     this.renderNodes(props, nodes, positioning, markSize);
     this.renderSelectedNodes(props, nodes, positioning, markSize);
+    // probably could get some speed up by not recomputing the voronoi all the time
     const voronoiEval = voronoi().extent([[0, 0], [width + 1, height + 1]]);
     const voronois = voronoiEval.polygons(nodes.map(d => [...positioning(d), d])).filter(d => d.length);
     this.renderVoronoi(props, nodes, positioning, voronois);
     this.renderLabels(props, labels, nodes, positioning, voronois);
+
+    this.renderRootAnnotation(props, treeLayout, xScale, yScale);
+  }
+
+  renderRootAnnotation(props, treeLayout, xScale, yScale) {
+
+    const translateFunc = d => `translate(${d.x}, ${d.y})`;
+    const treeRoot = treeLayout.treeRoot && treeLayout.treeRoot();
+    const annotations = !treeRoot ? [] : [
+      {x: xScale(treeRoot), y: yScale(treeRoot), label: `+${treeRoot.data.data.hiddenNodes.length}`}
+    ];
+    console.log(treeLayout.treeRoot && treeLayout.treeRoot())
+    const rootAnnotation = select(ReactDOM.findDOMNode(this.refs.rootAnnotation))
+      .selectAll('.root-annotation').data(annotations);
+    rootAnnotation.enter().append('text')
+        .attr('class', 'root-annotation')
+        .attr('transform', d => translateFunc(d))
+        .attr('text-anchor', 'middle')
+        .attr('font-size', 10)
+        .text(d => d.label);
+    rootAnnotation.transition()
+      .attr('class', 'root-annotation')
+      .attr('transform', d => translateFunc(d))
+      .text(d => d.label);
+    rootAnnotation.exit().remove();
   }
 
   renderLinks(props, root, xScale, yScale) {
@@ -131,6 +163,7 @@ class Graph extends React.Component {
         return acc;
       }, {});
       return classnames({
+        'node-root': d.data.data.id === 'root',
         node: true,
         'node-internal': d.children,
         'node-leaf': !d.children,
@@ -178,7 +211,7 @@ class Graph extends React.Component {
       .attr('class', 'polygon')
       .attr('fill', 'black')
       .attr('stroke', 'white')
-      .attr('opacity', 0)
+      .attr('opacity', 0.1)
       .attr('d', d => `M${d.join('L')}Z`)
       .on('mouseenter', d => setSelectedCommentPath(extractIdPathToRoot(d.data[2])))
       .on('click', toggleCommentSelectionLock);
@@ -219,13 +252,12 @@ class Graph extends React.Component {
 
     label.transition()
         .attr('transform', d => translateFunc(d.centroid));
-        // .text(d => d.label);
     label.exit().remove();
 
     const subLabels = label.selectAll('text').data(d => d.label || '');
     subLabels.enter().append('text').text(d => d)
       .attr('transform', (d, idx) => `translate(0, ${idx * 11})`);
-    subLabels.transition()
+    subLabels.transition().text(d => d)
       .attr('transform', (d, idx) => `translate(0, ${idx * 11})`);
     subLabels.exit().remove();
 
@@ -253,29 +285,30 @@ class Graph extends React.Component {
         <g ref="nodes" transform={translation}/>
         {
           muteUnselected && <rect
-          className="fade-block"
-          onClick={toggleCommentSelectionLock}
-          width={width}
-          height={height}
-          x="0"
-          y="0"
-          fill="#f6f6f0"
-          opacity="0.7"
-          />
+            className="fade-block"
+            onClick={toggleCommentSelectionLock}
+            width={width}
+            height={height}
+            x="0"
+            y="0"
+            fill="#f6f6f0"
+            opacity="0.7"
+            />
         }
         <g ref="labels" transform={translation} className="unselectable"/>
+        <g ref="rootAnnotation" transform={translation} className="unselectable"/>
         <g ref="selectedNodes" transform={translation}/>
         {
           commentSelectionLock && <rect
-          className="click-away-block"
-          onClick={toggleCommentSelectionLock}
-          width={width}
-          height={height}
-          x="0"
-          y="0"
-          fill="red"
-          opacity="0"
-          />
+            className="click-away-block"
+            onClick={toggleCommentSelectionLock}
+            width={width}
+            height={height}
+            x="0"
+            y="0"
+            fill="red"
+            opacity="0"
+            />
         }
         <text x={20} y={height - 20} className="legend unselectable">
           click to un/lock selection

@@ -132,7 +132,15 @@ const childWithinThreshold = negate => child => {
 
 // THE MAIN LAYOUT CLASS INSTANCE
 export const forestLayout = {
+  preheirarchyManipulation: tree => {
+    // drop the stumps
+    const stumps = tree.children.filter(({children}) => (!children || children.length < 1));
+    tree.data.hiddenNodes = stumps.map(d => ({id: d.data.id, by: d.data.by}));
+    tree.children = tree.children.filter(({children}) => !(!children || children.length < 1));
+    return tree;
+  },
   layout: ({height, width}) => data => {
+
     weighTree(data);
     // break apart the root from heavy branches
     const rootBranch = [data].concat(data.children.filter(childWithinThreshold(false)));
@@ -175,7 +183,8 @@ export const forestLayout = {
     return {
       descendants: () => flattenedNodes,
       links: () => links,
-      labels: () => labels
+      labels: () => labels,
+      treeRoot: () => data
     };
   },
 

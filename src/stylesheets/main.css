@@ -466,6 +466,7 @@ a.header-link:visited {
   display: flex;
   flex-direction: column;
   font-size: 8px;
+  min-width: 160px;
   padding: 0 5px;
 }
 
