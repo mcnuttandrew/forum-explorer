@@ -135,6 +135,9 @@ export const forestLayout = {
   preheirarchyManipulation: tree => {
     // drop the stumps
     const stumps = tree.children.filter(({children}) => (!children || children.length < 1));
+    if (stumps.length < 30) {
+      return tree;
+    }
     tree.data.hiddenNodes = stumps.map(d => ({id: d.data.id, by: d.data.by}));
     tree.children = tree.children.filter(({children}) => !(!children || children.length < 1));
     return tree;
