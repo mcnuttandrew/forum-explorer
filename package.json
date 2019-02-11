@@ -59,7 +59,8 @@
     "serve": "node topic-server/server.js",
     "build": "NODE_ENV=production webpack",
     "lint": "eslint .",
-    "toggle-example": "mv index.html index-temp.html && mv index-example.html index.html && mv index-temp.html index-example.html"
+    "toggle-example": "mv index.html index-temp.html && mv index-example.html index.html && mv index-temp.html index-example.html",
+    "heroku-postbuild": "echo Skip builds on Heroku"
   },
   "babel": {
     "presets": [
