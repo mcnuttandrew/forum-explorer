@@ -11,14 +11,36 @@ export const setTimeFilter = buildEasyAction('set-time-filter');
 export const updateGraphPanelDimensions = buildEasyAction('update-graph-panel-dimensions');
 
 const serverTemplate = SERVER_DEV_MODE ?
-  item => `http://localhost:3000/?item=${item}` :
+  item => `http://localhost:5000/?item=${item}` :
   item => `https://hn-ex.herokuapp.com/?item=${item}`;
+
+const branchTemplate = SERVER_DEV_MODE ?
+  item => `http://localhost:5000/?item=${item}&topics=1&terms=1` :
+  item => `https://hn-ex.herokuapp.com/?item=${item}&topics=1&terms=1`;
 
 export const modelData = item => dispatch => {
   fetch(serverTemplate(item), {mode: 'cors'})
   .then(d => d.json())
   .then(payload => dispatch({type: 'model-data', payload}))
   .catch(() => {});
+};
+
+export const modelBranches = (dispatch, data, root) => {
+  const items = data
+    .filter(({parent, kids}) => `${parent}` === root && kids && kids.length > 1)
+    .map(({id}) => id);
+  Promise.all(items.map(item => {
+    return fetch(branchTemplate(item), {mode: 'cors'})
+    .then(d => d.json())
+    .then(model => ({item, model: model[0][0]}));
+  }))
+  .then(payload => {
+    return payload.reduce((acc, {item, model}) => {
+      acc[item] = model;
+      return acc;
+    }, {});
+  })
+  .then(payload => dispatch({type: 'model-branches', payload}));
 };
 
 export const setConfig = (rowIdx, valueIdx) => dispatch => dispatch({
@@ -70,5 +92,6 @@ export const getAllItems = root => dispatch => {
         payload: {data, root}
       });
       getAllUsers(dispatch, data);
+      modelBranches(dispatch, data, root);
     });
 };

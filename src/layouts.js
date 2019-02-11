@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import {hierarchy} from 'd3-hierarchy';
 import {getSelectedOption} from './utils';
 
@@ -44,6 +45,9 @@ export const computeGraphLayout = state => {
   if (!tree) {
     return {descendants: () => [], links: () => []};
   }
-  const treeEval = layouts[useNullLayout ? 'null' : graphLayout].layout({height, width});
-  return treeEval(hierarchy(tree));
+  const usedLayout = layouts[useNullLayout ? 'null' : graphLayout];
+  const treeEval = usedLayout.layout({height, width}, state.get('branchModel').toJS());
+  const preppedTree = usedLayout.preheirarchyManipulation ?
+    usedLayout.preheirarchyManipulation(Immutable.fromJS(tree).toJS()) : tree;
+  return treeEval(hierarchy(preppedTree));
 };
