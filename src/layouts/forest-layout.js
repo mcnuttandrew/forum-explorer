@@ -23,7 +23,7 @@ const treemapLayout = USE_BINARY ? treemapBinary : treemapResquarify;
 const ringEval = RingLayout.layout();
 
 // UTILS
-const generateLabels = branches => {
+const generateLabels = (branches, branchModel) => {
   const longestIdx = branches.reduce((acc, row, idx) => {
     if (acc.value < row.weight) {
       return {value: row.weight, idx};
@@ -33,13 +33,16 @@ const generateLabels = branches => {
   const rootLabel = {label: branches.length ? ['conversation', 'root'] : [], key: 'root'};
   return [rootLabel]
     .concat(branches.map((branch, idx) => {
+      const model = branchModel[branch.data.data.id];
       // let label = `started by ${branch.data.data.by}`;
       // let label = '';
-      let label = [`subconversation ${idx}`];
-      if (longestIdx === idx) {
-        // label = ['subconversation containing', ' most popular comment'];
-        label = ['notable subconversation'];
-      }
+      const label = model ?
+        ['subconversation', `about ${model.term}`] :
+        [longestIdx === idx ? 'notable subconversation' : `subconversation ${idx}`];
+      // if (longestIdx === idx) {
+      //   // label = ['subconversation containing', ' most popular comment'];
+      //   label = ['notable subconversation'];
+      // }
       return ({label, key: branch.key});
     }));
 };
@@ -142,8 +145,7 @@ export const forestLayout = {
     tree.children = tree.children.filter(({children}) => !(!children || children.length < 1));
     return tree;
   },
-  layout: ({height, width}) => data => {
-
+  layout: ({height, width}, branchModel) => data => {
     weighTree(data);
     // break apart the root from heavy branches
     const rootBranch = [data].concat(data.children.filter(childWithinThreshold(false)));
@@ -181,7 +183,7 @@ export const forestLayout = {
     const flattenedNodes = flattenData(data);
     const links = extractLinksFromFlatNodeList(flattenedNodes)
       .filter(({source, target}) => source.key === target.key);
-    const labels = generateLabels(otherBranches);
+    const labels = generateLabels(otherBranches, branchModel);
 
     return {
       descendants: () => flattenedNodes,

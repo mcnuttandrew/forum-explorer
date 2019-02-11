@@ -34,6 +34,7 @@ const DEFAULT_CONFIGS = [{
 }));
 
 let DEFAULT_STATE = Immutable.fromJS({
+  branchModel: {},
   commentSelectionLock: false,
   configs: DEFAULT_CONFIGS,
   data: DEV_MODE ? TestData : [],
@@ -119,6 +120,11 @@ const modelData = (state, payload) => {
       const evalModel = modelComment(payload, row.get('text') || '');
       return row.set('modeledTopic', evalModel.modelIndex);
     }));
+};
+
+const modelBranches = (state, payload) => {
+  const tempState = state.set('branchModel', Immutable.fromJS(payload));
+  return tempState.set('treeLayout', computeGraphLayout(tempState));
 };
 
 const setConfig = (state, {rowIdx, valueIdx}) => {
@@ -239,6 +245,7 @@ const actionFuncMap = {
   'get-all-users': getAllUsers,
   'increase-loaded-count': increaseLoadedCount,
   'model-data': modelData,
+  'model-branches': modelBranches,
   'set-comment-path': setCommentPath,
   'set-config-value': setConfig,
   'set-found-order': setFoundOrder,

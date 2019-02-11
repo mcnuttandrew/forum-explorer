@@ -18,8 +18,21 @@ app.use((req, res, next) => {
 
 const modelCache = {};
 
-app.get('/', (req, res) => {
+function stripAndModel(html, topics, terms) {
+  const $ = cheerio.load(html);
+  const texts = $('.comment').text()
+    .replace(/reply/g, '')
+    .split('\n')
+    .map(d => d.trim())
+    .filter(d => d.length);
+
+  return lda(texts, topics, terms, ['en'], null, null, 10).filter(d => d.length);
+}
+
+function parseAndModel(req, res) {
   const item = req.query && req.query.item;
+  const topics = req.query && req.query.topics || 5;
+  const terms = req.query && req.query.terms || 15;
   if (!item) {
     return res.send('Invalid query');
   }
@@ -35,14 +48,8 @@ app.get('/', (req, res) => {
   request(`https://news.ycombinator.com/item?id=${item}`, (error, response, html) => {
     log(`recieved html for ${item}`);
     if (!error && response.statusCode === 200) {
-      const $ = cheerio.load(html);
-      const texts = $('.comment').text()
-        .replace(/reply/g, '')
-        .split('\n')
-        .map(d => d.trim())
-        .filter(d => d.length);
       log(`building model for ${item}`);
-      const model = lda(texts, 5, 15, ['en'], null, null, 10).filter(d => d.length);
+      const model = stripAndModel(html, topics, terms);
       log(`sending model for ${item}`);
       res.send(model);
       modelCache[item] = {
@@ -51,7 +58,9 @@ app.get('/', (req, res) => {
       };
     }
   });
-});
+}
+
+app.get('/', (req, res) => parseAndModel(req, res));
 
 app.listen(PORT, () => log(`listening on ${PORT}`));
 /* eslint-enable no-console */

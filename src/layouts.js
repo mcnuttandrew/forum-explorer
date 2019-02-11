@@ -46,7 +46,7 @@ export const computeGraphLayout = state => {
     return {descendants: () => [], links: () => []};
   }
   const usedLayout = layouts[useNullLayout ? 'null' : graphLayout];
-  const treeEval = usedLayout.layout({height, width});
+  const treeEval = usedLayout.layout({height, width}, state.get('branchModel').toJS());
   const preppedTree = usedLayout.preheirarchyManipulation ?
     usedLayout.preheirarchyManipulation(Immutable.fromJS(tree).toJS()) : tree;
   return treeEval(hierarchy(preppedTree));

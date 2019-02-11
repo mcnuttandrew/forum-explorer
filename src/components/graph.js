@@ -91,9 +91,14 @@ class Graph extends React.Component {
     const translateFunc = d => `translate(${d.x}, ${d.y})`;
     const treeRoot = treeLayout.treeRoot && treeLayout.treeRoot();
     const annotations = !treeRoot ? [] : [
-      {x: xScale(treeRoot), y: yScale(treeRoot), label: `+${treeRoot.data.data.hiddenNodes.length}`}
+      {
+        x: xScale(treeRoot), 
+        y: yScale(treeRoot), 
+        label: treeRoot.data.data.hiddenNodes ? 
+          `+${treeRoot.data.data.hiddenNodes.length}` : ''
+      }
     ];
-    console.log(treeLayout.treeRoot && treeLayout.treeRoot())
+
     const rootAnnotation = select(ReactDOM.findDOMNode(this.refs.rootAnnotation))
       .selectAll('.root-annotation').data(annotations);
     rootAnnotation.enter().append('text')
