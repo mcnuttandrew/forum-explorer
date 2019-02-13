@@ -4,7 +4,8 @@ import Immutable, {Map} from 'immutable';
 
 import {DEV_MODE, numUsersToHighlight} from '../constants';
 import {graphLayouts, computeGraphLayout} from '../layouts';
-import TestData from '../constants/test-data.json';
+// import TestData from '../constants/test-data.json';
+import TestData from '../constants/really-big-data.json';
 import {computeTopUsers, computeHistrogram} from '../utils';
 
 const DEFAULT_CONFIGS = [{
@@ -203,6 +204,8 @@ function prepareTree(data, root) {
   return formToTree(nodesByParentId.root[0]);
 }
 
+const appropriateDotSize = numComments => (numComments > 600) ? 0 : (numComments < 20 ? 2 : 1);
+
 const getAllItems = (state, {data, root}) => {
   let updatedData = Immutable.fromJS(data).map(row => {
     const metadata = state.getIn(['foundOrderMap', `${row.id}`]) ||
@@ -223,7 +226,9 @@ const getAllItems = (state, {data, root}) => {
     .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight))
     .set('histogram', computeHistrogram(data));
 
-  return tempState.set('treeLayout', computeGraphLayout(tempState));
+  return setConfig(
+    tempState.set('treeLayout', computeGraphLayout(tempState))
+    , {rowIdx: 1, valueIdx: appropriateDotSize(data.length)});
 };
 
 const toggleCommentSelectionLock = (state, payload) => setSearch(state
