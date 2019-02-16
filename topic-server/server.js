@@ -39,7 +39,7 @@ function parseAndModel(req, res) {
   log(`request for ${item}`);
   const currentTime = new Date().getTime();
   const fiveMinutes = 5 * 60 * 1000;
-  if (modelCache[item] && (modelCache[item].time - currentTime) < fiveMinutes) {
+  if (modelCache[item] && ((modelCache[item].time - currentTime) < fiveMinutes)) {
     log(`request for ${item} fulfilled by cache`);
     // TODO: record cache hit, if cache hits happen to many times invalidate the cache
     return res.send(modelCache[item].model);
