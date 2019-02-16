@@ -3,9 +3,9 @@ import thunk from 'redux-thunk';
 import Immutable, {Map} from 'immutable';
 
 import {DEV_MODE, numUsersToHighlight} from '../constants';
-import {graphLayouts, computeGraphLayout} from '../layouts';
-// import TestData from '../constants/test-data.json';
-import TestData from '../constants/really-big-data.json';
+import {graphLayouts, computeFullGraphLayout} from '../layouts';
+import TestData from '../constants/test-data.json';
+// import TestData from '../constants/really-big-data.json';
 import {computeTopUsers, computeHistrogram} from '../utils';
 
 const DEFAULT_CONFIGS = [{
@@ -50,14 +50,13 @@ let DEFAULT_STATE = Immutable.fromJS({
   loadedCount: 0,
   model: null,
   timeFilter: {min: 0, max: 0},
-  treeLayout: null,
   searchValue: '',
   searchedMap: {}
 })
 .set('tree', DEV_MODE ? prepareTree(TestData, null) : null)
 .set('topUsers', DEV_MODE ? computeTopUsers(Immutable.fromJS(TestData), numUsersToHighlight) : []);
 
-DEFAULT_STATE = DEFAULT_STATE.set('treeLayout', computeGraphLayout(DEFAULT_STATE));
+DEFAULT_STATE = DEFAULT_STATE.set('fullGraph', computeFullGraphLayout(DEFAULT_STATE));
 
 function modelComment(model, text) {
   return model.reduce((acc, row, modelIndex) => {
@@ -125,7 +124,7 @@ const modelData = (state, payload) => {
 
 const modelBranches = (state, payload) => {
   const tempState = state.set('branchModel', Immutable.fromJS(payload));
-  return tempState.set('treeLayout', computeGraphLayout(tempState));
+  return tempState.set('fullGraph', computeFullGraphLayout(tempState));
 };
 
 const setConfig = (state, {rowIdx, valueIdx}) => {
@@ -136,7 +135,7 @@ const setConfig = (state, {rowIdx, valueIdx}) => {
   if (rowIdx !== 0) {
     return updatedState;
   }
-  return updatedState.set('treeLayout', computeGraphLayout(updatedState));
+  return updatedState.set('fullGraph', computeFullGraphLayout(updatedState));
 };
 
 const selectSubset = (state, searchedMap, nullSearch) => {
@@ -172,7 +171,7 @@ const getAllUsers = (state, users) => state
 
 const updateGraphPanelDimensions = (state, payload) => {
   const tempState = state.set('graphPanelDimensions', Immutable.fromJS(payload));
-  return tempState.set('treeLayout', computeGraphLayout(tempState));
+  return tempState.set('fullGraph', computeFullGraphLayout(tempState));
 };
 
 function prepareTree(data, root) {
@@ -227,7 +226,7 @@ const getAllItems = (state, {data, root}) => {
     .set('histogram', computeHistrogram(data));
 
   return setConfig(
-    tempState.set('treeLayout', computeGraphLayout(tempState))
+    tempState.set('fullGraph', computeFullGraphLayout(tempState))
     , {rowIdx: 1, valueIdx: appropriateDotSize(data.length)});
 };
 

@@ -1,5 +1,7 @@
 import Immutable from 'immutable';
 import {hierarchy} from 'd3-hierarchy';
+import {voronoi} from 'd3-voronoi';
+
 import {getSelectedOption} from './utils';
 
 import balloonLayout from './layouts/balloon-layout.js';
@@ -50,4 +52,40 @@ export const computeGraphLayout = state => {
   const preppedTree = usedLayout.preheirarchyManipulation ?
     usedLayout.preheirarchyManipulation(Immutable.fromJS(tree).toJS()) : tree;
   return treeEval(hierarchy(preppedTree));
+};
+
+export const computeFullGraphLayout = state => {
+  const useNullLayout = state.get('data').size <= 1;
+  const graphLayout = getSelectedOption(state.get('configs'), 0);
+  const usedLayout = layouts[useNullLayout ? 'null' : graphLayout];
+  const windowProps = {
+    margin: {
+      top: 20,
+      left: 20,
+      bottom: 20,
+      right: 20
+    },
+    ...state.get('graphPanelDimensions').toJS()
+  };
+
+  const layout = computeGraphLayout(state);
+  const xScale = usedLayout.getXScale(windowProps, layout);
+  const yScale = usedLayout.getYScale(windowProps, layout);
+
+  const positioning = usedLayout.positioning(xScale, yScale);
+  const nodes = layout.descendants();
+  const labels = layout.labels && layout.labels() || [];
+
+  // probably could get some speed up by not recomputing the voronoi all the time
+  const voronoiEval = voronoi().extent([[0, 0], [windowProps.width + 1, windowProps.height + 1]]);
+  const voronois = voronoiEval.polygons(nodes.map(d => [...positioning(d), d])).filter(d => d.length);
+  return {
+    labels,
+    nodes,
+    positioning,
+    voronois,
+    layout,
+    xScale,
+    yScale
+  };
 };

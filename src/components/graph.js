@@ -38,7 +38,7 @@ const nodeSizes = {
 // };
 
 const rootSizes = {
-  small: 7,
+  small: 15,
   medium: 15,
   large: 19
 };
@@ -46,7 +46,7 @@ const rootSizes = {
 class Graph extends React.Component {
   componentDidMount() {
     this.updateChart(this.props);
-    this.debounceChartUpdate = debounce(this.updateChart, 50);
+    this.debounceChartUpdate = debounce(this.updateChart, 20);
   }
 
   componentWillReceiveProps(newProps) {
@@ -56,34 +56,24 @@ class Graph extends React.Component {
   updateChart(props) {
     const {
       data,
+      fullGraph,
       height,
       width,
       graphLayout,
       markSize,
-      treeLayout
     } = props;
 
-    if (!width || !height || !treeLayout) {
+    if (!width || !height || !fullGraph) {
       return;
     }
+    const {xScale, yScale, layout, positioning, nodes, labels, voronois} = fullGraph;
     const layoutToUse = data.size > 1 ? graphLayout : 'null';
-    const xScale = layouts[layoutToUse].getXScale(props, treeLayout);
-    const yScale = layouts[layoutToUse].getYScale(props, treeLayout);
-
-    const positioning = layouts[layoutToUse].positioning(xScale, yScale);
-    const nodes = treeLayout.descendants();
-    const labels = treeLayout.labels && treeLayout.labels() || [];
-
-    this.renderLinks(props, treeLayout, xScale, yScale);
+    this.renderLinks(props, layout, xScale, yScale);
     this.renderNodes(props, nodes, positioning, markSize);
     this.renderSelectedNodes(props, nodes, positioning, markSize);
-    // probably could get some speed up by not recomputing the voronoi all the time
-    const voronoiEval = voronoi().extent([[0, 0], [width + 1, height + 1]]);
-    const voronois = voronoiEval.polygons(nodes.map(d => [...positioning(d), d])).filter(d => d.length);
     this.renderVoronoi(props, nodes, positioning, voronois);
     this.renderLabels(props, labels, nodes, positioning, voronois);
-
-    this.renderRootAnnotation(props, treeLayout, xScale, yScale);
+    this.renderRootAnnotation(props, layout, xScale, yScale);
   }
 
   renderRootAnnotation(props, treeLayout, xScale, yScale) {

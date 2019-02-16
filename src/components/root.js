@@ -94,6 +94,7 @@ function mapStateToProps({base}) {
     commentSelectionLock: base.get('commentSelectionLock'),
     configs: base.get('configs'),
     data: base.get('data').filter(d => !d.get('deleted')),
+    fullGraph: base.get('fullGraph'),
     graphPanelDimensions: base.get('graphPanelDimensions'),
     histogram: base.get('histogram').toJS(),
     hoveredComment: base.get('hoveredComment'),
@@ -109,7 +110,6 @@ function mapStateToProps({base}) {
     storyHead: base.get('data').filter(item => item.get('type') === 'story').get(0),
     timeFilter: base.get('timeFilter').toJS(),
     topUsers: base.get('topUsers'),
-    treeLayout: base.get('treeLayout'),
     users: base.get('users')
   };
 }
