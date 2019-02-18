@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {select} from 'd3-selection';
-import {voronoi} from 'd3-voronoi';
 /* eslint-disable no-unused-vars */
 import {transition} from 'd3-transition';
 /* eslint-enable no-unused-vars */
@@ -11,6 +10,12 @@ import debounce from 'lodash.debounce';
 import {layouts} from '../layouts';
 import {classnames, area} from '../utils';
 import {numUsersToHighlight} from '../constants';
+import {
+  COLORS,
+  COLORS_UNDER_OPACITY,
+  NODE_COLOR_UNDER_OPACITY,
+  NODE_COLOR
+} from '../constants/colors';
 
 function extractIdPathToRoot(node) {
   const nodes = [];
@@ -31,12 +36,6 @@ const nodeSizes = {
   large: 10
 };
 
-// const rootSizes = {
-//   small: 7,
-//   medium: 10,
-//   large: 14
-// };
-
 const rootSizes = {
   small: 15,
   medium: 15,
@@ -55,22 +54,19 @@ class Graph extends React.Component {
 
   updateChart(props) {
     const {
-      data,
       fullGraph,
       height,
       width,
-      graphLayout,
-      markSize,
+      markSize
     } = props;
 
     if (!width || !height || !fullGraph) {
       return;
     }
     const {xScale, yScale, layout, positioning, nodes, labels, voronois} = fullGraph;
-    const layoutToUse = data.size > 1 ? graphLayout : 'null';
     this.renderLinks(props, layout, xScale, yScale);
     this.renderNodes(props, nodes, positioning, markSize);
-    this.renderSelectedNodes(props, nodes, positioning, markSize);
+    // this.renderSelectedNodes(props, nodes, positioning, markSize);
     this.renderVoronoi(props, nodes, positioning, voronois);
     this.renderLabels(props, labels, nodes, positioning, voronois);
     this.renderRootAnnotation(props, layout, xScale, yScale);
@@ -82,9 +78,9 @@ class Graph extends React.Component {
     const treeRoot = treeLayout.treeRoot && treeLayout.treeRoot();
     const annotations = !treeRoot ? [] : [
       {
-        x: xScale(treeRoot), 
-        y: yScale(treeRoot), 
-        label: treeRoot.data.data.hiddenNodes ? 
+        x: xScale(treeRoot),
+        y: yScale(treeRoot),
+        label: treeRoot.data.data.hiddenNodes ?
           `+${treeRoot.data.data.hiddenNodes.length}` : ''
       }
     ];
@@ -126,53 +122,40 @@ class Graph extends React.Component {
   }
 
   renderNodes(props, nodes, positioning, markSize) {
-    this.renderAnyNodes(props, nodes, positioning, markSize, false);
-  }
-
-  renderSelectedNodes(props, nodes, positioning, markSize) {
-    this.renderAnyNodes(props, nodes, positioning, markSize, true);
-  }
-
-  renderAnyNodes(props, nodes, positioning, markSize, useSelectedNodes) {
     const {
+      muteUnselected,
       hoveredComment,
       toggleCommentSelectionLock,
       selectedMap,
-      searchedMap,
       squareLeafs,
       topUsers
     } = props;
-    const ref = useSelectedNodes ? this.refs.selectedNodes : this.refs.nodes;
-    const nodesG = select(ReactDOM.findDOMNode(ref));
+    const nodesG = select(ReactDOM.findDOMNode(this.refs.nodes));
     const translateFunc = arr => `translate(${arr.join(',')})`;
-    const showSelected = searchedMap
-      .reduce((acc, val, key) => acc + val ? 1 : 0, 0) > 0;
-    const evalCircClasses = d => {
-      const tops = [...new Array(numUsersToHighlight)].reduce((acc, _, i) => {
-        const idx = i + 1;
-        const user = d.data.data.by || (d.data.data.data && d.data.data.data.by);
-        if (!topUsers[user] || topUsers[user].rank !== idx) {
-          return acc;
-        }
-        acc[`node-highlighted-top-${idx}`] = true;
-        return acc;
-      }, {});
-      return classnames({
-        'node-root': d.data.data.id === 'root',
-        node: true,
-        'node-internal': d.children,
-        'node-leaf': !d.children,
-        'node-selected': selectedMap.get(d.data.data.id),
-        'node-hovered': d.data.data.id === hoveredComment,
-        ...tops
-      });
+    const evalCircClasses = d => classnames({
+      'node-root': d.data.data.id === 'root',
+      node: true,
+      'node-internal': d.children,
+      'node-leaf': !d.children,
+      'node-selected': selectedMap.get(d.data.data.id),
+      'node-hovered': d.data.data.id === hoveredComment
+    });
+    const isSelected = d => selectedMap.get(d.data.data.id);
+    const computeFill = d => {
+      const data = d.data.data;
+      const user = data.by || (data.data && data.data.by);
+      const position = topUsers[user];
+      if (position && (position.rank < numUsersToHighlight)) {
+        return muteUnselected ?
+          (isSelected(d) ? COLORS[position.rank] : COLORS_UNDER_OPACITY[position.rank]) :
+          COLORS[position.rank];
+      }
+      return muteUnselected ? (isSelected(d) ? NODE_COLOR : NODE_COLOR_UNDER_OPACITY) : NODE_COLOR;
     };
+    const computeStroke = d => muteUnselected ? (isSelected(d) ? 'black' : '#888') : '#555';
+
     const node = nodesG.selectAll('.node').data(nodes);
     const setCircSize = d => {
-      const selected = searchedMap.get(Number(d.data.id));
-      if (useSelectedNodes && (!showSelected || !selected)) {
-        return 0;
-      }
       const scalingSizes = squareLeafs ? [1, 1.75] : [1.75, 1.75];
       const scalingFactor = (!d.children || !d.children.length) ? scalingSizes[0] : scalingSizes[1];
       return scalingFactor * (d.depth ? nodeSizes[markSize] : rootSizes[markSize]);
@@ -180,6 +163,8 @@ class Graph extends React.Component {
     const circleness = squareLeafs ? [0, 20] : [20, 20];
     node.enter().append('rect')
         .attr('class', evalCircClasses)
+        .attr('fill', computeFill)
+        .attr('stroke', computeStroke)
         .attr('transform', d => translateFunc(positioning(d)))
         .attr('height', setCircSize)
         .attr('width', setCircSize)
@@ -189,6 +174,8 @@ class Graph extends React.Component {
         .on('click', toggleCommentSelectionLock);
 
     node.transition()
+        .attr('fill', computeFill)
+        .attr('stroke', computeStroke)
         .attr('transform', d => translateFunc(positioning(d)))
         .attr('height', setCircSize)
         .attr('width', setCircSize)
@@ -272,27 +259,15 @@ class Graph extends React.Component {
       <svg
         width={width}
         height={height}
-        className={classnames({
-          locked: commentSelectionLock
-        })}>
-        <g ref="lines" transform={translation} />
+        className={classnames({locked: commentSelectionLock})}>
+        <g
+          opacity={muteUnselected ? 0.7 : 1}
+          ref="lines"
+          transform={translation} />
         <g ref="polygons" transform={translation} />
         <g ref="nodes" transform={translation}/>
-        {
-          muteUnselected && <rect
-            className="fade-block"
-            onClick={toggleCommentSelectionLock}
-            width={width}
-            height={height}
-            x="0"
-            y="0"
-            fill="#f6f6f0"
-            opacity="0.7"
-            />
-        }
         <g ref="labels" transform={translation} className="unselectable"/>
         <g ref="rootAnnotation" transform={translation} className="unselectable"/>
-        <g ref="selectedNodes" transform={translation}/>
         {
           commentSelectionLock && <rect
             className="click-away-block"
