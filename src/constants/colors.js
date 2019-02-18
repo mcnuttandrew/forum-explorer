@@ -11,8 +11,8 @@ const PAIRS = [
   {fill: '#ff7f00', stroke: 'white'},
   {fill: '#cab2d6', stroke: 'white'},
   {fill: '#6a3d9a', stroke: 'white'},
-  {fill: '#ffff99', stroke: 'black'},
-  {fill: '#b15928', stroke: 'white'}
+  {fill: '#b15928', stroke: 'white'},
+  {fill: '#ffff99', stroke: 'black'}
 ];
 
 export const NODE_COLOR = '#999';

@@ -93,7 +93,7 @@ export function computeTopUsers(data, numUsers) {
     if (numPosts <= 1) {
       return acc;
     }
-    acc[userName] = {rank: idx + 1, numPosts};
+    acc[userName] = {rank: idx, numPosts};
     return acc;
   }, {});
 }

@@ -66,7 +66,6 @@ class Graph extends React.Component {
     const {xScale, yScale, layout, positioning, nodes, labels, voronois} = fullGraph;
     this.renderLinks(props, layout, xScale, yScale);
     this.renderNodes(props, nodes, positioning, markSize);
-    // this.renderSelectedNodes(props, nodes, positioning, markSize);
     this.renderVoronoi(props, nodes, positioning, voronois);
     this.renderLabels(props, labels, nodes, positioning, voronois);
     this.renderRootAnnotation(props, layout, xScale, yScale);
