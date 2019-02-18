@@ -4,6 +4,7 @@ import Histogram from './histogram';
 import StoryHead from './story-head';
 import SearchBox from './search-box';
 import {getSelectedOption} from '../utils';
+import {COLORS, STROKES} from '../constants/colors';
 
 class SecondaryHeader extends React.Component {
   render() {
@@ -45,7 +46,11 @@ class SecondaryHeader extends React.Component {
                       onClick={() => unlockAndSearch(d[0])}
                       className="top-poster" key={d[0]}>
                       <div
-                        className={`top-poster-card top-poster-${d[1].rank}`}
+                        style={{
+                          background: COLORS[d[1].rank],
+                          color: STROKES[d[1].rank]
+                        }}
+                        className={'top-poster-card'}
                         >{d[1].numPosts}</div>
                       <div>{d[0]}</div>
                     </div>
