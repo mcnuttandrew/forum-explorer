@@ -102,17 +102,8 @@ body,
   cursor: pointer;
 }
 
-.node {
-  /* fill: #999; */
-  /* stroke: #555; */
-}
-
-.node-searched {
-  fill: #ff6600;
-}
 
 .node.node-selected {
-  /* stroke: black; */
   stroke-width: 2px;
   transition: fill 0.2s;
 }
