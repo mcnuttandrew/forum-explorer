@@ -396,3 +396,10 @@ a.header-link:visited {
   font-size: 6pt;
   text-anchor: middle;
 }
+
+
+/* WEB PAGE PICKER STUFF */
+.picker-option {
+  cursor: pointer;
+  font-size: 18px;
+}

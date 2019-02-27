@@ -5,6 +5,7 @@ export const setHoveredComment = buildEasyAction('set-hovered-comment');
 export const toggleCommentSelectionLock = buildEasyAction('toggle-comment-selection-lock');
 export const unlockAndSearch = buildEasyAction('unlock-and-search');
 export const setFoundOrder = buildEasyAction('set-found-order');
+export const setPageId = buildEasyAction('set-page-id');
 export const setSearch = buildEasyAction('set-search');
 export const setSelectedCommentPath = buildEasyAction('set-comment-path');
 export const setTimeFilter = buildEasyAction('set-time-filter');

@@ -3,23 +3,26 @@ import {connect} from 'react-redux';
 import * as actionCreators from '../actions';
 import {Map} from 'immutable';
 
-import {DEV_MODE} from '../constants';
+import {DEV_MODE, WEB_PAGE_MODE} from '../constants';
 import {classnames, getSelectedOption} from '../utils';
 import GraphPanel from './graph-panel';
 import CommentPanel from './comment-panel';
 import Header from './header';
 import SecondaryHeader from './secondary-header';
+import WebPagePicker from './web-page-picker';
 
 const getId = () => (window.location.search || '?id=17338700').split('?id=')[1];
 
 class RootComponent extends React.Component {
   componentWillMount() {
+    const id = getId();
+    this.props.setPageId(id);
     this.props.setFoundOrder(this.props.foundOrder);
-    this.props.modelData(getId());
+    this.props.modelData(id);
   }
 
   componentDidMount() {
-    if (!DEV_MODE) {
+    if (!DEV_MODE && !WEB_PAGE_MODE) {
       this.props.getAllItems(getId());
     }
   }
@@ -31,6 +34,9 @@ class RootComponent extends React.Component {
     const colorBy = getSelectedOption(this.props.configs, 2);
     const showGraph = getSelectedOption(this.props.configs, 3) === 'on';
 
+    const showLoading = (this.props.pageId || !WEB_PAGE_MODE) && this.props.loading;
+    const showDashboard = !this.props.loading;
+    const showPicker = !DEV_MODE && WEB_PAGE_MODE && !this.props.pageId;
     return (
       <div
         className={classnames({
@@ -41,7 +47,7 @@ class RootComponent extends React.Component {
         })}>
         <Header
           configs={this.props.configs}
-          rootId={this.props.rootId}
+          rootId={this.props.pageId}
           userKarma={this.props.userKarma}
           setConfig={this.props.setConfig}
           logoutLink={this.props.logoutLink}
@@ -59,11 +65,14 @@ class RootComponent extends React.Component {
           setSearch={this.props.setSearch}
           setTimeFilter={this.props.setTimeFilter}
           searchValue={this.props.searchValue} />
-        {this.props.loading && <div className="flex full-size background-gray centering">
+        {showPicker && <WebPagePicker
+          getAllItems={this.props.getAllItems}
+          setPageId={this.props.setPageId}/>}
+        {showLoading && <div className="flex full-size background-gray centering">
           <h1> Loading, {this.props.loadedCount} so far</h1>
         </div>}
         {
-          !this.props.loading && <div
+          showDashboard && <div
             className="flex full-size background-gray main-container">
             {showGraph && <GraphPanel
               {...this.props}
@@ -103,8 +112,8 @@ function mapStateToProps({base}) {
     loadedCount: base.get('loadedCount'),
     loading: base.get('loading'),
     model: base.get('model') || [],
+    pageId: base.get('pageId'),
     serializedModel: base.get('serialized-model') || [],
-    rootId: base.getIn(['data', 0, 'id']),
     searchValue: base.get('searchValue'),
     searchedMap: base.get('searchedMap'),
     storyHead: base.get('data').filter(item => item.get('type') === 'story').get(0),
