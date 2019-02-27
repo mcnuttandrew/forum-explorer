@@ -12,17 +12,24 @@ import SecondaryHeader from './secondary-header';
 import WebPagePicker from './web-page-picker';
 
 const getId = () => (window.location.search || '?id=17338700').split('?id=')[1];
+const getIdPure = () => window.location.search && window.location.search.split('?id=')[1];
 
 class RootComponent extends React.Component {
   componentWillMount() {
     const id = getId();
+    if (WEB_PAGE_MODE && !getIdPure()) {
+      return;
+    }
     this.props.setPageId(id);
     this.props.setFoundOrder(this.props.foundOrder);
     this.props.modelData(id);
   }
 
   componentDidMount() {
-    if (!DEV_MODE && !WEB_PAGE_MODE) {
+    if (WEB_PAGE_MODE && !getIdPure()) {
+      return;
+    }
+    if (!DEV_MODE) {
       this.props.getAllItems(getId());
     }
   }
@@ -34,9 +41,9 @@ class RootComponent extends React.Component {
     const colorBy = getSelectedOption(this.props.configs, 2);
     const showGraph = getSelectedOption(this.props.configs, 3) === 'on';
 
-    const showLoading = (this.props.pageId || !WEB_PAGE_MODE) && this.props.loading;
+    const showLoading = (getIdPure() || this.props.pageId || !WEB_PAGE_MODE) && this.props.loading;
     const showDashboard = !this.props.loading;
-    const showPicker = !DEV_MODE && WEB_PAGE_MODE && !this.props.pageId;
+    const showPicker = !getIdPure() && !DEV_MODE && WEB_PAGE_MODE && !this.props.pageId;
     return (
       <div
         className={classnames({

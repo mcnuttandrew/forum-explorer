@@ -43,10 +43,7 @@ export default class WebPagePicker extends React.Component {
           {examplePages.map(({id, title, by, time, score}, idx) => {
             return (<div className="margin-bottom" key={idx}>
               <div className="comment-title">
-                <a onClick={d => {
-                  setPageId(id);
-                  getAllItems(id);
-                }}>
+                <a href={`?id=${id}`}>
                   {title}
                 </a>
               </div>
