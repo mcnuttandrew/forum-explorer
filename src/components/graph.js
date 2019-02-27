@@ -17,19 +17,6 @@ import {
   NODE_COLOR
 } from '../constants/colors';
 
-function extractIdPathToRoot(node) {
-  const nodes = [];
-  let currentNode = node;
-  const hasParent = true;
-  while (hasParent) {
-    nodes.push(currentNode.data.id);
-    if (!currentNode.parent) {
-      return nodes;
-    }
-    currentNode = currentNode.parent;
-  }
-}
-
 const nodeSizes = {
   small: 3,
   medium: 7,
@@ -185,7 +172,7 @@ class Graph extends React.Component {
   }
 
   renderVoronoi(props, nodes, positioning, voronois) {
-    const {setSelectedCommentPath, toggleCommentSelectionLock, routeTable} = props;
+    const {setSelectedCommentPath, toggleCommentSelectionLock} = props;
     const polygonsG = select(ReactDOM.findDOMNode(this.refs.polygons));
     const polygon = polygonsG.selectAll('.polygon').data(voronois);
     polygon.enter().append('path')

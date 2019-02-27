@@ -6,14 +6,12 @@ const createMarkup = __html => ({__html});
 
 function renderComment(props, item, idx) {
   const {
-    itemPath,
     setHoveredComment,
     hoveredComment,
     setSelectedCommentPath,
     unlockAndSearch
   } = props;
   /* eslint-disable react/no-danger */
-
   const hasChildren = item.get('kids') && item.get('kids').size;
   const userName = item.get('by');
   return (
@@ -53,7 +51,9 @@ function renderComment(props, item, idx) {
         })}
         dangerouslySetInnerHTML={createMarkup(item.get('text'))}/>
       <div className="flex comment-footer">
-        <ExpandButton item={item} setSelectedCommentPath={setSelectedCommentPath}/>
+        <ExpandButton
+          item={item}
+          setSelectedCommentPath={setSelectedCommentPath}/>
         <a
           onClick={e => e.stopPropagation()}
           href={`https://news.ycombinator.com/${item.get('replyLink')}`}

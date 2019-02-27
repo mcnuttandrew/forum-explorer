@@ -5,7 +5,6 @@ import ExpandButton from './expand-button';
 export default function StoryHead(props) {
   const {
     setSelectedCommentPath,
-    itemPath,
     storyHead,
     unlockAndSearch,
     serializedModel
@@ -33,9 +32,9 @@ export default function StoryHead(props) {
       <span>
         {` ${timeSince(storyHead.get('time'))} ago`}
       </span>
-      <ExpandButton 
-        item={storyHead} 
-        setSelectedCommentPath={setSelectedCommentPath} 
+      <ExpandButton
+        item={storyHead}
+        setSelectedCommentPath={setSelectedCommentPath}
         useSpan={true} />
     </div>
 

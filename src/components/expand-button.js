@@ -1,8 +1,8 @@
 import React from 'react';
 
 export default function ExpandButton({
-  item, 
-  setSelectedCommentPath, 
+  item,
+  setSelectedCommentPath,
   useSpan
 }) {
   if (!(item.get('kids') && item.get('kids').size)) {
@@ -13,4 +13,4 @@ export default function ExpandButton({
     className: 'expand-comment margin-left'
   };
   return useSpan ? <span {...props}>expand</span> : <div {...props}>expand</div>;
-};
+}
