@@ -43,7 +43,15 @@ function renderComment(props, item, idx) {
         <span>{` ${timeSince(item.get('time'))} ago`}</span>
       </div>
       <div
-        onClick={e => setSelectedCommentPath(`${item.get('id')}`)}
+        onClick={e => {
+          // enable users to click links with out trigger selection update
+          const tagName = e.target.tagName;
+          const bannedTags = {A: true};
+          if (bannedTags[tagName]) {
+            return;
+          }
+          setSelectedCommentPath(`${item.get('id')}`);
+        }}
         className={classnames({
           comment: true,
           'hovered-comment': item.get('id') === hoveredComment,

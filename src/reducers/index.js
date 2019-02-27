@@ -209,7 +209,7 @@ function prepareTree(data, root) {
     children: (nodesByParentId[node.id] || [])
       .map(child => formToTree(child))
   });
-  if (root && nodesByParentId[root] && nodesByParentId[root].length > 1) {
+  if (root && nodesByParentId[root] && nodesByParentId[root].length > 1 || !nodesByParentId.root.length) {
     nodesByParentId.root = [{
       depth: 0,
       id: root,
