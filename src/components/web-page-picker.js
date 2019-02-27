@@ -33,13 +33,20 @@ export default class WebPagePicker extends React.Component {
   }
 
   render() {
-    const {getAllItems, setPageId} = this.props;
     const {error} = this.state;
     return (
       <div>
-        WEB PAGE PICKER
+        <h2>Forum Explorer</h2>
+        <p>{
+          /* eslint-disable max-len */
+          'This is the demo site for the ForumExplorer project. It provides a principled rethinking of the way in which we interact with async threaded conversations on the internet through the use of visualization. We focus on Hackernews because of it\'s active community and advantegeous api.'
+        }</p>
+        <p>{
+          'The normal operation mode for this project is as a chrome extension, but here we present a demo of the functionality. This page is fully functional and presents exactly the same interface as the chrome extension. No data is collected: not in the chrome extension, not in this demo page. We make use of a cloud microservice for our topic modeling, but no information is persisted at that location.'
+          /* eslint-enable max-len */
+        }</p>
         <div>
-          <div> Examples </div>
+          <h3> Some Interesting Examples </h3>
           {examplePages.map(({id, title, by, time, score}, idx) => {
             return (<div className="margin-bottom" key={idx}>
               <div className="comment-title">
@@ -57,7 +64,10 @@ export default class WebPagePicker extends React.Component {
           })}
         </div>
         <div>
-          <div>Paste your own</div>
+          <div>
+            <h3>Paste your own </h3>
+            <h5>(grab just the id from the url of the page you are interested in, eg 19263649)</h5>
+          </div>
           <input ref="customInput"/>
           <button
             onClick={d => {
@@ -65,8 +75,7 @@ export default class WebPagePicker extends React.Component {
               fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
                 .then(({status}) => {
                   if (status === 200) {
-                    setPageId(id);
-                    getAllItems(id);
+                    window.location.replace(`${window.location.href}?id=${id}`);
                   } else {
                     this.setState({error: 'invalid id'});
                   }
