@@ -49,6 +49,7 @@ let DEFAULT_STATE = Immutable.fromJS({
   loading: !DEV_MODE,
   loadedCount: 0,
   model: null,
+  pageId: null,
   timeFilter: {min: 0, max: 0},
   searchValue: '',
   searchedMap: {}
@@ -238,6 +239,7 @@ const getAllItems = (state, {data, root}) => {
   const tempState = state
     .set('loading', false)
     .set('data', updatedData)
+    .set('pageId', root)
     .set('tree', prepareTree(updatedData.toJS(), root))
     .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight))
     .set('histogram', computeHistrogram(data));
@@ -251,6 +253,8 @@ const getAllItems = (state, {data, root}) => {
 
 const toggleCommentSelectionLock = (state, payload) => setSearch(state
   .set('commentSelectionLock', !state.get('commentSelectionLock')), '');
+
+const setPageId = (state, payload) => state.set({pageId: payload});
 
 const setTimeFilter = (state, {min, max}) => {
   const nullSearch = min === max;
@@ -273,6 +277,7 @@ const actionFuncMap = {
   'set-config-value': setConfig,
   'set-found-order': setFoundOrder,
   'set-hovered-comment': setHoveredComment,
+  'set-page-id': setPageId,
   'set-search': setSearch,
   'set-time-filter': setTimeFilter,
   'toggle-comment-selection-lock': toggleCommentSelectionLock,

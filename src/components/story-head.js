@@ -9,6 +9,7 @@ export default function StoryHead(props) {
     unlockAndSearch,
     serializedModel
   } = props;
+
   return (<div className="comment-block margin-bottom">
     <div className="comment-title">
       <a href={storyHead.get('url')}>

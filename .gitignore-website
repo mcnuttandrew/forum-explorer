@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.DS_Store
+
+*.blg
+*.log
+*.aux
+*.fdb_latexmk
+*.bbl
+*.fls
+*.out
+*.synctex.gz
+.DS_Store
+*.synctex.gz(busy)
+*.lbl
+*.brf
