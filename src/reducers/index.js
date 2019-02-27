@@ -180,6 +180,9 @@ function prepareRoutesTable(state) {
   // loop across tree
   const routeTable = {};
   function decorateWithRoutes(node, parentRoute) {
+    if (!node) {
+      return;
+    }
     routeTable[`${node.id}`] = parentRoute.concat(Number(node.id));
     node.children.forEach(child => decorateWithRoutes(child, routeTable[Number(node.id)]));
     routeTable[`${node.id}`] = routeTable[`${node.id}`].concat(node.children.map(({id}) => `${id}`));
@@ -240,7 +243,9 @@ const getAllItems = (state, {data, root}) => {
     .set('histogram', computeHistrogram(data));
 
   return setConfig(
-    tempState.set('fullGraph', computeFullGraphLayout(tempState))
+    tempState
+      .set('fullGraph', computeFullGraphLayout(tempState))
+      .set('routeTable', prepareRoutesTable(tempState))
     , {rowIdx: 1, valueIdx: appropriateDotSize(data.length)});
 };
 
