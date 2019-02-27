@@ -1,6 +1,6 @@
 import React from 'react';
 import {timeSince} from '../utils';
-import {expandButton} from './expand-button';
+import ExpandButton from './expand-button';
 
 export default function StoryHead(props) {
   const {
@@ -33,7 +33,10 @@ export default function StoryHead(props) {
       <span>
         {` ${timeSince(storyHead.get('time'))} ago`}
       </span>
-      {expandButton(storyHead, itemPath, setSelectedCommentPath, true)}
+      <ExpandButton 
+        item={storyHead} 
+        setSelectedCommentPath={setSelectedCommentPath} 
+        useSpan={true} />
     </div>
 
   </div>);

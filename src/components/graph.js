@@ -185,7 +185,7 @@ class Graph extends React.Component {
   }
 
   renderVoronoi(props, nodes, positioning, voronois) {
-    const {setSelectedCommentPath, toggleCommentSelectionLock} = props;
+    const {setSelectedCommentPath, toggleCommentSelectionLock, routeTable} = props;
     const polygonsG = select(ReactDOM.findDOMNode(this.refs.polygons));
     const polygon = polygonsG.selectAll('.polygon').data(voronois);
     polygon.enter().append('path')
@@ -194,7 +194,7 @@ class Graph extends React.Component {
       .attr('stroke', 'white')
       .attr('opacity', 0)
       .attr('d', d => `M${d.join('L')}Z`)
-      .on('mouseenter', d => setSelectedCommentPath(extractIdPathToRoot(d.data[2])))
+      .on('mouseenter', d => setSelectedCommentPath(d.data[2].data.id))
       .on('click', toggleCommentSelectionLock);
     polygon.transition()
       .attr('d', d => `M${d.join('L')}Z`);

@@ -56,7 +56,9 @@ let DEFAULT_STATE = Immutable.fromJS({
 .set('tree', DEV_MODE ? prepareTree(TestData, null) : null)
 .set('topUsers', DEV_MODE ? computeTopUsers(Immutable.fromJS(TestData), numUsersToHighlight) : []);
 
-DEFAULT_STATE = DEFAULT_STATE.set('fullGraph', computeFullGraphLayout(DEFAULT_STATE));
+DEFAULT_STATE = DEFAULT_STATE
+  .set('fullGraph', computeFullGraphLayout(DEFAULT_STATE))
+  .set('routeTable', prepareRoutesTable(DEFAULT_STATE));
 
 function modelComment(model, text) {
   return model.reduce((acc, row, modelIndex) => {
@@ -71,7 +73,7 @@ function modelComment(model, text) {
 }
 
 const setCommentPath = (state, payload) => {
-  const itemMap = payload.reduce((acc, row) => {
+  const itemMap = (state.get('routeTable')[payload] || []).reduce((acc, row) => {
     acc[row] = true;
     return acc;
   }, {});
@@ -173,6 +175,18 @@ const updateGraphPanelDimensions = (state, payload) => {
   const tempState = state.set('graphPanelDimensions', Immutable.fromJS(payload));
   return tempState.set('fullGraph', computeFullGraphLayout(tempState));
 };
+
+function prepareRoutesTable(state) {
+  // loop across tree
+  const routeTable = {};
+  function decorateWithRoutes(node, parentRoute) {
+    routeTable[`${node.id}`] = parentRoute.concat(Number(node.id));
+    node.children.forEach(child => decorateWithRoutes(child, routeTable[Number(node.id)]));
+    routeTable[`${node.id}`] = routeTable[`${node.id}`].concat(node.children.map(({id}) => `${id}`));
+  }
+  decorateWithRoutes(state.get('tree'), []);
+  return routeTable;
+}
 
 function prepareTree(data, root) {
   const maxDepth = data.reduce((acc, row) => Math.max(acc, row.depth), 0);

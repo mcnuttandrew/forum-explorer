@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchForUser from './icons/search-for-user.js';
-import {expandButton, expandCallback} from './expand-button';
+import ExpandButton from './expand-button';
 import {classnames, timeSince} from '../utils';
 const createMarkup = __html => ({__html});
 
@@ -45,7 +45,7 @@ function renderComment(props, item, idx) {
         <span>{` ${timeSince(item.get('time'))} ago`}</span>
       </div>
       <div
-        onClick={expandCallback(item, itemPath, setSelectedCommentPath)}
+        onClick={e => setSelectedCommentPath(`${item.get('id')}`)}
         className={classnames({
           comment: true,
           'hovered-comment': item.get('id') === hoveredComment,
@@ -53,11 +53,9 @@ function renderComment(props, item, idx) {
         })}
         dangerouslySetInnerHTML={createMarkup(item.get('text'))}/>
       <div className="flex comment-footer">
-        {expandButton(item, itemPath, setSelectedCommentPath)}
+        <ExpandButton item={item} setSelectedCommentPath={setSelectedCommentPath}/>
         <a
-          onClick={e => {
-            e.stopPropagation();
-          }}
+          onClick={e => e.stopPropagation()}
           href={`https://news.ycombinator.com/${item.get('replyLink')}`}
           className="expand-comment">
           reply

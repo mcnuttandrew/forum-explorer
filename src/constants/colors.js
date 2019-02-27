@@ -1,4 +1,4 @@
-import {computeOver} from 'hex-over';
+import hexOver from 'hex-over';
 
 const PAIRS = [
   {fill: '#a6cee3', stroke: 'white'},
@@ -16,7 +16,7 @@ const PAIRS = [
 ];
 
 export const NODE_COLOR = '#999';
-export const NODE_COLOR_UNDER_OPACITY = computeOver('#999', '#f6f6f0', 0.4);
+export const NODE_COLOR_UNDER_OPACITY = hexOver('#999', '#f6f6f0', 0.4);
 export const COLORS = PAIRS.map(({fill}) => fill);
 export const STROKES = PAIRS.map(({stroke}) => stroke);
-export const COLORS_UNDER_OPACITY = COLORS.map(color => computeOver(color, '#f6f6f0', 0.4));
+export const COLORS_UNDER_OPACITY = COLORS.map(color => hexOver(color, '#f6f6f0', 0.4));

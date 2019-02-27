@@ -3086,10 +3086,10 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-hex-over@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/hex-over/-/hex-over-0.0.1.tgz#202cef3df8fef83ef25b158caa8f12adf56fb7a1"
-  integrity sha512-DUBDxz+/LF7PqmXrNawt2f+AgSsh5aD5x5wrDG9l1XEX6Uzw9EJ/T3KQzZw9xQKwF5LIOoP7josfwYnAyGrA3Q==
+hex-over@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/hex-over/-/hex-over-0.0.2.tgz#50b62b5e63934f8288f5bf0bdc6651987379e774"
+  integrity sha512-srWLQxf7DElxLHIHhFVlZ8aX6YndPxZgOtVQWd707fVgDFG1KGhqC3/J76NVIPlLYgYbJZCS/be7f4qb0O/pwg==
 
 history@^4.7.2:
   version "4.7.2"
