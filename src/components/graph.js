@@ -6,6 +6,7 @@ import {select} from 'd3-selection';
 import {transition} from 'd3-transition';
 /* eslint-enable no-unused-vars */
 import debounce from 'lodash.debounce';
+import HexOver from 'hex-over';
 
 import {layouts} from '../layouts';
 import {classnames, area} from '../utils';
@@ -14,7 +15,8 @@ import {
   COLORS,
   COLORS_UNDER_OPACITY,
   NODE_COLOR_UNDER_OPACITY,
-  NODE_COLOR
+  NODE_COLOR,
+  OPACITY
 } from '../constants/colors';
 
 const nodeSizes = {
@@ -138,7 +140,8 @@ class Graph extends React.Component {
       }
       return muteUnselected ? (isSelected(d) ? NODE_COLOR : NODE_COLOR_UNDER_OPACITY) : NODE_COLOR;
     };
-    const computeStroke = d => muteUnselected ? (isSelected(d) ? 'black' : '#888') : '#555';
+    const computeStroke = d => muteUnselected ?
+      (HexOver('#000', '#f6f6f0', isSelected(d) ? 1 : OPACITY)) : '#555';
 
     const node = nodesG.selectAll('.node').data(nodes);
     const setCircSize = d => {

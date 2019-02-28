@@ -63,10 +63,7 @@ body,
   border-right: thin solid #828282;
 }
 
-.header {
-  height: 50px;
-  width: 100%;
-}
+
 
 .secondary-header .comment-block {
   width: calc(50% - 40px);
@@ -93,6 +90,16 @@ body,
 
 .main-container {
   padding: 10px 0;
+}
+
+.picker-container {
+  height: 100%;
+  padding: 0 20px;
+}
+
+.picker-container p {
+  color: black;
+  font-size: 11px;
 }
 
 
@@ -156,6 +163,7 @@ body,
   font-family: Verdana, Geneva, sans-serif;
   height: 24px;
   padding: 1px 2px;
+  width: calc(100% - 4px);
 }
 
 .site-title {
@@ -175,6 +183,8 @@ a.site-title::after {
 .logo {
   border: 1px white solid;
   height: 18px;
+  position: relative;
+  top: 1px;
   width: 18px;
 }
 
@@ -379,6 +389,15 @@ a.header-link:visited {
   border-radius: 2px;
   color: white;
   margin-right: 2px;
+  padding: 0 3px;
+}
+
+.everyone-poster-card {
+  border-radius: 2px;
+  color: white;
+  margin-right: 2px;
+  max-width: 57px;
+  cursor: default;
   padding: 0 3px;
 }
 

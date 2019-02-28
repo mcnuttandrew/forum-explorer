@@ -35,7 +35,7 @@ export default class WebPagePicker extends React.Component {
   render() {
     const {error} = this.state;
     return (
-      <div>
+      <div className="background-gray picker-container">
         <h2>Forum Explorer</h2>
         <p>{
           /* eslint-disable max-len */
@@ -47,7 +47,7 @@ export default class WebPagePicker extends React.Component {
         }</p>
         <div>
           <h3> Some Interesting Examples </h3>
-          {examplePages.map(({id, title, by, time, score}, idx) => {
+          {examplePages.map(({id, title, by, time, score, descendants}, idx) => {
             return (<div className="margin-bottom" key={idx}>
               <div className="comment-title">
                 <a href={`?id=${id}`}>
@@ -57,7 +57,7 @@ export default class WebPagePicker extends React.Component {
               <div className="comment-head">
                 <span>{`${score} points by `}</span>
                 <a href={`https://news.ycombinator.com/user?id=${by}`}>{by}</a>
-                <span>{` ${timeSince(time)} ago`}</span>
+                <span>{` ${timeSince(time)} ago - ${descendants} comments`}</span>
               </div>
 
             </div>);
