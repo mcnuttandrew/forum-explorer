@@ -1,4 +1,5 @@
 import React from 'react';
+import {WEB_PAGE_MODE} from '../constants';
 import {classnames} from '../utils';
 
 function tooltip(configs, setConfig, toggleTooltip) {
@@ -78,7 +79,7 @@ class Header extends React.Component {
         </a>
         <a
           href="https://news.ycombinator.com/news"
-          className="header-link site-title">Hacker News</a>
+          className="header-link site-title">{`Hacke${WEB_PAGE_MODE ? 'd' : 'r'} News`}</a>
         {headerLinks(username)}
         <a onClick={toggleTooltip}>settings</a>
         {tooltipOpen && <div onClick={toggleTooltip} className="tooltip-background" />}
