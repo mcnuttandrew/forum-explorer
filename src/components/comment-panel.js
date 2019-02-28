@@ -2,6 +2,7 @@ import React from 'react';
 import SearchForUser from './icons/search-for-user.js';
 import ExpandButton from './expand-button';
 import {classnames, timeSince} from '../utils';
+import {COLORS, STROKES} from '../constants/colors';
 const createMarkup = __html => ({__html});
 
 function renderComment(props, item, idx) {
@@ -9,11 +10,13 @@ function renderComment(props, item, idx) {
     setHoveredComment,
     hoveredComment,
     setSelectedCommentPath,
-    unlockAndSearch
+    unlockAndSearch,
+    topUsers
   } = props;
   /* eslint-disable react/no-danger */
   const hasChildren = item.get('kids') && item.get('kids').size;
   const userName = item.get('by');
+  const userRank = topUsers[userName];
   return (
     <div
       onMouseEnter={() => setHoveredComment(item)}
@@ -35,6 +38,10 @@ function renderComment(props, item, idx) {
         <a
           href={`https://news.ycombinator.com/user?id=${userName}`}
           >{userName}</a>
+        {userRank && <div className="top-poster-id" style={{
+          background: COLORS[userRank.rank],
+          color: STROKES[userRank.rank]
+        }} />}
         <div style={{position: 'relative', width: '15px'}}>
           <span className="search-user" onClick={() => unlockAndSearch(userName)}>
             <SearchForUser/>

@@ -392,12 +392,20 @@ a.header-link:visited {
   padding: 0 3px;
 }
 
+.top-poster-id {
+  border-radius: 100%;
+  color: white;
+  height: 10px;
+  margin: 2px;
+  width: 10px;
+}
+
 .everyone-poster-card {
   border-radius: 2px;
   color: white;
+  cursor: default;
   margin-right: 2px;
   max-width: 57px;
-  cursor: default;
   padding: 0 3px;
 }
 

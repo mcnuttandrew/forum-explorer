@@ -97,6 +97,7 @@ class RootComponent extends React.Component {
                 this.props.itemsToRender.size ? this.props.itemsToRender : this.props.data
               }
               unlockAndSearch={this.props.unlockAndSearch}
+              topUsers={this.props.topUsers}
               />
           </div>
         }

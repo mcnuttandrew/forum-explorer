@@ -116,13 +116,13 @@ In the left image the user has moused over a particular sub-conversation; in the
 \maketitle
 %-------------------------------------------------------------------------
 \begin{abstract}
-Large threaded conversations, such as those found on reddit or slashdot, are often rendered in a manner that presents individual comments clearly but can obscure larger trends or patterns within the conversational corpus.
+Large threaded conversations, such as those found on YCombinator's HackerNews, are often rendered in a manner that presents individual comments clearly but can obscure larger trends or patterns within the conversational corpus.
 %
-Previous works from the visualization community have addressed this problem through graphical-overviews and nlp-generated summaries.
+Previous works have addressed this problem through graphical-overviews and nlp-generated summaries.
 %
-These works have generally been designed around an ideal size of data (which can be difficult to use for particularly large or nested conversations) and have sometimes require non-trivial offline processing time (which makes them impractical for day to day usage).
+These efforts have generally been designed around an ideal size of data (which can be difficult to use for particularly large or nested conversations) and have sometimes require non-trivial offline processing time (which makes them impractical for day to day usage).
 %
-We refine these approaches through the construction of a Chrome Extension, Forum Explorer, that implements novel design strategies that enable this type of representation to handle wider ranges of data in real time.
+We refine these approaches through the construction of a Chrome Extension, Forum Explorer, that expands prior art through a collection of novel design strategies that enable this type of representation to handle wider ranges of data in real time.
   \\
 %   Leave one blank line after the abstract, 
 %   then add the subject categories according to the ACM Classification Index 
@@ -204,7 +204,6 @@ Annotated view explaining the components of the UI (top) and a visual explanatio
 Conversation on the internet takes many shapes and forms. 
 %
 Of particular interest are asynchronous threaded conversations, such as those found reddit, in which users comment on the root of the conversation or on any previous comments, thus forming a tree. 
-% TONE THIS NEXT SENTENCE DOWN PERHAPS
 %
 Unfortunately the design of these digital spaces typically do not allow for users to interact with the conversational corpus as a whole, which can limit or impede understanding of the community opinions and insights about a topic.
 %
@@ -216,27 +215,27 @@ These sorts of analytic expertise seeking tasks are sometimes the primary motiva
 
 Previous works have developed a fascinating collection of UI paradigms to augment and enhance forums in this space. 
 %
-A common trend among them features an overview of the conversational thread encoded as a graph-like structure, which the user then interacts with in a details-on-demand \cite{shneiderman1996eyes} pattern to expose components of the discourse (such as groups or chains of comments). 
+A common trend among them features an overview of the conversational thread encoded as a graph-like structure, which the user then interacts with in a details-on-demand \cite{shneiderman1996eyes} and scented-widget-like \cite{willett2007scented} patterns to expose components of the discourse (such as groups or chains of comments). 
 %
  The first work of this type appears to be Donath et al's Loom, which introduced the idea of graphical exploration of comment graphs \cite{donath1999visualizing}. 
  %
  This was followed by Sack's Conversation Map which represented conversation as a tree-like structure \cite{sack2000conversation}. 
  %
- Watternberg et al introduce a split pane view, one pane providing a graphical overview (which mirrors the multiply-indented form that threaded conversation are usually depicted in) and the other displaying currently selected comments \cite{wattenberg2003conversation, dave2004flash}.
+ Wattenberg et al introduce a split pane view, one pane providing a graphical overview (which mirrors the multiply-indented form that threaded conversation are usually depicted in) and the other displaying currently selected comments \cite{wattenberg2003conversation, dave2004flash}.
 % 
 Pascual-Cid et al later introduced a space filling radial tree layout \cite{pascual2009exploring}. 
 %
 Narayan et al construct tldr which focuses on reddit and encodes the conversation as an icicle diagram \cite{narayan2010not}. 
 %
-Hoque et al break from purely metadata visualization by adding topic modeling and sentiment analysis  \cite{hoque2014convis, hoque2016interactive}.
-%
 Butler puts these ideas in practice through a chrome extension that visualizes the conversation trees on Twitter \cite{treeverse}.
+%
+Hoque et al break from purely metadata visualization by adding topic modeling and sentiment analysis  \cite{hoque2014convis, hoque2016interactive}.
 %
 While these tools are uniformly well received by their evaluation audiences, they have failed to gain widespread usage.
 %
 This may be because visualization based overview systems are not well aligned with the types of tasks that people pursue on threaded forums, a problem which remains unclear from the previous works.
 %
-While this issue remains prescient we are unable to directly address it in the scope of this work.
+While this issue remains prescient, we are unable to directly address it in the scope of this work.
 %
 Instead we assert that that previous iterations may have failed to gain traction because they do not possess an accessible or online implementations, force their users out of their usual environment, and are designed around a single ideal size of conversation and thus become cumbersome or difficult to use when conversations of interest fall outside of that target domain.
 
@@ -247,24 +246,25 @@ Instead we assert that that previous iterations may have failed to gain traction
 
 \section{Forum Explorer}
 
-We address these problems through Forum Explorer, a Chrome Extension that repurposes the layout of yCombinator's social news website, HackerNews \cite{hackernews}, to facilitate better data exploration. %through the use of tree visualization techniques.
+We address these problems through Forum Explorer, a Chrome Extension that repurposes the layout of yCombinator's social news website, HackerNews \cite{hackernews}, to facilitate better data exploration.
 %
-We focus on HackerNews because it has an active community with more than 8.5 million comments that often have a highly nested structure, and is seen as a reputable source of domain-expert opinions \cite{barik2015heart}.
+We focus on HackerNews because it has an active community with more than 8.5 million comments that often have a highly nested structure and is seen as a reputable source of domain-expert opinions \cite{barik2015heart}.
 %
 Our implementation captures many of the features from prior art, including a tree based graphical overview, that denotes comments as vertices and parentage as edges, and nlp-based summaries, which is further detailed in Figure \ref{fig:explainer} (top). 
 %
-We provide topic-summaries of the conversation corpus through the use of Latent Dirichlet Allocation (via lda.js \cite{lda-js}), which we compute on a caching micro-service hosted on Heroku. 
+This design emphasizes the discovery of sub-conversations as a mechanism for exploration.
 %
-This design emphasizes the discovery of sub-coversations as a mechanism for exploration.
+We provide topic-summaries of the conversation corpus through the use of Latent Dirichlet Allocation (via lda.js \cite{lda-js}), which we compute on a caching micro-service hosted on Heroku. 
 
 
 
-
-Our system expands on previous work through two improvements derived from observations about our particular domain of focus.
+Our design is derived from two observations about the behavior of our domain of focus.
+%
+%Our system expands on previous work through two improvements derived from observations about our particular domain of focus.
 %
 \textbf{Firstly}, we observe that the weights of rooted branches tends to be heavily dominated by a small collection of sub-trees.
 %
-To this end, we introduce a novel Forested Tree View which splits threaded conversations at their root into a collection of smaller and more legible trees, see Figure \ref{fig:explainer} (bottom).
+To this end, we introduce a novel Forested Tree View which splits threaded conversations into a collection of smaller and more legible trees, see Figure \ref{fig:explainer} (bottom).
 %
 We prune the heaviest branches from the root and present them as independent trees, which we arrange in space by computing a treemap layout.
 %
@@ -274,7 +274,7 @@ We render the root as a radial tree in order to give it visual significance, and
 %
 This approach allows for ample visual space to provide in-situ annotations and textual guides. 
 %
-We find empty space in the visualization to add these annotations (which we supply as single topic summaries for that subtree) by constructing a voronoi for the complete layout, and then finding the largest (and hence emptiest) cell for each subtree.
+We find empty space in the graphic to add annotations (which are single topic summaries for that subtree) by constructing a voronoi for the complete layout, and then finding the largest (and hence emptiest) cell for each subtree.
 %
 \textbf{Secondly}, we observe that large conversations tend to be have a large number of rooted stumps that add substantial visual noise.
 %
@@ -292,15 +292,19 @@ Our implementation visually scales well and maintains respinsiveness up to the l
 \section{Conclusions \& Future Work}
 We have presented Forum Explorer, a tool for exploring threaded conversations on HackerNews. 
 %
-Our primary contribution in this work is a novel Forested Tree layout that facilitates better scalability in exploring threaded conversations, however we believe that there is substantial room for our tool to make contributions in the future.
+Our primary contribution is a novel graph layout that facilitates better scalability in exploring threaded conversations, however we believe that there is room for our tool to make further useful contributions.
 %
-From previous studies it remains unclear whether or not this type of application has long-term utility (as opposed to novelty-driven laboratory results).
+Unfortunately, it remains unclear whether or not this type of application has long-term utility (as opposed to novelty-driven laboratory results).
 % \cite{isenberg2013systematic}).
 %
-The best evidence that this type of system does in fact have substantive usefulness is that Treeverse is (in addition to being modestly popular, as evidenced by its 2400 active users) used by Rao et al to study the way that domain specific knowledge expressed on twitter becomes deeply siloed \cite{twittercanoes}.
+%The best evidence of substantive usefulness is that Treeverse is (in addition to being modestly popular, cf. its 2400 active users) used by Rao et al to study the way that domain specific knowledge expressed on twitter becomes deeply siloed \cite{twittercanoes}.
 %
-%The practical usability of our application makes it well positioned to conduct a longitudinal study that could determine whether or not this tool would improve the effectiveness of task completion for realistic user settings.
-The practical usability of our application makes it well positioned to conduct a longitudinal study that could answer questions about the effectiveness of task completion for realistic user settings.
+Rao et al's study, which makes use of Treeverse, of the way in which domain specific knowledge expressed on twitter becomes deeply siloed suggests that there may in fact be substantive usefulness for this type of system, but it remains unclear\cite{twittercanoes}.
+%
+%
+The practical usability of our application makes it well positioned to conduct a longitudinal study that could answer questions about the effectiveness of task completion in realistic user settings.
+%
+In a different tact: to our knowledge, there has been no work developing this type of system for mobile devices.
 %
 Finally we believe the design strategies expressed in this work could also have applicability to systems outside of threaded conversations, such as visualizations of the scholarly citation graph.
 
