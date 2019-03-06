@@ -92,7 +92,7 @@ export const getAllItems = root => dispatch => {
         type: 'get-all-items',
         payload: {data, root}
       });
-      getAllUsers(dispatch, data);
       modelBranches(dispatch, data, root);
+      getAllUsers(dispatch, data);
     });
 };

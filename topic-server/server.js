@@ -42,21 +42,40 @@ function parseAndModel(req, res) {
   if (modelCache[item] && ((modelCache[item].time - currentTime) < fiveMinutes)) {
     log(`request for ${item} fulfilled by cache`);
     // TODO: record cache hit, if cache hits happen to many times invalidate the cache
+
     return res.send(modelCache[item].model);
   }
-
-  request(`https://news.ycombinator.com/item?id=${item}`, (error, response, html) => {
-    log(`recieved html for ${item}`);
-    if (!error && response.statusCode === 200) {
-      log(`building model for ${item}`);
-      const model = stripAndModel(html, topics, terms);
-      log(`sending model for ${item}`);
-      res.send(model);
-      modelCache[item] = {
-        time: currentTime,
-        model
-      };
-    }
+  const startTime = new Date().getTime();
+  new Promise((resolve, reject) => {
+    request(`https://news.ycombinator.com/item?id=${item}`, (error, response, html) => {
+      log(`recieved html for ${item}`);
+      if (!error && response.statusCode === 200) {
+        resolve(html);
+      } else {
+        reject(JSON.stringify({
+          status: 'error',
+          error,
+          statusCode: response.statusCode,
+          item,
+          code: `https://news.ycombinator.com/item?id=${item}`
+        }, null, 2));
+      }
+    });
+  })
+  .then(html => {
+    log(`building model for ${item}`);
+    const model = stripAndModel(html, topics, terms);
+    const endTime = new Date().getTime();
+    log(`modeling for ${item} complete. took ${(endTime - startTime) / 1000} seconds. sending model`);
+    res.send(model);
+    modelCache[item] = {
+      time: currentTime,
+      model
+    };
+  })
+  .catch(error => {
+    log(error);
+    res.send([[null]]);
   });
 }
 
