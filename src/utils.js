@@ -15,30 +15,39 @@ export function classnames(classObject) {
   return Object.keys(classObject).filter(name => classObject[name]).join(' ');
 }
 
-export function timeSince(date) {
+const contractedTime = {
+  years: 'yrs',
+  months: 'mnths',
+  days: 'days',
+  hours: 'hrs',
+  minutes: 'min',
+  seconds: 's'
+};
+
+export function timeSince(date, contractTime) {
   const seconds = Math.floor((new Date() - date * 1000) / 1000);
   let interval = Math.floor(seconds / 31536000);
 
   if (interval > 1) {
-    return `${interval} years`;
+    return `${interval} ${contractTime ? contractedTime.years : 'years'}`;
   }
   interval = Math.floor(seconds / 2592000);
   if (interval > 1) {
-    return `${interval} months`;
+    return `${interval} ${contractTime ? contractedTime.months : 'months'}`;
   }
   interval = Math.floor(seconds / 86400);
   if (interval > 1) {
-    return `${interval} days`;
+    return `${interval} ${contractTime ? contractedTime.days : 'days'}`;
   }
   interval = Math.floor(seconds / 3600);
   if (interval > 1) {
-    return `${interval} hours`;
+    return `${interval} ${contractTime ? contractedTime.hours : 'hours'}`;
   }
   interval = Math.floor(seconds / 60);
   if (interval > 1) {
-    return `${interval} minutes`;
+    return `${interval} ${contractTime ? contractedTime.minutes : 'minutes'}`;
   }
-  return `${Math.floor(seconds)} seconds`;
+  return `${Math.floor(seconds)} ${contractTime ? contractedTime.seconds : 'seconds'}`;
 }
 
 // includes dumb d3 rotation

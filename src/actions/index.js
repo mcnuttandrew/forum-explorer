@@ -30,10 +30,17 @@ export const modelBranches = (dispatch, data, root) => {
   const items = data
     .filter(({parent, kids}) => `${parent}` === root && kids && kids.length > 1)
     .map(({id}) => id);
+  console.log('modeling branches', items.length)
+  let current = 0;
   Promise.all(items.map(item => {
     return fetch(branchTemplate(item), {mode: 'cors'})
     .then(d => d.json())
-    .then(model => ({item, model: model[0][0]}));
+    .then(d => {
+      current += 1;
+      console.log(`modeled ${current} / ${items.length}`)
+      return d;
+    })
+    .then(model => ({item, model: model[0] && model[0][0] || null}));
   }))
   .then(payload => {
     return payload.reduce((acc, {item, model}) => {

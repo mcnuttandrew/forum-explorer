@@ -1,5 +1,6 @@
 import React from 'react';
-import SearchForUser from './icons/search-for-user.js';
+import SearchForUser from './icons/search-for-user';
+import ExternalLink from './icons/external-link';
 import ExpandButton from './expand-button';
 import {classnames, timeSince} from '../utils';
 import {COLORS, STROKES} from '../constants/colors';
@@ -42,12 +43,23 @@ function renderComment(props, item, idx) {
           background: COLORS[userRank.rank],
           color: STROKES[userRank.rank]
         }} />}
-        <div style={{position: 'relative', width: '15px'}}>
-          <span className="search-user" onClick={() => unlockAndSearch(userName)}>
-            <SearchForUser/>
-          </span>
+        <div className="hover-tooltip">
+          <div style={{position: 'relative', width: '15px'}}>
+            <span className="search-user" onClick={() => unlockAndSearch(userName)}>
+              <SearchForUser/>
+            </span>
+          </div>
+          <span className="tooltiptext">click to search for user</span>
         </div>
-        <span>{` ${timeSince(item.get('time'))} ago`}</span>
+        <div className="hover-tooltip">
+          <a href={`?id=${item.get('id')}`}>
+            <span>{` ${timeSince(item.get('time'))} ago`}</span>
+            <span className="search-user" >
+              <ExternalLink/>
+            </span>
+          </a>
+          <span className="tooltiptext">link to page for comment</span>
+        </div>
       </div>
       <div
         onClick={e => {

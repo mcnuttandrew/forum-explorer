@@ -423,3 +423,31 @@ a.header-link:visited {
   font-size: 6pt;
   text-anchor: middle;
 }
+
+/* Tooltip container */
+.hover-tooltip {
+  position: relative;
+  display: flex;
+}
+
+/* Tooltip text */
+.hover-tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+  left: 80px;
+  top: -10px;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.hover-tooltip:hover .tooltiptext {
+  visibility: visible;
+}

@@ -127,7 +127,7 @@ function generateTreemapLayout(height, width, rootBranch, otherBranches) {
   return treemapingFunction(structuredInput).descendants().slice(1);
 }
 
-const childThreshold = 10;
+const childThreshold = 15;
 const childWithinThreshold = negate => child => {
   const childWithin = !child.children || (child.weight < childThreshold);
   return negate ? !childWithin : childWithin;

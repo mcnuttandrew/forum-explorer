@@ -33,7 +33,7 @@ export default class Histogram extends React.Component {
           histogram[histogram.length - 1].x
         ]}>
 
-        <XAxis tickFormat={timeSince} tickTotal={3}/>
+        <XAxis tickFormat={d => timeSince(d, true)} tickTotal={3}/>
         <VerticalRectSeries
           data={histogram}
           getColor={({x0}) => x0 === hoveredRow.x0 ? '#ff6600' : 'rgb(215, 205, 190)'}
