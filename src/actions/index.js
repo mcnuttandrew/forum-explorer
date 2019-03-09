@@ -29,7 +29,7 @@ export const modelData = item => dispatch => {
 
 export const modelBranches = (dispatch, data, root, tree) => {
   const items = tree.children
-    .filter(({descendants}) => descendants > 15)
+    .filter(({descendants}) => descendants >= 15)
     .map(({id}) => id);
   console.log('modeling branches', items.length)
   let current = 0;
