@@ -144,3 +144,37 @@ export const computeHistrogram = data => {
     .thresholds(xScale.ticks(15))(data.map(({time}) => time))
     .map(bin => ({x0: bin.x0, x: bin.x1, y: bin.length})));
 };
+
+export function prepareTree(data, root) {
+  const maxDepth = data.reduce((acc, row) => Math.max(acc, row.depth), 0);
+  const nodesByParentId = data.reduce((acc, child) => {
+    if (child.parent && !acc[child.parent]) {
+      acc[child.parent] = [];
+    }
+    acc[!child.parent ? 'root' : child.parent].push(child);
+    return acc;
+  }, {root: []});
+  const formToTree = node => {
+    const newNode = {
+      descendants: 1,
+      depth: node.depth,
+      height: maxDepth - node.depth - 1,
+      id: `${node.id}`,
+      data: node,
+      parent: node.parent || null,
+      children: (nodesByParentId[node.id] || [])
+        .map(child => formToTree(child))
+    };
+    newNode.descendants = newNode.children.reduce((acc, {descendants}) => acc + descendants, 1);
+    return newNode;
+  };
+  if (root && nodesByParentId[root] && nodesByParentId[root].length > 1 || !nodesByParentId.root.length) {
+    nodesByParentId.root = [{
+      depth: 0,
+      id: root,
+      children: [root]
+    }];
+  }
+  nodesByParentId.root[0].data = {...data.find(row => row.id === Number(root))};
+  return formToTree(nodesByParentId.root[0]);
+}

@@ -1,4 +1,5 @@
 import {SERVER_DEV_MODE} from '../constants';
+import {prepareTree} from '../utils';
 
 const buildEasyAction = type => payload => dispatch => dispatch({type, payload});
 export const setHoveredComment = buildEasyAction('set-hovered-comment');
@@ -26,9 +27,9 @@ export const modelData = item => dispatch => {
   .catch(() => {});
 };
 
-export const modelBranches = (dispatch, data, root) => {
-  const items = data
-    .filter(({parent, kids}) => `${parent}` === root && kids && kids.length > 1)
+export const modelBranches = (dispatch, data, root, tree) => {
+  const items = tree.children
+    .filter(({descendants}) => descendants > 15)
     .map(({id}) => id);
   console.log('modeling branches', items.length)
   let current = 0;
@@ -95,11 +96,12 @@ export const getAllItems = root => dispatch => {
   return Promise.resolve()
     .then(() => doGeneration([root]))
     .then(data => {
+      const tree = prepareTree(data);
       dispatch({
         type: 'get-all-items',
-        payload: {data, root}
+        payload: {data, root, tree}
       });
-      modelBranches(dispatch, data, root);
+      modelBranches(dispatch, data, root, tree);
       getAllUsers(dispatch, data);
     });
 };

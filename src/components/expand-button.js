@@ -12,5 +12,7 @@ export default function ExpandButton({
     onClick: e => setSelectedCommentPath(`${item.get('id')}`),
     className: 'expand-comment margin-left'
   };
-  return useSpan ? <span {...props}>expand</span> : <div {...props}>expand</div>;
+  return useSpan ?
+    <span {...props}>expand</span> :
+    <div {...props}>{`expand (${item.get('descendants')} children)`}</div>;
 }

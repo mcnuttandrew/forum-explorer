@@ -47,22 +47,28 @@ function parseAndModel(req, res) {
     return res.send(modelCache[cacheId].model);
   }
   const startTime = new Date().getTime();
-  new Promise((resolve, reject) => {
+  const promiseGen = allowRetry => (resolve, reject) => {
     request(`https://news.ycombinator.com/item?id=${item}`, (error, response, html) => {
       log(`recieved html for ${item}`);
       if (!error && response.statusCode === 200) {
         resolve(html);
-      } else {
-        reject(JSON.stringify({
-          status: 'error',
-          error,
-          statusCode: response.statusCode,
-          item,
-          code: `https://news.ycombinator.com/item?id=${item}`
-        }, null, 2));
+        return;
       }
+      if (allowRetry) {
+        promiseGen(false)(resolve, reject);
+        return;
+      }
+      reject(JSON.stringify({
+        code: `https://news.ycombinator.com/item?id=${item}`,
+        error,
+        html,
+        item,
+        status: 'error',
+        statusCode: response.statusCode
+      }, null, 2));
     });
-  })
+  };
+  new Promise(promiseGen(true))
   .then(html => {
     log(`building model for ${item}`);
     const model = stripAndModel(html, topics, terms);

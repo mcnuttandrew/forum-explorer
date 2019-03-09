@@ -6,7 +6,7 @@ import {DEV_MODE, numUsersToHighlight} from '../constants';
 import {graphLayouts, computeFullGraphLayout} from '../layouts';
 import TestData from '../constants/test-data.json';
 // import TestData from '../constants/really-big-data.json';
-import {computeTopUsers, computeHistrogram} from '../utils';
+import {computeTopUsers, computeHistrogram, prepareTree} from '../utils';
 
 const DEFAULT_CONFIGS = [{
   name: 'graph layout',
@@ -192,42 +192,26 @@ function prepareRoutesTable(state) {
   return routeTable;
 }
 
-function prepareTree(data, root) {
-  const maxDepth = data.reduce((acc, row) => Math.max(acc, row.depth), 0);
-  const nodesByParentId = data.reduce((acc, child) => {
-    if (child.parent && !acc[child.parent]) {
-      acc[child.parent] = [];
-    }
-    acc[!child.parent ? 'root' : child.parent].push(child);
-    return acc;
-  }, {root: []});
-  const formToTree = node => ({
-    depth: node.depth,
-    height: maxDepth - node.depth - 1,
-    id: `${node.id}`,
-    data: node,
-    parent: node.parent || null,
-    children: (nodesByParentId[node.id] || [])
-      .map(child => formToTree(child))
-  });
-  if (root && nodesByParentId[root] && nodesByParentId[root].length > 1 || !nodesByParentId.root.length) {
-    nodesByParentId.root = [{
-      depth: 0,
-      id: root,
-      children: [root]
-    }];
-  }
-  nodesByParentId.root[0].data = {...data.find(row => row.id === Number(root))};
-  return formToTree(nodesByParentId.root[0]);
-}
-
 const appropriateDotSize = numComments => (numComments > 600) ? 0 : (numComments < 20 ? 2 : 1);
 
-const getAllItems = (state, {data, root}) => {
+function buildCountMap(tree) {
+  const countMap = {};
+  function generateCountMap(node) {
+    countMap[`${node.id}`] = node.descendants;
+    node.children.forEach(generateCountMap);
+  }
+  generateCountMap(tree);
+  return countMap;
+}
+
+const getAllItems = (state, {data, root, tree}) => {
+  const countMap = buildCountMap(tree);
   let updatedData = Immutable.fromJS(data).map(row => {
-    const metadata = state.getIn(['foundOrderMap', `${row.id}`]) ||
+    const id = row.get('id');
+    const metadata = state.getIn(['foundOrderMap', `${id}`]) ||
       Map({upvoteLink: null, replyLink: null});
     return row
+      .set('descendants', countMap[id])
       .set('upvoteLink', metadata.get('upvoteLink'))
       .set('replyLink', metadata.get('replyLink'));
   }).filter(row => !row.get('deleted'))
