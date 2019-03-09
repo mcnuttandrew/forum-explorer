@@ -33,17 +33,18 @@ function parseAndModel(req, res) {
   const item = req.query && req.query.item;
   const topics = req.query && req.query.topics || 5;
   const terms = req.query && req.query.terms || 15;
+  const cacheId = `${item}-${topics}-${terms}`;
   if (!item) {
     return res.send('Invalid query');
   }
   log(`request for ${item}`);
   const currentTime = new Date().getTime();
   const fiveMinutes = 5 * 60 * 1000;
-  if (modelCache[item] && ((modelCache[item].time - currentTime) < fiveMinutes)) {
+  if (modelCache[cacheId] && ((modelCache[cacheId].time - currentTime) < fiveMinutes)) {
     log(`request for ${item} fulfilled by cache`);
     // TODO: record cache hit, if cache hits happen to many times invalidate the cache
 
-    return res.send(modelCache[item].model);
+    return res.send(modelCache[cacheId].model);
   }
   const startTime = new Date().getTime();
   new Promise((resolve, reject) => {
@@ -68,7 +69,7 @@ function parseAndModel(req, res) {
     const endTime = new Date().getTime();
     log(`modeling for ${item} complete. took ${(endTime - startTime) / 1000} seconds. sending model`);
     res.send(model);
-    modelCache[item] = {
+    modelCache[cacheId] = {
       time: currentTime,
       model
     };

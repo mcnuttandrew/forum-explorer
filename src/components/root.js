@@ -107,6 +107,7 @@ class RootComponent extends React.Component {
 }
 
 function mapStateToProps({base}) {
+  const pageId = Number(base.get('pageId'));
   return {
     commentSelectionLock: base.get('commentSelectionLock'),
     configs: base.get('configs'),
@@ -120,11 +121,11 @@ function mapStateToProps({base}) {
     loadedCount: base.get('loadedCount'),
     loading: base.get('loading'),
     model: base.get('model') || [],
-    pageId: base.get('pageId'),
+    pageId,
     serializedModel: base.get('serialized-model') || [],
     searchValue: base.get('searchValue'),
     searchedMap: base.get('searchedMap'),
-    storyHead: base.get('data').filter(item => item.get('type') === 'story').get(0),
+    storyHead: base.get('data').find(item => item.get('id') === pageId),
     timeFilter: base.get('timeFilter').toJS(),
     topUsers: base.get('topUsers'),
     users: base.get('users')
