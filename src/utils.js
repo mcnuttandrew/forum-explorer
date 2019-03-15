@@ -155,6 +155,7 @@ export function prepareTree(data, root) {
     return acc;
   }, {root: []});
   const formToTree = node => {
+    const isLeaf = !nodesByParentId[node.id];
     const newNode = {
       descendants: 1,
       depth: node.depth,
@@ -165,7 +166,8 @@ export function prepareTree(data, root) {
       children: (nodesByParentId[node.id] || [])
         .map(child => formToTree(child))
     };
-    newNode.descendants = newNode.children.reduce((acc, {descendants}) => acc + descendants, 1);
+    newNode.descendants = newNode.children
+      .reduce((acc, {descendants}) => acc + descendants, isLeaf ? 0 : 1);
     return newNode;
   };
   if (root && nodesByParentId[root] && nodesByParentId[root].length > 1 || !nodesByParentId.root.length) {
@@ -176,5 +178,6 @@ export function prepareTree(data, root) {
     }];
   }
   nodesByParentId.root[0].data = {...data.find(row => row.id === Number(root))};
+  console.log(formToTree(nodesByParentId.root[0]))
   return formToTree(nodesByParentId.root[0]);
 }
