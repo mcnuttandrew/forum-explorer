@@ -76,6 +76,7 @@ function renderComment(props, item, idx) {
         dangerouslySetInnerHTML={createMarkup(item.get('text'))}/>
       <div className="flex comment-footer">
         <div
+          className="expand-comment margin-left"
           onClick={e => setSelectedCommentPath(`${item.get('id')}`)}>
           {hasChildren ? `expand (${hasChildren} children)` : ''}
         </div>
@@ -91,16 +92,23 @@ function renderComment(props, item, idx) {
 }
 
 class CommentPanel extends React.PureComponent {
+  constructor() {
+    super();
+    this.state = {
+      idx: 0
+    };
+  }
   render() {
+    const data = this.props.itemsToRender
+    .filter(item => item.get('type') !== 'story' || item.get('text'))
+    .map((item, idx) => (renderComment(this.props, item, idx)));
     return (
       <div
         className={classnames({
           'overflow-y': true,
           panel: this.props.showGraph
         })}>
-        {this.props.itemsToRender
-        .filter(item => item.get('type') !== 'story' || item.get('text'))
-        .map((item, idx) => (renderComment(this.props, item, idx)))}
+        {data}
       </div>
     );
   }

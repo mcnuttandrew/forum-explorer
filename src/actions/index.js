@@ -117,13 +117,3 @@ export const setPageId = payload => dispatch => {
       }
     }));
 };
-
-//  buildEasyAction('set-page-id');
-// new Promise((resolve, reject) => {
-//   getTreeForId(payload)
-//     .then(result => resolve(result))
-//     .catch(err => reject(err));
-// }).then(result => {
-//   console.log(result)
-//   return state.set({pageId: payload});
-// });

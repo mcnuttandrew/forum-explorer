@@ -196,14 +196,20 @@ function prepareRoutesTable(state) {
 
 const appropriateDotSize = numComments => (numComments > 600) ? 0 : (numComments < 20 ? 2 : 1);
 
-function buildCountMap(tree) {
+function reconcileTreeWithData(tree, data) {
+  const treeMap = {};
   const countMap = {};
-  function generateCountMap(node) {
+  function buildMap(node) {
+    treeMap[`${node.id}`] = node.children;
     countMap[`${node.id}`] = node.descendants;
-    node.children.forEach(generateCountMap);
+    node.children.forEach(buildMap);
   }
-  generateCountMap(tree);
-  return countMap;
+  buildMap(tree);
+  return data.map((row) => ({
+    ...row,
+    children: treeMap[`${row.id}`],
+    descendants: countMap[`${row.id}`]
+  }));
 }
 
 const getTreeFromCache = (state, payload) => {
@@ -212,25 +218,22 @@ const getTreeFromCache = (state, payload) => {
   }
   const {data, pageId} = payload;
   const preppedData = Immutable.fromJS(data);
-  return adjustConfigForState(
-    state
-      .set('loading', false)
-      .set('pageId', pageId)
-      .set('data', preppedData)
-      .set('tree', prepareTree(data, state.get('pageId')))
-      .set('topUsers', computeTopUsers(preppedData, numUsersToHighlight))
-      .set('histogram', computeHistrogram(data))
-    , data.length);
+  const tempState = state
+    .set('loading', false)
+    .set('pageId', pageId)
+    .set('data', preppedData)
+    .set('tree', prepareTree(data, state.get('pageId')))
+    .set('topUsers', computeTopUsers(preppedData, numUsersToHighlight))
+    .set('histogram', computeHistrogram(data));
+  return adjustConfigForState(tempState, data.length);
 };
 
 const getAllItems = (state, {data, root, tree}) => {
-  const countMap = buildCountMap(tree);
-  let updatedData = Immutable.fromJS(data).map(row => {
+  let updatedData = Immutable.fromJS(reconcileTreeWithData(tree, data)).map(row => {
     const id = row.get('id');
     const metadata = state.getIn(['foundOrderMap', `${id}`]) ||
       Map({upvoteLink: null, replyLink: null});
     return row
-      .set('descendants', countMap[id])
       .set('upvoteLink', metadata.get('upvoteLink'))
       .set('replyLink', metadata.get('replyLink'));
   }).filter(row => !row.get('deleted'))
@@ -241,15 +244,15 @@ const getAllItems = (state, {data, root, tree}) => {
   }
   // side effect to update indexedDB with updated tree state
   updateIdInDb(root, updatedData.toJS());
-  return adjustConfigForState(
-    state
-      .set('loading', false)
-      .set('data', updatedData)
-      .set('pageId', root)
-      .set('tree', prepareTree(updatedData.toJS(), root))
-      .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight))
-      .set('histogram', computeHistrogram(data))
-    , data.length);
+  const tempState = state
+    .set('loading', false)
+    .set('data', updatedData)
+    .set('pageId', root)
+    .set('tree', prepareTree(updatedData.toJS(), root))
+    .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight))
+    .set('histogram', computeHistrogram(data));
+
+  return adjustConfigForState(tempState, data.length);
 };
 
 function adjustConfigForState(state, dataLength) {

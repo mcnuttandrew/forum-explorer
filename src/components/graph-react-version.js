@@ -1,11 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {XYPlot, MarkSeries, LineSeries} from 'react-vis';
-// import {select} from 'd3-selection';
-/* eslint-disable no-unused-vars */
-// import {transition} from 'd3-transition';
-/* eslint-enable no-unused-vars */
-import debounce from 'lodash.debounce';
 import HexOver from 'hex-over';
 
 import {layouts} from '../layouts';
@@ -52,8 +45,6 @@ class Graph extends React.PureComponent {
   generateLines() {
     const {selectedMap, graphLayout, fullGraph} = this.props;
     const {xScale, yScale, layout} = fullGraph;
-    // const linesG = select(ReactDOM.findDOMNode(this.refs.lines));
-    // const link = linesG.selectAll('.link').data(root.links());
     const evalLineClasses = d => {
       return classnames({
         link: true,
@@ -78,7 +69,6 @@ class Graph extends React.PureComponent {
       markSize
     } = this.props;
     const {positioning, nodes} = fullGraph;
-    // const nodesG = select(ReactDOM.findDOMNode(this.refs.nodes));
     const translateFunc = arr => `translate(${arr.join(',')})`;
     const evalCircClasses = d => classnames({
       'node-root': d.data.data.id === 'root',
@@ -129,8 +119,6 @@ class Graph extends React.PureComponent {
   generatePolygons() {
     const {setSelectedCommentPath, toggleCommentSelectionLock, fullGraph} = this.props;
     const {voronois} = fullGraph;
-    // const polygonsG = select(ReactDOM.findDOMNode(this.refs.polygons));
-    // const polygon = polygonsG.selectAll('.polygon').data(voronois);
     return voronois.map((d, idx) => {
       return (<path
         key={`voronoi-${idx}`}
@@ -168,7 +156,6 @@ class Graph extends React.PureComponent {
         return acc;
       }, {});
 
-    // const labelsG = select(ReactDOM.findDOMNode(this.refs.labels));
     const translateFunc = arr => `translate(${arr.join(',')})`;
     return Object.values(biggestVoronois).map((d, jdx) => {
       return (<g className="label" transform={translateFunc(d.centroid)} key={`label-${jdx}`}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {timeSince} from '../utils';
 import ExpandButton from './expand-button';
-import ExternalLink from './icons/external-link';
+// import ExternalLink from './icons/external-link';
 
 export default function StoryHead(props) {
   const {
@@ -26,7 +26,10 @@ export default function StoryHead(props) {
       </a>
       {type === 'comment' && <a href={`?id=${parent}`}>
         <span>{' on Parent Comment'}</span>
-        <ExternalLink />
+        {
+
+          // <ExternalLink />
+        }
       </a>}
     </div>
     <div className="comment-head">
