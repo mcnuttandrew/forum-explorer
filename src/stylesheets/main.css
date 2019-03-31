@@ -451,6 +451,7 @@ a.header-link:visited {
   visibility: hidden;
   width: 120px;
   background-color: black;
+  font-size: 10px;
   color: #fff;
   text-align: center;
   padding: 5px 0;
@@ -459,7 +460,7 @@ a.header-link:visited {
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
-  left: 80px;
+  left: 90px;
   top: -10px;
 }
 
@@ -470,4 +471,13 @@ a.header-link:visited {
 
 .search-user .material-icons {
   font-size: 15px;
+}
+
+.comments-help {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
 }

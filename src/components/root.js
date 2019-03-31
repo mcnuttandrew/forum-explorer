@@ -93,9 +93,7 @@ class RootComponent extends React.Component {
               setSearch={this.props.setSearch}
               showGraph={showGraph}
               itemPath={this.props.itemPath}
-              itemsToRender={
-                this.props.itemsToRender.size ? this.props.itemsToRender : this.props.data
-              }
+              itemsToRender={this.props.itemsToRender}
               unlockAndSearch={this.props.unlockAndSearch}
               topUsers={this.props.topUsers}
               />

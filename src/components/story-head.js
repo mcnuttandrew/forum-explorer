@@ -26,10 +26,9 @@ export default function StoryHead(props) {
       </a>
       {type === 'comment' && <a href={`?id=${parent}`}>
         <span>{' on Parent Comment'}</span>
-        {
-
-          // <ExternalLink />
-        }
+        <span className="search-user" >
+          <i className="material-icons">launch</i>
+        </span>
       </a>}
     </div>
     <div className="comment-head">
