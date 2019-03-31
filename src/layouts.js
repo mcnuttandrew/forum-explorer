@@ -31,11 +31,12 @@ export const layouts = {
 export const graphLayouts = [
   'ring',
   'tree',
-  'orbit',
   // time layouts are currently busted
   // 'timeX',
   // 'timeY',
-  'balloon',
+  // orbit and bloon are not good enough for release
+  // 'orbit',
+  // 'balloon',
   'gridTree',
   'forest'
 ];
