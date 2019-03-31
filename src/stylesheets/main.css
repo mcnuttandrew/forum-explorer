@@ -27,6 +27,10 @@ body,
   margin-left: 5px;
 }
 
+.margin-right {
+  margin-right: 5px;
+}
+
 .margin-bottom {
   margin-bottom: 5px;
 }
@@ -437,6 +441,11 @@ a.header-link:visited {
   display: flex;
 }
 
+.hover-rel-container {
+  position: relative;
+  width: 15px;
+}
+
 /* Tooltip text */
 .hover-tooltip .tooltiptext {
   visibility: hidden;
@@ -457,4 +466,8 @@ a.header-link:visited {
 /* Show the tooltip text when you mouse over the tooltip container */
 .hover-tooltip:hover .tooltiptext {
   visibility: visible;
+}
+
+.search-user .material-icons {
+  font-size: 15px;
 }

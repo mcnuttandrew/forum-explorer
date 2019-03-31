@@ -1,7 +1,4 @@
 import React from 'react';
-import SearchForUser from './icons/search-for-user';
-import ExternalLink from './icons/external-link';
-import ExpandButton from './expand-button';
 import {classnames, timeSince} from '../utils';
 import {COLORS, STROKES} from '../constants/colors';
 const createMarkup = __html => ({__html});
@@ -43,10 +40,10 @@ function renderComment(props, item, idx) {
           background: COLORS[userRank.rank],
           color: STROKES[userRank.rank]
         }} />}
-        <div className="hover-tooltip">
-          <div style={{position: 'relative', width: '15px'}}>
+        <div className="hover-tooltip margin-right">
+          <div className="hover-rel-container" >
             <span className="search-user" onClick={() => unlockAndSearch(userName)}>
-              <SearchForUser/>
+              <i className="material-icons">perm_identity</i>
             </span>
           </div>
           <span className="tooltiptext">click to search for user</span>
@@ -55,7 +52,7 @@ function renderComment(props, item, idx) {
           <a href={`?id=${item.get('id')}`}>
             <span>{` ${timeSince(item.get('time'))} ago`}</span>
             <span className="search-user" >
-              <ExternalLink/>
+              <i className="material-icons">launch</i>
             </span>
           </a>
           <span className="tooltiptext">link to page for comment</span>
@@ -78,9 +75,10 @@ function renderComment(props, item, idx) {
         })}
         dangerouslySetInnerHTML={createMarkup(item.get('text'))}/>
       <div className="flex comment-footer">
-        <ExpandButton
-          item={item}
-          setSelectedCommentPath={setSelectedCommentPath}/>
+        <div
+          onClick={e => setSelectedCommentPath(`${item.get('id')}`)}>
+          {hasChildren ? `expand (${hasChildren} children)` : ''}
+        </div>
         <a
           onClick={e => e.stopPropagation()}
           href={`https://news.ycombinator.com/${item.get('replyLink')}`}
