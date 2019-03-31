@@ -24,26 +24,14 @@ const ringEval = RingLayout.layout();
 
 // UTILS
 const generateLabels = (branches, branchModel) => {
-  const longestIdx = branches.reduce((acc, row, idx) => {
-    if (acc.value < row.weight) {
-      return {value: row.weight, idx};
-    }
-    return acc;
-  }, {value: -Infinity, idx: -1}).idx;
   const rootLabel = {label: branches.length ? ['conversation', 'root'] : [], key: 'root'};
   return [rootLabel]
     .concat(branches.map((branch, idx) => {
       const model = branchModel[branch.data.data.id];
-      // let label = `started by ${branch.data.data.by}`;
-      // let label = '';
-      const label = model ?
-        ['subconversation', `about ${model.term}`] :
-        [longestIdx === idx ? 'notable subconversation' : `subconversation ${idx}`];
-      // if (longestIdx === idx) {
-      //   // label = ['subconversation containing', ' most popular comment'];
-      //   label = ['notable subconversation'];
-      // }
-      return ({label, key: branch.key});
+      return ({
+        label: model ? ['subconversation', `about ${model.term}`] : [`subconversation ${idx}`],
+        key: branch.key
+      });
     }));
 };
 

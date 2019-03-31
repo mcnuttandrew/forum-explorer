@@ -20,7 +20,7 @@ import {
 } from '../constants/colors';
 
 const nodeSizes = {
-  small: 3,
+  small: 4,
   medium: 7,
   large: 10
 };
@@ -112,7 +112,6 @@ class Graph extends React.Component {
     const {
       muteUnselected,
       hoveredComment,
-      toggleCommentSelectionLock,
       selectedMap,
       squareLeafs,
       topUsers
@@ -158,8 +157,7 @@ class Graph extends React.Component {
         .attr('width', setCircSize)
         .attr('x', d => -setCircSize(d) / 2)
         .attr('y', d => -setCircSize(d) / 2)
-        .attr('rx', d => (!d.children || !d.children.length) ? circleness[0] : circleness[1])
-        .on('click', toggleCommentSelectionLock);
+        .attr('rx', d => (!d.children || !d.children.length) ? circleness[0] : circleness[1]);
 
     node.transition()
         .attr('fill', computeFill)
@@ -244,6 +242,7 @@ class Graph extends React.Component {
       toggleCommentSelectionLock,
       muteUnselected
     } = this.props;
+
     const translation = layouts[graphLayout].offset(this.props);
     return (
       <svg
@@ -254,10 +253,10 @@ class Graph extends React.Component {
           opacity={muteUnselected ? 0.7 : 1}
           ref="lines"
           transform={translation} />
-        <g ref="polygons" transform={translation} />
         <g ref="nodes" transform={translation}/>
         <g ref="labels" transform={translation} className="unselectable"/>
         <g ref="rootAnnotation" transform={translation} className="unselectable"/>
+        <g ref="polygons" className="polygon-container" transform={translation} />
         {
           commentSelectionLock && <rect
             className="click-away-block"
@@ -271,7 +270,7 @@ class Graph extends React.Component {
             />
         }
         <text x={20} y={height - 20} className="legend unselectable">
-          click to un/lock selection
+          {`click to ${commentSelectionLock ? 'un' : '' }lock selection`}
         </text>
       </svg>
     );
