@@ -103,11 +103,7 @@ class CommentPanel extends React.PureComponent {
       .filter(item => item.get('type') !== 'story' || item.get('text'))
       .map((item, idx) => (renderComment(this.props, item, idx)));
     return (
-      <div
-        className={classnames({
-          'overflow-y': true,
-          panel: this.props.showGraph
-        })}>
+      <div className="overflow-y panel">
         {!this.props.itemsToRender.size && <div
           className="comments-help">
           <div>Mouse over graph to select comments</div>

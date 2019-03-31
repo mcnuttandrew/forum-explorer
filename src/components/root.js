@@ -4,7 +4,6 @@ import * as actionCreators from '../actions';
 import {Map} from 'immutable';
 
 import {DEV_MODE, WEB_PAGE_MODE} from '../constants';
-import {classnames, getSelectedOption} from '../utils';
 import GraphPanel from './graph-panel';
 import CommentPanel from './comment-panel';
 import Header from './header';
@@ -38,20 +37,12 @@ class RootComponent extends React.Component {
     const selectedMap = this.props.itemsToRender
       .reduce((acc, row) => acc.set(row.get('id'), true), Map());
 
-    const colorBy = getSelectedOption(this.props.configs, 2);
-    const showGraph = getSelectedOption(this.props.configs, 3) === 'on';
-
     const showLoading = (getIdPure() || this.props.pageId || !WEB_PAGE_MODE) && this.props.loading;
     const showDashboard = !this.props.loading;
     const showPicker = !getIdPure() && !DEV_MODE && WEB_PAGE_MODE && !this.props.pageId;
     return (
       <div
-        className={classnames({
-          'flex-down': true,
-          'full-size': true,
-          // TODO update to configs
-          'top-user-coloring': colorBy === 'top-users'
-        })}>
+        className="flex-down full-size">
         <Header
           configs={this.props.configs}
           rootId={this.props.pageId}
@@ -81,17 +72,16 @@ class RootComponent extends React.Component {
         {
           showDashboard && <div
             className="flex full-size background-gray main-container">
-            {showGraph && <GraphPanel
+            <GraphPanel
               {...this.props}
               selectedMap={selectedMap}
-              />}
+              />
             <CommentPanel
               setHoveredComment={this.props.setHoveredComment}
               setSelectedCommentPath={this.props.setSelectedCommentPath}
               model={this.props.model}
               serializedModel={this.props.serializedModel}
               setSearch={this.props.setSearch}
-              showGraph={showGraph}
               itemPath={this.props.itemPath}
               itemsToRender={this.props.itemsToRender}
               unlockAndSearch={this.props.unlockAndSearch}

@@ -3,37 +3,11 @@ import thunk from 'redux-thunk';
 import Immutable, {Map} from 'immutable';
 import {updateIdInDb} from '../actions/db';
 
-import {DEV_MODE, numUsersToHighlight} from '../constants';
-import {graphLayouts, computeFullGraphLayout} from '../layouts';
+import {DEV_MODE, numUsersToHighlight, DEFAULT_CONFIGS} from '../constants';
+import {computeFullGraphLayout} from '../layouts';
 import TestData from '../constants/test-data.json';
 // import TestData from '../constants/really-big-data.json';
 import {computeTopUsers, computeHistrogram, prepareTree} from '../utils';
-
-const DEFAULT_CONFIGS = [{
-  name: 'graph layout',
-  options: graphLayouts,
-  defaultOption: 'forest'
-}, {
-  name: 'dot size',
-  options: ['small', 'medium', 'large'],
-  defaultOption: 'medium'
-}, {
-  name: 'color by',
-  options: ['nothing', 'top-users'],
-  defaultOption: 'top-users'
-}, {
-  name: 'show graph',
-  options: ['on', 'off'],
-  defaultOption: 'on'
-}, {
-  name: 'leafs as squares',
-  options: ['on', 'off'],
-  defaultOption: 'on'
-}]
-.map(({name, options, defaultOption}) => ({
-  name,
-  options: options.map(val => ({name: val, selected: val === defaultOption}))
-}));
 
 let DEFAULT_STATE = Immutable.fromJS({
   branchModel: {},

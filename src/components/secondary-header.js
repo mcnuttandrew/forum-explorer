@@ -3,13 +3,11 @@ import React from 'react';
 import Histogram from './histogram';
 import StoryHead from './story-head';
 import SearchBox from './search-box';
-import {getSelectedOption} from '../utils';
 import {COLORS, STROKES} from '../constants/colors';
 
 class SecondaryHeader extends React.Component {
   render() {
     const {
-      configs,
       histogram,
       topUsers,
       setSelectedCommentPath,
@@ -22,7 +20,6 @@ class SecondaryHeader extends React.Component {
       searchValue,
       showData
     } = this.props;
-    const colorByTopUsers = getSelectedOption(configs, 2);
     return (
       <div className="secondary-header background-gray flex" >
         {!storyHead && <div className="story-head-content-container"/>}
@@ -35,13 +32,14 @@ class SecondaryHeader extends React.Component {
         {showData && <div className="secondary-header-data-container">
           <div className="flex">
             <Histogram histogram={histogram} setTimeFilter={setTimeFilter}/>
-            {colorByTopUsers && <div className="top-posters">
+            <div className="top-posters">
               <div>{'Top Posters (click to search)'}</div>
               <div className="flex tile-top-users">
                 {Object.entries(topUsers).map(d => (
                   <div
                     onClick={() => unlockAndSearch(d[0])}
-                    className="top-poster" key={d[0]}>
+                    className="top-poster"
+                    key={d[0]}>
                     <div
                       style={{
                         background: COLORS[d[1].rank],
@@ -53,8 +51,8 @@ class SecondaryHeader extends React.Component {
                   </div>
                 ))}
               </div>
-              <div style={{background: '#999'}} className="everyone-poster-card">{'Everyone else'}</div>
-            </div>}
+              <div className="everyone-poster-card">{'Everyone else'}</div>
+            </div>
           </div>
           <SearchBox setSearch={setSearch} searchValue={searchValue}/>
         </div>}

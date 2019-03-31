@@ -4,6 +4,11 @@ import debounce from 'lodash.debounce';
 
 import Graph from './graph';
 import {getSelectedOption} from '../utils';
+import {
+  GRAPH_LAYOUT_CONFIG,
+  DOT_SIZE_CONFIG,
+  LEAF_SQUARE_CONFIG
+} from '../constants/index';
 
 class GraphPanel extends React.Component {
   componentDidMount() {
@@ -30,9 +35,9 @@ class GraphPanel extends React.Component {
       <div className="panel relative" ref="graphPanel">
         <Graph
           {...this.props}
-          graphLayout={getSelectedOption(configs, 0)}
-          markSize={getSelectedOption(configs, 1)}
-          squareLeafs={getSelectedOption(configs, 4) === 'on'}
+          graphLayout={getSelectedOption(configs, GRAPH_LAYOUT_CONFIG)}
+          markSize={getSelectedOption(configs, DOT_SIZE_CONFIG)}
+          squareLeafs={getSelectedOption(configs, LEAF_SQUARE_CONFIG) === 'on'}
           muteUnselected={searchValue || (timeFilter.min !== timeFilter.max)}
           height={graphPanelDimensions.get('height')}
           width={graphPanelDimensions.get('width')}

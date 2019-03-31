@@ -86,11 +86,12 @@ export function getDomain(root, accessor = d => [d.x, d.y]) {
   });
 }
 
-export function getSelectedOption(configs, optionIdx) {
+export function getSelectedOption(configs, optionName) {
   return configs
-  .getIn([optionIdx, 'options'])
-  .filter(row => row.get('selected'))
-  .getIn([0, 'name']);
+    .find(d => d.get('name') === optionName)
+    .get('options')
+    .filter(row => row.get('selected'))
+    .getIn([0, 'name']);
 }
 
 export function computeTopUsers(data, numUsers) {

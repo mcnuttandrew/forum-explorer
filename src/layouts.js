@@ -3,6 +3,7 @@ import {hierarchy} from 'd3-hierarchy';
 import {voronoi} from 'd3-voronoi';
 
 import {getSelectedOption} from './utils';
+import {GRAPH_LAYOUT_CONFIG} from './constants/index';
 
 import balloonLayout from './layouts/balloon-layout.js';
 import forestLayout from './layouts/forest-layout.js';
@@ -41,7 +42,7 @@ export const graphLayouts = [
 
 export const computeGraphLayout = state => {
   const useNullLayout = state.get('data').size <= 1;
-  const graphLayout = getSelectedOption(state.get('configs'), 0);
+  const graphLayout = getSelectedOption(state.get('configs'), GRAPH_LAYOUT_CONFIG);
   const {height, width} = state.get('graphPanelDimensions').toJS();
   const tree = state.get('tree');
   if (!tree) {
@@ -56,7 +57,7 @@ export const computeGraphLayout = state => {
 
 export const computeFullGraphLayout = state => {
   const useNullLayout = state.get('data').size <= 1;
-  const graphLayout = getSelectedOption(state.get('configs'), 0);
+  const graphLayout = getSelectedOption(state.get('configs'), GRAPH_LAYOUT_CONFIG);
   const usedLayout = layouts[useNullLayout ? 'null' : graphLayout];
   const windowProps = {
     margin: {
