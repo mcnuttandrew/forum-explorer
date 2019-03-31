@@ -2,6 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 
+import {maybeRefreshDB} from './actions/db';
+
+maybeRefreshDB();
+
 import AppState from './reducers/index';
 
 import '../node_modules/react-vis/dist/style.css';

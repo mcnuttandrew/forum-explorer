@@ -2,6 +2,8 @@ import {histogram} from 'd3-array';
 import {scaleLinear} from 'd3-scale';
 import Immutable from 'immutable';
 
+import {SHOW_LOGS} from './constants/index';
+
 export function area(points) {
   const segmentSum = points
   .reduce((acc, row, index) => {
@@ -181,4 +183,12 @@ export function prepareTree(data, root) {
   }
   nodesByParentId.root[0].data = {...data.find(row => row.id === Number(root))};
   return formToTree(nodesByParentId.root[0]);
+}
+
+export function log(...args) {
+  if (SHOW_LOGS) {
+    /* eslint-disable no-console */
+    console.log(...args);
+    /* eslint-enable no-console */
+  }
 }

@@ -1,5 +1,5 @@
 import {SERVER_DEV_MODE} from '../constants';
-import {prepareTree} from '../utils';
+import {prepareTree, log} from '../utils';
 import {getTreeForId} from './db';
 
 const buildEasyAction = type => payload => dispatch => dispatch({type, payload});
@@ -31,14 +31,14 @@ export const modelBranches = (dispatch, data, root, tree) => {
   const items = tree.children
     .filter(({descendants}) => descendants >= 15)
     .map(({id}) => id);
-  console.log('modeling branches', items.length)
+  log('modeling branches', items.length);
   let current = 0;
   Promise.all(items.map(item => {
     return fetch(branchTemplate(item), {mode: 'cors'})
     .then(d => d.json())
     .then(d => {
       current += 1;
-      console.log(`modeled ${current} / ${items.length}`)
+      log(`modeled ${current} / ${items.length}`);
       return d;
     })
     .then(model => ({item, model: model[0] && model[0][0] || null}));
