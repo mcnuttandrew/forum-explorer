@@ -24,6 +24,7 @@ const contractedTime = {
   seconds: 's'
 };
 
+/* eslint-disable complexity */
 export function timeSince(date, contractTime) {
   const seconds = Math.floor((new Date() - date * 1000) / 1000);
   let interval = Math.floor(seconds / 31536000);
@@ -49,6 +50,7 @@ export function timeSince(date, contractTime) {
   }
   return `${Math.floor(seconds)} ${contractTime ? contractedTime.seconds : 'seconds'}`;
 }
+/* eslint-enable complexity */
 
 // includes dumb d3 rotation
 export const radialToCartesian = (angle, radius) => [
@@ -178,6 +180,5 @@ export function prepareTree(data, root) {
     }];
   }
   nodesByParentId.root[0].data = {...data.find(row => row.id === Number(root))};
-  console.log(formToTree(nodesByParentId.root[0]))
   return formToTree(nodesByParentId.root[0]);
 }

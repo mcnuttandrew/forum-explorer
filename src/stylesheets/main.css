@@ -64,6 +64,9 @@ body,
 }
 
 
+.secondary-header  {
+  min-height: 75px;
+}
 
 .secondary-header .comment-block {
   width: calc(50% - 40px);
@@ -75,6 +78,10 @@ body,
   flex-direction: column;
   justify-content: center;
   padding: 0 10px;
+  width: 50%;
+}
+
+.story-head-content-container {
   width: 50%;
 }
 

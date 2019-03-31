@@ -125,7 +125,8 @@ function mapStateToProps({base}) {
     serializedModel: base.get('serialized-model') || [],
     searchValue: base.get('searchValue'),
     searchedMap: base.get('searchedMap'),
-    storyHead: base.get('data').find(item => item.get('id') === pageId),
+    storyHead: base.get('storyHead'),
+    // storyHead: base.get('data').find(item => item.get('id') === pageId),
     timeFilter: base.get('timeFilter').toJS(),
     topUsers: base.get('topUsers'),
     users: base.get('users')

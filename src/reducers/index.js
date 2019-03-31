@@ -1,6 +1,7 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import Immutable, {Map} from 'immutable';
+import {updateIdInDb} from '../actions/db';
 
 import {DEV_MODE, numUsersToHighlight} from '../constants';
 import {graphLayouts, computeFullGraphLayout} from '../layouts';
@@ -52,6 +53,7 @@ let DEFAULT_STATE = Immutable.fromJS({
   pageId: null,
   timeFilter: {min: 0, max: 0},
   searchValue: '',
+  storyHead: null,
   searchedMap: {}
 })
 .set('tree', DEV_MODE ? prepareTree(TestData, null) : null)
@@ -204,6 +206,23 @@ function buildCountMap(tree) {
   return countMap;
 }
 
+const getTreeFromCache = (state, payload) => {
+  if (!payload || (typeof payload.data !== 'object')) {
+    return state;
+  }
+  const {data, pageId} = payload;
+  const preppedData = Immutable.fromJS(data);
+  return adjustConfigForState(
+    state
+      .set('loading', false)
+      .set('pageId', pageId)
+      .set('data', preppedData)
+      .set('tree', prepareTree(data, state.get('pageId')))
+      .set('topUsers', computeTopUsers(preppedData, numUsersToHighlight))
+      .set('histogram', computeHistrogram(data))
+    , data.length);
+};
+
 const getAllItems = (state, {data, root, tree}) => {
   const countMap = buildCountMap(tree);
   let updatedData = Immutable.fromJS(data).map(row => {
@@ -220,20 +239,27 @@ const getAllItems = (state, {data, root, tree}) => {
     updatedData = updatedData.map(row => row.set('modeledTopic',
       modelComment(state.get('model'), row.get('text') || '').modelIndex));
   }
-  const tempState = state
-    .set('loading', false)
-    .set('data', updatedData)
-    .set('pageId', root)
-    .set('tree', prepareTree(updatedData.toJS(), root))
-    .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight))
-    .set('histogram', computeHistrogram(data));
-
-  return setConfig(
-    tempState
-      .set('fullGraph', computeFullGraphLayout(tempState))
-      .set('routeTable', prepareRoutesTable(tempState))
-    , {rowIdx: 1, valueIdx: appropriateDotSize(data.length)});
+  // side effect to update indexedDB with updated tree state
+  updateIdInDb(root, updatedData.toJS());
+  return adjustConfigForState(
+    state
+      .set('loading', false)
+      .set('data', updatedData)
+      .set('pageId', root)
+      .set('tree', prepareTree(updatedData.toJS(), root))
+      .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight))
+      .set('histogram', computeHistrogram(data))
+    , data.length);
 };
+
+function adjustConfigForState(state, dataLength) {
+  const pageId = Number(state.get('pageId'));
+  const updatedState = state
+    .set('fullGraph', computeFullGraphLayout(state))
+    .set('storyHead', state.get('data').find(item => Number(item.get('id')) === pageId))
+    .set('routeTable', prepareRoutesTable(state));
+  return setConfig(updatedState, {rowIdx: 1, valueIdx: appropriateDotSize(dataLength)});
+}
 
 const toggleCommentSelectionLock = (state, payload) => setSearch(state
   .set('commentSelectionLock', !state.get('commentSelectionLock')), '');
@@ -254,6 +280,7 @@ const setTimeFilter = (state, {min, max}) => {
 const actionFuncMap = {
   'get-all-items': getAllItems,
   'get-all-users': getAllUsers,
+  'get-tree-from-cache': getTreeFromCache,
   'increase-loaded-count': increaseLoadedCount,
   'model-data': modelData,
   'model-branches': modelBranches,

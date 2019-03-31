@@ -1,12 +1,12 @@
 import {SERVER_DEV_MODE} from '../constants';
 import {prepareTree} from '../utils';
+import {getTreeForId} from './db';
 
 const buildEasyAction = type => payload => dispatch => dispatch({type, payload});
 export const setHoveredComment = buildEasyAction('set-hovered-comment');
 export const toggleCommentSelectionLock = buildEasyAction('toggle-comment-selection-lock');
 export const unlockAndSearch = buildEasyAction('unlock-and-search');
 export const setFoundOrder = buildEasyAction('set-found-order');
-export const setPageId = buildEasyAction('set-page-id');
 export const setSearch = buildEasyAction('set-search');
 export const setSelectedCommentPath = buildEasyAction('set-comment-path');
 export const setTimeFilter = buildEasyAction('set-time-filter');
@@ -105,3 +105,25 @@ export const getAllItems = root => dispatch => {
       getAllUsers(dispatch, data);
     });
 };
+
+export const setPageId = payload => dispatch => {
+  dispatch({type: 'set-page-id', payload});
+  getTreeForId(payload)
+    .then(result => dispatch({
+      type: 'get-tree-from-cache',
+      payload: {
+        data: result,
+        pageId: payload
+      }
+    }));
+};
+
+//  buildEasyAction('set-page-id');
+// new Promise((resolve, reject) => {
+//   getTreeForId(payload)
+//     .then(result => resolve(result))
+//     .catch(err => reject(err));
+// }).then(result => {
+//   console.log(result)
+//   return state.set({pageId: payload});
+// });

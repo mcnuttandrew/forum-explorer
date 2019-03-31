@@ -23,17 +23,15 @@ class SecondaryHeader extends React.Component {
       showData
     } = this.props;
     const colorByTopUsers = getSelectedOption(configs, 2);
-    if (!storyHead) {
-      return <div />;
-    }
     return (
       <div className="secondary-header background-gray flex" >
-        <StoryHead
+        {!storyHead && <div className="story-head-content-container"/>}
+        {storyHead && <StoryHead
           setSelectedCommentPath={setSelectedCommentPath}
           itemPath={itemPath}
           storyHead={storyHead}
           unlockAndSearch={unlockAndSearch}
-          serializedModel={serializedModel}/>
+          serializedModel={serializedModel}/>}
         {showData && <div className="secondary-header-data-container">
           <div className="flex">
             <Histogram histogram={histogram} setTimeFilter={setTimeFilter}/>
@@ -60,7 +58,7 @@ class SecondaryHeader extends React.Component {
           </div>
           <SearchBox setSearch={setSearch} searchValue={searchValue}/>
         </div>}
-        {!showData && <div className="secondary-header-data-container">
+        {storyHead && !showData && <div className="secondary-header-data-container">
           {'No comments on this post'}
         </div>}
       </div>

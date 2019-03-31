@@ -106,7 +106,6 @@ class Graph extends React.Component {
       .attr('d', path)
       .attr('class', evalLineClasses);
     link.exit().remove();
-
   }
 
   renderNodes(props, nodes, positioning, markSize) {
@@ -172,6 +171,7 @@ class Graph extends React.Component {
         .attr('y', d => -setCircSize(d) / 2)
         .attr('rx', d => (!d.children || !d.children.length) ? circleness[0] : circleness[1])
         .attr('class', evalCircClasses);
+    node.exit().remove();
   }
 
   renderVoronoi(props, nodes, positioning, voronois) {
@@ -188,6 +188,7 @@ class Graph extends React.Component {
       .on('click', toggleCommentSelectionLock);
     polygon.transition()
       .attr('d', d => `M${d.join('L')}Z`);
+    polygon.exit().remove();
   }
 
   renderLabels(props, labels, nodes, positioning, voronois) {

@@ -19,7 +19,7 @@ export default function StoryHead(props) {
     type,
     parent
   } = storyHead.toJS();
-  return (<div className="comment-block margin-bottom">
+  return (<div className="comment-block margin-bottom story-head-content-container">
     <div className="comment-title">
       <a href={url}>
         {type === 'comment' ? `Comment by ${by}` : title}
