@@ -47,7 +47,7 @@ function renderComment(props, item, idx) {
               <i className="material-icons">perm_identity</i>
             </span>
           </div>
-          <span className="tooltiptext">click to search for user</span>
+          <span className="tooltiptext">search for user</span>
         </div>
         <div className="hover-tooltip">
           <a href={`?id=${item.get('id')}`}>
@@ -56,7 +56,7 @@ function renderComment(props, item, idx) {
               <i className="material-icons">launch</i>
             </span>
           </a>
-          <span className="tooltiptext">link to page for comment</span>
+          <span className="tooltiptext">visualize subthread</span>
         </div>
       </div>
       <div
@@ -112,6 +112,9 @@ class CommentPanel extends React.PureComponent {
       <div className="overflow-y panel" ref="commentPanel">
         {!itemsToRender.size && <div
           className="comments-help">
+          <h1>FeX: Forum Explorer</h1>
+          <div>Visualize threaded async conversations in new and dynamic ways</div>
+          <h3>Usage</h3>
           <div>Mouse over graph to select comments</div>
           <div>Click graph to lock/unlock selection</div>
         </div>}

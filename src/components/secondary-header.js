@@ -54,7 +54,12 @@ class SecondaryHeader extends React.Component {
               <div className="everyone-poster-card">{'Everyone else'}</div>
             </div>
           </div>
-          <SearchBox setSearch={setSearch} searchValue={searchValue}/>
+          <div className="flex centering">
+            <div
+              className="about-button"
+              onClick={() => unlockAndSearch('')}>About</div>
+            <SearchBox setSearch={setSearch} searchValue={searchValue}/>
+          </div>
         </div>}
         {storyHead && !showData && <div className="secondary-header-data-container">
           {'No comments on this post'}

@@ -93,6 +93,13 @@ body,
   width: 50%;
 }
 
+.about-button {
+  cursor: pointer;
+  font-size: 12px;
+  margin-right: 15px;
+  text-decoration: underline;
+}
+
 .rv-xy-plot__axis__tick__text {
   font-size: 8px;
   transform: translate(0, 3px);
@@ -483,7 +490,9 @@ a.header-link:visited {
   flex-direction: column;
   height: 100%;
   justify-content: center;
-  width: 100%;
+  padding: 0 20px;
+  text-align: center;
+  width: calc(100% - 40px);
 }
 
 .comment-root-prune-explanation {
