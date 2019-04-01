@@ -92,7 +92,7 @@ function renderComment(props, item, idx) {
     /* eslint-enable react/no-danger */
 }
 /* eslint-disable max-len */
-const longPruneExplanation = 'For particularly large conversations we remove single comments from the graph view for legibility, but they\'re still around! (Scroll down)';
+const longPruneExplanation = 'For particularly large conversations we remove single comments from the graph view for legibility, but the are still around!';
 /* eslint-enable max-len */
 
 class CommentPanel extends React.PureComponent {
@@ -109,7 +109,7 @@ class CommentPanel extends React.PureComponent {
     // if it is, then grab all the single comments and the branch comments, separate them
     const buildComment = (item, idx) => (renderComment(this.props, item, idx));
     return (
-      <div className="overflow-y panel">
+      <div className="overflow-y panel" ref="commentPanel">
         {!itemsToRender.size && <div
           className="comments-help">
           <div>Mouse over graph to select comments</div>
@@ -118,10 +118,16 @@ class CommentPanel extends React.PureComponent {
         {!splitComments && data.map(buildComment)}
         {splitComments && <div className="comment-root-prune-explanation">
           <h3>{'Branched Conversation'}</h3>
-          <h5>{longPruneExplanation}</h5>
+          <h5>
+            {longPruneExplanation}
+            Scroll down or click <a
+              className="expand-comment"
+              onClick={d => this.refs.singleComments.scrollIntoView()}>here.</a>
+          </h5>
         </div>}
         {splitComments && data.filter(d => d.get('descendants')).map(buildComment)}
         {splitComments && <div
+          ref="singleComments"
           className="comment-root-prune-explanation single-comments-division margin-top-huge">
           <h3>{'Single Comments'}</h3>
         </div>}
