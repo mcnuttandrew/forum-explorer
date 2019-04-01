@@ -35,6 +35,10 @@ body,
   margin-bottom: 5px;
 }
 
+.margin-top-huge {
+  margin-top: 100px;
+}
+
 .centering {
   align-items: center;
   justify-content: center;
@@ -480,6 +484,23 @@ a.header-link:visited {
   height: 100%;
   justify-content: center;
   width: 100%;
+}
+
+.comment-root-prune-explanation {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+}
+.comment-root-prune-explanation h3,
+.comment-root-prune-explanation h5 {
+  font-weight: 200;
+  padding: 0;
+  margin: 0;
+}
+
+.single-comments-division ~ .comment-block {
+  /* color from https://news.ycombinator.com/topcolors */
+  border-right: 2px solid #60bbed;
 }
 
 @media only screen and (max-width : 820px){

@@ -1,5 +1,6 @@
 
 import {scaleLinear} from 'd3-scale';
+import {CHILD_THRESHOLD, STUMP_PRUNE_THRESHOLD} from '../constants';
 // import {linkVertical} from 'd3-shape';
 import {
   treemapBinary,
@@ -115,9 +116,8 @@ function generateTreemapLayout(height, width, rootBranch, otherBranches) {
   return treemapingFunction(structuredInput).descendants().slice(1);
 }
 
-const childThreshold = 15;
 const childWithinThreshold = negate => child => {
-  const childWithin = !child.children || (child.weight < childThreshold);
+  const childWithin = !child.children || (child.weight < CHILD_THRESHOLD);
   return negate ? !childWithin : childWithin;
 };
 
@@ -126,7 +126,7 @@ export const forestLayout = {
   preheirarchyManipulation: tree => {
     // drop the stumps
     const stumps = tree.children.filter(({children}) => (!children || children.length < 1));
-    if (stumps.length < 30) {
+    if (stumps.length < STUMP_PRUNE_THRESHOLD) {
       return tree;
     }
     tree.data.hiddenNodes = stumps.map(d => ({id: d.data.id, by: d.data.by}));

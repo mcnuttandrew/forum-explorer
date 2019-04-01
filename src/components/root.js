@@ -77,6 +77,7 @@ class RootComponent extends React.Component {
               selectedMap={selectedMap}
               />
             <CommentPanel
+              configs={this.props.configs}
               setHoveredComment={this.props.setHoveredComment}
               setSelectedCommentPath={this.props.setSelectedCommentPath}
               model={this.props.model}

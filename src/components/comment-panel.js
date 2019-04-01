@@ -1,6 +1,7 @@
 import React from 'react';
-import {classnames, timeSince} from '../utils';
+import {classnames, timeSince, getSelectedOption} from '../utils';
 import {COLORS, STROKES} from '../constants/colors';
+import {GRAPH_LAYOUT_CONFIG, STUMP_PRUNE_THRESHOLD} from '../constants';
 const createMarkup = __html => ({__html});
 
 function renderComment(props, item, idx) {
@@ -90,26 +91,41 @@ function renderComment(props, item, idx) {
     </div>);
     /* eslint-enable react/no-danger */
 }
+/* eslint-disable max-len */
+const longPruneExplanation = 'For particularly large conversations we remove single comments from the graph view for legibility, but they\'re still around! (Scroll down)';
+/* eslint-enable max-len */
 
 class CommentPanel extends React.PureComponent {
-  constructor() {
-    super();
-    this.state = {
-      idx: 0
-    };
-  }
   render() {
-    const data = this.props.itemsToRender
-      .filter(item => item.get('type') !== 'story' || item.get('text'))
-      .map((item, idx) => (renderComment(this.props, item, idx)));
+    const {itemsToRender, configs} = this.props;
+    const data = itemsToRender
+      .filter(item => item.get('type') !== 'story' || item.get('text'));
+      // figure out if view is at root on forest mode with sufficently large comment chain
+    const isForest = getSelectedOption(configs, GRAPH_LAYOUT_CONFIG) === 'forest';
+    const singleComments = data.filter(d => !d.get('descendants'));
+    const viewingRoot = data.every(d => d.get('depth') === 0 || d.get('depth') === 1);
+    const splitComments = isForest && (singleComments.size > STUMP_PRUNE_THRESHOLD) && viewingRoot;
+    // if its not behave as normal
+    // if it is, then grab all the single comments and the branch comments, separate them
+    const buildComment = (item, idx) => (renderComment(this.props, item, idx));
     return (
       <div className="overflow-y panel">
-        {!this.props.itemsToRender.size && <div
+        {!itemsToRender.size && <div
           className="comments-help">
           <div>Mouse over graph to select comments</div>
           <div>Click graph to lock/unlock selection</div>
         </div>}
-        {data}
+        {!splitComments && data.map(buildComment)}
+        {splitComments && <div className="comment-root-prune-explanation">
+          <h3>{'Branched Conversation'}</h3>
+          <h5>{longPruneExplanation}</h5>
+        </div>}
+        {splitComments && data.filter(d => d.get('descendants')).map(buildComment)}
+        {splitComments && <div
+          className="comment-root-prune-explanation single-comments-division margin-top-huge">
+          <h3>{'Single Comments'}</h3>
+        </div>}
+        {splitComments && singleComments.map(buildComment)}
       </div>
     );
   }

@@ -6,6 +6,9 @@ export const SHOW_LOGS = false;
 
 export const numUsersToHighlight = 12;
 
+export const STUMP_PRUNE_THRESHOLD = 30;
+export const CHILD_THRESHOLD = 15;
+
 export const GRAPH_LAYOUT_CONFIG = 'graph layout';
 export const DOT_SIZE_CONFIG = 'dot size';
 export const LEAF_SQUARE_CONFIG = 'leafs as squares';
