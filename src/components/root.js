@@ -51,18 +51,19 @@ class RootComponent extends React.Component {
           logoutLink={this.props.logoutLink}
           username={this.props.username}/>
         <SecondaryHeader
+          clearSelection={this.props.clearSelection}
           configs={this.props.configs}
           histogram={this.props.histogram}
-          topUsers={this.props.topUsers}
-          setSelectedCommentPath={this.props.setSelectedCommentPath}
           itemPath={this.props.itemPath}
-          storyHead={this.props.storyHead}
-          unlockAndSearch={this.props.unlockAndSearch}
-          showData={this.props.data.size > 1}
           serializedModel={this.props.serializedModel}
+          showData={this.props.data.size > 1}
+          searchValue={this.props.searchValue}
           setSearch={this.props.setSearch}
+          setSelectedCommentPath={this.props.setSelectedCommentPath}
           setTimeFilter={this.props.setTimeFilter}
-          searchValue={this.props.searchValue} />
+          storyHead={this.props.storyHead}
+          topUsers={this.props.topUsers}
+          unlockAndSearch={this.props.unlockAndSearch} />
         {showPicker && <WebPagePicker
           getAllItems={this.props.getAllItems}
           setPageId={this.props.setPageId}/>}

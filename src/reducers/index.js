@@ -131,6 +131,9 @@ const selectSubset = (state, searchedMap, nullSearch) => {
 };
 
 const setSearch = (state, payload) => {
+  if (state.get('searchValue') === payload) {
+    return state;
+  }
   const nullSearch = (payload === '' || !payload.length);
   const searchTerm = payload.toLowerCase();
   const searchedMap = nullSearch ? Map() :
@@ -144,6 +147,8 @@ const setSearch = (state, payload) => {
 
 const unlockAndSearch = (state, payload) =>
   setSearch(state.set('commentSelectionLock', false), payload);
+
+const clearSelection = (state, payload) => unlockAndSearch(state.set('searchValue', '!!!!'), '');
 
 const getAllUsers = (state, users) => state
   .set('users', users.reduce((acc, row) => acc.set(row.id, row), Map()));
@@ -255,6 +260,7 @@ const setTimeFilter = (state, {min, max}) => {
 };
 
 const actionFuncMap = {
+  'clear-selection': clearSelection,
   'get-all-items': getAllItems,
   'get-all-users': getAllUsers,
   'get-tree-from-cache': getTreeFromCache,
@@ -276,8 +282,9 @@ const NULL_ACTION = (state, payload) => state;
 
 export default createStore(
   combineReducers({
-    base: (state = DEFAULT_STATE, {type, payload}) =>
-      (actionFuncMap[type] || NULL_ACTION)(state, payload)
+    base: (state = DEFAULT_STATE, {type, payload}) => {
+      return (actionFuncMap[type] || NULL_ACTION)(state, payload);
+    }
   }),
   applyMiddleware(thunk),
 );

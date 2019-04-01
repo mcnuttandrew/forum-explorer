@@ -8,17 +8,18 @@ import {COLORS, STROKES} from '../constants/colors';
 class SecondaryHeader extends React.Component {
   render() {
     const {
+      clearSelection,
       histogram,
-      topUsers,
-      setSelectedCommentPath,
       itemPath,
-      storyHead,
-      unlockAndSearch,
+      searchValue,
       serializedModel,
       setSearch,
+      setSelectedCommentPath,
       setTimeFilter,
-      searchValue,
-      showData
+      showData,
+      storyHead,
+      topUsers,
+      unlockAndSearch
     } = this.props;
     return (
       <div className="secondary-header background-gray flex" >
@@ -57,7 +58,7 @@ class SecondaryHeader extends React.Component {
           <div className="flex centering">
             <div
               className="about-button"
-              onClick={() => unlockAndSearch('')}>About</div>
+              onClick={() => clearSelection('')}>About</div>
             <SearchBox setSearch={setSearch} searchValue={searchValue}/>
           </div>
         </div>}
