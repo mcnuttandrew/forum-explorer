@@ -39,10 +39,10 @@ export default class WebPagePicker extends React.Component {
         <h2>Forum Explorer</h2>
         <p>{
           /* eslint-disable max-len */
-          'This is the demo site for the ForumExplorer project. It provides a principled rethinking of the way in which we interact with async threaded conversations on the internet through the use of visualization. We focus on Hackernews because of it\'s active community and advantegeous api.'
+          'This is the demo site for the ForumExplorer project. It provides a principled rethinking of the way in which we interact with async threaded conversations on the internet through the use of visualization. We focus on HackerNews because of its active community and advantageous api.'
         }</p>
         <p>{
-          'The normal operation mode for this project is as a chrome extension, but here we present a demo of the functionality. This page is fully functional and presents exactly the same interface as the chrome extension. No data is collected: not in the chrome extension, not in this demo page. We make use of a cloud microservice for our topic modeling, but no information is persisted at that location.'
+          'The normal operation mode for this project is as a chrome extension, but here we present a demo of the functionality. This page is fully functional and presents exactly the same interface as the chrome extension. No data is collected: not in the chrome extension, not in this demo page. We make use of a cloud micro-service for our topic modeling, but no information is persisted at that location.'
           /* eslint-enable max-len */
         }</p>
         <div>

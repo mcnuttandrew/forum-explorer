@@ -1,3 +1,0 @@
-- A really big one: 19029801
-- The biggest one found so far: 14952787
-- A show HN post to see the author posting a lot: 19028449
