@@ -1,6 +1,6 @@
 {
    "name": "ForumExplorer",
-   "version": "1.01",
+   "version": "1.0",
    "description": "Explore Forum Structured data in a new way",
    "manifest_version": 2,
    "content_scripts": [

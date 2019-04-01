@@ -12,15 +12,11 @@ export function getTreeForId(initId) {
         return getTreeForId(result);
       case 'object':
       default:
-        // TODO: need to add a traverse to grab the correct node from it's recollected tree
         return result;
       }
     });
   }
-  return recursivelyFind(initId)
-    .then(result => {
-      return result;
-    });
+  return recursivelyFind(initId);
 }
 
 export function updateIdInDb(id, data) {
