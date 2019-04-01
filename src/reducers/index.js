@@ -181,14 +181,17 @@ function reconcileTreeWithData(tree, data) {
   function buildMap(node) {
     treeMap[`${node.id}`] = node.children;
     countMap[`${node.id}`] = node.descendants;
-    node.children.forEach(buildMap);
+    node.children.forEach(child => buildMap(child));
   }
   buildMap(tree);
-  return data.map((row) => ({
-    ...row,
-    children: treeMap[`${row.id}`],
-    descendants: countMap[`${row.id}`]
-  }));
+  return data.map((row) => {
+    const id = `${row.id}`;
+    return ({
+      ...row,
+      children: treeMap[id],
+      descendants: countMap[id]
+    });
+  });
 }
 
 const getTreeFromCache = (state, payload) => {
@@ -201,7 +204,7 @@ const getTreeFromCache = (state, payload) => {
     .set('loading', false)
     .set('pageId', pageId)
     .set('data', preppedData)
-    .set('tree', prepareTree(data, state.get('pageId')))
+    .set('tree', prepareTree(data, pageId))
     .set('topUsers', computeTopUsers(preppedData, numUsersToHighlight))
     .set('histogram', computeHistrogram(data));
   return adjustConfigForState(tempState, data.length);

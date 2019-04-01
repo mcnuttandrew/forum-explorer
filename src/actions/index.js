@@ -97,7 +97,7 @@ export const getAllItems = root => dispatch => {
   return Promise.resolve()
     .then(() => doGeneration([root]))
     .then(data => {
-      const tree = prepareTree(data);
+      const tree = prepareTree(data, root);
       dispatch({
         type: 'get-all-items',
         payload: {data, root, tree}

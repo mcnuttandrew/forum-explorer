@@ -507,6 +507,14 @@ a.header-link:visited {
   margin: 0;
 }
 
+.root-comment {
+  border-right: 2px solid #408000;
+}
+
+.root-label {
+  margin-left: 20px;
+}
+
 .single-comments-division ~ .comment-block {
   /* color from https://news.ycombinator.com/topcolors */
   border-right: 2px solid #60bbed;

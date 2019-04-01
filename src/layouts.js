@@ -53,7 +53,14 @@ export const computeGraphLayout = state => {
   const treeEval = usedLayout.layout({height, width}, state.get('branchModel').toJS());
   const preppedTree = usedLayout.preheirarchyManipulation ?
     usedLayout.preheirarchyManipulation(Immutable.fromJS(tree).toJS()) : tree;
-  return treeEval(hierarchy(preppedTree));
+  // footwork required to address hierarchy weirdness in which data is not seen
+  // as something to be preserved and so it can be shoved it a data: {data: } situation
+  // after hierarchy traversal. hierarchy is necessary to get the linkages so uhhh don't touch
+  const preTree = hierarchy(preppedTree);
+  preTree.each(d => {
+    d.data = d.data.data;
+  });
+  return treeEval(preTree);
 };
 
 export const computeFullGraphLayout = state => {

@@ -68,8 +68,8 @@ class Graph extends React.Component {
       {
         x: xScale(treeRoot),
         y: yScale(treeRoot),
-        label: treeRoot.data.data.hiddenNodes ?
-          `+${treeRoot.data.data.hiddenNodes.length}` : ''
+        label: treeRoot.data.hiddenNodes ?
+          `+${treeRoot.data.hiddenNodes.length}` : ''
       }
     ];
 
@@ -95,7 +95,7 @@ class Graph extends React.Component {
     const evalLineClasses = d => {
       return classnames({
         link: true,
-        'link-selected': selectedMap.get(d.target.data.data.id)
+        'link-selected': selectedMap.get(d.target.data.id)
       });
     };
     const path = layouts[graphLayout].path(xScale, yScale);
@@ -119,17 +119,17 @@ class Graph extends React.Component {
     const nodesG = select(ReactDOM.findDOMNode(this.refs.nodes));
     const translateFunc = arr => `translate(${arr.join(',')})`;
     const evalCircClasses = d => classnames({
-      'node-root': d.data.data.id === 'root',
+      'node-root': d.data.id === 'root',
       node: true,
       'node-internal': d.children,
       'node-leaf': !d.children,
-      'node-selected': selectedMap.get(d.data.data.id),
-      'node-hovered': d.data.data.id === hoveredComment
+      'node-selected': selectedMap.get(d.data.id),
+      'node-hovered': d.data.id === hoveredComment
     });
-    const isSelected = d => selectedMap.get(d.data.data.id);
+    const isSelected = d => selectedMap.get(d.data.id);
     const computeFill = d => {
-      const data = d.data.data;
-      const user = data.by || (data.data && data.data.by);
+      const data = d.data;
+      const user = data.by || (data && data.by);
       const position = topUsers[user];
       if (position && (position.rank < numUsersToHighlight)) {
         return muteUnselected ?

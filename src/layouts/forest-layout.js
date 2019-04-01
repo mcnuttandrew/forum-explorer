@@ -28,7 +28,7 @@ const generateLabels = (branches, branchModel) => {
   const rootLabel = {label: branches.length ? ['conversation', 'root'] : [], key: 'root'};
   return [rootLabel]
     .concat(branches.map((branch, idx) => {
-      const model = branchModel[branch.data.data.id];
+      const model = branchModel[branch.data.id];
       return ({
         label: model ? ['subconversation', `about ${model.term}`] : [`subconversation ${idx}`],
         key: branch.key

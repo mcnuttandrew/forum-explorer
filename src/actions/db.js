@@ -2,8 +2,9 @@ import {get, set, clear} from 'idb-keyval';
 import Manifest from '../../manifest.json';
 import {log} from '../utils';
 
-export function getTreeForId(id) {
-  return get(Number(id))
+export function getTreeForId(initId) {
+  function recursivelyFind(id) {
+    return get(Number(id))
     .then(result => {
       const dataType = typeof result;
       switch (dataType) {
@@ -11,8 +12,14 @@ export function getTreeForId(id) {
         return getTreeForId(result);
       case 'object':
       default:
+        // TODO: need to add a traverse to grab the correct node from it's recollected tree
         return result;
       }
+    });
+  }
+  return recursivelyFind(initId)
+    .then(result => {
+      return result;
     });
 }
 

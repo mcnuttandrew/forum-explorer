@@ -85,6 +85,7 @@ class RootComponent extends React.Component {
               serializedModel={this.props.serializedModel}
               setSearch={this.props.setSearch}
               itemPath={this.props.itemPath}
+              pageId={this.props.pageId}
               itemsToRender={this.props.itemsToRender}
               unlockAndSearch={this.props.unlockAndSearch}
               topUsers={this.props.topUsers}

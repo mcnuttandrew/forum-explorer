@@ -16,13 +16,19 @@ function renderComment(props, item, idx) {
   const hasChildren = item.get('kids') && item.get('kids').size;
   const userName = item.get('by');
   const userRank = topUsers[userName];
+  const isRoot = Number(item.get('id')) === props.pageId;
   return (
     <div
       onMouseEnter={() => setHoveredComment(item)}
       onMouseLeave={() => setHoveredComment(null)}
       key={idx}
       style={{marginLeft: 20 * ((item.get('depth') || 1) - 1)}}
-      className="comment-block">
+      className={
+        classnames({
+          'comment-block': true,
+          'root-comment': isRoot
+        })
+      }>
       <div className="comment-head flex">
         <a
           className="up-arrow"
@@ -59,6 +65,7 @@ function renderComment(props, item, idx) {
           <span className="tooltiptext">visualize subthread</span>
         </div>
       </div>
+      {isRoot && <div className="root-label comment-head">ROOT COMMENT</div>}
       <div
         onClick={e => {
           // enable users to click links with out trigger selection update
