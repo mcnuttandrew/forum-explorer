@@ -118,3 +118,24 @@ export const setPageId = payload => dispatch => {
       }
     }));
 };
+
+export const getItemsFromCacheOrRedirect = payload => dispatch => {
+  getTreeForId(payload)
+    .then(result => {
+      // redirect if not found
+      if (!result) {
+        window.location.href = `?id=${payload}`;
+        return;
+      }
+      // if found pull from cache
+      window.history.pushState('', '', `?id=${payload}`);
+      dispatch({
+        type: 'get-tree-from-cache',
+        payload: {
+          data: result,
+          pageId: payload
+        }
+      });
+      // maybe trigger a getAllItem?
+    });
+};

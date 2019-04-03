@@ -204,6 +204,8 @@ const getTreeFromCache = (state, payload) => {
     .set('loading', false)
     .set('pageId', pageId)
     .set('data', preppedData)
+    .set('itemsToRender', [])
+    .set('commentSelectionLock', false)
     .set('tree', prepareTree(data, pageId))
     .set('topUsers', computeTopUsers(preppedData, numUsersToHighlight))
     .set('histogram', computeHistrogram(data));

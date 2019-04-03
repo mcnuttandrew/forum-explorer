@@ -9,6 +9,7 @@ class SecondaryHeader extends React.Component {
   render() {
     const {
       clearSelection,
+      getItemsFromCacheOrRedirect,
       histogram,
       itemPath,
       searchValue,
@@ -25,11 +26,13 @@ class SecondaryHeader extends React.Component {
       <div className="secondary-header background-gray flex" >
         {!storyHead && <div className="story-head-content-container"/>}
         {storyHead && <StoryHead
-          setSelectedCommentPath={setSelectedCommentPath}
           itemPath={itemPath}
+          getItemsFromCacheOrRedirect={getItemsFromCacheOrRedirect}
+          serializedModel={serializedModel}
+          setSelectedCommentPath={setSelectedCommentPath}
           storyHead={storyHead}
           unlockAndSearch={unlockAndSearch}
-          serializedModel={serializedModel}/>}
+          />}
         {showData && <div className="secondary-header-data-container">
           <div className="flex">
             <Histogram histogram={histogram} setTimeFilter={setTimeFilter}/>

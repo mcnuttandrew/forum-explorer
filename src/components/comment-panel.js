@@ -6,8 +6,9 @@ const createMarkup = __html => ({__html});
 
 function renderComment(props, item, idx) {
   const {
-    setHoveredComment,
+    getItemsFromCacheOrRedirect,
     hoveredComment,
+    setHoveredComment,
     setSelectedCommentPath,
     unlockAndSearch,
     topUsers
@@ -56,7 +57,7 @@ function renderComment(props, item, idx) {
           <span className="tooltiptext">search for user</span>
         </div>
         <div className="hover-tooltip">
-          <a href={`?id=${item.get('id')}`}>
+          <a onClick={() => getItemsFromCacheOrRedirect(item.get('id'))}>
             <span>{` ${timeSince(item.get('time'))} ago`}</span>
             <span className="search-user" >
               <i className="material-icons">launch</i>
