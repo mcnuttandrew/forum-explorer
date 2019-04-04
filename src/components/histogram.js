@@ -11,13 +11,11 @@ export default class Histogram extends React.Component {
     };
   }
 
-  
   shouldComponentUpdate(nextProps, nextState) {
     const histogramDifferent = !nextProps.histogram.equals(this.props.histogram);
     const hoveredRowDifferent = nextState.hoveredRow !== this.state.hoveredRow;
     return histogramDifferent || hoveredRowDifferent;
   }
-
 
   render() {
     const {hoveredRow} = this.state;
