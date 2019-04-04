@@ -107,7 +107,7 @@ function mapStateToProps({base}) {
     data: base.get('data').filter(d => !d.get('deleted')),
     fullGraph: base.get('fullGraph'),
     graphPanelDimensions: base.get('graphPanelDimensions'),
-    histogram: base.get('histogram').toJS(),
+    histogram: base.get('histogram'),
     hoveredComment: base.get('hoveredComment'),
     itemsToRender: base.get('itemsToRender'),
     itemPath: base.get('itemPath'),
