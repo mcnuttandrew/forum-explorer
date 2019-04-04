@@ -5,26 +5,19 @@ import ExpandButton from './expand-button';
 
 export default function StoryHead(props) {
   const {
+    getItemsFromCacheOrRedirect,
     setSelectedCommentPath,
     storyHead,
     unlockAndSearch,
     serializedModel
   } = props;
-  const {
-    by,
-    url,
-    title,
-    score,
-    time,
-    type,
-    parent
-  } = storyHead.toJS();
+  const {by, parent, score, title, time, type, url} = storyHead.toJS();
   return (<div className="comment-block margin-bottom story-head-content-container">
     <div className="comment-title">
       <a href={url}>
         {type === 'comment' ? `Comment by ${by}` : title}
       </a>
-      {type === 'comment' && <a href={`?id=${parent}`}>
+      {type === 'comment' && <a onClick={() => getItemsFromCacheOrRedirect(parent)}>
         <span>{' on Parent Comment'}</span>
         <span className="search-user" >
           <i className="material-icons">launch</i>

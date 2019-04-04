@@ -53,6 +53,7 @@ class RootComponent extends React.Component {
         <SecondaryHeader
           clearSelection={this.props.clearSelection}
           configs={this.props.configs}
+          getItemsFromCacheOrRedirect={this.props.getItemsFromCacheOrRedirect}
           histogram={this.props.histogram}
           itemPath={this.props.itemPath}
           serializedModel={this.props.serializedModel}
@@ -79,16 +80,17 @@ class RootComponent extends React.Component {
               />
             <CommentPanel
               configs={this.props.configs}
+              getItemsFromCacheOrRedirect={this.props.getItemsFromCacheOrRedirect}
+              itemPath={this.props.itemPath}
+              itemsToRender={this.props.itemsToRender}
+              model={this.props.model}
+              pageId={this.props.pageId}
+              serializedModel={this.props.serializedModel}
               setHoveredComment={this.props.setHoveredComment}
               setSelectedCommentPath={this.props.setSelectedCommentPath}
-              model={this.props.model}
-              serializedModel={this.props.serializedModel}
               setSearch={this.props.setSearch}
-              itemPath={this.props.itemPath}
-              pageId={this.props.pageId}
-              itemsToRender={this.props.itemsToRender}
-              unlockAndSearch={this.props.unlockAndSearch}
               topUsers={this.props.topUsers}
+              unlockAndSearch={this.props.unlockAndSearch}
               />
           </div>
         }
