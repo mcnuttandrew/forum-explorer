@@ -59,7 +59,7 @@ export const setConfig = (rowIdx, valueIdx) => dispatch => dispatch({
 });
 
 const userUrl = id => `https://hacker-news.firebaseio.com/v0/user/${id}.json`;
-function getAllUsers(dispatch, data) {
+export function getAllUsers(dispatch, data) {
   const getChild = id => fetch(userUrl(id)).then(response => response.json());
   const users = Object.keys(data.reduce((acc, row) => {
     acc[row.by] = true;
@@ -102,8 +102,10 @@ export const getAllItems = root => dispatch => {
         type: 'get-all-items',
         payload: {data, root, tree}
       });
+      // construct models for the relevant branches
       modelBranches(dispatch, data, root, tree);
-      getAllUsers(dispatch, data);
+      // get all of the users, not current in use
+      // getAllUsers(dispatch, data);
     });
 };
 
@@ -127,7 +129,7 @@ export const getItemsFromCacheOrRedirect = payload => dispatch => {
         window.location.href = `?id=${payload}`;
         return;
       }
-      // if found pull from cache
+      // if found pull from cache & update the location url
       window.history.pushState('', '', `?id=${payload}`);
       dispatch({
         type: 'get-tree-from-cache',
@@ -136,6 +138,5 @@ export const getItemsFromCacheOrRedirect = payload => dispatch => {
           pageId: payload
         }
       });
-      // maybe trigger a getAllItem?
     });
 };

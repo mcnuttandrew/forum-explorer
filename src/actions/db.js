@@ -1,22 +1,44 @@
 import {get, set, clear} from 'idb-keyval';
 import Manifest from '../../manifest.json';
-import {log} from '../utils';
+import {log, prepareTree} from '../utils';
+
+const recursivelyFind = id => get(Number(id))
+  .then(d => typeof d === 'number' ? recursivelyFind(d) : d);
+
+function computeNodesInSubtree(tree, initId) {
+  const mapOfAllowedIds = {};
+  let depthOfRoot = 0;
+  function dfsAndMarkId({children, id, depth}, parentIsInTree) {
+    const nodeId = `${id}`;
+    // console.log(id)
+    if (parentIsInTree || (nodeId === `${initId}`)) {
+      mapOfAllowedIds[nodeId] = true;
+    }
+    if ((nodeId === `${initId}`)) {
+      depthOfRoot = depth;
+    }
+    (children || []).forEach(child => dfsAndMarkId(child, mapOfAllowedIds[nodeId]));
+  }
+  dfsAndMarkId(tree, false);
+  return {mapOfAllowedIds, depthOfRoot};
+}
 
 export function getTreeForId(initId) {
-  function recursivelyFind(id) {
-    return get(Number(id))
+  return recursivelyFind(initId)
     .then(result => {
-      const dataType = typeof result;
-      switch (dataType) {
-      case 'number':
-        return getTreeForId(result);
-      case 'object':
-      default:
+      // if there was a cache miss then dont do anything
+      if (typeof result !== 'object') {
         return result;
       }
+      // prepare a tree to parse to across of the cache hit
+      const tree = prepareTree(result, initId);
+      // do a DFS across this tree and mark which nodes are in the sub tree
+      const {depthOfRoot, mapOfAllowedIds} = computeNodesInSubtree(tree, initId);
+      // filter them and adjust their height as appropriate
+      return result
+        .filter(({id}) => mapOfAllowedIds[id])
+        .map(d => ({...d, depth: d.depth - depthOfRoot}));
     });
-  }
-  return recursivelyFind(initId);
 }
 
 export function updateIdInDb(id, data) {

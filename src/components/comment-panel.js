@@ -87,7 +87,7 @@ function renderComment(props, item, idx) {
         <div
           className="expand-comment margin-left"
           onClick={e => setSelectedCommentPath(`${item.get('id')}`)}>
-          {hasChildren ? `expand (${hasChildren} children)` : ''}
+          {hasChildren ? `expand (${hasChildren} ${hasChildren > 1 ? 'children' : 'child'})` : ''}
         </div>
         <a
           onClick={e => e.stopPropagation()}
