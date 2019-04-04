@@ -10,7 +10,7 @@ function computeNodesInSubtree(tree, initId) {
   let depthOfRoot = 0;
   function dfsAndMarkId({children, id, depth}, parentIsInTree) {
     const nodeId = `${id}`;
-    // console.log(id)
+
     if (parentIsInTree || (nodeId === `${initId}`)) {
       mapOfAllowedIds[nodeId] = true;
     }
