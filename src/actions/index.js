@@ -30,10 +30,7 @@ export const modelData = item => dispatch => {
 
 export const modelBranches = (dispatch, data, root, tree) => {
   const items = tree.children
-    .filter((d) => {
-      console.log(d)
-      return d.descendants >= CHILD_THRESHOLD;
-    })
+    .filter((d) => d.descendants >= CHILD_THRESHOLD)
     .map(({id}) => id);
   log('modeling branches', items.length);
   let current = 0;
