@@ -172,7 +172,7 @@ export function prepareTree(data, root) {
         .map(child => formToTree(child))
     };
     newNode.descendants = newNode.children
-      .reduce((acc, {descendants}) => acc + descendants, isLeaf ? 0 : 1);
+      .reduce((acc, {descendants}) => acc + (descendants || 1), isLeaf ? 0 : 1);
     return newNode;
   };
   if (root && nodesByParentId[root] && nodesByParentId[root].length > 1 || !nodesByParentId.root.length) {

@@ -1,6 +1,6 @@
-# FeX: Forum Explorer
+# Forum Explorer
 
-FeX: Forum Explorer is a web application that provides a principled rethinking of the way in which we interact with async threaded conversations on the internet through the use of visualization. We focus on HackerNews because of its active community and advantageous api. The normal operation mode for this project is as a chrome extension, although it also can be operated as a standalone website. When it is ready we will provide our extended abstract submission for a theoretical justification of this work.
+Forum Explorer is a web application that provides a principled rethinking of the way in which we interact with async threaded conversations on the internet through the use of visualization. We focus on HackerNews because of its active community and advantageous api. The normal operation mode for this project is as a chrome extension, although it also can be operated as a standalone website. When it is ready we will provide our extended abstract submission for a theoretical justification of this work.
 
 ## Usage
 
