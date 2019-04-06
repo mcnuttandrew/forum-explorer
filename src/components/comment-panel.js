@@ -120,7 +120,7 @@ class CommentPanel extends React.PureComponent {
       <div className="overflow-y panel" ref="commentPanel">
         {!itemsToRender.size && <div
           className="comments-help">
-          <h1>FeX: Forum Explorer</h1>
+          <h1>Forum Explorer</h1>
           <div>Visualize threaded async conversations in new and dynamic ways</div>
           <h3>Usage</h3>
           <div>Mouse over graph to select comments</div>

@@ -1,4 +1,4 @@
-import {SERVER_DEV_MODE} from '../constants';
+import {SERVER_DEV_MODE, CHILD_THRESHOLD} from '../constants';
 import {prepareTree, log} from '../utils';
 import {getTreeForId} from './db';
 
@@ -30,7 +30,10 @@ export const modelData = item => dispatch => {
 
 export const modelBranches = (dispatch, data, root, tree) => {
   const items = tree.children
-    .filter(({descendants}) => descendants >= 15)
+    .filter((d) => {
+      console.log(d)
+      return d.descendants >= CHILD_THRESHOLD;
+    })
     .map(({id}) => id);
   log('modeling branches', items.length);
   let current = 0;
