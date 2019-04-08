@@ -129,7 +129,7 @@ class Graph extends React.Component {
     const isSelected = d => selectedMap.get(d.data.id);
     const computeFill = d => {
       const data = d.data;
-      const user = data.by || (data && data.by);
+      const user = data.by || (data && data.by) || (data && data.data && data.data.by);
       const position = topUsers[user];
       if (position && (position.rank < numUsersToHighlight)) {
         return muteUnselected ?
