@@ -72,6 +72,8 @@ export function getAllUsers(dispatch, data) {
     }));
 }
 
+
+
 const itemUrl = id => `https://hacker-news.firebaseio.com/v0/item/${id}.json`;
 export const getAllItems = root => dispatch => {
   let children = [];
@@ -106,7 +108,25 @@ export const getAllItems = root => dispatch => {
       modelBranches(dispatch, data, root, tree);
       // get all of the users, not current in use
       // getAllUsers(dispatch, data);
+      maybeCallAllItemsAgain(dispatch, root, tree);
     });
+};
+
+const SECOND = 1000;
+const MINUTE = SECOND * 60;
+const HOUR = MINUTE * 60;
+const DAY = HOUR * 24;
+export const maybeCallAllItemsAgain = (dispatch, root, tree) => {
+  const time = tree.data.data.time * 1000;
+  const currentTime = new Date().getTime();
+  if ((currentTime - time) > DAY) {
+    console.log('doesnt')
+    return;
+  }
+  setTimeout(() => {
+    console.log('call again')
+    getAllItems(root)(dispatch);
+  }, 30 * SECOND);
 };
 
 export const setPageId = payload => dispatch => {
