@@ -76,8 +76,6 @@ export function getAllUsers(dispatch, data) {
     }));
 }
 
-
-
 const itemUrl = id => `https://hacker-news.firebaseio.com/v0/item/${id}.json`;
 export const getAllItems = root => dispatch => {
   let children = [];
