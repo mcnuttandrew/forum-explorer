@@ -1,6 +1,10 @@
 import {SERVER_DEV_MODE, CHILD_THRESHOLD} from '../constants';
 import {prepareTree, log} from '../utils';
 import {getTreeForId} from './db';
+const SECOND = 1000;
+const MINUTE = SECOND * 60;
+const HOUR = MINUTE * 60;
+const DAY = HOUR * 24;
 
 const buildEasyAction = type => payload => dispatch => dispatch({type, payload});
 export const clearSelection = buildEasyAction('clear-selection');
@@ -108,25 +112,15 @@ export const getAllItems = root => dispatch => {
       modelBranches(dispatch, data, root, tree);
       // get all of the users, not current in use
       // getAllUsers(dispatch, data);
-      maybeCallAllItemsAgain(dispatch, root, tree);
-    });
-};
 
-const SECOND = 1000;
-const MINUTE = SECOND * 60;
-const HOUR = MINUTE * 60;
-const DAY = HOUR * 24;
-export const maybeCallAllItemsAgain = (dispatch, root, tree) => {
-  const time = tree.data.data.time * 1000;
-  const currentTime = new Date().getTime();
-  if ((currentTime - time) > DAY) {
-    console.log('doesnt')
-    return;
-  }
-  setTimeout(() => {
-    console.log('call again')
-    getAllItems(root)(dispatch);
-  }, 30 * SECOND);
+      // maybe call getAllItems again if it's a new-ish thread
+      const time = tree.data.data.time * 1000;
+      const currentTime = new Date().getTime();
+      if ((currentTime - time) > DAY) {
+        return;
+      }
+      setTimeout(() => getAllItems(root)(dispatch), 30 * SECOND);
+    });
 };
 
 export const setPageId = payload => dispatch => {
