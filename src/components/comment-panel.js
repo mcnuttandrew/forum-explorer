@@ -18,6 +18,8 @@ function renderComment(props, item, idx) {
   const userName = item.get('by');
   const userRank = topUsers[userName];
   const isRoot = Number(item.get('id')) === props.pageId;
+  // over counts self
+  const numDesc = item.get('descendants') - 1;
   return (
     <div
       onMouseEnter={() => setHoveredComment(item)}
@@ -87,7 +89,7 @@ function renderComment(props, item, idx) {
         <div
           className="expand-comment margin-left"
           onClick={e => setSelectedCommentPath(`${item.get('id')}`)}>
-          {hasChildren ? `expand (${hasChildren} ${hasChildren > 1 ? 'children' : 'child'})` : ''}
+          {hasChildren ? `expand (${numDesc} descendant${numDesc > 1 ? 's' : ''})` : ''}
         </div>
         <a
           onClick={e => e.stopPropagation()}
