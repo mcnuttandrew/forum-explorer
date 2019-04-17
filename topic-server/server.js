@@ -8,7 +8,7 @@ const cheerio = require('cheerio');
 const PORT = process.env.PORT || 5000;
 /* eslint-enable */
 const sleep = delay => new Promise((resolve, reject) => setTimeout(d => resolve(), delay));
-const log = msg => console.log(new Date().getTime(), ...msg);
+const log = msg => console.log(`${new Date().getTime()}: ${msg}`);
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -89,7 +89,7 @@ function parseAndModel(req, res) {
   })
   .catch(error => {
     inProgress[cacheId] = false;
-    log('error', error, cacheId);
+    log(`error ${error}`);
   });
 }
 
