@@ -7,8 +7,8 @@ const cheerio = require('cheerio');
 /* eslint-disable */
 const PORT = process.env.PORT || 5000;
 /* eslint-enable */
-
-const log = msg => console.log(`${new Date().getTime()}: ${msg}`);
+const sleep = delay => new Promise((resolve, reject) => setTimeout(d => resolve(), delay));
+const log = msg => console.log(new Date().getTime(), ...msg);
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -17,6 +17,7 @@ app.use((req, res, next) => {
 });
 
 const modelCache = {};
+const inProgress = {};
 
 function stripAndModel(html, topics, terms) {
   const $ = cheerio.load(html);
@@ -35,30 +36,36 @@ function parseAndModel(req, res) {
   const terms = req.query && req.query.terms || 15;
   const cacheId = `${item}-${topics}-${terms}`;
   if (!item) {
-    return res.send('Invalid query');
+    res.send('Invalid query');
+    return;
   }
   log(`request for ${item}`);
   const currentTime = new Date().getTime();
   const fiveMinutes = 5 * 60 * 1000;
-  if (modelCache[cacheId] && ((modelCache[cacheId].time - currentTime) < fiveMinutes)) {
+  const cacheItem = modelCache[cacheId];
+  if (cacheItem && ((cacheItem.time - currentTime) < fiveMinutes)) {
     log(`request for ${item} fulfilled by cache`);
     // TODO: record cache hit, if cache hits happen to many times invalidate the cache
-
-    return res.send(modelCache[cacheId].model);
+    res.send(modelCache[cacheId].model);
+    return;
   }
+
+  res.status(204).send('NONE FOUND, BUILDING');
+  if (inProgress[cacheId]) {
+    return;
+  }
+  inProgress[cacheId] = true;
   const startTime = new Date().getTime();
-  const promiseGen = allowRetry => (resolve, reject) => {
-    request(`https://news.ycombinator.com/item?id=${item}`, (error, response, html) => {
+  const hnURL = `https://news.ycombinator.com/item?id=${item}`;
+
+  sleep(Math.floor(Math.random() * 2000)).then(
+    () => new Promise((resolve, reject) => request(hnURL, (error, response, html) => {
       log(`recieved html for ${item}`);
       if (!error && response.statusCode === 200) {
-        resolve(html);
-        return;
+        return resolve(html);
       }
-      if (allowRetry) {
-        promiseGen(false)(resolve, reject);
-        return;
-      }
-      reject(JSON.stringify({
+
+      return reject(JSON.stringify({
         code: `https://news.ycombinator.com/item?id=${item}`,
         error,
         html,
@@ -66,23 +73,23 @@ function parseAndModel(req, res) {
         status: 'error',
         statusCode: response.statusCode
       }, null, 2));
-    });
-  };
-  new Promise(promiseGen(true))
+    }))
+  )
   .then(html => {
     log(`building model for ${item}`);
     const model = stripAndModel(html, topics, terms);
     const endTime = new Date().getTime();
-    log(`modeling for ${item} complete. took ${(endTime - startTime) / 1000} seconds. sending model`);
-    res.send(model);
+    log(`modeling for ${item} complete. took ${(endTime - startTime) / 1000} seconds. caching model`);
+    // res.send(model);
+    inProgress[cacheId] = false;
     modelCache[cacheId] = {
       time: currentTime,
       model
     };
   })
   .catch(error => {
-    log(error);
-    res.send([[null]]);
+    inProgress[cacheId] = false;
+    log('error', error, cacheId);
   });
 }
 

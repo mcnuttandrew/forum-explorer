@@ -25,8 +25,25 @@ const branchTemplate = SERVER_DEV_MODE ?
   item => `http://localhost:5000/?item=${item}&topics=1&terms=1` :
   item => `https://hn-ex.herokuapp.com/?item=${item}&topics=1&terms=1`;
 
+const sleep = delay => new Promise((resolve, reject) => setTimeout(resolve, delay));
+const fetchWithRetry = (url, props) => {
+  const {maxRetries, delay} = props;
+  let currentRerties = 0;
+  // recursively retry fetch with delay
+  const fetcher = () =>
+    fetch(url, props)
+    .then(d => {
+      if (d.status !== 200 && currentRerties < maxRetries) {
+        currentRerties += 1;
+        return sleep(delay).then(fetcher);
+      }
+      return d;
+    });
+  return fetcher();
+};
+
 export const modelData = item => dispatch => {
-  fetch(serverTemplate(item), {mode: 'cors'})
+  fetchWithRetry(serverTemplate(item), {mode: 'cors', maxRetries: 12, delay: SECOND * 5})
   .then(d => d.json())
   .then(payload => dispatch({type: 'model-data', payload}))
   .catch(() => {});
@@ -39,7 +56,7 @@ export const modelBranches = (dispatch, data, root, tree) => {
   log('modeling branches', items.length);
   let current = 0;
   Promise.all(items.map(item => {
-    return fetch(branchTemplate(item), {mode: 'cors'})
+    return fetchWithRetry(branchTemplate(item), {mode: 'cors', maxRetries: 5, delay: SECOND * 5})
     .then(d => d.json())
     .then(d => {
       current += 1;
