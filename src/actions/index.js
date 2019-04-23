@@ -20,14 +20,9 @@ export const unlockAndSearch = buildEasyAction('unlock-and-search');
 export const updateGraphPanelDimensions = buildEasyAction('update-graph-panel-dimensions');
 
 const EXTENSION_MODE = window.origin === 'https://news.ycombinator.com';
-function dispatchRequest(details) {
-  if (EXTENSION_MODE) {
-    return new Promise((resolve, reject) => {
-      chrome.runtime.sendMessage(details, resolve);
-    });
-  }
-  return executeRequest(details);
-}
+const dispatchRequest = EXTENSION_MODE ?
+  details => new Promise((resolve, reject) => chrome.runtime.sendMessage(details, resolve)) :
+  details => executeRequest(details);
 
 export const modelData = item => dispatch => {
   dispatchRequest({
