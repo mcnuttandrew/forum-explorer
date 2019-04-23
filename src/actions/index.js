@@ -30,8 +30,6 @@ function dispatchRequest(details) {
 }
 
 export const modelData = item => dispatch => {
-  // fetchWithRetry(modelFullPageTemplate(item), {mode: 'cors', maxRetries: 12, delay: SECOND * 5})
-  // .then(d => d.json())
   dispatchRequest({
     template: SERVER_DEV_MODE ? 'modelFullPageTemplateDevMode' : 'modelFullPageTemplate',
     item

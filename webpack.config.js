@@ -29,5 +29,4 @@ module.exports = {
     path: path.join(__dirname, './')
   },
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development'  // eslint-disable-line
-  // mode: 'development'  // eslint-disable-line
 };
