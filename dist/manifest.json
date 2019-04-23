@@ -6,10 +6,16 @@
    "content_scripts": [
      {
        "matches": ["https://news.ycombinator.com/item*"],
-       "js": ["bundle.js"],
+       "js": ["app-bundle.js"],
        "run_at": "document_end"
      }
    ],
+   "background": {
+     "scripts": [
+       "background-bundle.js"
+     ],
+     "persistent": false
+   },
    "icons": {
       "16": "./fex-16.png",
       "32": "./fex-32.png",

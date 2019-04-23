@@ -2,7 +2,8 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    app: './src/app.js'
+    app: './src/app.js',
+    background: './src/extension-dispatch.js'
   },
   module: {
     rules: [
@@ -24,8 +25,9 @@ module.exports = {
     ]
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name]-bundle.js',
     path: path.join(__dirname, './')
   },
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development'  // eslint-disable-line
+  // mode: 'development'  // eslint-disable-line
 };
