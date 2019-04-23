@@ -1,5 +1,7 @@
-import {SERVER_DEV_MODE, CHILD_THRESHOLD} from '../constants';
+/* global chrome*/
+import {CHILD_THRESHOLD, SERVER_DEV_MODE} from '../constants';
 import {prepareTree, log} from '../utils';
+import {executeRequest} from '../api-calls';
 import {getTreeForId} from './db';
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
@@ -17,36 +19,18 @@ export const toggleCommentSelectionLock = buildEasyAction('toggle-comment-select
 export const unlockAndSearch = buildEasyAction('unlock-and-search');
 export const updateGraphPanelDimensions = buildEasyAction('update-graph-panel-dimensions');
 
-const serverTemplate = SERVER_DEV_MODE ?
-  item => `http://localhost:5000/?item=${item}` :
-  item => `https://hn-ex.herokuapp.com/?item=${item}`;
-
-const branchTemplate = SERVER_DEV_MODE ?
-  item => `http://localhost:5000/?item=${item}&topics=1&terms=1` :
-  item => `https://hn-ex.herokuapp.com/?item=${item}&topics=1&terms=1`;
-
-const sleep = delay => new Promise((resolve, reject) => setTimeout(resolve, delay));
-const fetchWithRetry = (url, props) => {
-  const {maxRetries, delay} = props;
-  let currentRerties = 0;
-  // recursively retry fetch with delay
-  const fetcher = () =>
-    fetch(url, props)
-    .then(d => {
-      if (d.status !== 200 && currentRerties < maxRetries) {
-        currentRerties += 1;
-        return sleep(delay).then(fetcher);
-      }
-      return d;
-    });
-  return fetcher();
-};
+const EXTENSION_MODE = window.origin === 'https://news.ycombinator.com';
+const dispatchRequest = EXTENSION_MODE ?
+  details => new Promise((resolve, reject) => chrome.runtime.sendMessage(details, resolve)) :
+  details => executeRequest(details);
 
 export const modelData = item => dispatch => {
-  fetchWithRetry(serverTemplate(item), {mode: 'cors', maxRetries: 12, delay: SECOND * 5})
-  .then(d => d.json())
-  .then(payload => dispatch({type: 'model-data', payload}))
-  .catch(() => {});
+  dispatchRequest({
+    template: SERVER_DEV_MODE ? 'modelFullPageTemplateDevMode' : 'modelFullPageTemplate',
+    item
+  })
+    .then(payload => dispatch({type: 'model-data', payload}))
+    .catch(() => {});
 };
 
 export const modelBranches = (dispatch, data, root, tree) => {
@@ -56,8 +40,10 @@ export const modelBranches = (dispatch, data, root, tree) => {
   log('modeling branches', items.length);
   let current = 0;
   Promise.all(items.map(item => {
-    return fetchWithRetry(branchTemplate(item), {mode: 'cors', maxRetries: 5, delay: SECOND * 5})
-    .then(d => d.json())
+    return dispatchRequest({
+      template: SERVER_DEV_MODE ? 'modelSingleBranchTemplateDevMode' : 'modelSingleBranchTemplate',
+      item
+    })
     .then(d => {
       current += 1;
       log(`modeled ${current} / ${items.length}`);
@@ -79,27 +65,24 @@ export const setConfig = (rowIdx, valueIdx) => dispatch => dispatch({
   payload: {rowIdx, valueIdx}
 });
 
-const userUrl = id => `https://hacker-news.firebaseio.com/v0/user/${id}.json`;
+// not currently in use
 export function getAllUsers(dispatch, data) {
-  const getChild = id => fetch(userUrl(id)).then(response => response.json());
   const users = Object.keys(data.reduce((acc, row) => {
     acc[row.by] = true;
     return acc;
   }, {}));
-  Promise.all(users.map(getChild))
+  Promise.all(users.map(item => dispatchRequest({template: 'userTemplate', item})))
     .then(userData => dispatch({
       type: 'get-all-users',
       payload: userData
     }));
 }
 
-const itemUrl = id => `https://hacker-news.firebaseio.com/v0/item/${id}.json`;
 export const getAllItems = root => dispatch => {
   let children = [];
-  const getChild = child => fetch(itemUrl(child)).then(response => response.json());
   let depth = 0;
   const doGeneration = generation =>
-    Promise.all(generation.map(child => getChild(child)))
+    Promise.all(generation.map(item => dispatchRequest({template: 'hnTemplate', item})))
     .then(offspring => {
       dispatch({
         type: 'increase-loaded-count',
