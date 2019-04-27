@@ -22,6 +22,7 @@ function renderComment(props, item, idx) {
   const numDesc = item.get('descendants') - 1;
   return (
     <div
+      ref={`item${item.get('id')}`}
       onMouseEnter={() => setHoveredComment(item)}
       onMouseLeave={() => setHoveredComment(null)}
       key={idx}
@@ -106,6 +107,12 @@ const longPruneExplanation = 'For particularly large conversations we remove sin
 /* eslint-enable max-len */
 
 class CommentPanel extends React.PureComponent {
+  componentDidUpdate(prevProps) {
+    const {hoveredGraphComment} = this.props;
+    if (hoveredGraphComment && hoveredGraphComment !== prevProps.hoveredGraphComment) {
+      this.refs[`item${hoveredGraphComment}`].scrollIntoView();
+    }
+  }
   render() {
     const {itemsToRender, configs} = this.props;
     const data = itemsToRender

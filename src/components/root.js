@@ -81,6 +81,7 @@ class RootComponent extends React.Component {
             <CommentPanel
               configs={this.props.configs}
               getItemsFromCacheOrRedirect={this.props.getItemsFromCacheOrRedirect}
+              hoveredGraphComment={this.props.hoveredGraphComment}
               itemPath={this.props.itemPath}
               itemsToRender={this.props.itemsToRender}
               model={this.props.model}
@@ -109,6 +110,7 @@ function mapStateToProps({base}) {
     graphPanelDimensions: base.get('graphPanelDimensions'),
     histogram: base.get('histogram'),
     hoveredComment: base.get('hoveredComment'),
+    hoveredGraphComment: base.get('hoveredGraphComment'),
     itemsToRender: base.get('itemsToRender'),
     itemPath: base.get('itemPath'),
     loadedCount: base.get('loadedCount'),

@@ -18,6 +18,8 @@ let DEFAULT_STATE = Immutable.fromJS({
   foundOrderMap: {},
   graphPanelDimensions: {height: 0, width: 0},
   hoveredComment: null,
+  // this state element tells the comment panel that it should scroll this comment into view
+  hoveredGraphComment: null,
   histogram: DEV_MODE ? computeHistrogram(TestData) : [],
   itemsToRender: [],
   itemPath: [],
@@ -67,6 +69,11 @@ const setCommentPath = (state, payload) => {
     )
     .set('itemPath', Immutable.fromJS(payload));
 };
+
+const setSelectedCommentPathWithGraphComment = (state, payload) =>
+  setCommentPath(state.set('hoveredGraphComment', payload), payload);
+
+const unsetGraphComment = state => state.set('hoveredGraphComment', null);
 
 const increaseLoadedCount = (state, {newCount}) =>
   state.set('loadedCount', newCount);
@@ -273,6 +280,7 @@ const actionFuncMap = {
   'model-data': modelData,
   'model-branches': modelBranches,
   'set-comment-path': setCommentPath,
+  'set-comment-path-with-graph-comment': setSelectedCommentPathWithGraphComment,
   'set-config-value': setConfig,
   'set-found-order': setFoundOrder,
   'set-hovered-comment': setHoveredComment,
@@ -281,6 +289,7 @@ const actionFuncMap = {
   'set-time-filter': setTimeFilter,
   'toggle-comment-selection-lock': toggleCommentSelectionLock,
   'unlock-and-search': unlockAndSearch,
+  'unset-graph-comment': unsetGraphComment,
   'update-graph-panel-dimensions': updateGraphPanelDimensions
 };
 const NULL_ACTION = (state, payload) => state;

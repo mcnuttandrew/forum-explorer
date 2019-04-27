@@ -247,6 +247,7 @@ a.header-link:visited {
 
 .overflow-y {
   overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 
 .comment-title {
