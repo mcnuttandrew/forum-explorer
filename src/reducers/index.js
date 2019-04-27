@@ -256,7 +256,6 @@ function adjustConfigForState(state, dataLength) {
   const updatedConfig = setConfig(updatedState, {rowIdx: 1, valueIdx: appropriateDotSize(dataLength)});
   const treeRoot = state.get('tree');
   const isStory = treeRoot && treeRoot.data && treeRoot.data.data && treeRoot.data.data.type === 'story';
-  console.log(treeRoot)
   return setConfig(updatedConfig, {
     rowIdx: 0,
     valueIdx: isStory ?

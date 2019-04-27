@@ -1,6 +1,7 @@
 node_modules/
 bundle.js
 bundle.js.map
+dist.zip
 dist/bundle.js
 app-bundle.js
 app-bundle.js.map
