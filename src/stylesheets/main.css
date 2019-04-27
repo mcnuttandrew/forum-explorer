@@ -129,6 +129,10 @@ body,
   font-size: 11px;
 }
 
+.most-recent-posts {
+  max-height: 200px;
+  overflow-y: scroll;
+}
 
 /* // GRAPH STYLING */
 

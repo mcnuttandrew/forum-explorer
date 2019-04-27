@@ -26,12 +26,13 @@ export default class StoryHead extends React.PureComponent {
       </div>
       <div className="comment-head">
         <span>Topics: </span>
-        {serializedModel.map(keyword => {
+        {serializedModel.length > 0 && serializedModel.map(keyword => {
           return (<span
             className="comment-keyword"
             onClick={() => unlockAndSearch(keyword)}
             key={keyword}> {keyword} </span>);
         })}
+        {!serializedModel.length && <span>LOADING</span>}
       </div>
       <div className="comment-head">
         {score && <span>{`${score} points by `}</span>}

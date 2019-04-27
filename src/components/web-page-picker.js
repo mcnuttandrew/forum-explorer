@@ -24,16 +24,43 @@ const examplePages = [{
   id: 19263086
 }];
 
+function renderPost({id, title, by, time, score, descendants}, idx) {
+  return (<div className="margin-bottom" key={idx}>
+    <div className="comment-title">
+      <a href={`?id=${id}`}>
+        {title}
+      </a>
+    </div>
+    <div className="comment-head">
+      <span>{`${score} points by `}</span>
+      <a href={`https://news.ycombinator.com/user?id=${by}`}>{by}</a>
+      <span>{` ${timeSince(time)} ago - ${descendants} comments`}</span>
+    </div>
+
+  </div>);
+}
+
 export default class WebPagePicker extends React.Component {
   constructor() {
     super();
     this.state = {
-      error: false
+      error: false,
+      mostRecentPosts: []
     };
   }
 
+  componentDidMount() {
+    fetch('https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty')
+      .then(d => d.json())
+      .then(d => Promise.all(d.map(item =>
+        fetch(`https://hacker-news.firebaseio.com/v0/item/${item}.json`)
+          .then(result => result.json()))
+      ))
+      .then(mostRecentPosts => this.setState({mostRecentPosts}));
+  }
+
   render() {
-    const {error} = this.state;
+    const {error, mostRecentPosts} = this.state;
     return (
       <div className="background-gray picker-container">
         <h2>Forum Explorer</h2>
@@ -42,26 +69,12 @@ export default class WebPagePicker extends React.Component {
           'This is the demo site for the ForumExplorer project. It provides a principled rethinking of the way in which we interact with async threaded conversations on the internet through the use of visualization. We focus on HackerNews because of its active community and advantageous api.'
         }</p>
         <p>{
-          'The normal operation mode for this project is as a chrome extension, but here we present a demo of the functionality. This page is fully functional and presents exactly the same interface as the chrome extension. No data is collected: not in the chrome extension, not in this demo page. We make use of a cloud micro-service for our topic modeling, but no information is persisted at that location.'
+          'The normal operation mode for this project is as a chrome extension, but here we present a demo of the functionality. This page is fully functional and presents exactly the same interface as the chrome extension. No personal data is collected: not in the chrome extension, not in this demo page. We use IndexedDB for caching and make use of a cloud micro-service for our topic modeling, but no information is persisted at that location.'
           /* eslint-enable max-len */
         }</p>
         <div>
           <h3> Some Interesting Examples </h3>
-          {examplePages.map(({id, title, by, time, score, descendants}, idx) => {
-            return (<div className="margin-bottom" key={idx}>
-              <div className="comment-title">
-                <a href={`?id=${id}`}>
-                  {title}
-                </a>
-              </div>
-              <div className="comment-head">
-                <span>{`${score} points by `}</span>
-                <a href={`https://news.ycombinator.com/user?id=${by}`}>{by}</a>
-                <span>{` ${timeSince(time)} ago - ${descendants} comments`}</span>
-              </div>
-
-            </div>);
-          })}
+          {examplePages.map(renderPost)}
         </div>
         <div>
           <div>
@@ -84,6 +97,15 @@ export default class WebPagePicker extends React.Component {
             }}
             >SUBMIT</button>
           {error && <div>{error}</div>}
+        </div>
+        <div>
+          <h3>Most recent posts </h3>
+          {mostRecentPosts.length !== 0 && <div className="most-recent-posts">
+            {mostRecentPosts.map(renderPost)}
+          </div>}
+          {!mostRecentPosts.length && <div>
+            {'  Loading'}
+          </div>}
         </div>
       </div>
     );
