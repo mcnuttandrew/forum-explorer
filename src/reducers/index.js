@@ -4,7 +4,7 @@ import Immutable, {Map} from 'immutable';
 import {updateIdInDb} from '../actions/db';
 
 import {DEV_MODE, numUsersToHighlight, DEFAULT_CONFIGS} from '../constants';
-import {computeFullGraphLayout} from '../layouts';
+import {computeFullGraphLayout, graphLayouts} from '../layouts';
 import TestData from '../constants/test-data.json';
 // import TestData from '../constants/really-big-data.json';
 import {computeTopUsers, computeHistrogram, prepareTree} from '../utils';
@@ -17,8 +17,9 @@ let DEFAULT_STATE = Immutable.fromJS({
   users: {},
   foundOrderMap: {},
   graphPanelDimensions: {height: 0, width: 0},
+  // this is a hover highlight for the comment panel
   hoveredComment: null,
-  // this state element tells the comment panel that it should scroll this comment into view
+  // this tells the comment panel that it should scroll this comment into view
   hoveredGraphComment: null,
   histogram: DEV_MODE ? computeHistrogram(TestData) : [],
   itemsToRender: [],
@@ -252,7 +253,16 @@ function adjustConfigForState(state, dataLength) {
     .set('fullGraph', computeFullGraphLayout(state))
     .set('storyHead', state.get('data').find(item => Number(item.get('id')) === pageId))
     .set('routeTable', prepareRoutesTable(state));
-  return setConfig(updatedState, {rowIdx: 1, valueIdx: appropriateDotSize(dataLength)});
+  const updatedConfig = setConfig(updatedState, {rowIdx: 1, valueIdx: appropriateDotSize(dataLength)});
+  const treeRoot = state.get('tree');
+  const isStory = treeRoot && treeRoot.data && treeRoot.data.data && treeRoot.data.data.type === 'story';
+  console.log(treeRoot)
+  return setConfig(updatedConfig, {
+    rowIdx: 0,
+    valueIdx: isStory ?
+      graphLayouts.findIndex(d => d === 'forest') :
+      graphLayouts.findIndex(d => d === 'tree')
+  });
 }
 
 const toggleCommentSelectionLock = (state, payload) => setSearch(state

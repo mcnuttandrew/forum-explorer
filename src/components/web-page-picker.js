@@ -2,6 +2,13 @@ import React from 'react';
 import {timeSince} from '../utils';
 
 const examplePages = [{
+  time: 1556024424,
+  score: 2997,
+  descendants: 439,
+  by: 'eightturn',
+  title: 'I Sell Onions on the Internet',
+  id: 19728132
+}, {
   time: 1548796218,
   score: 1320,
   descendants: 675,
