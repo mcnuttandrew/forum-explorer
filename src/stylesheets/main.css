@@ -100,6 +100,11 @@ body,
   text-decoration: underline;
 }
 
+.comments-help .feedback-link {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .rv-xy-plot__axis__tick__text {
   font-size: 8px;
   transform: translate(0, 3px);
@@ -203,9 +208,8 @@ a.site-title::after {
 
 .logo {
   border: 1px white solid;
-  height: 18px;
+  height: 19px;
   position: relative;
-  top: 1px;
   width: 18px;
 }
 

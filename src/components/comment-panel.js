@@ -125,8 +125,15 @@ class CommentPanel extends React.PureComponent {
           <h1>Forum Explorer</h1>
           <div>Visualize threaded async conversations in new and dynamic ways</div>
           <h3>Usage</h3>
-          <div>Mouse over graph to select comments</div>
-          <div>Click graph to lock/unlock selection</div>
+          <div>{'Mouse over graph to select comments'}</div>
+          <div>{'Click graph to lock/unlock selection'}</div>
+          <div>{'Click the user names or topics or type in to the search box to search'}</div>
+          <h3>Feedback</h3>
+          <div>{'Feel free to send any feedback or bug reports on the'}
+            <a
+              className="feedback-link"
+              href="https://github.com/mcnuttandrew/forum-explorer/issues"> github issues</a>
+          </div>
         </div>}
         {!splitComments && data.map(buildComment)}
         {splitComments && <div className="comment-root-prune-explanation">
