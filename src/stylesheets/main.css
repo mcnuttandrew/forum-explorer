@@ -8,6 +8,7 @@ body,
   font-family: Verdana, Geneva, sans-serif;
   height: 100%;
   margin: 0;
+  overflow: -moz-hidden-unscrollable;
   padding: 0;
   width: 100%;
 }
