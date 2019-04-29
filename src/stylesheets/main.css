@@ -258,6 +258,10 @@ a.header-link:visited {
   padding: 10px 20px;
 }
 
+.panel .comment-block:last-child {
+  margin-bottom: 200px;
+}
+
 .comment-head,
 .comment-head a {
   color: #828282;
