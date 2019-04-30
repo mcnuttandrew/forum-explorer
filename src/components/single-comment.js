@@ -8,7 +8,7 @@ export default function renderComment(props, item, idx) {
     getItemsFromCacheOrRedirect,
     hoveredComment,
     setHoveredComment,
-    setSelectedCommentPath,
+    setSelectedCommentPathWithSelectionClear,
     unlockAndSearch,
     topUsers
   } = props;
@@ -77,7 +77,7 @@ export default function renderComment(props, item, idx) {
           if (bannedTags[tagName]) {
             return;
           }
-          setSelectedCommentPath(`${item.get('id')}`);
+          setSelectedCommentPathWithSelectionClear(`${item.get('id')}`);
         }}
         className={classnames({
           comment: true,
@@ -88,7 +88,7 @@ export default function renderComment(props, item, idx) {
       <div className="flex comment-footer">
         <div
           className="expand-comment margin-left"
-          onClick={e => setSelectedCommentPath(`${item.get('id')}`)}>
+          onClick={e => setSelectedCommentPathWithSelectionClear(`${item.get('id')}`)}>
           {hasChildren ? `expand (${numDesc} descendant${numDesc > 1 ? 's' : ''})` : ''}
         </div>
         <a

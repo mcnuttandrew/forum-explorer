@@ -52,7 +52,7 @@ function modelComment(model, text) {
   }, {modelIndex: null, modelScore: -Infinity});
 }
 
-const setCommentPath = (state, payload) => {
+const setSelectedCommentPath = (state, payload) => {
   const itemMap = (state.get('routeTable')[payload] || []).reduce((acc, row) => {
     acc[row] = true;
     return acc;
@@ -72,7 +72,10 @@ const setCommentPath = (state, payload) => {
 };
 
 const setSelectedCommentPathWithGraphComment = (state, payload) =>
-  setCommentPath(state.set('hoveredGraphComment', payload), payload);
+  setSelectedCommentPath(state.set('hoveredGraphComment', payload), payload);
+
+const setSelectedCommentPathWithSelectionClear = (state, payload) =>
+  setSelectedCommentPath(state.set('searchValue', ''), payload);
 
 const unsetGraphComment = state => state.set('hoveredGraphComment', null);
 
@@ -129,13 +132,14 @@ const selectSubset = (state, searchedMap, nullSearch) => {
   const newState = state.set('searchedMap', searchedMap);
 
   // Don't clear the selection if the user has locked it
-  if (state.get('commentSelectionLock')) {
-    return newState;
-  }
+  // i'm really confused if this is right
+  // if (state.get('commentSelectionLock')) {
+  //   return newState;
+  // }
   const chain = nullSearch ? [] : newState
     .get('data').filter((d, idx) => !idx || searchedMap.get(d.get('id')));
 
-  return setCommentPath(newState, []).set('itemsToRender', chain);
+  return setSelectedCommentPath(newState, []).set('itemsToRender', chain);
 };
 
 const setSearch = (state, payload) => {
@@ -155,6 +159,8 @@ const setSearch = (state, payload) => {
 
 const unlockAndSearch = (state, payload) =>
   setSearch(state.set('commentSelectionLock', false), payload);
+const lockAndSearch = (state, payload) =>
+  setSearch(state.set('commentSelectionLock', true), payload);
 
 const clearSelection = (state, payload) => unlockAndSearch(state.set('searchValue', '!!!!'), '');
 
@@ -286,10 +292,12 @@ const actionFuncMap = {
   'get-all-users': getAllUsers,
   'get-tree-from-cache': getTreeFromCache,
   'increase-loaded-count': increaseLoadedCount,
+  'lock-and-search': lockAndSearch,
   'model-data': modelData,
   'model-branches': modelBranches,
-  'set-comment-path': setCommentPath,
+  'set-comment-path': setSelectedCommentPath,
   'set-comment-path-with-graph-comment': setSelectedCommentPathWithGraphComment,
+  'set-comment-path-with-selection-clear': setSelectedCommentPathWithSelectionClear,
   'set-config-value': setConfig,
   'set-found-order': setFoundOrder,
   'set-hovered-comment': setHoveredComment,

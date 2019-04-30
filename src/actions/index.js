@@ -10,11 +10,15 @@ const DAY = HOUR * 24;
 
 const buildEasyAction = type => payload => dispatch => dispatch({type, payload});
 export const clearSelection = buildEasyAction('clear-selection');
+export const lockAndSearch = buildEasyAction('lock-and-search');
 export const setFoundOrder = buildEasyAction('set-found-order');
 export const setHoveredComment = buildEasyAction('set-hovered-comment');
 export const setSearch = buildEasyAction('set-search');
 export const setSelectedCommentPath = buildEasyAction('set-comment-path');
-export const setSelectedCommentPathWithGraphComment = buildEasyAction('set-comment-path-with-graph-comment');
+export const setSelectedCommentPathWithGraphComment =
+  buildEasyAction('set-comment-path-with-graph-comment');
+export const setSelectedCommentPathWithSelectionClear =
+  buildEasyAction('set-comment-path-with-selection-clear');
 export const unsetGraphComment = buildEasyAction('unset-graph-comment');
 export const setTimeFilter = buildEasyAction('set-time-filter');
 export const toggleCommentSelectionLock = buildEasyAction('toggle-comment-selection-lock');
@@ -26,11 +30,14 @@ const dispatchRequest = EXTENSION_MODE ?
   details => new Promise((resolve, reject) => chrome.runtime.sendMessage(details, resolve)) :
   details => executeRequest(details);
 
+const cleanModels = models => models.map(row => row.map(d => ({...d, term: d.term.split('\'')[0]})));
+
 export const modelData = item => dispatch => {
   dispatchRequest({
     template: SERVER_DEV_MODE ? 'modelFullPageTemplateDevMode' : 'modelFullPageTemplate',
     item
   })
+    .then(cleanModels)
     .then(payload => dispatch({type: 'model-data', payload}))
     .catch(() => {});
 };
@@ -46,6 +53,7 @@ export const modelBranches = (dispatch, data, root, tree) => {
       template: SERVER_DEV_MODE ? 'modelSingleBranchTemplateDevMode' : 'modelSingleBranchTemplate',
       item
     })
+    .then(cleanModels)
     .then(d => {
       current += 1;
       log(`modeled ${current} / ${items.length}`);

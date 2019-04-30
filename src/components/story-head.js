@@ -8,8 +8,8 @@ export default class StoryHead extends React.PureComponent {
       getItemsFromCacheOrRedirect,
       setSelectedCommentPath,
       storyHead,
-      unlockAndSearch,
-      serializedModel
+      serializedModel,
+      lockAndSearch
     } = this.props;
     const {by, parent, score, title, time, type, url} = storyHead.toJS();
     return (<div className="comment-block margin-bottom story-head-content-container">
@@ -29,7 +29,7 @@ export default class StoryHead extends React.PureComponent {
         {serializedModel.length > 0 && serializedModel.map(keyword => {
           return (<span
             className="comment-keyword"
-            onClick={() => unlockAndSearch(keyword)}
+            onClick={() => lockAndSearch(keyword)}
             key={keyword}> {keyword} </span>);
         })}
         {!serializedModel.length && <span>LOADING</span>}
