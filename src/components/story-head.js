@@ -8,7 +8,6 @@ export default class StoryHead extends React.PureComponent {
       getItemsFromCacheOrRedirect,
       setSelectedCommentPath,
       storyHead,
-      unlockAndSearch,
       serializedModel,
       lockAndSearch
     } = this.props;
