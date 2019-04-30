@@ -30,11 +30,14 @@ const dispatchRequest = EXTENSION_MODE ?
   details => new Promise((resolve, reject) => chrome.runtime.sendMessage(details, resolve)) :
   details => executeRequest(details);
 
+const cleanModels = models => models.map(row => row.map(d => ({...d, term: d.term.split('\'')[0]})));
+
 export const modelData = item => dispatch => {
   dispatchRequest({
     template: SERVER_DEV_MODE ? 'modelFullPageTemplateDevMode' : 'modelFullPageTemplate',
     item
   })
+    .then(cleanModels)
     .then(payload => dispatch({type: 'model-data', payload}))
     .catch(() => {});
 };
@@ -50,6 +53,7 @@ export const modelBranches = (dispatch, data, root, tree) => {
       template: SERVER_DEV_MODE ? 'modelSingleBranchTemplateDevMode' : 'modelSingleBranchTemplate',
       item
     })
+    .then(cleanModels)
     .then(d => {
       current += 1;
       log(`modeled ${current} / ${items.length}`);
