@@ -12,6 +12,7 @@ class SecondaryHeader extends React.Component {
       getItemsFromCacheOrRedirect,
       histogram,
       itemPath,
+      lockAndSearch,
       searchValue,
       serializedModel,
       setSearch,
@@ -30,6 +31,7 @@ class SecondaryHeader extends React.Component {
           getItemsFromCacheOrRedirect={getItemsFromCacheOrRedirect}
           serializedModel={serializedModel}
           setSelectedCommentPath={setSelectedCommentPath}
+          lockAndSearch={lockAndSearch}
           storyHead={storyHead}
           unlockAndSearch={unlockAndSearch}
           />}
@@ -41,7 +43,7 @@ class SecondaryHeader extends React.Component {
               <div className="flex tile-top-users">
                 {Object.entries(topUsers).map(d => (
                   <div
-                    onClick={() => unlockAndSearch(d[0])}
+                    onClick={() => lockAndSearch(d[0])}
                     className="top-poster"
                     key={d[0]}>
                     <div

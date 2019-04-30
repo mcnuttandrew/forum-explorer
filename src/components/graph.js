@@ -271,7 +271,7 @@ class Graph extends React.Component {
             opacity="0"
             />
         }
-        <text x={20} y={height - 5} className="legend unselectable">
+        <text x={width - 5} y={8} className="legend unselectable">
           {`click to ${commentSelectionLock ? 'un' : '' }lock selection`}
         </text>
       </svg>
@@ -280,9 +280,9 @@ class Graph extends React.Component {
 }
 Graph.defaultProps = {
   margin: {
-    top: 5,
+    top: 10,
     left: 20,
-    bottom: 20,
+    bottom: 5,
     right: 20
   }
 };

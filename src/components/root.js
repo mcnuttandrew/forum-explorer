@@ -36,7 +36,6 @@ class RootComponent extends React.Component {
   render() {
     const selectedMap = this.props.itemsToRender
       .reduce((acc, row) => acc.set(row.get('id'), true), Map());
-
     const showLoading = (getIdPure() || this.props.pageId || !WEB_PAGE_MODE) && this.props.loading;
     const showDashboard = !this.props.loading;
     const showPicker = !getIdPure() && !DEV_MODE && WEB_PAGE_MODE && !this.props.pageId;
@@ -56,6 +55,7 @@ class RootComponent extends React.Component {
           getItemsFromCacheOrRedirect={this.props.getItemsFromCacheOrRedirect}
           histogram={this.props.histogram}
           itemPath={this.props.itemPath}
+          lockAndSearch={this.props.lockAndSearch}
           serializedModel={this.props.serializedModel}
           showData={this.props.data.size > 1}
           searchValue={this.props.searchValue}
@@ -88,6 +88,7 @@ class RootComponent extends React.Component {
               pageId={this.props.pageId}
               serializedModel={this.props.serializedModel}
               setHoveredComment={this.props.setHoveredComment}
+              setSelectedCommentPathWithSelectionClear={this.props.setSelectedCommentPathWithSelectionClear}
               setSelectedCommentPath={this.props.setSelectedCommentPath}
               setSearch={this.props.setSearch}
               topUsers={this.props.topUsers}

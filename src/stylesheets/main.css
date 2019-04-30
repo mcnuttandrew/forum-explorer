@@ -182,6 +182,7 @@ body,
   fill: #828282;
   font-size: 10px;
   pointer-events: none;
+  text-anchor: end;
 }
 
 /* /// header styling */

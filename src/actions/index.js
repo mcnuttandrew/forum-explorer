@@ -10,11 +10,15 @@ const DAY = HOUR * 24;
 
 const buildEasyAction = type => payload => dispatch => dispatch({type, payload});
 export const clearSelection = buildEasyAction('clear-selection');
+export const lockAndSearch = buildEasyAction('lock-and-search');
 export const setFoundOrder = buildEasyAction('set-found-order');
 export const setHoveredComment = buildEasyAction('set-hovered-comment');
 export const setSearch = buildEasyAction('set-search');
 export const setSelectedCommentPath = buildEasyAction('set-comment-path');
-export const setSelectedCommentPathWithGraphComment = buildEasyAction('set-comment-path-with-graph-comment');
+export const setSelectedCommentPathWithGraphComment =
+  buildEasyAction('set-comment-path-with-graph-comment');
+export const setSelectedCommentPathWithSelectionClear =
+  buildEasyAction('set-comment-path-with-selection-clear');
 export const unsetGraphComment = buildEasyAction('unset-graph-comment');
 export const setTimeFilter = buildEasyAction('set-time-filter');
 export const toggleCommentSelectionLock = buildEasyAction('toggle-comment-selection-lock');
