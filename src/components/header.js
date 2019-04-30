@@ -78,8 +78,12 @@ class Header extends React.Component {
           <img src="https://news.ycombinator.com/y18.gif" className="logo"/>
         </a>
         <a
-          href="https://news.ycombinator.com/news"
-          className="header-link site-title">{`Hacke${WEB_PAGE_MODE ? 'd' : 'r'} News`}</a>
+          href={WEB_PAGE_MODE ?
+            'https://www.mcnutt.in/forum-explorer/' :
+            'https://news.ycombinator.com/news'}
+          className="header-link site-title">
+          {WEB_PAGE_MODE ? 'FeX: ForumExplorer' : 'HackerNews'}
+        </a>
         {headerLinks(username)}
         <a onClick={toggleTooltip}>settings</a>
         {tooltipOpen && <div onClick={toggleTooltip} className="tooltip-background" />}

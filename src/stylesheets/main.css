@@ -36,6 +36,10 @@ body,
   margin-bottom: 5px;
 }
 
+.margin-bottom-medium {
+  margin-bottom: 40px;
+}
+
 .margin-top-huge {
   margin-top: 100px;
 }
@@ -70,6 +74,10 @@ body,
 
 .panel:first-of-type {
   border-right: thin solid #828282;
+}
+
+.web-page-picker .panel:first-of-type {
+  border-right: none;
 }
 
 
@@ -130,8 +138,25 @@ body,
   font-size: 11px;
 }
 
+.picker-custom-submit h3 {
+  margin-bottom: 0;
+}
+
+.picker-custom-submit h5 {
+  margin-top: 0;
+}
+
+.web-page-picker {
+  height: calc(100% - 200px);
+}
+
+.web-page-picker .panel {
+  min-width: 400px;
+  padding: 0 10px;
+}
+
 .most-recent-posts {
-  max-height: 200px;
+  height: calc(100% - 50px);
   overflow-y: scroll;
 }
 
