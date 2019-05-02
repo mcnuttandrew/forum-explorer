@@ -18,10 +18,7 @@ export default class StoryHead extends React.PureComponent {
           {type === 'comment' ? `Comment by ${by}` : title}
         </a>
         {type === 'comment' && <a onClick={() => getItemsFromCacheOrRedirect(parent)}>
-          <span>{' on Parent Comment'}</span>
-          <span className="search-user" >
-            <i className="material-icons">launch</i>
-          </span>
+          <span>{' on Parent Comment. (return parent ↰)'}</span>
         </a>}
       </div>
       <div className="comment-head">

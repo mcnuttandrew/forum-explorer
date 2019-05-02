@@ -216,6 +216,7 @@ const getTreeFromCache = (state, payload) => {
   const preppedData = Immutable.fromJS(data);
   const tempState = state
     .set('loading', false)
+    .set('searchValue', '')
     .set('pageId', pageId)
     .set('data', preppedData)
     .set('itemsToRender', [])
@@ -264,9 +265,10 @@ function adjustConfigForState(state, dataLength) {
   const isStory = treeRoot && treeRoot.data && treeRoot.data.data && treeRoot.data.data.type === 'story';
   return setConfig(updatedConfig, {
     rowIdx: 0,
+    // default to treeY if in a comment, forest otherwise
     valueIdx: isStory ?
       graphLayouts.findIndex(d => d === 'forest') :
-      graphLayouts.findIndex(d => d === 'tree')
+      graphLayouts.findIndex(d => d === 'treeY')
   });
 }
 

@@ -35,40 +35,38 @@ export default function renderComment(props, item, idx) {
           'root-comment': isRoot
         })
       }>
-      <div className="comment-head flex">
-        {!WEB_PAGE_MODE && <a
-          className="up-arrow"
-          onClick={() => {
-            fetch(`https://news.ycombinator.com/${item.get('upvoteLink')}`, {
-              method: 'GET'
-            });
-          }}
-          >
-          {'▲ '}
-        </a>}
-        <a
-          href={`https://news.ycombinator.com/user?id=${userName}`}
-          >{userName}</a>
-        {userRank && <div className="top-poster-id" style={{
-          background: COLORS[userRank.rank],
-          color: STROKES[userRank.rank]
-        }} />}
-        <div className="hover-tooltip margin-right">
-          <div className="hover-rel-container" >
-            <span className="search-user" onClick={() => unlockAndSearch(userName)}>
-              <i className="material-icons">perm_identity</i>
-            </span>
-          </div>
-          <span className="tooltiptext">search for user</span>
+      <div className="comment-head flex justify-space-between">
+        <div className="flex">
+          {!WEB_PAGE_MODE && <a
+            className="up-arrow"
+            onClick={() => {
+              fetch(`https://news.ycombinator.com/${item.get('upvoteLink')}`, {
+                method: 'GET'
+              });
+            }}
+            >
+            {'▲ '}
+          </a>}
+          <a
+            href={`https://news.ycombinator.com/user?id=${userName}`}
+            >{userName}</a>
+          {userRank && <div className="top-poster-id" style={{
+            background: COLORS[userRank.rank],
+            color: STROKES[userRank.rank]
+          }} />}
+          <span>{` ${timeSince(item.get('time'))} ago. `}</span>
         </div>
-        <div className="hover-tooltip">
-          <a onClick={() => getItemsFromCacheOrRedirect(item.get('id'))}>
-            <span>{` ${timeSince(item.get('time'))} ago`}</span>
-            <span className="search-user" >
-              <i className="material-icons">launch</i>
-            </span>
+        <div>
+          <a 
+            className="search-user-button" 
+            onClick={() => unlockAndSearch(userName)}>
+            {'search for user'}
           </a>
-          <span className="tooltiptext">visualize subthread</span>
+          {hasChildren && <a 
+            className="search-user-button"
+            onClick={() => getItemsFromCacheOrRedirect(item.get('id'))}>
+            {`↳ visualize subthread`}
+          </a>}
         </div>
       </div>
       {isRoot && <div className="root-label comment-head">ROOT COMMENT</div>}

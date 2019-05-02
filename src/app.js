@@ -10,7 +10,6 @@ import AppState from './reducers/index';
 
 import '../node_modules/react-vis/dist/style.css';
 import './stylesheets/main.css';
-import './stylesheets/material-design.css';
 import Root from './components/root.js';
 import TestOrder from './constants/test-order';
 

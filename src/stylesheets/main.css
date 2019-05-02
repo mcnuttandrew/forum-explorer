@@ -63,6 +63,10 @@ body,
   flex-direction: column;
 }
 
+.justify-space-between {
+  justify-content: space-between;
+}
+
 .background-gray {
   background: #f6f6f0;
 }
@@ -336,12 +340,6 @@ a.header-link:visited {
   margin-left: 3px;
 }
 
-.search-user {
-  cursor: pointer;
-  fill: #828282;
-  position: absolute;
-}
-
 .expand-comment {
   color: #828282;
   cursor: pointer;
@@ -487,42 +485,12 @@ a.header-link:visited {
   text-anchor: middle;
 }
 
-/* Tooltip container */
-.hover-tooltip {
-  position: relative;
-  display: flex;
-}
-
-.hover-rel-container {
-  position: relative;
-  width: 15px;
-}
-
-/* Tooltip text */
-.hover-tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  font-size: 10px;
-  color: #fff;
-  text-align: center;
-  padding: 5px 0;
+.comment-block .search-user-button {
+  /* border: thin solid #828282; */
   border-radius: 6px;
-
-  /* Position the tooltip text - see examples below! */
-  position: absolute;
-  z-index: 1;
-  left: 90px;
-  top: -10px;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.hover-tooltip:hover .tooltiptext {
-  visibility: visible;
-}
-
-.search-user .material-icons {
-  font-size: 15px;
+  font-size: 10px;
+  margin-left: 3px;
+  padding: 3px;
 }
 
 .comments-help {
