@@ -43,7 +43,7 @@ export const DEFAULT_CONFIGS = [
   {
     name: TABLET_MODE_CONFIG,
     options: ['on', 'off'],
-    defaultOption: 'off'
+    defaultOption: ('ontouchstart' in document.documentElement) ? 'on' : 'off'
   }
 ].map(({name, options, defaultOption}) => ({
   name,
