@@ -1,7 +1,7 @@
 import {graphLayouts} from '../layouts';
 export const DEV_MODE = false;
 export const SERVER_DEV_MODE = false;
-export const WEB_PAGE_MODE = true;
+export const WEB_PAGE_MODE = false;
 export const SHOW_LOGS = false;
 
 export const numUsersToHighlight = 12;
@@ -12,6 +12,7 @@ export const CHILD_THRESHOLD = 15;
 export const GRAPH_LAYOUT_CONFIG = 'graph layout';
 export const DOT_SIZE_CONFIG = 'dot size';
 export const LEAF_SQUARE_CONFIG = 'leafs as squares';
+export const TABLET_MODE_CONFIG = 'tablet mode';
 
 export const DEFAULT_CONFIGS = [
   {
@@ -38,6 +39,11 @@ export const DEFAULT_CONFIGS = [
     name: LEAF_SQUARE_CONFIG,
     options: ['on', 'off'],
     defaultOption: 'on'
+  },
+  {
+    name: TABLET_MODE_CONFIG,
+    options: ['on', 'off'],
+    defaultOption: 'off'
   }
 ].map(({name, options, defaultOption}) => ({
   name,

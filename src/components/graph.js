@@ -31,6 +31,8 @@ const rootSizes = {
   large: 19
 };
 
+const DURATION = 400;
+
 class Graph extends React.Component {
   componentDidMount() {
     this.updateChart(this.props);
@@ -43,6 +45,7 @@ class Graph extends React.Component {
 
   updateChart(props) {
     const {
+      disallowLock,
       fullGraph,
       height,
       width,
@@ -82,6 +85,7 @@ class Graph extends React.Component {
         .attr('font-size', 10)
         .text(d => d.label);
     rootAnnotation.transition()
+      .duration(DURATION)
       .attr('class', 'root-annotation')
       .attr('transform', d => translateFunc(d))
       .text(d => d.label);
@@ -103,6 +107,7 @@ class Graph extends React.Component {
         .attr('class', evalLineClasses)
         .attr('d', path);
     link.transition()
+      .duration(DURATION)
       .attr('d', path)
       .attr('class', evalLineClasses);
     link.exit().remove();
@@ -160,6 +165,7 @@ class Graph extends React.Component {
         .attr('rx', d => (!d.children || !d.children.length) ? circleness[0] : circleness[1]);
 
     node.transition()
+        .duration(DURATION)
         .attr('fill', computeFill)
         .attr('stroke', computeStroke)
         .attr('transform', d => translateFunc(positioning(d)))
@@ -173,18 +179,24 @@ class Graph extends React.Component {
   }
 
   renderVoronoi(props, nodes, positioning, voronois) {
-    const {setSelectedCommentPathWithGraphComment, toggleCommentSelectionLock} = props;
+    const {
+      disallowLock,
+      setSelectedCommentPathWithGraphComment, 
+      toggleCommentSelectionLock
+    } = props;
     const polygonsG = select(ReactDOM.findDOMNode(this.refs.polygons));
     const polygon = polygonsG.selectAll('.polygon').data(voronois);
+    const makeSelection = d => setSelectedCommentPathWithGraphComment(d.data[2].data.id);
     polygon.enter().append('path')
       .attr('class', 'polygon')
       .attr('fill', 'black')
       .attr('stroke', 'white')
       .attr('opacity', 0)
       .attr('d', d => `M${d.join('L')}Z`)
-      .on('mouseenter', d => setSelectedCommentPathWithGraphComment(d.data[2].data.id))
-      .on('click', toggleCommentSelectionLock);
+      .on('mouseenter', disallowLock ? () => {} : makeSelection)
+      .on('click', disallowLock ? makeSelection: toggleCommentSelectionLock);
     polygon.transition()
+      .duration(DURATION)
       .attr('d', d => `M${d.join('L')}Z`);
     polygon.exit().remove();
   }
@@ -221,13 +233,14 @@ class Graph extends React.Component {
         .attr('transform', d => translateFunc(d.centroid));
 
     label.transition()
+        .duration(DURATION)
         .attr('transform', d => translateFunc(d.centroid));
     label.exit().remove();
 
     const subLabels = label.selectAll('text').data(d => d.label || '');
     subLabels.enter().append('text').text(d => d)
       .attr('transform', (d, idx) => `translate(0, ${idx * 11})`);
-    subLabels.transition().text(d => d)
+    subLabels.transition().duration(DURATION).text(d => d)
       .attr('transform', (d, idx) => `translate(0, ${idx * 11})`);
     subLabels.exit().remove();
 
@@ -236,6 +249,7 @@ class Graph extends React.Component {
   render() {
     const {
       commentSelectionLock,
+      disallowLock,
       graphLayout,
       height,
       width,
@@ -271,9 +285,9 @@ class Graph extends React.Component {
             opacity="0"
             />
         }
-        <text x={width - 5} y={8} className="legend unselectable">
+        {!disallowLock && <text x={width - 5} y={8} className="legend unselectable">
           {`click to ${commentSelectionLock ? 'un' : '' }lock selection`}
-        </text>
+        </text>}
       </svg>
     );
   }

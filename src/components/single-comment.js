@@ -1,10 +1,12 @@
 import React from 'react';
-import {classnames, timeSince} from '../utils';
+import {classnames, timeSince, getSelectedOption} from '../utils';
 import {COLORS, STROKES} from '../constants/colors';
+import {TABLET_MODE_CONFIG, WEB_PAGE_MODE} from '../constants/index';
 const createMarkup = __html => ({__html});
 
 export default function renderComment(props, item, idx) {
   const {
+    configs,
     getItemsFromCacheOrRedirect,
     hoveredComment,
     setHoveredComment,
@@ -19,6 +21,7 @@ export default function renderComment(props, item, idx) {
   const isRoot = Number(item.get('id')) === props.pageId;
   // over counts self
   const numDesc = item.get('descendants') - 1;
+  const disallowLock = getSelectedOption(configs, TABLET_MODE_CONFIG) === 'on';
   return (
     <div
       ref={`item${item.get('id')}`}
@@ -33,7 +36,7 @@ export default function renderComment(props, item, idx) {
         })
       }>
       <div className="comment-head flex">
-        <a
+        {!WEB_PAGE_MODE && <a
           className="up-arrow"
           onClick={() => {
             fetch(`https://news.ycombinator.com/${item.get('upvoteLink')}`, {
@@ -42,7 +45,7 @@ export default function renderComment(props, item, idx) {
           }}
           >
           {'▲ '}
-        </a>
+        </a>}
         <a
           href={`https://news.ycombinator.com/user?id=${userName}`}
           >{userName}</a>
@@ -71,6 +74,9 @@ export default function renderComment(props, item, idx) {
       {isRoot && <div className="root-label comment-head">ROOT COMMENT</div>}
       <div
         onClick={e => {
+          if (disallowLock) {
+            return;
+          }
           // enable users to click links with out trigger selection update
           const tagName = e.target.tagName;
           const bannedTags = {A: true};
@@ -91,12 +97,12 @@ export default function renderComment(props, item, idx) {
           onClick={e => setSelectedCommentPathWithSelectionClear(`${item.get('id')}`)}>
           {hasChildren ? `expand (${numDesc} descendant${numDesc > 1 ? 's' : ''})` : ''}
         </div>
-        <a
+        {!WEB_PAGE_MODE && <a
           onClick={e => e.stopPropagation()}
           href={`https://news.ycombinator.com/${item.get('replyLink')}`}
           className="expand-comment">
           reply
-        </a>
+        </a>}
       </div>
     </div>);
     /* eslint-enable react/no-danger */

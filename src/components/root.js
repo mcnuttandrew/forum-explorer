@@ -3,12 +3,13 @@ import {connect} from 'react-redux';
 import * as actionCreators from '../actions';
 import {Map} from 'immutable';
 
-import {DEV_MODE, WEB_PAGE_MODE} from '../constants';
+import {DEV_MODE, WEB_PAGE_MODE, TABLET_MODE_CONFIG} from '../constants';
 import GraphPanel from './graph-panel';
 import CommentPanel from './comment-panel';
 import Header from './header';
 import SecondaryHeader from './secondary-header';
 import WebPagePicker from './web-page-picker';
+import {classnames, getSelectedOption} from '../utils';
 
 const getId = () => (window.location.search || '?id=17338700').split('?id=')[1];
 const getIdPure = () => window.location.search && window.location.search.split('?id=')[1];
@@ -39,63 +40,67 @@ class RootComponent extends React.Component {
     const showLoading = (getIdPure() || this.props.pageId || !WEB_PAGE_MODE) && this.props.loading;
     const showDashboard = !this.props.loading;
     const showPicker = !getIdPure() && !DEV_MODE && WEB_PAGE_MODE && !this.props.pageId;
+    const tabletMode = getSelectedOption(this.props.configs, TABLET_MODE_CONFIG) === 'on';
     return (
-      <div
-        className="flex-down full-size">
-        <Header
-          configs={this.props.configs}
-          rootId={this.props.pageId}
-          userKarma={this.props.userKarma}
-          setConfig={this.props.setConfig}
-          logoutLink={this.props.logoutLink}
-          username={this.props.username}/>
-        <SecondaryHeader
-          clearSelection={this.props.clearSelection}
-          configs={this.props.configs}
-          getItemsFromCacheOrRedirect={this.props.getItemsFromCacheOrRedirect}
-          histogram={this.props.histogram}
-          itemPath={this.props.itemPath}
-          lockAndSearch={this.props.lockAndSearch}
-          serializedModel={this.props.serializedModel}
-          showData={this.props.data.size > 1}
-          searchValue={this.props.searchValue}
-          setSearch={this.props.setSearch}
-          setSelectedCommentPath={this.props.setSelectedCommentPath}
-          setTimeFilter={this.props.setTimeFilter}
-          storyHead={this.props.storyHead}
-          topUsers={this.props.topUsers}
-          unlockAndSearch={this.props.unlockAndSearch} />
-        {showPicker && <WebPagePicker
-          getAllItems={this.props.getAllItems}
-          setPageId={this.props.setPageId}/>}
-        {showLoading && <div className="flex full-size background-gray centering">
-          <h1> Loading, {this.props.loadedCount} so far</h1>
-        </div>}
-        {
-          showDashboard && <div
-            className="flex full-size background-gray main-container">
-            <GraphPanel
-              {...this.props}
-              selectedMap={selectedMap}
-              />
-            <CommentPanel
-              configs={this.props.configs}
-              getItemsFromCacheOrRedirect={this.props.getItemsFromCacheOrRedirect}
-              hoveredGraphComment={this.props.hoveredGraphComment}
-              itemPath={this.props.itemPath}
-              itemsToRender={this.props.itemsToRender}
-              model={this.props.model}
-              pageId={this.props.pageId}
-              serializedModel={this.props.serializedModel}
-              setHoveredComment={this.props.setHoveredComment}
-              setSelectedCommentPathWithSelectionClear={this.props.setSelectedCommentPathWithSelectionClear}
-              setSelectedCommentPath={this.props.setSelectedCommentPath}
-              setSearch={this.props.setSearch}
-              topUsers={this.props.topUsers}
-              unlockAndSearch={this.props.unlockAndSearch}
-              />
-          </div>
-        }
+      <div 
+        className={classnames({'tablet-mode': tabletMode})}
+        id="extension-container">
+        <div className="flex-down full-size">
+          <Header
+            configs={this.props.configs}
+            rootId={this.props.pageId}
+            userKarma={this.props.userKarma}
+            setConfig={this.props.setConfig}
+            logoutLink={this.props.logoutLink}
+            username={this.props.username}/>
+          <SecondaryHeader
+            clearSelection={this.props.clearSelection}
+            configs={this.props.configs}
+            getItemsFromCacheOrRedirect={this.props.getItemsFromCacheOrRedirect}
+            histogram={this.props.histogram}
+            itemPath={this.props.itemPath}
+            lockAndSearch={this.props.lockAndSearch}
+            serializedModel={this.props.serializedModel}
+            showData={this.props.data.size > 1}
+            searchValue={this.props.searchValue}
+            setSearch={this.props.setSearch}
+            setSelectedCommentPath={this.props.setSelectedCommentPath}
+            setTimeFilter={this.props.setTimeFilter}
+            storyHead={this.props.storyHead}
+            topUsers={this.props.topUsers}
+            unlockAndSearch={this.props.unlockAndSearch} />
+          {showPicker && <WebPagePicker
+            getAllItems={this.props.getAllItems}
+            setPageId={this.props.setPageId}/>}
+          {showLoading && <div className="flex full-size background-gray centering">
+            <h1> Loading, {this.props.loadedCount} so far</h1>
+          </div>}
+          {
+            showDashboard && <div
+              className="flex full-size background-gray main-container">
+              <GraphPanel
+                {...this.props}
+                selectedMap={selectedMap}
+                />
+              <CommentPanel
+                configs={this.props.configs}
+                getItemsFromCacheOrRedirect={this.props.getItemsFromCacheOrRedirect}
+                hoveredGraphComment={this.props.hoveredGraphComment}
+                itemPath={this.props.itemPath}
+                itemsToRender={this.props.itemsToRender}
+                model={this.props.model}
+                pageId={this.props.pageId}
+                serializedModel={this.props.serializedModel}
+                setHoveredComment={this.props.setHoveredComment}
+                setSelectedCommentPathWithSelectionClear={this.props.setSelectedCommentPathWithSelectionClear}
+                setSelectedCommentPath={this.props.setSelectedCommentPath}
+                setSearch={this.props.setSearch}
+                topUsers={this.props.topUsers}
+                unlockAndSearch={this.props.unlockAndSearch}
+                />
+            </div>
+          }
+        </div>
       </div>
     );
   }

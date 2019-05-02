@@ -7,7 +7,8 @@ import {getSelectedOption} from '../utils';
 import {
   GRAPH_LAYOUT_CONFIG,
   DOT_SIZE_CONFIG,
-  LEAF_SQUARE_CONFIG
+  LEAF_SQUARE_CONFIG,
+  TABLET_MODE_CONFIG
 } from '../constants/index';
 
 class GraphPanel extends React.Component {
@@ -38,6 +39,7 @@ class GraphPanel extends React.Component {
           graphLayout={getSelectedOption(configs, GRAPH_LAYOUT_CONFIG)}
           markSize={getSelectedOption(configs, DOT_SIZE_CONFIG)}
           squareLeafs={getSelectedOption(configs, LEAF_SQUARE_CONFIG) === 'on'}
+          disallowLock={getSelectedOption(configs, TABLET_MODE_CONFIG) === 'on'}
           muteUnselected={searchValue || (timeFilter.min !== timeFilter.max)}
           height={graphPanelDimensions.get('height')}
           width={graphPanelDimensions.get('width')}

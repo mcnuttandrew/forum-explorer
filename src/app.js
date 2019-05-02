@@ -46,7 +46,7 @@ const karmaQuery = topQuery && topQuery.length && (/\((.*)\)/).exec(topQuery[1].
 const karma = karmaQuery && karmaQuery[1] || null;
 
 const extensionContainer = document.createElement('div');
-extensionContainer.setAttribute('id', 'extension-container');
+extensionContainer.setAttribute('id', 'root-container');
 document.querySelector('body').appendChild(extensionContainer);
 const center = document.querySelector('center');
 if (center) {
@@ -63,5 +63,5 @@ ReactDOM.render(
       logoutLink={logoutLink}
       userKarma={karma}/>
   </Provider>,
-  document.querySelector('#extension-container')
+  document.querySelector('#root-container')
 );

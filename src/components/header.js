@@ -90,7 +90,7 @@ class Header extends React.Component {
         {tooltipOpen && <div className="tooltip-container">
           {tooltip(configs, setConfig, toggleTooltip)}
         </div>}
-        <div className="right-links-container">
+        {!WEB_PAGE_MODE && <div className="right-links-container">
           {username ?
             <div>
               <a
@@ -106,7 +106,7 @@ class Header extends React.Component {
               className="header-link"
               href={`https://news.ycombinator.com/login?goto=item%3Fid%3D${rootId}`}>login</a>
           }
-        </div>
+        </div>}
       </div>
     );
   }
