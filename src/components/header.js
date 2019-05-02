@@ -35,7 +35,7 @@ function tooltip(configs, setConfig, toggleTooltip) {
 }
 
 function headerLinks(username) {
-  return [
+  const regularLinks = [
     {name: 'new', link: 'newest'},
     username ? {name: 'threads', link: `threads?id=${username}`} : false,
     {name: 'comments', link: 'newcomments'},
@@ -43,7 +43,14 @@ function headerLinks(username) {
     {name: 'ask'},
     {name: 'jobs'},
     {name: 'submit'}
-  ]
+  ];
+  
+  const webPageModeLinks = [
+    {name: 'home', link: '/'},
+    {name: 'github', link: 'https://github.com/mcnuttandrew/forum-explorer'}
+  ];
+  
+  return (WEB_PAGE_MODE ? webPageModeLinks : regularLinks)
   .filter(d => d)
   .map(({name, link}) => {
     const url = link || name;

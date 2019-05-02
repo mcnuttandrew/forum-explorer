@@ -267,7 +267,10 @@ class Graph extends React.Component {
         width={width}
         height={height}
         onMouseOut={unsetGraphComment}
-        className={classnames({locked: commentSelectionLock})}>
+        className={classnames({
+          // if in tablet mode then the graph should always look locked
+          locked: (commentSelectionLock || disallowLock)
+        })}>
         <g
           opacity={muteUnselected ? 0.7 : 1}
           ref="lines"
