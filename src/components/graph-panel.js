@@ -32,14 +32,16 @@ class GraphPanel extends React.Component {
       searchValue,
       timeFilter
     } = this.props;
+    const tabletMode = getSelectedOption(configs, TABLET_MODE_CONFIG) === 'on';
     return (
       <div className="panel relative" ref="graphPanel">
         <Graph
           {...this.props}
+          duration={tabletMode ? 0 : 400}
           graphLayout={getSelectedOption(configs, GRAPH_LAYOUT_CONFIG)}
           markSize={getSelectedOption(configs, DOT_SIZE_CONFIG)}
           squareLeafs={getSelectedOption(configs, LEAF_SQUARE_CONFIG) === 'on'}
-          disallowLock={getSelectedOption(configs, TABLET_MODE_CONFIG) === 'on'}
+          disallowLock={tabletMode}
           muteUnselected={searchValue || (timeFilter.min !== timeFilter.max)}
           height={graphPanelDimensions.get('height')}
           width={graphPanelDimensions.get('width')}

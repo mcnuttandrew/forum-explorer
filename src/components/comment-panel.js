@@ -1,6 +1,10 @@
 import React from 'react';
 import {getSelectedOption} from '../utils';
-import {GRAPH_LAYOUT_CONFIG, STUMP_PRUNE_THRESHOLD} from '../constants';
+import {
+  GRAPH_LAYOUT_CONFIG, 
+  STUMP_PRUNE_THRESHOLD,
+  TABLET_MODE_CONFIG
+} from '../constants';
 import SingleComment from './single-comment';
 
 /* eslint-disable max-len */
@@ -25,6 +29,7 @@ class CommentPanel extends React.PureComponent {
       .filter(item => item.get('type') !== 'story' || item.get('text'));
       // figure out if view is at root on forest mode with sufficently large comment chain
     const isForest = getSelectedOption(configs, GRAPH_LAYOUT_CONFIG) === 'forest';
+    const tabletMode = getSelectedOption(configs, TABLET_MODE_CONFIG) === 'on';
     const singleComments = data.filter(d => !d.get('descendants'));
     const viewingRoot = data.every(d => d.get('depth') === 0 || d.get('depth') === 1);
     const splitComments = isForest && (singleComments.size > STUMP_PRUNE_THRESHOLD) && viewingRoot;
@@ -38,9 +43,15 @@ class CommentPanel extends React.PureComponent {
           <h1>Forum Explorer</h1>
           <div>Visualize threaded async conversations in new and dynamic ways</div>
           <h3>Usage</h3>
-          <div>{'Mouse over graph to select comments'}</div>
-          <div>{'Click graph to lock/unlock selection'}</div>
-          <div>{'Click the user names or topics or type in to the search box to search'}</div>
+          {!tabletMode && <div>
+            <div>{'Mouse over graph to select comments'}</div>
+            <div>{'Click graph to lock/unlock selection'}</div>
+            <div>{'Click the user names or topics or type in to the search box to search'}</div>
+          </div>}
+          {tabletMode && <div>
+            <div>{'Touch nodes in the graph to select comments'}</div>
+            <div>{'Click the user names or topics or type in to the search box to search'}</div>
+          </div>}
           <h3>Feedback</h3>
           <div>{'Feel free to send any feedback or bug reports on the'}
             <a

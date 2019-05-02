@@ -31,8 +31,6 @@ const rootSizes = {
   large: 19
 };
 
-const DURATION = 400;
-
 class Graph extends React.Component {
   componentDidMount() {
     this.updateChart(this.props);
@@ -85,7 +83,7 @@ class Graph extends React.Component {
         .attr('font-size', 10)
         .text(d => d.label);
     rootAnnotation.transition()
-      .duration(DURATION)
+      .duration(props.duration)
       .attr('class', 'root-annotation')
       .attr('transform', d => translateFunc(d))
       .text(d => d.label);
@@ -93,7 +91,7 @@ class Graph extends React.Component {
   }
 
   renderLinks(props, root, xScale, yScale) {
-    const {selectedMap, graphLayout} = props;
+    const {selectedMap, graphLayout, duration} = props;
     const linesG = select(ReactDOM.findDOMNode(this.refs.lines));
     const link = linesG.selectAll('.link').data(root.links());
     const evalLineClasses = d => {
@@ -107,7 +105,7 @@ class Graph extends React.Component {
         .attr('class', evalLineClasses)
         .attr('d', path);
     link.transition()
-      .duration(DURATION)
+      .duration(duration)
       .attr('d', path)
       .attr('class', evalLineClasses);
     link.exit().remove();
@@ -115,6 +113,7 @@ class Graph extends React.Component {
 
   renderNodes(props, nodes, positioning, markSize) {
     const {
+      duration,
       muteUnselected,
       hoveredComment,
       selectedMap,
@@ -165,7 +164,7 @@ class Graph extends React.Component {
         .attr('rx', d => (!d.children || !d.children.length) ? circleness[0] : circleness[1]);
 
     node.transition()
-        .duration(DURATION)
+        .duration(duration)
         .attr('fill', computeFill)
         .attr('stroke', computeStroke)
         .attr('transform', d => translateFunc(positioning(d)))
@@ -180,6 +179,7 @@ class Graph extends React.Component {
 
   renderVoronoi(props, nodes, positioning, voronois) {
     const {
+      duration,
       disallowLock,
       setSelectedCommentPathWithGraphComment, 
       toggleCommentSelectionLock
@@ -196,7 +196,7 @@ class Graph extends React.Component {
       .on('mouseenter', disallowLock ? () => {} : makeSelection)
       .on('click', disallowLock ? makeSelection: toggleCommentSelectionLock);
     polygon.transition()
-      .duration(DURATION)
+      .duration(duration)
       .attr('d', d => `M${d.join('L')}Z`);
     polygon.exit().remove();
   }
@@ -233,14 +233,14 @@ class Graph extends React.Component {
         .attr('transform', d => translateFunc(d.centroid));
 
     label.transition()
-        .duration(DURATION)
+        .duration(props.duration)
         .attr('transform', d => translateFunc(d.centroid));
     label.exit().remove();
 
     const subLabels = label.selectAll('text').data(d => d.label || '');
     subLabels.enter().append('text').text(d => d)
       .attr('transform', (d, idx) => `translate(0, ${idx * 11})`);
-    subLabels.transition().duration(DURATION).text(d => d)
+    subLabels.transition().duration(props.duration).text(d => d)
       .attr('transform', (d, idx) => `translate(0, ${idx * 11})`);
     subLabels.exit().remove();
 
