@@ -10,6 +10,7 @@ import forestLayout from './layouts/forest-layout.js';
 import gridTreeLayout from './layouts/grid-tree-layout.js';
 import orbitLayout from './layouts/orbit-layout.js';
 import treeLayout from './layouts/tree-layout.js';
+import transposeTreeLayout from './layouts/transpose-tree-layout.js';
 import ringLayout from './layouts/ring-layout.js';
 import timeEmbedX from './layouts/time-embed-x.js';
 import timeEmbedY from './layouts/time-embed-y.js';
@@ -22,7 +23,8 @@ export const layouts = {
   timeX: timeEmbedX,
   ring: ringLayout,
   timeY: timeEmbedY,
-  tree: treeLayout,
+  treeY: treeLayout,
+  treeX: transposeTreeLayout,
   forest: forestLayout,
   null: nullLayout
 };
@@ -30,7 +32,8 @@ export const layouts = {
 // this is imported into the reducer and used to order the layouts
 export const graphLayouts = [
   'ring',
-  'tree',
+  'treeX',
+  'treeY',
   // time layouts are currently busted
   // 'timeX',
   // 'timeY',

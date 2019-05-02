@@ -93,7 +93,8 @@ class Graph extends React.Component {
   renderLinks(props, root, xScale, yScale) {
     const {selectedMap, graphLayout, duration} = props;
     const linesG = select(ReactDOM.findDOMNode(this.refs.lines));
-    const link = linesG.selectAll('.link').data(root.links());
+    const link = linesG.selectAll('.link')
+      .data(root.links(), d => `${d.target.data.id}-${d.source.data.id}`);
     const evalLineClasses = d => {
       return classnames({
         link: true,
@@ -145,7 +146,9 @@ class Graph extends React.Component {
     const computeStroke = d => muteUnselected ?
       (HexOver('#000', '#f6f6f0', isSelected(d) ? 1 : OPACITY)) : '#555';
 
-    const node = nodesG.selectAll('.node').data(nodes);
+    const node = nodesG.selectAll('.node').data(nodes, d => {
+      return `${d.data.id}`;
+    });
     const setCircSize = d => {
       const scalingSizes = squareLeafs ? [1, 1.75] : [1.75, 1.75];
       const scalingFactor = (!d.children || !d.children.length) ? scalingSizes[0] : scalingSizes[1];
