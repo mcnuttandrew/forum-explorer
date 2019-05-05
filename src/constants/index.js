@@ -13,6 +13,7 @@ export const GRAPH_LAYOUT_CONFIG = 'graph layout';
 export const DOT_SIZE_CONFIG = 'dot size';
 export const LEAF_SQUARE_CONFIG = 'leafs as squares';
 export const TABLET_MODE_CONFIG = 'tablet mode';
+export const SHOW_ALL_COMMENTS = 'show all comments';
 
 export const DEFAULT_CONFIGS = [
   {
@@ -44,6 +45,11 @@ export const DEFAULT_CONFIGS = [
     name: TABLET_MODE_CONFIG,
     options: ['on', 'off'],
     defaultOption: ('ontouchstart' in document.documentElement) ? 'on' : 'off'
+  },
+  {
+    name: SHOW_ALL_COMMENTS,
+    options: ['smart defaults', 'on', 'off'],
+    defaultOption: 'smart defaults'
   }
 ].map(({name, options, defaultOption}) => ({
   name,
