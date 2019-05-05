@@ -1,7 +1,7 @@
 import React from 'react';
 import {getSelectedOption} from '../utils';
 import {
-  GRAPH_LAYOUT_CONFIG, 
+  GRAPH_LAYOUT_CONFIG,
   STUMP_PRUNE_THRESHOLD,
   TABLET_MODE_CONFIG
 } from '../constants';

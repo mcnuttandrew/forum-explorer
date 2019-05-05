@@ -57,15 +57,15 @@ export default function renderComment(props, item, idx) {
           <span>{` ${timeSince(item.get('time'))} ago. `}</span>
         </div>
         <div>
-          <a 
-            className="search-user-button" 
+          <a
+            className="search-user-button"
             onClick={() => unlockAndSearch(userName)}>
             {'search for user'}
           </a>
-          {hasChildren && <a 
+          {hasChildren && <a
             className="search-user-button"
             onClick={() => getItemsFromCacheOrRedirect(item.get('id'))}>
-            {`↳ visualize subthread`}
+            {'↳ visualize subthread'}
           </a>}
         </div>
       </div>

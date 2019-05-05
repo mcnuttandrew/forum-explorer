@@ -44,12 +44,12 @@ function headerLinks(username) {
     {name: 'jobs'},
     {name: 'submit'}
   ];
-  
+
   const webPageModeLinks = [
     {name: 'home', link: '/'},
     {name: 'github', link: 'https://github.com/mcnuttandrew/forum-explorer'}
   ];
-  
+
   return (WEB_PAGE_MODE ? webPageModeLinks : regularLinks)
   .filter(d => d)
   .map(({name, link}) => {

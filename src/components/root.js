@@ -3,7 +3,12 @@ import {connect} from 'react-redux';
 import * as actionCreators from '../actions';
 import {Map} from 'immutable';
 
-import {DEV_MODE, WEB_PAGE_MODE, TABLET_MODE_CONFIG} from '../constants';
+import {
+  DEV_MODE,
+  WEB_PAGE_MODE,
+  SHOW_ALL_COMMENTS,
+  TABLET_MODE_CONFIG
+} from '../constants';
 import GraphPanel from './graph-panel';
 import CommentPanel from './comment-panel';
 import Header from './header';
@@ -41,8 +46,11 @@ class RootComponent extends React.Component {
     const showDashboard = !this.props.loading;
     const showPicker = !getIdPure() && !DEV_MODE && WEB_PAGE_MODE && !this.props.pageId;
     const tabletMode = getSelectedOption(this.props.configs, TABLET_MODE_CONFIG) === 'on';
+    const showAllCommentsOption = getSelectedOption(this.props.configs, SHOW_ALL_COMMENTS);
+    const showAllComments = showAllCommentsOption === 'on' ||
+      (showAllCommentsOption === 'smart defaults' && this.props.data.size < 30);
     return (
-      <div 
+      <div
         className={classnames({'tablet-mode': tabletMode})}
         id="extension-container">
         <div className="flex-down full-size">
@@ -87,7 +95,8 @@ class RootComponent extends React.Component {
                 getItemsFromCacheOrRedirect={this.props.getItemsFromCacheOrRedirect}
                 hoveredGraphComment={this.props.hoveredGraphComment}
                 itemPath={this.props.itemPath}
-                itemsToRender={this.props.itemsToRender}
+                itemsToRender={showAllComments ?
+                  this.props.dfsOrderedData : this.props.itemsToRender}
                 model={this.props.model}
                 pageId={this.props.pageId}
                 serializedModel={this.props.serializedModel}
@@ -112,6 +121,7 @@ function mapStateToProps({base}) {
     commentSelectionLock: base.get('commentSelectionLock'),
     configs: base.get('configs'),
     data: base.get('data').filter(d => !d.get('deleted')),
+    dfsOrderedData: base.get('dfsOrderedData'),
     fullGraph: base.get('fullGraph'),
     graphPanelDimensions: base.get('graphPanelDimensions'),
     histogram: base.get('histogram'),

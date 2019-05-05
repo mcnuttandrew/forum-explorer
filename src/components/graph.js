@@ -43,7 +43,6 @@ class Graph extends React.Component {
 
   updateChart(props) {
     const {
-      disallowLock,
       fullGraph,
       height,
       width,
@@ -184,7 +183,7 @@ class Graph extends React.Component {
     const {
       duration,
       disallowLock,
-      setSelectedCommentPathWithGraphComment, 
+      setSelectedCommentPathWithGraphComment,
       toggleCommentSelectionLock
     } = props;
     const polygonsG = select(ReactDOM.findDOMNode(this.refs.polygons));
@@ -197,7 +196,7 @@ class Graph extends React.Component {
       .attr('opacity', 0)
       .attr('d', d => `M${d.join('L')}Z`)
       .on('mouseenter', disallowLock ? () => {} : makeSelection)
-      .on('click', disallowLock ? makeSelection: toggleCommentSelectionLock);
+      .on('click', disallowLock ? makeSelection : toggleCommentSelectionLock);
     polygon.transition()
       .duration(duration)
       .attr('d', d => `M${d.join('L')}Z`);

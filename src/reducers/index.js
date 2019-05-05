@@ -14,6 +14,7 @@ let DEFAULT_STATE = Immutable.fromJS({
   commentSelectionLock: false,
   configs: DEFAULT_CONFIGS,
   data: DEV_MODE ? TestData : [],
+  dfsOrderedData: [],
   users: {},
   foundOrderMap: {},
   graphPanelDimensions: {height: 0, width: 0},
@@ -227,6 +228,8 @@ const getTreeFromCache = (state, payload) => {
   return adjustConfigForState(tempState, data.length);
 };
 
+const dfsOnTree = tree => [tree.data].concat(...(tree.children || []).map(child => dfsOnTree(child)));
+
 const getAllItems = (state, {data, root, tree}) => {
   let updatedData = Immutable.fromJS(reconcileTreeWithData(tree, data)).map(row => {
     const id = row.get('id');
@@ -243,11 +246,13 @@ const getAllItems = (state, {data, root, tree}) => {
   }
   // side effect to update indexedDB with updated tree state
   updateIdInDb(root, updatedData.toJS());
+  const preppedTree = prepareTree(updatedData.toJS(), root);
   const tempState = state
     .set('loading', false)
     .set('data', updatedData)
+    .set('dfsOrderedData', Immutable.fromJS(dfsOnTree(preppedTree).slice(1)))
     .set('pageId', root)
-    .set('tree', prepareTree(updatedData.toJS(), root))
+    .set('tree', preppedTree)
     .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight))
     .set('histogram', computeHistrogram(data));
 
