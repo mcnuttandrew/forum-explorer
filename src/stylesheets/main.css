@@ -492,6 +492,7 @@ a.header-link:visited {
 .comment-block .search-user-button {
   /* border: thin solid #828282; */
   border-radius: 6px;
+  text-decoration: underline;
   font-size: 10px;
   margin-left: 3px;
   padding: 3px;
