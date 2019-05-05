@@ -1,7 +1,10 @@
 import React from 'react';
 import {classnames, timeSince, getSelectedOption} from '../utils';
 import {COLORS, STROKES} from '../constants/colors';
-import {TABLET_MODE_CONFIG, WEB_PAGE_MODE} from '../constants/index';
+import {
+  TABLET_MODE_CONFIG,
+  WEB_PAGE_MODE
+} from '../constants/index';
 const createMarkup = __html => ({__html});
 
 export default function renderComment(props, item, idx) {
@@ -9,22 +12,25 @@ export default function renderComment(props, item, idx) {
     configs,
     getItemsFromCacheOrRedirect,
     hoveredComment,
+    hoveredGraphComment,
     setHoveredComment,
     setSelectedCommentPathWithSelectionClear,
+    showingAllComments,
     unlockAndSearch,
     topUsers
   } = props;
   /* eslint-disable react/no-danger */
   const hasChildren = item.get('kids') && item.get('kids').size;
   const userName = item.get('by');
+  const id = item.get('id');
   const userRank = topUsers[userName];
-  const isRoot = Number(item.get('id')) === props.pageId;
+  const isRoot = Number(id) === props.pageId;
   // over counts self
   const numDesc = item.get('descendants') - 1;
   const disallowLock = getSelectedOption(configs, TABLET_MODE_CONFIG) === 'on';
   return (
     <div
-      ref={`item${item.get('id')}`}
+      ref={`item${id}`}
       onMouseEnter={() => setHoveredComment(item)}
       onMouseLeave={() => setHoveredComment(null)}
       key={idx}
@@ -64,7 +70,7 @@ export default function renderComment(props, item, idx) {
           </a>
           {hasChildren && <a
             className="search-user-button"
-            onClick={() => getItemsFromCacheOrRedirect(item.get('id'))}>
+            onClick={() => getItemsFromCacheOrRedirect(id)}>
             {'↳ visualize subthread'}
           </a>}
         </div>
@@ -81,21 +87,21 @@ export default function renderComment(props, item, idx) {
           if (bannedTags[tagName]) {
             return;
           }
-          setSelectedCommentPathWithSelectionClear(`${item.get('id')}`);
+          setSelectedCommentPathWithSelectionClear(`${id}`);
         }}
         className={classnames({
           comment: true,
-          'hovered-comment': item.get('id') === hoveredComment,
+          'hovered-comment': (id === hoveredComment || id === hoveredGraphComment),
           'comment-no-expand': !hasChildren
         })}
         dangerouslySetInnerHTML={createMarkup(item.get('text'))}/>
       <div className="flex comment-footer">
-        <div
+        {!showingAllComments && <div
           className="expand-comment margin-left"
-          onClick={e => setSelectedCommentPathWithSelectionClear(`${item.get('id')}`)}>
+          onClick={e => setSelectedCommentPathWithSelectionClear(`${id}`)}>
           {hasChildren ? `expand (${numDesc} descendant${numDesc > 1 ? 's' : ''})` : ''}
-        </div>
-        {!WEB_PAGE_MODE && <a
+        </div>}
+        {!WEB_PAGE_MODE && item.get('replyLink') && <a
           onClick={e => e.stopPropagation()}
           href={`https://news.ycombinator.com/${item.get('replyLink')}`}
           className="expand-comment">

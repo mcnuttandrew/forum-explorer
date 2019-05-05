@@ -93,6 +93,7 @@ class RootComponent extends React.Component {
               <CommentPanel
                 configs={this.props.configs}
                 getItemsFromCacheOrRedirect={this.props.getItemsFromCacheOrRedirect}
+                hoveredComment={this.props.hoveredComment}
                 hoveredGraphComment={this.props.hoveredGraphComment}
                 itemPath={this.props.itemPath}
                 itemsToRender={showAllComments ?
@@ -104,6 +105,7 @@ class RootComponent extends React.Component {
                 setSelectedCommentPathWithSelectionClear={this.props.setSelectedCommentPathWithSelectionClear}
                 setSelectedCommentPath={this.props.setSelectedCommentPath}
                 setSearch={this.props.setSearch}
+                showingAllComments={showAllComments}
                 topUsers={this.props.topUsers}
                 unlockAndSearch={this.props.unlockAndSearch}
                 />

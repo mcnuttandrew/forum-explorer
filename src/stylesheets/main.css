@@ -331,7 +331,7 @@ a.header-link:visited {
   content: ' ';
 }
 
-.comment-block:hover .comment {
+.comment-block .comment.hovered-comment {
   border-left: 3px solid #ff6600;
 }
 
