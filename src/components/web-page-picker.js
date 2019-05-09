@@ -1,5 +1,6 @@
 import React from 'react';
 import {timeSince} from '../utils';
+import {getPageSingleItems, setPageSingleItems} from '../actions/db'
 
 const examplePages = [{
   time: 1556024424,
@@ -31,7 +32,7 @@ const examplePages = [{
   id: 19263086
 }];
 
-function renderPost({id, title, by, time, score, descendants}, idx) {
+function renderPost({id, title, by, time, score, descendants}, idx, loaded) {
   return (<div className="margin-bottom" key={idx}>
     <div className="comment-title">
       <a href={`?id=${id}`}>
@@ -41,7 +42,8 @@ function renderPost({id, title, by, time, score, descendants}, idx) {
     <div className="comment-head">
       <span>{`${score} points by `}</span>
       <a href={`https://news.ycombinator.com/user?id=${by}`}>{by}</a>
-      <span>{` ${timeSince(time)} ago - ${descendants} comments`}</span>
+      {loaded && <span>{` ${timeSince(time)} ago - ${descendants} comments`}</span>}
+      {!loaded && ' LOADING'}
     </div>
 
   </div>);
@@ -52,18 +54,38 @@ export default class WebPagePicker extends React.Component {
     super();
     this.state = {
       error: false,
-      mostRecentPosts: []
+      mostRecentPosts: [],
+      // used to mark when the real results arrive
+      loaded: false
     };
   }
 
   componentDidMount() {
+    // caches results from the front page in IndexedDB, that way subseqeunt visits have faster loadeds
+    // first call HN and ask for the top results
     fetch('https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty')
       .then(d => d.json())
-      .then(d => Promise.all(d.map(item =>
-        fetch(`https://hacker-news.firebaseio.com/v0/item/${item}.json`)
-          .then(result => result.json()))
-      ))
-      .then(mostRecentPosts => this.setState({mostRecentPosts}));
+      .then(items => {
+        // then kick off a bunch of promises to get the individual items
+        Promise.all(items.map(item =>
+          fetch(`https://hacker-news.firebaseio.com/v0/item/${item}.json`)
+            .then(result => result.json()))
+        ).then(mostRecentPosts => {
+          // updated the cache with the real results when they come in
+          setPageSingleItems(mostRecentPosts);
+          this.setState({mostRecentPosts, loaded: true});
+        })
+
+        // in parallel get all of them previous cached items 
+        getPageSingleItems(items)
+          .then(results => {
+            const lookup = results.reduce((acc, row) => {
+              acc[row.id] = row;
+              return acc;
+            }, {});
+            this.setState({mostRecentPosts: items.map(id => lookup[id])});
+          });
+      });
   }
 
   customBar() {
@@ -96,7 +118,7 @@ export default class WebPagePicker extends React.Component {
   }
 
   render() {
-    const {mostRecentPosts} = this.state;
+    const {mostRecentPosts, loaded} = this.state;
     return (
       <div className="background-gray picker-container">
         <div className="flex-down">
@@ -115,7 +137,7 @@ export default class WebPagePicker extends React.Component {
             <h3>Most recent posts </h3>
             {mostRecentPosts.length !== 0 && <div
               className="most-recent-posts">
-              {mostRecentPosts.map(renderPost)}
+              {mostRecentPosts.map((d, idx) => renderPost(d, idx, loaded))}
             </div>}
             {!mostRecentPosts.length && <div>
               {'  Loading'}
@@ -124,7 +146,7 @@ export default class WebPagePicker extends React.Component {
           <div className="panel">
             <div className="margin-bottom-medium">
               <h3> Some Interesting Examples </h3>
-              {examplePages.map(renderPost)}
+              {examplePages.map((d, idx) => renderPost(d, idx, true))}
             </div>
             {this.customBar()}
           </div>

@@ -81,3 +81,13 @@ export function maybeRefreshDB() {
       return;
     });
 }
+
+// these two functions are used for caching the the front page items
+export function getPageSingleItems(ids) {
+  return Promise.all(ids.map(id => get(`${id}-single`)))
+    .then(results => results.filter(d => d));
+}
+
+export function setPageSingleItems(data) {
+  return Promise.all(data.map(row => set(`${row.id}-single`, row)));
+}
