@@ -1,6 +1,6 @@
 import React from 'react';
 import {timeSince} from '../utils';
-import {getPageSingleItems, setPageSingleItems} from '../actions/db'
+import {getPageSingleItems, setPageSingleItems} from '../actions/db';
 
 const examplePages = [{
   time: 1556024424,
@@ -32,7 +32,15 @@ const examplePages = [{
   id: 19263086
 }];
 
-function renderPost({id, title, by, time, score, descendants}, idx, loaded) {
+function renderPost(props, idx, loaded) {
+  if (!props) {
+    return (<div className="margin-bottom" key={idx}>
+      <div className="comment-title">
+        LOADING
+      </div>
+    </div>);
+  }
+  const {id, title, by, time, score, descendants} = props;
   return (<div className="margin-bottom" key={idx}>
     <div className="comment-title">
       <a href={`?id=${id}`}>
@@ -74,9 +82,9 @@ export default class WebPagePicker extends React.Component {
           // updated the cache with the real results when they come in
           setPageSingleItems(mostRecentPosts);
           this.setState({mostRecentPosts, loaded: true});
-        })
+        });
 
-        // in parallel get all of them previous cached items 
+        // in parallel get all of them previous cached items
         getPageSingleItems(items)
           .then(results => {
             const lookup = results.reduce((acc, row) => {
