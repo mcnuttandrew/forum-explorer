@@ -9,3 +9,6 @@ git commit -m 'bump website'
 git push --set-upstream origin gh-pages -f
 mv .gitignore .gitignore-website
 mv .gitignore-temp .gitignore
+git add --a
+git stash
+git checkout master
