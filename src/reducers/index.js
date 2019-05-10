@@ -265,13 +265,13 @@ function adjustConfigForState(state, dataLength, ignoreSettingsUpdate) {
     .set('fullGraph', computeFullGraphLayout(state))
     .set('storyHead', state.get('data').find(item => Number(item.get('id')) === pageId))
     .set('routeTable', prepareRoutesTable(state));
+  if (ignoreSettingsUpdate) {
+    return updatedState;
+  }
   const updatedConfig = setConfig(updatedState, {rowIdx: 1, valueIdx: appropriateDotSize(dataLength)});
   const treeRoot = state.get('tree');
   const isStory = treeRoot && treeRoot.data && treeRoot.data.data && treeRoot.data.data.type === 'story';
 
-  if (ignoreSettingsUpdate) {
-    return updatedConfig;
-  }
   return setConfig(updatedConfig, {
     rowIdx: 0,
     // default to treeY if in a comment, forest otherwise
