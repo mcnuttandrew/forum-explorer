@@ -118,7 +118,8 @@ class Graph extends React.Component {
       hoveredComment,
       selectedMap,
       squareLeafs,
-      topUsers
+      topUsers,
+      username
     } = props;
     const nodesG = select(ReactDOM.findDOMNode(this.refs.nodes));
     const translateFunc = arr => `translate(${arr.join(',')})`;
@@ -128,6 +129,7 @@ class Graph extends React.Component {
       'node-internal': d.children,
       'node-leaf': !d.children,
       'node-selected': selectedMap.get(d.data.id),
+      'node-author-by-user': username === d.data.by,
       'node-hovered': d.data.id === hoveredComment
     });
     const isSelected = d => selectedMap.get(d.data.id);

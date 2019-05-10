@@ -42,7 +42,7 @@ export default function renderComment(props, item, idx) {
         })
       }>
       <div className="comment-head flex justify-space-between">
-        <div className="flex">
+        <div className="flex flex-wrap">
           {!WEB_PAGE_MODE && <a
             className="up-arrow"
             onClick={() => {
@@ -60,9 +60,9 @@ export default function renderComment(props, item, idx) {
             background: COLORS[userRank.rank],
             color: STROKES[userRank.rank]
           }} />}
-          <span>{` ${timeSince(item.get('time'))} ago. `}</span>
+          <span className="margin-left">{`${timeSince(item.get('time'))} ago. `}</span>
         </div>
-        <div>
+        <div className="flex-wrap flex">
           <a
             className="search-user-button"
             onClick={() => unlockAndSearch(userName)}>
