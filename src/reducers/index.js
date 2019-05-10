@@ -230,7 +230,7 @@ const getTreeFromCache = (state, payload) => {
 
 const dfsOnTree = tree => [tree.data].concat(...(tree.children || []).map(child => dfsOnTree(child)));
 
-const getAllItems = (state, {data, root, tree}) => {
+const getAllItems = (state, {data, root, tree, ignoreSettingsUpdate}) => {
   let updatedData = Immutable.fromJS(reconcileTreeWithData(tree, data)).map(row => {
     const id = row.get('id');
     const metadata = state.getIn(['foundOrderMap', `${id}`]) ||
@@ -256,18 +256,22 @@ const getAllItems = (state, {data, root, tree}) => {
     .set('topUsers', computeTopUsers(updatedData, numUsersToHighlight))
     .set('histogram', computeHistrogram(data));
 
-  return adjustConfigForState(tempState, data.length);
+  return adjustConfigForState(tempState, data.length, ignoreSettingsUpdate);
 };
 
-function adjustConfigForState(state, dataLength) {
+function adjustConfigForState(state, dataLength, ignoreSettingsUpdate) {
   const pageId = Number(state.get('pageId'));
   const updatedState = state
     .set('fullGraph', computeFullGraphLayout(state))
     .set('storyHead', state.get('data').find(item => Number(item.get('id')) === pageId))
     .set('routeTable', prepareRoutesTable(state));
+  if (ignoreSettingsUpdate) {
+    return updatedState;
+  }
   const updatedConfig = setConfig(updatedState, {rowIdx: 1, valueIdx: appropriateDotSize(dataLength)});
   const treeRoot = state.get('tree');
   const isStory = treeRoot && treeRoot.data && treeRoot.data.data && treeRoot.data.data.type === 'story';
+
   return setConfig(updatedConfig, {
     rowIdx: 0,
     // default to treeY if in a comment, forest otherwise
