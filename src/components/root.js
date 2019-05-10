@@ -8,7 +8,8 @@ import {
   DEV_MODE,
   WEB_PAGE_MODE,
   SHOW_ALL_COMMENTS,
-  TABLET_MODE_CONFIG
+  TABLET_MODE_CONFIG,
+  TOUR_STEPS
 } from '../constants';
 import GraphPanel from './graph-panel';
 import CommentPanel from './comment-panel';
@@ -19,39 +20,6 @@ import {classnames, getSelectedOption} from '../utils';
 
 const getId = () => (window.location.search || '?id=17338700').split('?id=')[1];
 const getIdPure = () => window.location.search && window.location.search.split('?id=')[1];
-
-const TOUR_STEPS = [{
-  target: '#graph-panel',
-  content: `
-  This panel shows the comment graph for the thread you are currently viewing.
-  Comments are selected by hovering over them. You can lock the current selection by clicking.
-
-  In the default Forest View large conversations are pulled of off the main node and
-  presented as their seperate trees.`
-}, {
-  target: '#comment-panel',
-  content: `
-  This is the comment panel, it shows currently selected comments.
-  You can change the current selection either by clicking on the comment or on the
-   expand link at the bottom of each comment.`
-}, {
-  target: '.story-head-content-container',
-  content: `
-  This is the story head, in addition to a link to the article and other metadata,
-  it includes summaries of what people are talking about. You can click on these tags
-  to search for that term in the thread.`
-}, {
-  target: '.secondary-header-data-container',
-  content: `
-  This legend shows the most freqeuent commenters (they're clickable!),
-  a histogram of the conversation over time (it's mouseoverable!),
-  and a free-text search box.`
-}, {
-  target: '#settings-link',
-  content: `
-  This is the settings widget, you can use it to change the type of tree being used
-  and a variety of other minor UI tweeks.`
-}];
 
 class RootComponent extends React.Component {
   componentWillMount() {
@@ -90,6 +58,21 @@ class RootComponent extends React.Component {
         className={classnames({'tablet-mode': tabletMode})}
         id="extension-container">
         {this.props.showTour && <Joyride
+          continuous={true}
+          callback={({action, index, lifecycle}) => {
+            if (action === 'update' && index === 0) {
+              // looking at graph panel
+              this.props.lockAndSearch('');
+            }
+
+            if (lifecycle === 'complete' && index === 3) {
+              // looking at the one before settings
+              document.querySelector('#settings-link').click();
+            }
+            if (lifecycle === 'complete' && index === 4) {
+              this.props.finishTour();
+            }
+          }}
           styles={{options: {
             primaryColor: '#ff6600',
             arrowColor: '#ff6600'

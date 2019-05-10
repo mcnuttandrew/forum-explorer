@@ -10,6 +10,7 @@ const DAY = HOUR * 24;
 
 const buildEasyAction = type => payload => dispatch => dispatch({type, payload});
 export const clearSelection = buildEasyAction('clear-selection');
+export const finishTour = buildEasyAction('finish-tour');
 export const lockAndSearch = buildEasyAction('lock-and-search');
 export const setFoundOrder = buildEasyAction('set-found-order');
 export const setHoveredComment = buildEasyAction('set-hovered-comment');

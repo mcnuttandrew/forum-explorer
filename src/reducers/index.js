@@ -296,10 +296,12 @@ const setTimeFilter = (state, {min, max}) => {
 
 const checkIfTourShouldBeShown = (state, payload) => state.set('showTour', !payload);
 const setShowTour = state => state.set('showTour', true);
+const finishTour = state => state.set('showTour', false).set('commentSelectionLock', false);
 
 const actionFuncMap = {
   'clear-selection': clearSelection,
   'check-if-tour-should-be-shown': checkIfTourShouldBeShown,
+  'finish-tour': finishTour,
   'get-all-items': getAllItems,
   'get-all-users': getAllUsers,
   'get-tree-from-cache': getTreeFromCache,
