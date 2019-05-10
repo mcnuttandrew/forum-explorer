@@ -34,7 +34,7 @@ class GraphPanel extends React.Component {
     } = this.props;
     const tabletMode = getSelectedOption(configs, TABLET_MODE_CONFIG) === 'on';
     return (
-      <div className="panel relative" ref="graphPanel">
+      <div className="panel relative" id="graph-panel" ref="graphPanel">
         <Graph
           {...this.props}
           duration={tabletMode ? 0 : 400}

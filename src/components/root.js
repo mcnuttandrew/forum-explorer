@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import Joyride from 'react-joyride';
 import * as actionCreators from '../actions';
 import {Map} from 'immutable';
 
@@ -19,6 +20,39 @@ import {classnames, getSelectedOption} from '../utils';
 const getId = () => (window.location.search || '?id=17338700').split('?id=')[1];
 const getIdPure = () => window.location.search && window.location.search.split('?id=')[1];
 
+const TOUR_STEPS = [{
+  target: '#graph-panel',
+  content: `
+  This panel shows the comment graph for the thread you are currently viewing.
+  Comments are selected by hovering over them. You can lock the current selection by clicking.
+
+  In the default Forest View large conversations are pulled of off the main node and
+  presented as their seperate trees.`
+}, {
+  target: '#comment-panel',
+  content: `
+  This is the comment panel, it shows currently selected comments.
+  You can change the current selection either by clicking on the comment or on the
+   expand link at the bottom of each comment.`
+}, {
+  target: '.story-head-content-container',
+  content: `
+  This is the story head, in addition to a link to the article and other metadata,
+  it includes summaries of what people are talking about. You can click on these tags
+  to search for that term in the thread.`
+}, {
+  target: '.secondary-header-data-container',
+  content: `
+  This legend shows the most freqeuent commenters (they're clickable!),
+  a histogram of the conversation over time (it's mouseoverable!),
+  and a free-text search box.`
+}, {
+  target: '#settings-link',
+  content: `
+  This is the settings widget, you can use it to change the type of tree being used
+  and a variety of other minor UI tweeks.`
+}];
+
 class RootComponent extends React.Component {
   componentWillMount() {
     const id = getId();
@@ -28,6 +62,7 @@ class RootComponent extends React.Component {
     this.props.setPageId(id);
     this.props.setFoundOrder(this.props.foundOrder);
     this.props.modelData(id);
+    this.props.checkIfTourShouldBeShown();
   }
 
   componentDidMount() {
@@ -49,10 +84,17 @@ class RootComponent extends React.Component {
     const showAllCommentsOption = getSelectedOption(this.props.configs, SHOW_ALL_COMMENTS);
     const showAllComments = showAllCommentsOption === 'on' ||
       (showAllCommentsOption === 'smart defaults' && this.props.data.size < 30);
+
     return (
       <div
         className={classnames({'tablet-mode': tabletMode})}
         id="extension-container">
+        {this.props.showTour && <Joyride
+          styles={{options: {
+            primaryColor: '#ff6600',
+            arrowColor: '#ff6600'
+          }}}
+          steps={TOUR_STEPS} />}
         <div className="flex-down full-size">
           <Header
             configs={this.props.configs}
@@ -105,6 +147,7 @@ class RootComponent extends React.Component {
                 setSelectedCommentPathWithSelectionClear={this.props.setSelectedCommentPathWithSelectionClear}
                 setSelectedCommentPath={this.props.setSelectedCommentPath}
                 setSearch={this.props.setSearch}
+                setShowTour={this.props.setShowTour}
                 showingAllComments={showAllComments}
                 topUsers={this.props.topUsers}
                 unlockAndSearch={this.props.unlockAndSearch}
@@ -138,6 +181,7 @@ function mapStateToProps({base}) {
     serializedModel: base.get('serialized-model') || [],
     searchValue: base.get('searchValue'),
     searchedMap: base.get('searchedMap'),
+    showTour: base.get('showTour'),
     storyHead: base.get('storyHead'),
     // storyHead: base.get('data').find(item => item.get('id') === pageId),
     timeFilter: base.get('timeFilter').toJS(),

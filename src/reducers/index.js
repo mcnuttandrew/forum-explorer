@@ -30,6 +30,7 @@ let DEFAULT_STATE = Immutable.fromJS({
   model: null,
   pageId: null,
   timeFilter: {min: 0, max: 0},
+  showTour: false,
   searchValue: '',
   storyHead: null,
   searchedMap: {}
@@ -293,8 +294,12 @@ const setTimeFilter = (state, {min, max}) => {
   return selectSubset(state.set('timeFilter', filter), searchedMap, nullSearch);
 };
 
+const checkIfTourShouldBeShown = (state, payload) => state.set('showTour', !payload);
+const setShowTour = state => state.set('showTour', true);
+
 const actionFuncMap = {
   'clear-selection': clearSelection,
+  'check-if-tour-should-be-shown': checkIfTourShouldBeShown,
   'get-all-items': getAllItems,
   'get-all-users': getAllUsers,
   'get-tree-from-cache': getTreeFromCache,
@@ -311,6 +316,7 @@ const actionFuncMap = {
   'set-page-id': setPageId,
   'set-search': setSearch,
   'set-time-filter': setTimeFilter,
+  'show-tour': setShowTour,
   'toggle-comment-selection-lock': toggleCommentSelectionLock,
   'unlock-and-search': unlockAndSearch,
   'unset-graph-comment': unsetGraphComment,
