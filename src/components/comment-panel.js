@@ -2,16 +2,16 @@ import React from 'react';
 import {getSelectedOption} from '../utils';
 import {
   GRAPH_LAYOUT_CONFIG,
-  STUMP_PRUNE_THRESHOLD,
-  TABLET_MODE_CONFIG
+  STUMP_PRUNE_THRESHOLD
 } from '../constants';
 import SingleComment from './single-comment';
+import AboutPage from './about-page';
 
-/* eslint-disable max-len */
-const longPruneExplanation = 'For particularly large conversations we remove single comments from the graph view for legibility, but the are still around!';
-/* eslint-enable max-len */
+const longPruneExplanation = `
+  For particularly large conversations we remove single comments from the graph view for legibility,
+  but the are still around!`;
 
-class CommentPanel extends React.PureComponent {
+class CommentPanel extends React.Component {
   componentDidUpdate(prevProps) {
     const {hoveredGraphComment} = this.props;
     if (hoveredGraphComment && hoveredGraphComment !== prevProps.hoveredGraphComment) {
@@ -24,12 +24,11 @@ class CommentPanel extends React.PureComponent {
   }
 
   render() {
-    const {itemsToRender, configs} = this.props;
+    const {itemsToRender, configs, setShowTour} = this.props;
     const data = itemsToRender
       .filter(item => item.get('type') !== 'story' || item.get('text'));
       // figure out if view is at root on forest mode with sufficently large comment chain
     const isForest = getSelectedOption(configs, GRAPH_LAYOUT_CONFIG) === 'forest';
-    const tabletMode = getSelectedOption(configs, TABLET_MODE_CONFIG) === 'on';
     const singleComments = data.filter(d => !d.get('descendants'));
     const viewingRoot = data.every(d => d.get('depth') === 0 || d.get('depth') === 1);
     const splitComments = isForest && (singleComments.size > STUMP_PRUNE_THRESHOLD) && viewingRoot;
@@ -37,28 +36,8 @@ class CommentPanel extends React.PureComponent {
     // if it is, then grab all the single comments and the branch comments, separate them
     const buildComment = (item, idx) => (SingleComment(this.props, item, idx));
     return (
-      <div className="overflow-y panel" ref="commentPanel">
-        {!itemsToRender.size && <div
-          className="comments-help">
-          <h1>Forum Explorer</h1>
-          <div>Visualize threaded async conversations in new and dynamic ways</div>
-          <h3>Usage</h3>
-          {!tabletMode && <div>
-            <div>{'Mouse over graph to select comments'}</div>
-            <div>{'Click graph to lock/unlock selection'}</div>
-            <div>{'Click the user names or topics or type in to the search box to search'}</div>
-          </div>}
-          {tabletMode && <div>
-            <div>{'Touch nodes in the graph to select comments'}</div>
-            <div>{'Click the user names or topics or type in to the search box to search'}</div>
-          </div>}
-          <h3>Feedback</h3>
-          <div>{'Feel free to send any feedback or bug reports on the'}
-            <a
-              className="feedback-link"
-              href="https://github.com/mcnuttandrew/forum-explorer/issues"> github issues</a>
-          </div>
-        </div>}
+      <div className="overflow-y panel" id="comment-panel" ref="commentPanel">
+        {!itemsToRender.size && <AboutPage configs={configs} setShowTour={setShowTour}/>}
         {!splitComments && data.map(buildComment)}
         {splitComments && <div className="comment-root-prune-explanation">
           <h3>{'Branched Conversation'}</h3>

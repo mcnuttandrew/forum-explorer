@@ -92,7 +92,7 @@ class Header extends React.Component {
           {WEB_PAGE_MODE ? 'FeX: ForumExplorer' : 'HackerNews'}
         </a>
         {headerLinks(username)}
-        <a onClick={toggleTooltip}>settings</a>
+        <a id="settings-link" onClick={toggleTooltip}>settings</a>
         {tooltipOpen && <div onClick={toggleTooltip} className="tooltip-background" />}
         {tooltipOpen && <div className="tooltip-container">
           {tooltip(configs, setConfig, toggleTooltip)}

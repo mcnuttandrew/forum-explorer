@@ -91,3 +91,11 @@ export function getPageSingleItems(ids) {
 export function setPageSingleItems(data) {
   return Promise.all(data.map(row => set(`${row.id}-single`, row)));
 }
+
+export function checkForTour() {
+  return get('has-seen-tour')
+    .then(result => {
+      set('has-seen-tour', true);
+      return result;
+    });
+}

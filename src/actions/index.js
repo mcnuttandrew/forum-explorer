@@ -2,7 +2,7 @@
 import {CHILD_THRESHOLD, SERVER_DEV_MODE} from '../constants';
 import {prepareTree, log} from '../utils';
 import {executeRequest} from '../api-calls';
-import {getTreeForId} from './db';
+import {getTreeForId, checkForTour} from './db';
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
 const HOUR = MINUTE * 60;
@@ -10,6 +10,7 @@ const DAY = HOUR * 24;
 
 const buildEasyAction = type => payload => dispatch => dispatch({type, payload});
 export const clearSelection = buildEasyAction('clear-selection');
+export const finishTour = buildEasyAction('finish-tour');
 export const lockAndSearch = buildEasyAction('lock-and-search');
 export const setFoundOrder = buildEasyAction('set-found-order');
 export const setHoveredComment = buildEasyAction('set-hovered-comment');
@@ -19,6 +20,7 @@ export const setSelectedCommentPathWithGraphComment =
   buildEasyAction('set-comment-path-with-graph-comment');
 export const setSelectedCommentPathWithSelectionClear =
   buildEasyAction('set-comment-path-with-selection-clear');
+export const setShowTour = buildEasyAction('show-tour');
 export const unsetGraphComment = buildEasyAction('unset-graph-comment');
 export const setTimeFilter = buildEasyAction('set-time-filter');
 export const toggleCommentSelectionLock = buildEasyAction('toggle-comment-selection-lock');
@@ -31,6 +33,9 @@ const dispatchRequest = EXTENSION_MODE ?
   details => executeRequest(details);
 
 const cleanModels = models => models.map(row => row.map(d => ({...d, term: d.term.split('\'')[0]})));
+
+export const checkIfTourShouldBeShown = () => dispatch => checkForTour()
+    .then(payload => dispatch({type: 'check-if-tour-should-be-shown', payload}));
 
 export const modelData = item => dispatch => {
   dispatchRequest({

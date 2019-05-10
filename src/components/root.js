@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import Joyride from 'react-joyride';
 import * as actionCreators from '../actions';
 import {Map} from 'immutable';
 
@@ -7,7 +8,8 @@ import {
   DEV_MODE,
   WEB_PAGE_MODE,
   SHOW_ALL_COMMENTS,
-  TABLET_MODE_CONFIG
+  TABLET_MODE_CONFIG,
+  TOUR_STEPS
 } from '../constants';
 import GraphPanel from './graph-panel';
 import CommentPanel from './comment-panel';
@@ -28,6 +30,7 @@ class RootComponent extends React.Component {
     this.props.setPageId(id);
     this.props.setFoundOrder(this.props.foundOrder);
     this.props.modelData(id);
+    this.props.checkIfTourShouldBeShown();
   }
 
   componentDidMount() {
@@ -49,10 +52,32 @@ class RootComponent extends React.Component {
     const showAllCommentsOption = getSelectedOption(this.props.configs, SHOW_ALL_COMMENTS);
     const showAllComments = showAllCommentsOption === 'on' ||
       (showAllCommentsOption === 'smart defaults' && this.props.data.size < 30);
+
     return (
       <div
         className={classnames({'tablet-mode': tabletMode})}
         id="extension-container">
+        {this.props.showTour && <Joyride
+          continuous={true}
+          callback={({action, index, lifecycle}) => {
+            if (action === 'update' && index === 0) {
+              // looking at graph panel
+              this.props.lockAndSearch('');
+            }
+
+            if (lifecycle === 'complete' && index === 3) {
+              // looking at the one before settings
+              document.querySelector('#settings-link').click();
+            }
+            if (lifecycle === 'complete' && index === 4) {
+              this.props.finishTour();
+            }
+          }}
+          styles={{options: {
+            primaryColor: '#ff6600',
+            arrowColor: '#ff6600'
+          }}}
+          steps={TOUR_STEPS} />}
         <div className="flex-down full-size">
           <Header
             configs={this.props.configs}
@@ -105,6 +130,7 @@ class RootComponent extends React.Component {
                 setSelectedCommentPathWithSelectionClear={this.props.setSelectedCommentPathWithSelectionClear}
                 setSelectedCommentPath={this.props.setSelectedCommentPath}
                 setSearch={this.props.setSearch}
+                setShowTour={this.props.setShowTour}
                 showingAllComments={showAllComments}
                 topUsers={this.props.topUsers}
                 unlockAndSearch={this.props.unlockAndSearch}
@@ -138,6 +164,7 @@ function mapStateToProps({base}) {
     serializedModel: base.get('serialized-model') || [],
     searchValue: base.get('searchValue'),
     searchedMap: base.get('searchedMap'),
+    showTour: base.get('showTour'),
     storyHead: base.get('storyHead'),
     // storyHead: base.get('data').find(item => item.get('id') === pageId),
     timeFilter: base.get('timeFilter').toJS(),
