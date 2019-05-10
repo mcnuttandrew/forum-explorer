@@ -88,7 +88,7 @@ export function getAllUsers(dispatch, data) {
     }));
 }
 
-export const getAllItems = root => dispatch => {
+export const getAllItems = (root, ignoreSettingsUpdate) => dispatch => {
   let children = [];
   let depth = 0;
   const doGeneration = generation =>
@@ -114,7 +114,7 @@ export const getAllItems = root => dispatch => {
       const tree = prepareTree(data, root);
       dispatch({
         type: 'get-all-items',
-        payload: {data, root, tree}
+        payload: {data, root, tree, ignoreSettingsUpdate}
       });
       // construct models for the relevant branches
       modelBranches(dispatch, data, root, tree);
@@ -127,7 +127,7 @@ export const getAllItems = root => dispatch => {
       if ((currentTime - time) > DAY) {
         return;
       }
-      setTimeout(() => getAllItems(root)(dispatch), 30 * SECOND);
+      setTimeout(() => getAllItems(root, true)(dispatch), 40 * SECOND);
     });
 };
 
