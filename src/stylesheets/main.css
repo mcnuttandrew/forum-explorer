@@ -186,6 +186,7 @@ body,
 
 .node.node-author-by-user {
   stroke-width: 4px;
+  stroke: #ff6600;
 }
 
 .node.node-hovered {
