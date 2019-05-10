@@ -58,6 +58,10 @@ body,
   position: absolute;
 }
 
+.no-pointer {
+  pointer-events: none;
+}
+
 .flex {
   display: flex;
 }
