@@ -71,6 +71,10 @@ body,
   flex-direction: column;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .justify-space-between {
   justify-content: space-between;
 }
@@ -178,6 +182,10 @@ body,
 .node.node-selected {
   stroke-width: 2px;
   transition: fill 0.2s;
+}
+
+.node.node-author-by-user {
+  stroke-width: 4px;
 }
 
 .node.node-hovered {
