@@ -2,7 +2,8 @@ import React from 'react';
 import {timeSince} from '../utils';
 import {getPageSingleItems, setPageSingleItems} from '../actions/db';
 
-const WEBSTORE_LINK = "https://chrome.google.com/webstore/detail/fex-forum-explorer/dfideaogbjjahljobhpcohkghjicihdh";
+const WEBSTORE_LINK = `
+https://chrome.google.com/webstore/detail/fex-forum-explorer/dfideaogbjjahljobhpcohkghjicihdh`;
 
 const examplePages = [{
   time: 1556024424,
