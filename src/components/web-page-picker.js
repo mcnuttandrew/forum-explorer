@@ -2,6 +2,8 @@ import React from 'react';
 import {timeSince} from '../utils';
 import {getPageSingleItems, setPageSingleItems} from '../actions/db';
 
+const WEBSTORE_LINK = "https://chrome.google.com/webstore/detail/fex-forum-explorer/dfideaogbjjahljobhpcohkghjicihdh";
+
 const examplePages = [{
   time: 1556024424,
   score: 2997,
@@ -136,7 +138,7 @@ export default class WebPagePicker extends React.Component {
             It provides a principled rethinking of the way in which we interact
             with async threaded conversations on the internet through the use of visualization.
             We focus on HackerNews because of its active community and advantageous api.`
-          }</p>
+          }<a href={WEBSTORE_LINK}> You can download the chrome extension here.</a></p>
           <p>{
             `The normal operation mode for this project is as a chrome extension,
             but here we present a demo of the functionality. This page is fully
