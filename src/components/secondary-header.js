@@ -9,6 +9,7 @@ class SecondaryHeader extends React.Component {
   render() {
     const {
       clearSelection,
+      dataSize,
       getItemsFromCacheOrRedirect,
       histogram,
       itemPath,
@@ -27,6 +28,7 @@ class SecondaryHeader extends React.Component {
       <div className="secondary-header background-gray flex" >
         {!storyHead && <div className="story-head-content-container"/>}
         {storyHead && <StoryHead
+          dataSize={dataSize}
           itemPath={itemPath}
           getItemsFromCacheOrRedirect={getItemsFromCacheOrRedirect}
           serializedModel={serializedModel}

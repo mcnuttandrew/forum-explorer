@@ -24,7 +24,7 @@ class CommentPanel extends React.Component {
   }
 
   render() {
-    const {itemsToRender, configs, setShowTour} = this.props;
+    const {itemsToRender, configs, dataSize, setShowTour} = this.props;
     const data = itemsToRender
       .filter(item => item.get('type') !== 'story' || item.get('text'));
       // figure out if view is at root on forest mode with sufficently large comment chain
@@ -37,7 +37,10 @@ class CommentPanel extends React.Component {
     const buildComment = (item, idx) => (SingleComment(this.props, item, idx));
     return (
       <div className="overflow-y panel" id="comment-panel" ref="commentPanel">
-        {!itemsToRender.size && <AboutPage configs={configs} setShowTour={setShowTour}/>}
+        {!itemsToRender.size && <AboutPage
+          configs={configs}
+          dataSize={dataSize}
+          setShowTour={setShowTour}/>}
         {!splitComments && data.map(buildComment)}
         {splitComments && <div className="comment-root-prune-explanation">
           <h3>{'Branched Conversation'}</h3>

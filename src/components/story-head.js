@@ -5,6 +5,7 @@ import ExpandButton from './expand-button';
 export default class StoryHead extends React.PureComponent {
   render() {
     const {
+      dataSize,
       getItemsFromCacheOrRedirect,
       setSelectedCommentPath,
       storyHead,
@@ -29,7 +30,8 @@ export default class StoryHead extends React.PureComponent {
             onClick={() => lockAndSearch(keyword)}
             key={keyword}> {keyword} </span>);
         })}
-        {!serializedModel.length && <span>LOADING</span>}
+        {dataSize > 1 && !serializedModel.length && <span>LOADING</span>}
+        {dataSize === 1 && <span>{'Can\'t model thread, not enough comments'}</span>}
       </div>
       <div className="comment-head">
         {score && <span>{`${score} points by `}</span>}

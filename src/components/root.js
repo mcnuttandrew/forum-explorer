@@ -89,6 +89,7 @@ class RootComponent extends React.Component {
           <SecondaryHeader
             clearSelection={this.props.clearSelection}
             configs={this.props.configs}
+            dataSize={this.props.data.size}
             getItemsFromCacheOrRedirect={this.props.getItemsFromCacheOrRedirect}
             histogram={this.props.histogram}
             itemPath={this.props.itemPath}
@@ -117,6 +118,7 @@ class RootComponent extends React.Component {
                 />
               <CommentPanel
                 configs={this.props.configs}
+                dataSize={this.props.data.size}
                 getItemsFromCacheOrRedirect={this.props.getItemsFromCacheOrRedirect}
                 hoveredComment={this.props.hoveredComment}
                 hoveredGraphComment={this.props.hoveredGraphComment}

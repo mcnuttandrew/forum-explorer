@@ -7,14 +7,17 @@ import {
 export default class AboutPage extends React.PureComponent {
 
   render() {
-    const {configs, setShowTour} = this.props;
+    const {configs, setShowTour, dataSize} = this.props;
       // figure out if view is at root on forest mode with sufficently large comment chain
     const tabletMode = getSelectedOption(configs, TABLET_MODE_CONFIG) === 'on';
+    const noComments = dataSize === 1;
     return (
       <div
         className="comments-help">
         <h1>Forum Explorer</h1>
         <div>Visualize threaded async conversations in new and dynamic ways</div>
+        {noComments && <h2>{'This thread has no comments!'}</h2>}
+        {noComments && <div>{'Pick another thread to visualize!!!!'}</div>}
         <h3>Usage</h3>
         {!tabletMode && <div>
           <div>{'Mouse over graph to select comments'}</div>

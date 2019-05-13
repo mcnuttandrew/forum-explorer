@@ -53,7 +53,7 @@ function renderPost(props, idx, loaded) {
     <div className="comment-head">
       <span>{`${score} points by `}</span>
       <a href={`https://news.ycombinator.com/user?id=${by}`}>{by}</a>
-      {loaded && <span>{` ${timeSince(time)} ago - ${descendants} comments`}</span>}
+      {loaded && <a href={`?id=${id}`}>{` ${timeSince(time)} ago - ${descendants || 0} comments`}</a>}
       {!loaded && ' LOADING'}
     </div>
 
