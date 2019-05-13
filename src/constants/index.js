@@ -1,8 +1,9 @@
 import {graphLayouts} from '../layouts';
-export const DEV_MODE = false;
-export const SERVER_DEV_MODE = false;
-export const WEB_PAGE_MODE = false;
-export const SHOW_LOGS = false;
+import EnvironmentConfig from './environment-configs';
+export const DEV_MODE = EnvironmentConfig.DEV_MODE;
+export const SERVER_DEV_MODE = EnvironmentConfig.SERVER_DEV_MODE;
+export const WEB_PAGE_MODE = EnvironmentConfig.WEB_PAGE_MODE;
+export const SHOW_LOGS = EnvironmentConfig.SHOW_LOGS;
 
 export const numUsersToHighlight = 12;
 

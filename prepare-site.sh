@@ -1,3 +1,9 @@
+git branch -D prep-deploy
+git branch prep-deploy
+git checkout prep-deploy
+node scripts/set-webpage-mode.js true
+git add --a
+git commit -m 'deploy'
 ./prepare-build.sh
 mv .gitignore .gitignore-temp
 mv .gitignore-website .gitignore
