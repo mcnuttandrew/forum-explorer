@@ -90,7 +90,7 @@ class Header extends React.Component {
         <a
           href={returnLink}
           className="header-link site-title">
-          {isExtension ? 'FeX: ForumExplorer' : 'HackerNews'}
+          {isExtension ? 'HackerNews' : 'FeX: ForumExplorer'}
         </a>
         {headerLinks(username)}
         <a id="settings-link" onClick={toggleTooltip}>settings</a>
