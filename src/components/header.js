@@ -79,17 +79,18 @@ class Header extends React.Component {
 
     const toggleTooltip = () => this.setState({tooltipOpen: !tooltipOpen});
     const isExtension = location.origin === 'https://news.ycombinator.com';
+    const returnLink = isExtension ?
+      'https://news.ycombinator.com/news' :
+      'https://www.mcnutt.in/forum-explorer/';
     return (
       <div className="header" >
-        <a href="https://news.ycombinator.com">
+        <a href={returnLink}>
           <img src="https://news.ycombinator.com/y18.gif" className="logo"/>
         </a>
         <a
-          href={isExtension ?
-            'https://www.mcnutt.in/forum-explorer/' :
-            'https://news.ycombinator.com/news'}
+          href={returnLink}
           className="header-link site-title">
-          {WEB_PAGE_MODE ? 'FeX: ForumExplorer' : 'HackerNews'}
+          {isExtension ? 'FeX: ForumExplorer' : 'HackerNews'}
         </a>
         {headerLinks(username)}
         <a id="settings-link" onClick={toggleTooltip}>settings</a>

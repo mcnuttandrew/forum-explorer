@@ -1,6 +1,6 @@
 {
    "name": "FEX: Forum Explorer",
-   "version": "1.0.2",
+   "version": "1.0.3",
    "description": "Explore forum structured data through tree visualization",
    "manifest_version": 2,
    "content_scripts": [
