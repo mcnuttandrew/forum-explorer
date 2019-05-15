@@ -164,6 +164,7 @@ body,
 }
 
 .web-page-picker {
+  overflow-y: scroll;
   height: calc(100% - 200px);
 }
 
