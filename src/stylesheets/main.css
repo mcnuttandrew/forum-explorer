@@ -25,6 +25,13 @@ body,
   width: 100%;
 }
 
+/* AGH WHY */
+@-moz-document url-prefix() {
+  .full-size {
+    min-height: 0;
+  }
+}
+
 .margin-left {
   margin-left: 5px;
 }
