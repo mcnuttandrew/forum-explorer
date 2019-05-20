@@ -1,6 +1,6 @@
 # Forum Explorer
 
-Forum Explorer is a web application that provides a principled rethinking of the way in which we interact with async threaded conversations on the internet through the use of visualization. We focus on HackerNews because of its active community and advantageous api. The normal operation mode for this project is as a chrome extension, although it also can be operated as a standalone website. When it is ready we will provide our extended abstract submission for a theoretical justification of this work.
+Forum Explorer is a web application that provides a principled rethinking of the way in which we interact with async threaded conversations on the internet through the use of visualization. We focus on HackerNews because of its active community and advantageous api. The normal operation mode for this project is as a chrome extension, although it also can be operated as a standalone website. You can take a look at the theoretical justification for this work in [this extended abstract](https://www.mcnutt.in/assets/forum-explorer-paper.pdf) or take a look at the [poster that goes along with it](https://www.mcnutt.in/assets/forum-explorer-poster.pdf). 
 
 ## Usage
 
