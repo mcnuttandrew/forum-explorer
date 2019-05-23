@@ -32,6 +32,11 @@ body,
   }
 }
 
+body {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
 .margin-left {
   margin-left: 5px;
 }
