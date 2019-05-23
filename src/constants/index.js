@@ -15,6 +15,9 @@ export const DOT_SIZE_CONFIG = 'dot size';
 export const LEAF_SQUARE_CONFIG = 'leafs as squares';
 export const TABLET_MODE_CONFIG = 'tablet mode';
 export const SHOW_ALL_COMMENTS = 'show all comments';
+export const ANIMATION = 'animation';
+
+const probablyTouchDevice = ('ontouchstart' in document.documentElement);
 
 export const DEFAULT_CONFIGS = [
   {
@@ -45,12 +48,17 @@ export const DEFAULT_CONFIGS = [
   {
     name: TABLET_MODE_CONFIG,
     options: ['on', 'off'],
-    defaultOption: ('ontouchstart' in document.documentElement) ? 'on' : 'off'
+    defaultOption: probablyTouchDevice ? 'on' : 'off'
   },
   {
     name: SHOW_ALL_COMMENTS,
     options: ['smart defaults', 'on', 'off'],
     defaultOption: 'smart defaults'
+  },
+  {
+    name: ANIMATION,
+    options: ['on', 'off', 'slow'],
+    defaultOption: probablyTouchDevice ? 'off' : 'on'
   }
 ].map(({name, options, defaultOption}) => ({
   name,

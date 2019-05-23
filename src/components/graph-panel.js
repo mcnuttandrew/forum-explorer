@@ -5,11 +5,18 @@ import debounce from 'lodash.debounce';
 import Graph from './graph';
 import {getSelectedOption} from '../utils';
 import {
-  GRAPH_LAYOUT_CONFIG,
+  ANIMATION,
   DOT_SIZE_CONFIG,
+  GRAPH_LAYOUT_CONFIG,
   LEAF_SQUARE_CONFIG,
   TABLET_MODE_CONFIG
 } from '../constants/index';
+
+const animationLengths = {
+  off: 0,
+  on: 400,
+  slow: 1500
+}
 
 class GraphPanel extends React.Component {
   componentDidMount() {
@@ -38,7 +45,7 @@ class GraphPanel extends React.Component {
       <div className="panel relative" id="graph-panel" ref="graphPanel">
         <Graph
           {...this.props}
-          duration={tabletMode ? 0 : 400}
+          duration={animationLengths[getSelectedOption(configs, ANIMATION)]}
           graphLayout={getSelectedOption(configs, GRAPH_LAYOUT_CONFIG)}
           markSize={getSelectedOption(configs, DOT_SIZE_CONFIG)}
           squareLeafs={getSelectedOption(configs, LEAF_SQUARE_CONFIG) === 'on'}
