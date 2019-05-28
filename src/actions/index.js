@@ -38,9 +38,10 @@ const dispatchRequest = EXTENSION_MODE ?
 
 const cleanModels = models => models.map(row => row.map(d => ({...d, term: d.term.split('\'')[0]})));
 
+export const sleep = sleepTime => x => new Promise(resolve => setTimeout(() => resolve(x), sleepTime));
+
 export const checkIfTourShouldBeShown = () => dispatch => checkForTour()
     .then(payload => dispatch({type: 'check-if-tour-should-be-shown', payload}));
-
 export const modelData = item => dispatch => {
   dispatchRequest({
     template: SERVER_DEV_MODE ? 'modelFullPageTemplateDevMode' : 'modelFullPageTemplate',

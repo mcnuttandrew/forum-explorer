@@ -131,6 +131,10 @@ body {
   width: 50%;
 }
 
+.story-head-content-container .comment-head {
+  min-height: 2.5em;
+}
+
 .about-button {
   cursor: pointer;
   font-size: 12px;
