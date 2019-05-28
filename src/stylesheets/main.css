@@ -517,7 +517,7 @@ a.header-link:visited {
 
 .comment-block .search-user-button {
   /* border: thin solid #828282; */
-  border-radius: 6px;
+  /* border-radius: 6px; */
   text-decoration: underline;
   font-size: 10px;
   margin-left: 3px;
@@ -564,8 +564,29 @@ a.header-link:visited {
   height: 100%;
   padding: 0;
   width: 100%;
-
 }
+
+.tablet-mode .header {
+  font-size: 15px;
+  height: 40px;
+}
+
+.tablet-mode .top-poster {
+  font-size: 10px;
+}
+
+.tablet-mode .tooltip {
+  width: 200px;
+}
+
+.tablet-mode .tooltip-row-options-container {
+  justify-content: space-evenly;
+}
+
+.tablet-mode .tooltip-row-option {
+  padding: 0 5px;
+}
+
 
 @media only screen and (max-width : 820px){
   #extension-container {

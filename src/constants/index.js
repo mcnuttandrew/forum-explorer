@@ -72,7 +72,7 @@ export const TOUR_STEPS = [{
   Comments are selected by hovering over them. You can lock the current selection by clicking.
 
   In the default Forest View large conversations are pulled of off the main node and
-  presented as their seperate trees.`
+  presented as their separate trees.`
 }, {
   target: '#comment-panel',
   content: `
@@ -89,8 +89,8 @@ export const TOUR_STEPS = [{
 }, {
   target: '.secondary-header-data-container',
   content: `
-  This legend shows the most freqeuent commenters (they're clickable!),
-  a histogram of the conversation over time (it's mouseoverable!),
+  This legend shows the most frequent commenters (they're clickable!),
+  a histogram of the conversation over time (it's mouse-overable!),
   and a free-text search box.`
 }, {
   target: '#settings-link',
