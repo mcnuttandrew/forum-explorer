@@ -28,7 +28,8 @@ class CommentPanel extends React.Component {
     const data = itemsToRender
       .filter(item => item.get('type') !== 'story' || item.get('text'));
       // figure out if view is at root on forest mode with sufficently large comment chain
-    const isForest = getSelectedOption(configs, GRAPH_LAYOUT_CONFIG) === 'forest';
+    // const isForest = getSelectedOption(configs, GRAPH_LAYOUT_CONFIG) === 'forest';
+    const isForest = configs.get(GRAPH_LAYOUT_CONFIG) === 'forest';
     const singleComments = data.filter(d => !d.get('descendants'));
     const viewingRoot = data.every(d => d.get('depth') === 0 || d.get('depth') === 1);
     const splitComments = isForest && (singleComments.size > STUMP_PRUNE_THRESHOLD) && viewingRoot;

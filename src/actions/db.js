@@ -99,3 +99,11 @@ export function checkForTour() {
       return result;
     });
 }
+
+export function getSettingsFromDb() {
+  return get('page-config');
+}
+
+export function pushSettingsToDb(settings) {
+  set('page-config', settings);
+}

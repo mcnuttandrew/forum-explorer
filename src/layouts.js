@@ -46,7 +46,8 @@ export const graphLayouts = [
 
 export const computeGraphLayout = state => {
   const useNullLayout = state.get('data').size <= 1;
-  const graphLayout = getSelectedOption(state.get('configs'), GRAPH_LAYOUT_CONFIG);
+  // const graphLayout = getSelectedOption(state.get('configs'), GRAPH_LAYOUT_CONFIG);
+  const graphLayout = state.getIn(['configs', GRAPH_LAYOUT_CONFIG]);
   const {height, width} = state.get('graphPanelDimensions').toJS();
   const tree = state.get('tree');
   if (!tree) {
@@ -68,7 +69,8 @@ export const computeGraphLayout = state => {
 
 export const computeFullGraphLayout = state => {
   const useNullLayout = state.get('data').size <= 1;
-  const graphLayout = getSelectedOption(state.get('configs'), GRAPH_LAYOUT_CONFIG);
+  const graphLayout = state.getIn(['configs', GRAPH_LAYOUT_CONFIG]);
+  // const graphLayout = getSelectedOption(state.get('configs'), GRAPH_LAYOUT_CONFIG);
   const usedLayout = layouts[useNullLayout ? 'null' : graphLayout];
   const windowProps = {
     margin: {

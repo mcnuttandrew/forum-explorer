@@ -27,7 +27,8 @@ export default function renderComment(props, item, idx) {
   const isRoot = Number(id) === props.pageId;
   // over counts self
   const numDesc = item.get('descendants') - 1;
-  const disallowLock = getSelectedOption(configs, TABLET_MODE_CONFIG) === 'on';
+  // const disallowLock = getSelectedOption(configs, TABLET_MODE_CONFIG) === 'on';
+  const disallowLock = configs.get(TABLET_MODE_CONFIG) === 'on';
   return (
     <div
       ref={`item${id}`}
