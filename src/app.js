@@ -64,3 +64,7 @@ ReactDOM.render(
   </Provider>,
   document.querySelector('#root-container')
 );
+
+document.ontouchmove = function(event){
+    event.preventDefault();
+}

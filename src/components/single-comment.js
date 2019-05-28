@@ -78,9 +78,6 @@ export default function renderComment(props, item, idx) {
       {isRoot && <div className="root-label comment-head">ROOT COMMENT</div>}
       <div
         onClick={e => {
-          if (disallowLock) {
-            return;
-          }
           // enable users to click links with out trigger selection update
           const tagName = e.target.tagName;
           const bannedTags = {A: true};

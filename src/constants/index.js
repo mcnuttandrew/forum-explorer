@@ -57,7 +57,7 @@ export const DEFAULT_CONFIGS = [
   },
   {
     name: ANIMATION,
-    options: ['on', 'off', 'slow'],
+    options: ['off', 'slow', 'on'],
     defaultOption: probablyTouchDevice ? 'off' : 'on'
   }
 ].map(({name, options, defaultOption}) => ({
