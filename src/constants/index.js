@@ -19,7 +19,7 @@ export const ANIMATION = 'animation';
 
 const probablyTouchDevice = ('ontouchstart' in document.documentElement);
 
-export const DEFAULT_CONFIGS = [
+export const CONFIG_OPTIONS = [
   {
     name: GRAPH_LAYOUT_CONFIG,
     options: graphLayouts,
@@ -30,16 +30,6 @@ export const DEFAULT_CONFIGS = [
     options: ['small', 'medium', 'large'],
     defaultOption: 'medium'
   },
-  // {
-  //   name: 'color by',
-  //   options: ['nothing', 'top-users'],
-  //   defaultOption: 'top-users'
-  // },
-  // {
-  //   name: 'show graph',
-  //   options: ['on', 'off'],
-  //   defaultOption: 'on'
-  // },
   {
     name: LEAF_SQUARE_CONFIG,
     options: ['on', 'off'],
@@ -60,10 +50,12 @@ export const DEFAULT_CONFIGS = [
     options: ['off', 'slow', 'on'],
     defaultOption: probablyTouchDevice ? 'off' : 'on'
   }
-].map(({name, options, defaultOption}) => ({
-  name,
-  options: options.map(val => ({name: val, selected: val === defaultOption}))
-}));
+];
+
+export const CONFIG_OBJECT = CONFIG_OPTIONS.reduce((acc, {name, defaultOption}) => {
+  acc[name] = defaultOption;
+  return acc;
+}, {});
 
 export const TOUR_STEPS = [{
   target: '#graph-panel',

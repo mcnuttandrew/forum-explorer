@@ -65,6 +65,4 @@ ReactDOM.render(
   document.querySelector('#root-container')
 );
 
-document.ontouchmove = function(event){
-    event.preventDefault();
-}
+document.ontouchmove = event => event.preventDefault();

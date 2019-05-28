@@ -2,7 +2,11 @@
 import {CHILD_THRESHOLD, SERVER_DEV_MODE} from '../constants';
 import {prepareTree, log} from '../utils';
 import {executeRequest} from '../api-calls';
-import {getTreeForId, checkForTour} from './db';
+import {
+  checkForTour,
+  getTreeForId,
+  getSettingsFromDb
+} from './db';
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
 const HOUR = MINUTE * 60;
@@ -75,9 +79,9 @@ export const modelBranches = (dispatch, data, root, tree) => {
   .then(payload => dispatch({type: 'model-branches', payload}));
 };
 
-export const setConfig = (rowIdx, valueIdx) => dispatch => dispatch({
+export const setConfig = (configCategory, configValue) => dispatch => dispatch({
   type: 'set-config-value',
-  payload: {rowIdx, valueIdx}
+  payload: {configCategory, configValue}
 });
 
 // not currently in use
@@ -167,3 +171,11 @@ export const getItemsFromCacheOrRedirect = payload => dispatch => {
       });
     });
 };
+
+export const getSettingsFromCache = () => dispatch => getSettingsFromDb()
+  .then(payload => {
+    if (!payload) {
+      return;
+    }
+    dispatch({type: 'get-settings-from-cache', payload});
+  });

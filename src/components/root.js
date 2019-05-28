@@ -16,7 +16,7 @@ import CommentPanel from './comment-panel';
 import Header from './header';
 import SecondaryHeader from './secondary-header';
 import WebPagePicker from './web-page-picker';
-import {classnames, getSelectedOption} from '../utils';
+import {classnames} from '../utils';
 
 const getId = () => (window.location.search || '?id=17338700').split('?id=')[1];
 const getIdPure = () => window.location.search && window.location.search.split('?id=')[1];
@@ -31,6 +31,7 @@ class RootComponent extends React.Component {
     this.props.setFoundOrder(this.props.foundOrder);
     this.props.modelData(id);
     this.props.checkIfTourShouldBeShown();
+    this.props.getSettingsFromCache();
   }
 
   componentDidMount() {
@@ -48,8 +49,8 @@ class RootComponent extends React.Component {
     const showLoading = (getIdPure() || this.props.pageId || !WEB_PAGE_MODE) && this.props.loading;
     const showDashboard = !this.props.loading;
     const showPicker = !getIdPure() && !DEV_MODE && WEB_PAGE_MODE && !this.props.pageId;
-    const tabletMode = getSelectedOption(this.props.configs, TABLET_MODE_CONFIG) === 'on';
-    const showAllCommentsOption = getSelectedOption(this.props.configs, SHOW_ALL_COMMENTS);
+    const tabletMode = this.props.configs.get(TABLET_MODE_CONFIG) === 'on';
+    const showAllCommentsOption = this.props.configs.get(SHOW_ALL_COMMENTS);
     const showAllComments = showAllCommentsOption === 'on' ||
       (showAllCommentsOption === 'smart defaults' && this.props.data.size < 30);
 

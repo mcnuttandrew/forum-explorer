@@ -1,9 +1,9 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import Immutable, {Map} from 'immutable';
-import {updateIdInDb} from '../actions/db';
+import {updateIdInDb, pushSettingsToDb} from '../actions/db';
 
-import {DEV_MODE, numUsersToHighlight, DEFAULT_CONFIGS} from '../constants';
+import {DEV_MODE, numUsersToHighlight, CONFIG_OBJECT, GRAPH_LAYOUT_CONFIG} from '../constants';
 import {computeFullGraphLayout, graphLayouts} from '../layouts';
 import TestData from '../constants/test-data.json';
 // import TestData from '../constants/really-big-data.json';
@@ -12,7 +12,7 @@ import {computeTopUsers, computeHistrogram, prepareTree} from '../utils';
 let DEFAULT_STATE = Immutable.fromJS({
   branchModel: {},
   commentSelectionLock: false,
-  configs: DEFAULT_CONFIGS,
+  configs: CONFIG_OBJECT,
   data: DEV_MODE ? TestData : [],
   dfsOrderedData: [],
   users: {},
@@ -119,12 +119,10 @@ const modelBranches = (state, payload) => {
   return tempState.set('fullGraph', computeFullGraphLayout(tempState));
 };
 
-const setConfig = (state, {rowIdx, valueIdx}) => {
-  const rowToUpdate = state
-    .getIn(['configs', rowIdx, 'options'])
-    .map((d, idx) => d.set('selected', idx === valueIdx));
-  const updatedState = state.setIn(['configs', rowIdx, 'options'], rowToUpdate);
-  if (rowIdx !== 0) {
+const setConfig = (state, {configCategory, configValue}) => {
+  const updatedState = state.setIn(['configs', configCategory], configValue);
+  pushSettingsToDb(updatedState.get('configs').toJS());
+  if (configCategory !== GRAPH_LAYOUT_CONFIG) {
     return updatedState;
   }
   return updatedState.set('fullGraph', computeFullGraphLayout(updatedState));
@@ -302,6 +300,11 @@ const checkIfTourShouldBeShown = (state, payload) => state.set('showTour', !payl
 const setShowTour = state => state.set('showTour', true);
 const finishTour = state => state.set('showTour', false).set('commentSelectionLock', false);
 
+const getSettingsFromCache = (state, payload) => {
+  const updatedState = state.set('configs', Immutable.fromJS(payload));
+  return updatedState.set('fullGraph', computeFullGraphLayout(updatedState));
+};
+
 const actionFuncMap = {
   'clear-selection': clearSelection,
   'check-if-tour-should-be-shown': checkIfTourShouldBeShown,
@@ -309,6 +312,7 @@ const actionFuncMap = {
   'get-all-items': getAllItems,
   'get-all-users': getAllUsers,
   'get-tree-from-cache': getTreeFromCache,
+  'get-settings-from-cache': getSettingsFromCache,
   'increase-loaded-count': increaseLoadedCount,
   'lock-and-search': lockAndSearch,
   'model-data': modelData,

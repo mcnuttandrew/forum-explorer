@@ -1,15 +1,11 @@
 import React from 'react';
-import {classnames, timeSince, getSelectedOption} from '../utils';
+import {classnames, timeSince} from '../utils';
 import {COLORS, STROKES} from '../constants/colors';
-import {
-  TABLET_MODE_CONFIG,
-  WEB_PAGE_MODE
-} from '../constants/index';
+import {WEB_PAGE_MODE} from '../constants/index';
 const createMarkup = __html => ({__html});
 
 export default function renderComment(props, item, idx) {
   const {
-    configs,
     getItemsFromCacheOrRedirect,
     hoveredComment,
     hoveredGraphComment,
@@ -27,7 +23,6 @@ export default function renderComment(props, item, idx) {
   const isRoot = Number(id) === props.pageId;
   // over counts self
   const numDesc = item.get('descendants') - 1;
-  const disallowLock = getSelectedOption(configs, TABLET_MODE_CONFIG) === 'on';
   return (
     <div
       ref={`item${id}`}

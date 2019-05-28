@@ -1,5 +1,5 @@
 import React from 'react';
-import {WEB_PAGE_MODE} from '../constants';
+import {WEB_PAGE_MODE, CONFIG_OPTIONS} from '../constants';
 import {classnames} from '../utils';
 
 function tooltip(configs, setConfig, toggleTooltip) {
@@ -11,21 +11,22 @@ function tooltip(configs, setConfig, toggleTooltip) {
           className="tooltip-close"
           onClick={toggleTooltip}>X</div>
       </div>
-      {configs.map((row, rowIdx) => {
+      {CONFIG_OPTIONS.map((row, rowIdx) => {
+        const rowName = row.name;
         return (<div
           className="tooltip-row"
-          key={row.get('name')}>
-          <div className="tooltip-row-name">{row.get('name')}</div>
+          key={rowName}>
+          <div className="tooltip-row-name">{rowName}</div>
           <div className="tooltip-row-options-container">
-            {row.get('options').map((option, valueIdx) => {
+            {row.options.map(option => {
               return (<div
-                key={`${option.get('name')}-${row.get('name')}`}
+                key={`${option}-${rowName}`}
                 className={classnames({
                   'tooltip-row-option': true,
-                  'tooltip-row-option-selected': option.get('selected')
+                  'tooltip-row-option-selected': configs.get(rowName) === option
                 })}
-                onClick={() => setConfig(rowIdx, valueIdx)}
-                >{option.get('name')}</div>);
+                onClick={() => setConfig(rowName, option)}
+                >{option}</div>);
             })}
           </div>
         </div>);
