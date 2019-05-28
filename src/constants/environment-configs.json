@@ -1,6 +1,6 @@
 {
   "DEV_MODE": false,
   "SERVER_DEV_MODE": false,
-  "WEB_PAGE_MODE": true,
+  "WEB_PAGE_MODE": false,
   "SHOW_LOGS": false
 }

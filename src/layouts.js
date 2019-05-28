@@ -33,10 +33,9 @@ export const graphLayouts = [
   'ring',
   'treeX',
   'treeY',
-  // time layouts are currently busted
+  // orbit, baloon, timeX, timeY are all not good enough for release
   // 'timeX',
   // 'timeY',
-  // orbit and bloon are not good enough for release
   // 'orbit',
   // 'balloon',
   'gridTree',

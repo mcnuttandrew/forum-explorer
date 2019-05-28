@@ -3,6 +3,9 @@ import {linkHorizontal} from 'd3-shape';
 import {scaleLinear, scalePow} from 'd3-scale';
 import {getDomain, xRange, yRange} from '../utils';
 
+const getX = d => d.data.time || d.data.data.time;
+const getY = d => d.y;
+
 const timeEmbedX = {
   layout: () => {
     const layout = tree().size([1, 1]);
@@ -17,18 +20,19 @@ const timeEmbedX = {
     };
   },
   getXScale: ({width, margin}, root) => {
-    const {xMin, xMax} = getDomain(root, d => [d.data.time, d.y]);
-    const scale = scalePow().exponent(0.2).domain([1, (xMax - xMin)]).range(xRange(width, margin));
-    return value => {
-      return scale(value - xMin + 1);
-    };
+
+    const {xMin, xMax} = getDomain(root, d => {
+      return [getX(d), getY(d)];
+    });
+    const scale = scalePow().exponent(0.5).domain([1, (xMax - xMin)]).range(xRange(width, margin));
+    return value => scale(value - xMin + 1);
   },
   getYScale: ({height, margin}, root) => {
-    const {yMin, yMax} = getDomain(root, d => [d.data.time, d.y]);
+    const {yMin, yMax} = getDomain(root, d => [getX(d), getY(d)]);
     return scaleLinear().domain([yMin, yMax]).range(yRange(height, margin));
   },
-  positioning: (xScale, yScale) => d => [xScale(d.data.time), yScale(d.y)],
-  path: (xScale, yScale) => linkHorizontal().x(d => xScale(d.data.time)).y(d => yScale(d.y)),
+  positioning: (xScale, yScale) => d => [xScale(getX(d)), yScale(getY(d))],
+  path: (xScale, yScale) => linkHorizontal().x(d => xScale(getX(d))).y(d => yScale(getY(d))),
   offset: () => ''
 };
 
