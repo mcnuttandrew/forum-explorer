@@ -120,9 +120,6 @@ const modelBranches = (state, payload) => {
 };
 
 const setConfig = (state, {configCategory, configValue}) => {
-  // const rowToUpdate = state
-  //   .getIn(['configs', rowIdx, 'options'])
-  //   .map((d, idx) => d.set('selected', idx === valueIdx));
   const updatedState = state.setIn(['configs', configCategory], configValue);
   pushSettingsToDb(updatedState.get('configs').toJS());
   if (configCategory !== GRAPH_LAYOUT_CONFIG) {
@@ -305,7 +302,6 @@ const finishTour = state => state.set('showTour', false).set('commentSelectionLo
 
 const getSettingsFromCache = (state, payload) => {
   const updatedState = state.set('configs', Immutable.fromJS(payload));
-  console.log(payload)
   return updatedState.set('fullGraph', computeFullGraphLayout(updatedState));
 };
 

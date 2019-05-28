@@ -1,5 +1,4 @@
 import React from 'react';
-import {getSelectedOption} from '../utils';
 import {
   TABLET_MODE_CONFIG
 } from '../constants';
@@ -8,8 +7,7 @@ export default class AboutPage extends React.PureComponent {
 
   render() {
     const {configs, setShowTour, dataSize} = this.props;
-      // figure out if view is at root on forest mode with sufficently large comment chain
-    // const tabletMode = getSelectedOption(configs, TABLET_MODE_CONFIG) === 'on';
+    // figure out if view is at root on forest mode with sufficently large comment chain
     const tabletMode = configs.get(TABLET_MODE_CONFIG) === 'on';
     const noComments = dataSize === 1;
     return (

@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 
 import Graph from './graph';
-import {getSelectedOption} from '../utils';
 import {
   ANIMATION,
   DOT_SIZE_CONFIG,
@@ -16,7 +15,7 @@ const animationLengths = {
   off: 0,
   on: 400,
   slow: 1500
-}
+};
 
 class GraphPanel extends React.Component {
   componentDidMount() {
@@ -40,7 +39,6 @@ class GraphPanel extends React.Component {
       timeFilter,
       username
     } = this.props;
-    // const tabletMode = getSelectedOption(configs, TABLET_MODE_CONFIG) === 'on';
     const tabletMode = configs.get(TABLET_MODE_CONFIG) === 'on';
     return (
       <div className="panel relative" id="graph-panel" ref="graphPanel">
