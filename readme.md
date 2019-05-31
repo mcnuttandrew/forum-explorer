@@ -41,9 +41,9 @@ This will attempt to push up to a gh-pages hosting for whatever repository the r
 ## Interesting Conversations
 
 Maybe you are at a loss of which pages to look at? Here are a few interesting ones:
-- A really big one: 19029801
-- The biggest one found so far: 14952787
-- A show HN post to see the author posting a lot: 19028449
+- [A really big one 19029801](https://www.mcnutt.in/forum-explorer/?id=19029801)
+- [The biggest one found so far 14952787](https://www.mcnutt.in/forum-explorer/?id=14952787)
+- [A "show HN" post to see the author posting a lot 19028449](https://www.mcnutt.in/forum-explorer/?id=19028449)
 
 ## Contributions
 
