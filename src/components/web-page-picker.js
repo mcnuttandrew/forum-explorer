@@ -2,6 +2,9 @@ import React from 'react';
 import {timeSince} from '../utils';
 import {getPageSingleItems, setPageSingleItems} from '../actions/db';
 
+const SECOND = 1000;
+const MINUTE = SECOND * 60;
+
 const WEBSTORE_LINK = `
 https://chrome.google.com/webstore/detail/fex-forum-explorer/dfideaogbjjahljobhpcohkghjicihdh`;
 
@@ -89,12 +92,16 @@ export default class WebPagePicker extends React.Component {
 
         // in parallel get all of them previous cached items
         getPageSingleItems(items)
-          .then(results => {
+          .then(({results, lastUpdate}) => {
+            const isWithinFiveMinutes = lastUpdate && ((new Date()).getTime() - lastUpdate) < 5 * MINUTE;
             const lookup = results.reduce((acc, row) => {
               acc[row.id] = row;
               return acc;
             }, {});
-            this.setState({mostRecentPosts: items.map(id => lookup[id])});
+            this.setState({
+              mostRecentPosts: items.map(id => lookup[id]),
+              loaded: isWithinFiveMinutes
+            });
           });
       });
   }
