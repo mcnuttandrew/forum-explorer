@@ -45,6 +45,7 @@
     "immutable": "^3.8.2",
     "lda": "^0.2.0",
     "lodash.debounce": "^4.0.8",
+    "mongodb": "^3.3.0-beta2",
     "node-fetch": "^2.3.0",
     "react": "16",
     "react-addons-shallow-compare": "^15.4.1",
@@ -59,7 +60,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server",
-    "serve": "node topic-server/server.js",
+    "serve": "node --inspect topic-server/server.js",
     "build": "NODE_ENV=production webpack",
     "lint": "eslint .",
     "toggle-example": "mv index.html index-temp.html && mv index-example.html index.html && mv index-temp.html index-example.html",
