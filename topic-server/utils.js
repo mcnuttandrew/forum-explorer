@@ -32,11 +32,11 @@ const fetch = (db, collectionName, query, limit) => {
       cursor.limit(1).toArray(cb);
       return;
     }
-    cursor().toArray(cb);
+    cursor.toArray(cb);
   });
 };
-const fetchModel = (db, itemId) => fetch(db, 'model', {itemId}, 1);
-const fetchAllModels = (db, itemId) => fetch(db, 'model', {}, false);
+const fetchModel = (db, itemId) => fetch(db, 'models', {itemId}, 1);
+const fetchAllModels = (db, itemId) => fetch(db, 'models', {}, false);
 const fetchVisitsByItem = (db, itemId) => fetch(db, 'visits', {itemId}, false);
 const fetchAllVisits = (db, itemId) => fetch(db, 'visits', {}, false);
 
