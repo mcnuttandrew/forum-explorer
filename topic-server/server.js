@@ -102,14 +102,16 @@ function buildModel(requestConfig, db) {
   });
 }
 
-app.get('/analytics', (req, res) =>
+app.get('/analytics', (req, res) => {
+  log('analytics call');
   Promise.all([
     fetchAllModels(req.app.locals.db),
     fetchAllVisits(req.app.locals.db)
   ])
   .then(([models, visits]) => {
     res.send(JSON.stringify({models, visits}, null, 2));
-  }));
+  });
+});
 
 app.get('/', (req, res) => parseAndModel(req, res));
 

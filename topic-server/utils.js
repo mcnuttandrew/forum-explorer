@@ -1,17 +1,6 @@
 const lda = require('lda');
 const cheerio = require('cheerio');
 
-const serializeModel = model => {
-  return model.reduce((acc, {term, probability}) => {
-    acc[term] = probability;
-    return acc;
-  }, {});
-};
-
-const deserializeModel = model => {
-  return Object.entries(model).map(([term, probability]) => ({term, probability}));
-};
-
 function stripAndModel(html, topics, terms) {
   const $ = cheerio.load(html);
   const texts = $('.comment').text()
@@ -25,15 +14,14 @@ function stripAndModel(html, topics, terms) {
 
 const recordVisit = (db, itemId) => new Promise((resolve, reject) => {
   const cb = (err, result) => err ? reject(err) : resolve(result);
-  // db.collection('visits')
-  //   .insertOne({itemId, time: new Date().getTime()}, cb);
+  const update = {$push: {time: new Date().getTime()}};
   db.collection('visits')
-    .insertOne({itemId, time: new Date().getTime()}, cb);
+    .updateOne({itemId}, update, {upsert: true}, cb);
 });
 
 const recordModel = (db, itemId, model) => new Promise((resolve, reject) => {
   const cb = (err, result) => err ? reject(err) : resolve(result);
-  const update = {$set: {time: new Date().getTime(), model: serializeModel(model)}};
+  const update = {$set: {time: new Date().getTime(), model}};
   db.collection('models')
     .updateOne({itemId}, update, {upsert: true}, cb);
 });
@@ -50,7 +38,7 @@ const fetch = (db, collectionName, query, limit) => {
     cursor.toArray(cb);
   });
 };
-const fetchModel = (db, itemId) => fetch(db, 'models', {itemId}, 1).then(model => deserializeModel(model));
+const fetchModel = (db, itemId) => fetch(db, 'models', {itemId}, 1);
 const fetchAllModels = (db, itemId) => fetch(db, 'models', {}, false);
 const fetchVisitsByItem = (db, itemId) => fetch(db, 'visits', {itemId}, false);
 const fetchAllVisits = (db, itemId) => fetch(db, 'visits', {}, false);
