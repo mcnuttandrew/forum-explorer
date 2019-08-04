@@ -1,4 +1,16 @@
 import React from 'react';
+import Header from './header';
+import {
+  XYPlot,
+  LineSeries,
+  LineMarkSeries,
+  XAxis,
+  YAxis,
+  HorizontalGridLines
+} from 'react-vis';
+import {SERVER_DEV_MODE} from '../constants/environment-configs';
+
+const ANALYTICS_ROUTE = SERVER_DEV_MODE ? 'http://localhost:5000/analytics' : 'https://hn-ex.herokuapp.com/analytics';
 
 export default class AnalyticsPage extends React.Component {
   constructor() {
@@ -6,29 +18,79 @@ export default class AnalyticsPage extends React.Component {
     this.state = {
       loaded: false,
       models: [],
-      visits: []
+      visits: [],
+      selectedLine: null
     };
   }
 
   componentDidMount() {
-    // caches results from the front page in IndexedDB, that way subseqeunt visits have faster loadeds
-    // first call HN and ask for the top results
-    fetch('https://hn-ex.herokuapp.com/analytics')
+    fetch(ANALYTICS_ROUTE)
       .then(d => d.json())
       .then(({models, visits}) => {
-        this.setState({models, visits, loaded: true});
+        this.setState({
+          models, 
+          visits, 
+          loaded: true
+        });
       });
+  }
+  
+  renderMainLineSeries(visits, totalVisit) {
+    return (
+      <XYPlot 
+        width={800} 
+        height={500}
+        onMouseLeave={() => this.setState({selectedLine: false})} 
+        xType="time" 
+
+        yType="log">
+        <HorizontalGridLines />
+        <XAxis />
+        <YAxis tickFormat={d => d}/>
+        <LineSeries data={totalVisit} />
+        {visits.map((row) => {
+          return <LineSeries 
+            onSeriesMouseOver={() => this.setState({selectedLine: row.itemId})}
+            key={row.itemId} 
+            data={row.time.map((x, y) => ({x, y: y + 1}))} />
+        })}
+      </XYPlot>
+    );
+  }
+  
+  renderSelectedLineInfo(selectedLine, visits) {
+    const {time, data} = visits;
+    const {by, title} = data.item || ({by: null, title: null});
+    return (
+      <div className="flex-down">
+        <div>{`${title ? `${title} (${selectedLine})` : `${selectedLine}`}: ${time.length} visits`}</div>
+        <div>{by && `Author ${by}`}</div>
+      </div>
+    );
   }
 
   render() {
-    const {loaded} = this.state;
+    const {loaded, models, visits, selectedLine} = this.state;
     if (!loaded) {
       return <div>loading</div>;
     }
+    const totalVisit = visits.reduce((acc, row) => acc.concat(row.time), []).sort().map((x, y) => ({x, y: y + 1}));
     return (
-      <div className="background-gray picker-container">
-        <div className="flex-down">
-          HELLO!
+      <div className="flex-down full-size">
+        <div className="background-gray picker-container">
+          <div className="flex-down">
+            <Header />
+            <h3>ANALYTICS PAGE</h3>
+            <h5>Analytics dashboard for FeX: ForumExplorer. Metrics are pure server side collection metrics.</h5>
+            <div className="flex">
+              <div className="flex-down">
+                <h3> {`Cached models: ${models.length}`} </h3>
+                <h3> {`Visits total: ${totalVisit.length}`} </h3>
+                {this.renderMainLineSeries(visits, totalVisit)}
+              </div>
+            </div>
+            {selectedLine && this.renderSelectedLineInfo(selectedLine, visits.find(row => row.itemId === selectedLine))}
+          </div>
         </div>
       </div>
     );

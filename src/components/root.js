@@ -25,6 +25,9 @@ const getIdPure = () => window.location.search && window.location.search.split('
 
 class RootComponent extends React.Component {
   componentWillMount() {
+    if (isAnalyticsPage()) {
+      return;
+    }
     const id = getId();
     if (WEB_PAGE_MODE && !getIdPure()) {
       return;
@@ -37,6 +40,9 @@ class RootComponent extends React.Component {
   }
 
   componentDidMount() {
+    if (isAnalyticsPage()) {
+      return;
+    }
     if (WEB_PAGE_MODE && !getIdPure()) {
       return;
     }
