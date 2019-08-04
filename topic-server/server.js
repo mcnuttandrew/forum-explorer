@@ -117,6 +117,8 @@ MongoClient.connect(MONGO_URL, {}, (err, client) => {
   if (err) {
     log(`Failed to connect to the database. ${err.stack}`);
   }
+  console.log(app, app.locals)
+  console.log(app.locals.db)
   app.locals.db = client.db(MONGO_DB);
   app.listen(PORT, () => {
     log(`Node.js app is listening at http://localhost:${PORT}`);
