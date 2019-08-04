@@ -62,7 +62,6 @@ class RootComponent extends React.Component {
     const showAllComments = showAllCommentsOption === 'on' ||
       (showAllCommentsOption === 'smart defaults' && this.props.data.size < 30);
 
-    const showAnalyticsPage = isAnalyticsPage();
     if (isAnalyticsPage()) {
       return <Analytics />;
     }

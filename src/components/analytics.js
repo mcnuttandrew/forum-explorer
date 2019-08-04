@@ -3,14 +3,14 @@ import Header from './header';
 import {
   XYPlot,
   LineSeries,
-  LineMarkSeries,
   XAxis,
   YAxis,
   HorizontalGridLines
 } from 'react-vis';
 import {SERVER_DEV_MODE} from '../constants/environment-configs';
 
-const ANALYTICS_ROUTE = SERVER_DEV_MODE ? 'http://localhost:5000/analytics' : 'https://hn-ex.herokuapp.com/analytics';
+const ANALYTICS_ROUTE = SERVER_DEV_MODE ?
+  'http://localhost:5000/analytics' : 'https://hn-ex.herokuapp.com/analytics';
 
 export default class AnalyticsPage extends React.Component {
   constructor() {
@@ -28,20 +28,20 @@ export default class AnalyticsPage extends React.Component {
       .then(d => d.json())
       .then(({models, visits}) => {
         this.setState({
-          models, 
-          visits, 
+          models,
+          visits,
           loaded: true
         });
       });
   }
-  
+
   renderMainLineSeries(visits, totalVisit) {
     return (
-      <XYPlot 
-        width={800} 
+      <XYPlot
+        width={800}
         height={500}
-        onMouseLeave={() => this.setState({selectedLine: false})} 
-        xType="time" 
+        onMouseLeave={() => this.setState({selectedLine: false})}
+        xType="time"
 
         yType="log">
         <HorizontalGridLines />
@@ -49,15 +49,15 @@ export default class AnalyticsPage extends React.Component {
         <YAxis tickFormat={d => d}/>
         <LineSeries data={totalVisit} />
         {visits.map((row) => {
-          return <LineSeries 
+          return (<LineSeries
             onSeriesMouseOver={() => this.setState({selectedLine: row.itemId})}
-            key={row.itemId} 
-            data={row.time.map((x, y) => ({x, y: y + 1}))} />
+            key={row.itemId}
+            data={row.time.map((x, y) => ({x, y: y + 1}))} />);
         })}
       </XYPlot>
     );
   }
-  
+
   renderSelectedLineInfo(selectedLine, visits) {
     const {time, data} = visits;
     const {by, title} = data.item || ({by: null, title: null});
@@ -74,14 +74,15 @@ export default class AnalyticsPage extends React.Component {
     if (!loaded) {
       return <div>loading</div>;
     }
-    const totalVisit = visits.reduce((acc, row) => acc.concat(row.time), []).sort().map((x, y) => ({x, y: y + 1}));
+    const totalVisit = visits
+      .reduce((acc, row) => acc.concat(row.time), []).sort().map((x, y) => ({x, y: y + 1}));
     return (
       <div className="flex-down full-size">
         <div className="background-gray picker-container">
           <div className="flex-down">
             <Header />
             <h3>ANALYTICS PAGE</h3>
-            <h5>Analytics dashboard for FeX: ForumExplorer. Metrics are pure server side collection metrics.</h5>
+            <h5>Metrics are purely collected from the server side.</h5>
             <div className="flex">
               <div className="flex-down">
                 <h3> {`Cached models: ${models.length}`} </h3>
@@ -89,7 +90,8 @@ export default class AnalyticsPage extends React.Component {
                 {this.renderMainLineSeries(visits, totalVisit)}
               </div>
             </div>
-            {selectedLine && this.renderSelectedLineInfo(selectedLine, visits.find(row => row.itemId === selectedLine))}
+            {selectedLine &&
+              this.renderSelectedLineInfo(selectedLine, visits.find(row => row.itemId === selectedLine))}
           </div>
         </div>
       </div>
