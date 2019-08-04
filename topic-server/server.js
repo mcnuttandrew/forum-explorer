@@ -17,7 +17,7 @@ const request = require('request');
 /* eslint-disable */
 const PORT = process.env.PORT || 5000;
 const MONGO_URL = process.env.MONGODB_URI || 'mongodb://localhost:27017';
-const MONGO_DB = 'FEX_DB';
+const MONGO_DB = process.env.MONGODB || 'FEX_DB';
 /* eslint-enable */
 
 app.use((req, res, next) => {
@@ -117,8 +117,6 @@ MongoClient.connect(MONGO_URL, {}, (err, client) => {
   if (err) {
     log(`Failed to connect to the database. ${err.stack}`);
   }
-  console.log(app, app.locals)
-  console.log(app.locals.db)
   app.locals.db = client.db(MONGO_DB);
   app.listen(PORT, () => {
     log(`Node.js app is listening at http://localhost:${PORT}`);
