@@ -82,14 +82,25 @@ export function maybeRefreshDB() {
     });
 }
 
+function getLastUpdatedSingleItems(results) {
+  return new Promise((resolve, reject) => {
+    get('web-picker-updated').then(lastUpdate => resolve({results, lastUpdate}));
+  });
+}
+
 // these two functions are used for caching the the front page items
 export function getPageSingleItems(ids) {
   return Promise.all(ids.map(id => get(`${id}-single`)))
-    .then(results => results.filter(d => d));
+    .then(getLastUpdatedSingleItems)
+    .then(({results, lastUpdate}) => ({
+      results: results.filter(d => d),
+      lastUpdate
+    }));
 }
 
 export function setPageSingleItems(data) {
-  return Promise.all(data.map(row => set(`${row.id}-single`, row)));
+  return Promise.all(data.map(row => set(`${row.id}-single`, row)))
+    .then(() => set('web-picker-updated', (new Date()).getTime()));
 }
 
 export function checkForTour() {
