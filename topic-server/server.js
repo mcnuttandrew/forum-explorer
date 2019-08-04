@@ -13,9 +13,10 @@ const {
 const express = require('express');
 const app = express();
 const request = require('request');
+
 /* eslint-disable */
 const PORT = process.env.PORT || 5000;
-const MONGO_URL = 'mongodb://localhost:27017';
+const MONGO_URL = process.env.MONGOLAB_URI || 'mongodb://localhost:27017';
 const MONGO_DB = 'FEX_DB';
 /* eslint-enable */
 
