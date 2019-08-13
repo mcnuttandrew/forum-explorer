@@ -12,6 +12,11 @@ import {SERVER_DEV_MODE} from '../constants/environment-configs';
 const ANALYTICS_ROUTE = SERVER_DEV_MODE ?
   'http://localhost:5000/analytics' : 'https://hn-ex.herokuapp.com/analytics';
 
+const SECOND = 1000;
+const MINUTE = 60 * SECOND;
+const HOUR = 60 * MINUTE;
+const DAY = 24 * HOUR;
+
 export default class AnalyticsPage extends React.Component {
   constructor() {
     super();
@@ -36,19 +41,24 @@ export default class AnalyticsPage extends React.Component {
   }
 
   renderMainLineSeries(visits, totalVisit) {
+    const earliestVisit = totalVisit[0].x;
+    const currentTime = new Date().getTime();
+    const showTotal = false;
     return (
       <XYPlot
         width={800}
         height={500}
         onMouseLeave={() => this.setState({selectedLine: false})}
         xType="time"
-
+        xDomain={[earliestVisit, currentTime]}
         yType="log">
         <HorizontalGridLines />
         <XAxis />
         <YAxis tickFormat={d => d}/>
-        <LineSeries data={totalVisit} />
-        {visits.map((row) => {
+        {showTotal && <LineSeries data={totalVisit} />}
+        {visits
+          .filter(row => row.time[0] > (earliestVisit + 0.5 * DAY))
+          .map((row) => {
           return (<LineSeries
             onSeriesMouseOver={() => this.setState({selectedLine: row.itemId})}
             key={row.itemId}

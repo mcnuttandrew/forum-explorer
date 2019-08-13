@@ -128,6 +128,8 @@ function buildModel(requestConfig, db) {
 }
 
 app.get('/analytics', (req, res) => {
+  // todo add in memory caching over this endpoint with a 5 minute memory
+  // todo adjust query to filter out really old data
   log('analytics call');
   const db = req.app.locals.db;
   const combineVisitAndData = row => fetchItemData(db, Number(row.itemId))
