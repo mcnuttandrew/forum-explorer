@@ -33,7 +33,7 @@ export default class AboutPage extends React.PureComponent {
             className="feedback-link"
             href="https://github.com/mcnuttandrew/forum-explorer/issues"> github issues</a>
         </div>
-        <h3>Wait im lost</h3>
+        <h3>Wait I'm lost</h3>
         <a
           className="feedback-link"
           onClick={setShowTour}>Click here to show the tour again</a>
