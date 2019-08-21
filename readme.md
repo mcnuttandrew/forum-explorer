@@ -18,7 +18,7 @@ You can take a look at the theoretical justification for this work in [this exte
 
 Maybe you are at a loss of which pages to look at? Here are a few interesting ones:
 
-- [Instacart paying 80 cents an hour because worker received a large tip]((https://www.mcnutt.in/forum-explorer/?id=19029801) <br/>
+- [Instacart paying 80 cents an hour because worker received a large tip](https://www.mcnutt.in/forum-explorer/?id=19029801) <br/>
   This thread is pretty large! HN Id 19029801
 - [Google Fires Employee Behind Controversial Diversity Memo](https://www.mcnutt.in/forum-explorer/?id=14952787)<br>
 This is the biggest known HN thread! It's very large!! HN ID 14952787
