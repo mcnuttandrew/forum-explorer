@@ -5,7 +5,8 @@ import {
   LineSeries,
   XAxis,
   YAxis,
-  HorizontalGridLines
+  HorizontalGridLines,
+  VerticalBarSeries
 } from 'react-vis';
 import {SERVER_DEV_MODE} from '../constants/environment-configs';
 
@@ -16,6 +17,13 @@ const SECOND = 1000;
 const MINUTE = 60 * SECOND;
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
+
+function roundDate(ts){
+    let timeStamp = ts;
+    timeStamp -= timeStamp % (24 * 60 * 60 * 1000);//subtract amount of time since midnight
+    timeStamp += new Date().getTimezoneOffset() * 60 * 1000;//add on the timezone offset
+    return (new Date(timeStamp)).getTime();
+}
 
 export default class AnalyticsPage extends React.Component {
   constructor() {
@@ -32,10 +40,18 @@ export default class AnalyticsPage extends React.Component {
     fetch(ANALYTICS_ROUTE)
       .then(d => d.json())
       .then(({models, visits}) => {
+        const totalVisit = visits
+          .reduce((acc, row) => acc.concat(row.time), []).sort().map((x, y) => ({x, y: y + 1}));
         this.setState({
           models,
           visits,
-          loaded: true
+          loaded: true,
+          byDay: Object.entries(totalVisit.reduce((acc, row) => {
+            const newTs = roundDate(row.x);
+            acc[newTs] = (acc[newTs] || 0) + 1;
+            return acc;
+          }, {})).sort(([a], [b]) => a - b).map(([x, y]) => ({x: Number(x), y})),
+          totalVisit
         });
       });
   }
@@ -80,12 +96,11 @@ export default class AnalyticsPage extends React.Component {
   }
 
   render() {
-    const {loaded, models, visits, selectedLine} = this.state;
+    const {loaded, models, visits, selectedLine, byDay, totalVisit} = this.state;
     if (!loaded) {
       return <div>loading</div>;
     }
-    const totalVisit = visits
-      .reduce((acc, row) => acc.concat(row.time), []).sort().map((x, y) => ({x, y: y + 1}));
+
     return (
       <div className="flex-down full-size">
         <div className="background-gray picker-container">
@@ -97,6 +112,11 @@ export default class AnalyticsPage extends React.Component {
               <div className="flex-down">
                 <h3> {`Cached models: ${models.length}`} </h3>
                 <h3> {`Visits total: ${totalVisit.length}`} </h3>
+                <XYPlot height={300} width={500} xType="time">
+                  <XAxis />
+                  <YAxis />
+                  <VerticalBarSeries data={byDay}/>
+                </XYPlot>
                 {this.renderMainLineSeries(visits, totalVisit)}
               </div>
             </div>
