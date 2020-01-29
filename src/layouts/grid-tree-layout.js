@@ -5,7 +5,7 @@ import {
   yRange,
   flattenData,
   computeDomainForAcessor,
-  extractLinksFromFlatNodeList
+  extractLinksFromFlatNodeList,
 } from '../utils';
 import {linkVertical} from 'd3-shape';
 
@@ -28,7 +28,7 @@ export const gridTree = {
     const links = extractLinksFromFlatNodeList(flattenedNodes);
     return {
       descendants: () => flattenedNodes,
-      links: () => links
+      links: () => links,
     };
   },
 
@@ -36,23 +36,36 @@ export const gridTree = {
     const nodes = root.descendants();
     const depthDomain = computeDomainForAcessor(nodes, d => d.depth);
     const range = xRange(width, margin);
-    const subScales = [...new Array(depthDomain.max + 1)].reduce((acc, _, idx) => {
-      const rowNodes = nodes.filter(node => node.depth === idx);
-      const rowDomain = computeDomainForAcessor(rowNodes, d => d.x);
-      const domain = rowDomain.min === rowDomain.max ? [-1, 1] : [rowDomain.min, rowDomain.max];
-      acc[idx] = scaleLinear().domain(domain).range(range);
-      return acc;
-    }, {});
+    const subScales = [...new Array(depthDomain.max + 1)].reduce(
+      (acc, _, idx) => {
+        const rowNodes = nodes.filter(node => node.depth === idx);
+        const rowDomain = computeDomainForAcessor(rowNodes, d => d.x);
+        const domain =
+          rowDomain.min === rowDomain.max
+            ? [-1, 1]
+            : [rowDomain.min, rowDomain.max];
+        acc[idx] = scaleLinear()
+          .domain(domain)
+          .range(range);
+        return acc;
+      },
+      {},
+    );
     return d => subScales[d.depth](d.x);
   },
   getYScale: ({height, margin}, root) => {
     const {yMin, yMax} = getDomain(root, d => [d.x, d.y]);
-    const scale = scaleLinear().domain([yMin, yMax]).range(yRange(height, margin));
+    const scale = scaleLinear()
+      .domain([yMin, yMax])
+      .range(yRange(height, margin));
     return d => scale(d.y);
   },
   positioning: (xScale, yScale) => d => [xScale(d), yScale(d)],
-  path: (xScale, yScale) => linkVertical().x(d => xScale(d)).y(d => yScale(d)),
-  offset: ({width, height}) => ''
+  path: (xScale, yScale) =>
+    linkVertical()
+      .x(d => xScale(d))
+      .y(d => yScale(d)),
+  offset: ({width, height}) => '',
 };
 
 export default gridTree;

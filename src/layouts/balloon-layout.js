@@ -42,7 +42,8 @@ const balloonLayout = {
           const angle = angleFraction / 2 + usedAngle;
           // + currentNode.rotation;
           usedAngle += angleFraction;
-          child.radius = currentNode.radius * (Math.max(child.value, 2) / currentNode.value);
+          child.radius =
+            currentNode.radius * (Math.max(child.value, 2) / currentNode.value);
           child.x = child.radius * Math.cos(angle) + currentNode.x;
           child.y = child.radius * Math.sin(angle) + currentNode.y;
           // child.rotation = currentNode.rotation + Math.PI / 9;
@@ -65,11 +66,15 @@ const balloonLayout = {
   },
   getXScale: ({width, margin}, root) => {
     const {xMin, xMax} = getDomain(root);
-    return scaleLinear().domain([xMin, xMax]).range(xRange(width, margin));
+    return scaleLinear()
+      .domain([xMin, xMax])
+      .range(xRange(width, margin));
   },
   getYScale: ({height, margin}, root) => {
     const {yMin, yMax} = getDomain(root);
-    return scaleLinear().domain([yMin, yMax]).range(yRange(height, margin));
+    return scaleLinear()
+      .domain([yMin, yMax])
+      .range(yRange(height, margin));
   },
   positioning: (xScale, yScale) => d => [xScale(d.x), yScale(d.y)],
   // path: (xScale, yScale) => linkVertical().x(d => xScale(d.x)).y(d => yScale(d.y)),
@@ -79,7 +84,7 @@ const balloonLayout = {
     L${xScale(d.target.x)} ${yScale(d.target.y)}
     `;
   },
-  offset: () => ''
+  offset: () => '',
 };
 
 export default balloonLayout;

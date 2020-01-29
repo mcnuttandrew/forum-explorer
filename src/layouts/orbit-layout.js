@@ -41,20 +41,24 @@ function calculateNodes(orbitNodes, flattenedNodes, orbitalRings) {
 
   function traverseNestedData(node) {
     if (getChildren(node)) {
-      const thisPie = pie().value(d => getChildren(d) ? 4 : 1);
+      const thisPie = pie().value(d => (getChildren(d) ? 4 : 1));
       const piedValues = thisPie(getChildren(node));
 
       orbitalRings.push({source: node, x: node.x, y: node.y, r: node.ring / 2});
 
       for (let x = 0; x < getChildren(node).length; x++) {
         const child = getChildren(node)[x];
-        child.angle = ((piedValues[x].endAngle - piedValues[x].startAngle) / 2) + piedValues[x].startAngle;
+        child.angle =
+          (piedValues[x].endAngle - piedValues[x].startAngle) / 2 +
+          piedValues[x].startAngle;
 
         child.parent = node;
         child.depth = node.depth + 1;
 
-        child.x = child.parent.x + (child.parent.ring / 2) * Math.sin(child.angle);
-        child.y = child.parent.y + (child.parent.ring / 2) * Math.cos(child.angle);
+        child.x =
+          child.parent.x + (child.parent.ring / 2) * Math.sin(child.angle);
+        child.y =
+          child.parent.y + (child.parent.ring / 2) * Math.cos(child.angle);
 
         child.deltaX = dx => dx;
         child.deltaY = dy => dy;
@@ -82,24 +86,28 @@ const orbitLayout = {
     }, []);
     return {
       descendants: () => flattenedNodes,
-      links: () => links
+      links: () => links,
     };
   },
 
   getXScale: ({width, margin}, root) => {
     const {xMin, xMax} = getDomain(root, d => [d.x, d.y]);
-    return scaleLinear().domain([xMin, xMax]).range(xRange(width, margin));
+    return scaleLinear()
+      .domain([xMin, xMax])
+      .range(xRange(width, margin));
   },
   getYScale: ({height, margin}, root) => {
     const {yMin, yMax} = getDomain(root, d => [d.x, d.y]);
-    return scaleLinear().domain([yMin, yMax]).range(yRange(height, margin));
+    return scaleLinear()
+      .domain([yMin, yMax])
+      .range(yRange(height, margin));
   },
   positioning: (xScale, yScale) => d => [xScale(d.x), yScale(d.y)],
   path: (xScale, yScale) => d => `
   M${xScale(d.source.x)} ${yScale(d.source.y)}
   L${xScale(d.target.x)} ${yScale(d.target.y)}
   `,
-  offset: ({width, height}) => ''
+  offset: ({width, height}) => '',
 };
 
 export default orbitLayout;
