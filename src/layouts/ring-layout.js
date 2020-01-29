@@ -3,16 +3,22 @@ import {tree} from 'd3-hierarchy';
 import {getDomain, xRange, yRange, radialToCartesian} from '../utils';
 
 export const ringLayout = {
-  layout: () => tree().size([2 * Math.PI, 1])
-    .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth),
+  layout: () =>
+    tree()
+      .size([2 * Math.PI, 1])
+      .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth),
 
   getXScale: ({width, margin}, root) => {
     const {xMin, xMax} = getDomain(root, d => radialToCartesian(d.x, d.y));
-    return scaleLinear().domain([xMin, xMax]).range(xRange(width, margin));
+    return scaleLinear()
+      .domain([xMin, xMax])
+      .range(xRange(width, margin));
   },
   getYScale: ({height, margin}, root) => {
     const {yMin, yMax} = getDomain(root, d => radialToCartesian(d.x, d.y));
-    return scaleLinear().domain([yMin, yMax]).range(yRange(height, margin));
+    return scaleLinear()
+      .domain([yMin, yMax])
+      .range(yRange(height, margin));
   },
   positioning: (xScale, yScale) => d => {
     const pos = radialToCartesian(d.x, d.y);
@@ -29,7 +35,7 @@ export const ringLayout = {
     L${xScale(targetPos[0])} ${yScale(targetPos[1])}
     `;
   },
-  offset: ({width, height}) => ''
+  offset: ({width, height}) => '',
   // `translate(${width / 2}, ${height / 2})`
 };
 

@@ -9,7 +9,7 @@ import {
   WEB_PAGE_MODE,
   SHOW_ALL_COMMENTS,
   TABLET_MODE_CONFIG,
-  TOUR_STEPS
+  TOUR_STEPS,
 } from '../constants';
 import GraphPanel from './graph-panel';
 import CommentPanel from './comment-panel';
@@ -20,8 +20,10 @@ import Analytics from './analytics';
 import {classnames} from '../utils';
 
 const getId = () => (window.location.search || '?id=17338700').split('?id=')[1];
-const isAnalyticsPage = () => (window.location.search || '?id=17338700').includes('analytics');
-const getIdPure = () => window.location.search && window.location.search.split('?id=')[1];
+const isAnalyticsPage = () =>
+  (window.location.search || '?id=17338700').includes('analytics');
+const getIdPure = () =>
+  window.location.search && window.location.search.split('?id=')[1];
 
 class RootComponent extends React.Component {
   componentWillMount() {
@@ -52,14 +54,20 @@ class RootComponent extends React.Component {
   }
 
   render() {
-    const selectedMap = this.props.itemsToRender
-      .reduce((acc, row) => acc.set(row.get('id'), true), Map());
-    const showLoading = (getIdPure() || this.props.pageId || !WEB_PAGE_MODE) && this.props.loading;
+    const selectedMap = this.props.itemsToRender.reduce(
+      (acc, row) => acc.set(row.get('id'), true),
+      Map(),
+    );
+    const showLoading =
+      (getIdPure() || this.props.pageId || !WEB_PAGE_MODE) &&
+      this.props.loading;
     const showDashboard = !this.props.loading;
-    const showPicker = !getIdPure() && !DEV_MODE && WEB_PAGE_MODE && !this.props.pageId;
+    const showPicker =
+      !getIdPure() && !DEV_MODE && WEB_PAGE_MODE && !this.props.pageId;
     const tabletMode = this.props.configs.get(TABLET_MODE_CONFIG) === 'on';
     const showAllCommentsOption = this.props.configs.get(SHOW_ALL_COMMENTS);
-    const showAllComments = showAllCommentsOption === 'on' ||
+    const showAllComments =
+      showAllCommentsOption === 'on' ||
       (showAllCommentsOption === 'smart defaults' && this.props.data.size < 30);
 
     if (isAnalyticsPage()) {
@@ -69,28 +77,34 @@ class RootComponent extends React.Component {
     return (
       <div
         className={classnames({'tablet-mode': tabletMode})}
-        id="extension-container">
-        {this.props.showTour && <Joyride
-          continuous={true}
-          callback={({action, index, lifecycle}) => {
-            if (action === 'update' && index === 0) {
-              // looking at graph panel
-              this.props.lockAndSearch('');
-            }
+        id="extension-container"
+      >
+        {this.props.showTour && (
+          <Joyride
+            continuous={true}
+            callback={({action, index, lifecycle}) => {
+              if (action === 'update' && index === 0) {
+                // looking at graph panel
+                this.props.lockAndSearch('');
+              }
 
-            if (lifecycle === 'complete' && index === 3) {
-              // looking at the one before settings
-              document.querySelector('#settings-link').click();
-            }
-            if (lifecycle === 'complete' && index === 4) {
-              this.props.finishTour();
-            }
-          }}
-          styles={{options: {
-            primaryColor: '#ff6600',
-            arrowColor: '#ff6600'
-          }}}
-          steps={TOUR_STEPS} />}
+              if (lifecycle === 'complete' && index === 3) {
+                // looking at the one before settings
+                document.querySelector('#settings-link').click();
+              }
+              if (lifecycle === 'complete' && index === 4) {
+                this.props.finishTour();
+              }
+            }}
+            styles={{
+              options: {
+                primaryColor: '#ff6600',
+                arrowColor: '#ff6600',
+              },
+            }}
+            steps={TOUR_STEPS}
+          />
+        )}
         <div className="flex-down full-size">
           <Header
             configs={this.props.configs}
@@ -98,7 +112,8 @@ class RootComponent extends React.Component {
             userKarma={this.props.userKarma}
             setConfig={this.props.setConfig}
             logoutLink={this.props.logoutLink}
-            username={this.props.username}/>
+            username={this.props.username}
+          />
           <SecondaryHeader
             clearSelection={this.props.clearSelection}
             configs={this.props.configs}
@@ -115,43 +130,52 @@ class RootComponent extends React.Component {
             setTimeFilter={this.props.setTimeFilter}
             storyHead={this.props.storyHead}
             topUsers={this.props.topUsers}
-            unlockAndSearch={this.props.unlockAndSearch} />
-          {showPicker && <WebPagePicker
-            getAllItems={this.props.getAllItems}
-            setPageId={this.props.setPageId}/>}
-          {showLoading && <div className="flex full-size background-gray centering">
-            <h1> Loading, {this.props.loadedCount} so far</h1>
-          </div>}
-          {
-            showDashboard && <div
-              className="flex full-size background-gray main-container">
-              <GraphPanel
-                {...this.props}
-                selectedMap={selectedMap}
-                />
+            unlockAndSearch={this.props.unlockAndSearch}
+          />
+          {showPicker && (
+            <WebPagePicker
+              getAllItems={this.props.getAllItems}
+              setPageId={this.props.setPageId}
+            />
+          )}
+          {showLoading && (
+            <div className="flex full-size background-gray centering">
+              <h1> Loading, {this.props.loadedCount} so far</h1>
+            </div>
+          )}
+          {showDashboard && (
+            <div className="flex full-size background-gray main-container">
+              <GraphPanel {...this.props} selectedMap={selectedMap} />
               <CommentPanel
                 configs={this.props.configs}
                 dataSize={this.props.data.size}
-                getItemsFromCacheOrRedirect={this.props.getItemsFromCacheOrRedirect}
+                getItemsFromCacheOrRedirect={
+                  this.props.getItemsFromCacheOrRedirect
+                }
                 hoveredComment={this.props.hoveredComment}
                 hoveredGraphComment={this.props.hoveredGraphComment}
                 itemPath={this.props.itemPath}
-                itemsToRender={showAllComments ?
-                  this.props.dfsOrderedData : this.props.itemsToRender}
+                itemsToRender={
+                  showAllComments
+                    ? this.props.dfsOrderedData
+                    : this.props.itemsToRender
+                }
                 model={this.props.model}
                 pageId={this.props.pageId}
                 serializedModel={this.props.serializedModel}
                 setHoveredComment={this.props.setHoveredComment}
-                setSelectedCommentPathWithSelectionClear={this.props.setSelectedCommentPathWithSelectionClear}
+                setSelectedCommentPathWithSelectionClear={
+                  this.props.setSelectedCommentPathWithSelectionClear
+                }
                 setSelectedCommentPath={this.props.setSelectedCommentPath}
                 setSearch={this.props.setSearch}
                 setShowTour={this.props.setShowTour}
                 showingAllComments={showAllComments}
                 topUsers={this.props.topUsers}
                 unlockAndSearch={this.props.unlockAndSearch}
-                />
+              />
             </div>
-          }
+          )}
         </div>
       </div>
     );
@@ -184,7 +208,7 @@ function mapStateToProps({base}) {
     // storyHead: base.get('data').find(item => item.get('id') === pageId),
     timeFilter: base.get('timeFilter').toJS(),
     topUsers: base.get('topUsers'),
-    users: base.get('users')
+    users: base.get('users'),
   };
 }
 

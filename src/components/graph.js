@@ -16,19 +16,19 @@ import {
   COLORS_UNDER_OPACITY,
   NODE_COLOR_UNDER_OPACITY,
   NODE_COLOR,
-  OPACITY
+  OPACITY,
 } from '../constants/colors';
 
 const nodeSizes = {
   small: 4,
   medium: 7,
-  large: 10
+  large: 10,
 };
 
 const rootSizes = {
   small: 15,
   medium: 15,
-  large: 19
+  large: 19,
 };
 
 class Graph extends React.Component {
@@ -42,17 +42,20 @@ class Graph extends React.Component {
   }
 
   updateChart(props) {
-    const {
-      fullGraph,
-      height,
-      width,
-      markSize
-    } = props;
+    const {fullGraph, height, width, markSize} = props;
 
     if (!width || !height || !fullGraph) {
       return;
     }
-    const {xScale, yScale, layout, positioning, nodes, labels, voronois} = fullGraph;
+    const {
+      xScale,
+      yScale,
+      layout,
+      positioning,
+      nodes,
+      labels,
+      voronois,
+    } = fullGraph;
     this.renderLinks(props, layout, xScale, yScale);
     this.renderNodes(props, nodes, positioning, markSize);
     this.renderVoronoi(props, nodes, positioning, voronois);
@@ -61,27 +64,35 @@ class Graph extends React.Component {
   }
 
   renderRootAnnotation(props, treeLayout, xScale, yScale) {
-
     const translateFunc = d => `translate(${d.x}, ${d.y})`;
     const treeRoot = treeLayout.treeRoot && treeLayout.treeRoot();
-    const annotations = !treeRoot ? [] : [
-      {
-        x: xScale(treeRoot),
-        y: yScale(treeRoot),
-        label: treeRoot.data.hiddenNodes ?
-          `+${treeRoot.data.hiddenNodes.length}` : ''
-      }
-    ];
+    const annotations = !treeRoot
+      ? []
+      : [
+          {
+            x: xScale(treeRoot),
+            y: yScale(treeRoot),
+            label: treeRoot.data.hiddenNodes
+              ? `+${treeRoot.data.hiddenNodes.length}`
+              : '',
+          },
+        ];
 
-    const rootAnnotation = select(ReactDOM.findDOMNode(this.refs.rootAnnotation))
-      .selectAll('.root-annotation').data(annotations);
-    rootAnnotation.enter().append('text')
-        .attr('class', 'root-annotation')
-        .attr('transform', d => translateFunc(d))
-        .attr('text-anchor', 'middle')
-        .attr('font-size', 10)
-        .text(d => d.label);
-    rootAnnotation.transition()
+    const rootAnnotation = select(
+      ReactDOM.findDOMNode(this.refs.rootAnnotation),
+    )
+      .selectAll('.root-annotation')
+      .data(annotations);
+    rootAnnotation
+      .enter()
+      .append('text')
+      .attr('class', 'root-annotation')
+      .attr('transform', d => translateFunc(d))
+      .attr('text-anchor', 'middle')
+      .attr('font-size', 10)
+      .text(d => d.label);
+    rootAnnotation
+      .transition()
       .duration(props.duration)
       .attr('class', 'root-annotation')
       .attr('transform', d => translateFunc(d))
@@ -92,19 +103,23 @@ class Graph extends React.Component {
   renderLinks(props, root, xScale, yScale) {
     const {selectedMap, graphLayout, duration} = props;
     const linesG = select(ReactDOM.findDOMNode(this.refs.lines));
-    const link = linesG.selectAll('.link')
+    const link = linesG
+      .selectAll('.link')
       .data(root.links(), d => `${d.target.data.id}-${d.source.data.id}`);
     const evalLineClasses = d => {
       return classnames({
         link: true,
-        'link-selected': selectedMap.get(d.target.data.id)
+        'link-selected': selectedMap.get(d.target.data.id),
       });
     };
     const path = layouts[graphLayout].path(xScale, yScale);
-    link.enter().append('path')
-        .attr('class', evalLineClasses)
-        .attr('d', path);
-    link.transition()
+    link
+      .enter()
+      .append('path')
+      .attr('class', evalLineClasses)
+      .attr('d', path);
+    link
+      .transition()
       .duration(duration)
       .attr('d', path)
       .attr('class', evalLineClasses);
@@ -119,65 +134,85 @@ class Graph extends React.Component {
       selectedMap,
       squareLeafs,
       topUsers,
-      username
+      username,
     } = props;
     const nodesG = select(ReactDOM.findDOMNode(this.refs.nodes));
     const translateFunc = arr => `translate(${arr.join(',')})`;
-    const evalCircClasses = d => classnames({
-      'node-root': d.data.id === 'root',
-      node: true,
-      'node-internal': d.children,
-      'node-leaf': !d.children,
-      'node-selected': selectedMap.get(d.data.id),
-      'node-author-by-user': username === d.data.by,
-      'node-hovered': d.data.id === hoveredComment
-    });
+    const evalCircClasses = d =>
+      classnames({
+        'node-root': d.data.id === 'root',
+        node: true,
+        'node-internal': d.children,
+        'node-leaf': !d.children,
+        'node-selected': selectedMap.get(d.data.id),
+        'node-author-by-user': username === d.data.by,
+        'node-hovered': d.data.id === hoveredComment,
+      });
     const isSelected = d => selectedMap.get(d.data.id);
     const computeFill = d => {
       const data = d.data;
-      const user = data.by || (data && data.by) || (data && data.data && data.data.by);
+      const user =
+        data.by || (data && data.by) || (data && data.data && data.data.by);
       const position = topUsers[user];
-      if (position && (position.rank < numUsersToHighlight)) {
-        return muteUnselected ?
-          (isSelected(d) ? COLORS[position.rank] : COLORS_UNDER_OPACITY[position.rank]) :
-          COLORS[position.rank];
+      if (position && position.rank < numUsersToHighlight) {
+        return muteUnselected
+          ? isSelected(d)
+            ? COLORS[position.rank]
+            : COLORS_UNDER_OPACITY[position.rank]
+          : COLORS[position.rank];
       }
-      return muteUnselected ? (isSelected(d) ? NODE_COLOR : NODE_COLOR_UNDER_OPACITY) : NODE_COLOR;
+      return muteUnselected
+        ? isSelected(d)
+          ? NODE_COLOR
+          : NODE_COLOR_UNDER_OPACITY
+        : NODE_COLOR;
     };
-    const computeStroke = d => muteUnselected ?
-      (HexOver('#000', '#f6f6f0', isSelected(d) ? 1 : OPACITY)) : '#555';
+    const computeStroke = d =>
+      muteUnselected
+        ? HexOver('#000', '#f6f6f0', isSelected(d) ? 1 : OPACITY)
+        : '#555';
 
     const node = nodesG.selectAll('.node').data(nodes, d => {
       return `${d.data.id}`;
     });
     const setCircSize = d => {
       const scalingSizes = squareLeafs ? [1, 1.75] : [1.75, 1.75];
-      const scalingFactor = (!d.children || !d.children.length) ? scalingSizes[0] : scalingSizes[1];
-      return scalingFactor * (d.depth ? nodeSizes[markSize] : rootSizes[markSize]);
+      const scalingFactor =
+        !d.children || !d.children.length ? scalingSizes[0] : scalingSizes[1];
+      return (
+        scalingFactor * (d.depth ? nodeSizes[markSize] : rootSizes[markSize])
+      );
     };
     const circleness = squareLeafs ? [0, 20] : [20, 20];
-    node.enter().append('rect')
-        .attr('class', evalCircClasses)
-        .attr('fill', computeFill)
-        .attr('stroke', computeStroke)
-        .attr('transform', d => translateFunc(positioning(d)))
-        .attr('height', setCircSize)
-        .attr('width', setCircSize)
-        .attr('x', d => -setCircSize(d) / 2)
-        .attr('y', d => -setCircSize(d) / 2)
-        .attr('rx', d => (!d.children || !d.children.length) ? circleness[0] : circleness[1]);
+    node
+      .enter()
+      .append('rect')
+      .attr('class', evalCircClasses)
+      .attr('fill', computeFill)
+      .attr('stroke', computeStroke)
+      .attr('transform', d => translateFunc(positioning(d)))
+      .attr('height', setCircSize)
+      .attr('width', setCircSize)
+      .attr('x', d => -setCircSize(d) / 2)
+      .attr('y', d => -setCircSize(d) / 2)
+      .attr('rx', d =>
+        !d.children || !d.children.length ? circleness[0] : circleness[1],
+      );
 
-    node.transition()
-        .duration(duration)
-        .attr('fill', computeFill)
-        .attr('stroke', computeStroke)
-        .attr('transform', d => translateFunc(positioning(d)))
-        .attr('height', setCircSize)
-        .attr('width', setCircSize)
-        .attr('x', d => -setCircSize(d) / 2)
-        .attr('y', d => -setCircSize(d) / 2)
-        .attr('rx', d => (!d.children || !d.children.length) ? circleness[0] : circleness[1])
-        .attr('class', evalCircClasses);
+    node
+      .transition()
+      .duration(duration)
+      .attr('fill', computeFill)
+      .attr('stroke', computeStroke)
+      .attr('transform', d => translateFunc(positioning(d)))
+      .attr('height', setCircSize)
+      .attr('width', setCircSize)
+      .attr('x', d => -setCircSize(d) / 2)
+      .attr('y', d => -setCircSize(d) / 2)
+      .attr('rx', d =>
+        !d.children || !d.children.length ? circleness[0] : circleness[1],
+      )
+      .attr('class', evalCircClasses);
     node.exit().remove();
   }
 
@@ -186,12 +221,15 @@ class Graph extends React.Component {
       duration,
       disallowLock,
       setSelectedCommentPathWithGraphComment,
-      toggleCommentSelectionLock
+      toggleCommentSelectionLock,
     } = props;
     const polygonsG = select(ReactDOM.findDOMNode(this.refs.polygons));
     const polygon = polygonsG.selectAll('.polygon').data(voronois);
-    const makeSelection = d => setSelectedCommentPathWithGraphComment(d.data[2].data.id);
-    polygon.enter().append('path')
+    const makeSelection = d =>
+      setSelectedCommentPathWithGraphComment(d.data[2].data.id);
+    polygon
+      .enter()
+      .append('path')
       .attr('class', 'polygon')
       .attr('fill', 'black')
       .attr('stroke', 'white')
@@ -199,7 +237,8 @@ class Graph extends React.Component {
       .attr('d', d => `M${d.join('L')}Z`)
       .on('mouseenter', disallowLock ? () => {} : makeSelection)
       .on('click', disallowLock ? makeSelection : toggleCommentSelectionLock);
-    polygon.transition()
+    polygon
+      .transition()
       .duration(duration)
       .attr('d', d => `M${d.join('L')}Z`);
     polygon.exit().remove();
@@ -210,44 +249,53 @@ class Graph extends React.Component {
       acc[row.key] = row.label;
       return acc;
     }, {});
-    const biggestVoronois = voronois
-      .reduce((acc, row) => {
-        const data = row.data[2];
-        const key = data.key;
-        const polygonArea = area(row);
-        if (!acc[key] || acc[key].polygonArea < polygonArea) {
-          acc[key] = {
-            data,
-            polygonArea,
-            centroid: row
-              .reduce((mem, d) => [mem[0] + d[0], mem[1] + d[1]], [0, 0])
-              .map(d => d / row.length),
-            label: labelMap[key]
-          };
-        }
-        return acc;
-      }, {});
+    const biggestVoronois = voronois.reduce((acc, row) => {
+      const data = row.data[2];
+      const key = data.key;
+      const polygonArea = area(row);
+      if (!acc[key] || acc[key].polygonArea < polygonArea) {
+        acc[key] = {
+          data,
+          polygonArea,
+          centroid: row
+            .reduce((mem, d) => [mem[0] + d[0], mem[1] + d[1]], [0, 0])
+            .map(d => d / row.length),
+          label: labelMap[key],
+        };
+      }
+      return acc;
+    }, {});
 
     const labelsG = select(ReactDOM.findDOMNode(this.refs.labels));
     const translateFunc = arr => `translate(${arr.join(',')})`;
 
-    const label = labelsG.selectAll('.label').data(Object.values(biggestVoronois));
-    label.enter().append('g')
-        .attr('class', 'label')
-        .attr('transform', d => translateFunc(d.centroid));
+    const label = labelsG
+      .selectAll('.label')
+      .data(Object.values(biggestVoronois));
+    label
+      .enter()
+      .append('g')
+      .attr('class', 'label')
+      .attr('transform', d => translateFunc(d.centroid));
 
-    label.transition()
-        .duration(props.duration)
-        .attr('transform', d => translateFunc(d.centroid));
+    label
+      .transition()
+      .duration(props.duration)
+      .attr('transform', d => translateFunc(d.centroid));
     label.exit().remove();
 
     const subLabels = label.selectAll('text').data(d => d.label || '');
-    subLabels.enter().append('text').text(d => d)
+    subLabels
+      .enter()
+      .append('text')
+      .text(d => d)
       .attr('transform', (d, idx) => `translate(0, ${idx * 11})`);
-    subLabels.transition().duration(props.duration).text(d => d)
+    subLabels
+      .transition()
+      .duration(props.duration)
+      .text(d => d)
       .attr('transform', (d, idx) => `translate(0, ${idx * 11})`);
     subLabels.exit().remove();
-
   }
 
   render() {
@@ -259,7 +307,7 @@ class Graph extends React.Component {
       width,
       toggleCommentSelectionLock,
       muteUnselected,
-      unsetGraphComment
+      unsetGraphComment,
     } = this.props;
 
     const translation = layouts[graphLayout].offset(this.props);
@@ -270,18 +318,28 @@ class Graph extends React.Component {
         onMouseOut={unsetGraphComment}
         className={classnames({
           // if in tablet mode then the graph should always look locked
-          locked: (commentSelectionLock || disallowLock)
-        })}>
+          locked: commentSelectionLock || disallowLock,
+        })}
+      >
         <g
           opacity={muteUnselected ? 0.7 : 1}
           ref="lines"
-          transform={translation} />
-        <g ref="nodes" transform={translation}/>
-        <g ref="labels" transform={translation} className="unselectable"/>
-        <g ref="rootAnnotation" transform={translation} className="unselectable"/>
-        <g ref="polygons" className="polygon-container" transform={translation} />
-        {
-          commentSelectionLock && <rect
+          transform={translation}
+        />
+        <g ref="nodes" transform={translation} />
+        <g ref="labels" transform={translation} className="unselectable" />
+        <g
+          ref="rootAnnotation"
+          transform={translation}
+          className="unselectable"
+        />
+        <g
+          ref="polygons"
+          className="polygon-container"
+          transform={translation}
+        />
+        {commentSelectionLock && (
+          <rect
             className="click-away-block"
             onClick={toggleCommentSelectionLock}
             width={width}
@@ -290,11 +348,13 @@ class Graph extends React.Component {
             y="0"
             fill="red"
             opacity="0"
-            />
-        }
-        {!disallowLock && <text x={width - 5} y={8} className="legend unselectable">
-          {`click to ${commentSelectionLock ? 'un' : '' }lock selection`}
-        </text>}
+          />
+        )}
+        {!disallowLock && (
+          <text x={width - 5} y={8} className="legend unselectable">
+            {`click to ${commentSelectionLock ? 'un' : ''}lock selection`}
+          </text>
+        )}
       </svg>
     );
   }
@@ -304,7 +364,7 @@ Graph.defaultProps = {
     top: 10,
     left: 20,
     bottom: 5,
-    right: 20
-  }
+    right: 20,
+  },
 };
 export default Graph;

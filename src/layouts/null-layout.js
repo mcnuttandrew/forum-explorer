@@ -7,13 +7,22 @@ import {xRange, yRange} from '../utils';
 const nullLayout = {
   layout: () => data => ({
     descendants: () => [data],
-    links: () => []
+    links: () => [],
   }),
-  getXScale: ({width, margin}) => scaleLinear().domain([0, 1]).range(xRange(width, margin)),
-  getYScale: ({height, margin}) => scaleLinear().domain([0, 1]).range(yRange(height, margin)),
+  getXScale: ({width, margin}) =>
+    scaleLinear()
+      .domain([0, 1])
+      .range(xRange(width, margin)),
+  getYScale: ({height, margin}) =>
+    scaleLinear()
+      .domain([0, 1])
+      .range(yRange(height, margin)),
   positioning: (xScale, yScale) => d => [xScale(0.5), yScale(0.5)],
-  path: (xScale, yScale) => linkVertical().x(d => xScale(d.x)).y(d => yScale(d.y)),
-  offset: () => ''
+  path: (xScale, yScale) =>
+    linkVertical()
+      .x(d => xScale(d.x))
+      .y(d => yScale(d.y)),
+  offset: () => '',
 };
 
 export default nullLayout;

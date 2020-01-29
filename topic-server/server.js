@@ -11,7 +11,7 @@ const {
   recordVisit,
   recordItemData,
   stripAndModel,
-  sleep
+  sleep,
 } = require('./utils');
 const fetch = require('node-fetch');
 const express = require('express');
@@ -31,7 +31,10 @@ const MONGO_DB = process.env.MONGODB || 'FEX_DB';
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept',
+  );
   next();
 });
 
@@ -43,7 +46,8 @@ function shouldRetrieveModelFromCache(model, itemData) {
     return false;
   }
   const inLastFiveMinutes = Math.abs(model[0].time - currentTime) < fiveMinutes;
-  const olderThanTwoDays = itemData && (Math.abs(itemData.time - currentTime) > (2 * DAY));
+  const olderThanTwoDays =
+    itemData && Math.abs(itemData.time - currentTime) > 2 * DAY;
   return inLastFiveMinutes || olderThanTwoDays;
 }
 
@@ -51,8 +55,8 @@ function parseAndModel(req, res) {
   const db = req.app.locals.db;
 
   const item = req.query && req.query.item;
-  const topics = req.query && req.query.topics || 5;
-  const terms = req.query && req.query.terms || 15;
+  const topics = (req.query && req.query.topics) || 5;
+  const terms = (req.query && req.query.terms) || 15;
   const cacheId = `${item}-${topics}-${terms}`;
   const requestConfig = {item, topics, terms, cacheId};
   if (!item) {
@@ -72,10 +76,7 @@ function parseAndModel(req, res) {
     res.status(204).send('BUILDING');
     return;
   }
-  Promise.all([
-    fetchModel(db, cacheId),
-    fetchItemData(db, item)
-  ])
+  Promise.all([fetchModel(db, cacheId), fetchItemData(db, item)])
     .then(([model, itemData]) => {
       if (shouldRetrieveModelFromCache(model, itemData)) {
         log(`request for ${cacheId} fulfilled by cache`);
@@ -100,31 +101,43 @@ function buildModel(requestConfig, db) {
   const hnURL = `https://news.ycombinator.com/item?id=${item}`;
 
   return sleep(Math.floor(Math.random() * 2000))
-  .then(
-    () => new Promise((resolve, reject) => request(hnURL, (error, response, html) => {
-      log(`recieved html for ${cacheId}`);
-      if (!error && response.statusCode === 200) {
-        return resolve(html);
-      }
+    .then(
+      () =>
+        new Promise((resolve, reject) =>
+          request(hnURL, (error, response, html) => {
+            log(`recieved html for ${cacheId}`);
+            if (!error && response.statusCode === 200) {
+              return resolve(html);
+            }
 
-      return reject(JSON.stringify({
-        code: `https://news.ycombinator.com/item?id=${item}`,
-        error,
-        html,
-        item,
-        status: 'error',
-        statusCode: response.statusCode
-      }, null, 2));
-    }))
-  )
-  .then(html => {
-    log(`building model for ${cacheId}`);
-    const model = stripAndModel(html, topics, terms);
-    const endTime = new Date().getTime();
-    log(`modeling for ${cacheId} complete. took ${(endTime - startTime) / 1000} seconds. caching model`);
-    inProgress[cacheId] = false;
-    recordModel(db, cacheId, model);
-  });
+            return reject(
+              JSON.stringify(
+                {
+                  code: `https://news.ycombinator.com/item?id=${item}`,
+                  error,
+                  html,
+                  item,
+                  status: 'error',
+                  statusCode: response.statusCode,
+                },
+                null,
+                2,
+              ),
+            );
+          }),
+        ),
+    )
+    .then(html => {
+      log(`building model for ${cacheId}`);
+      const model = stripAndModel(html, topics, terms);
+      const endTime = new Date().getTime();
+      log(
+        `modeling for ${cacheId} complete. took ${(endTime - startTime) /
+          1000} seconds. caching model`,
+      );
+      inProgress[cacheId] = false;
+      recordModel(db, cacheId, model);
+    });
 }
 
 app.get('/analytics', (req, res) => {
@@ -132,14 +145,15 @@ app.get('/analytics', (req, res) => {
   // todo adjust query to filter out really old data
   log('analytics call');
   const db = req.app.locals.db;
-  const combineVisitAndData = row => fetchItemData(db, Number(row.itemId))
-    .then(data => ({...row, data: data.length && data[0]}));
+  const combineVisitAndData = row =>
+    fetchItemData(db, Number(row.itemId)).then(data => ({
+      ...row,
+      data: data.length && data[0],
+    }));
   Promise.all([
     fetchAllModels(db),
-    fetchAllVisits(db)
-      .then(rows => Promise.all(rows.map(combineVisitAndData)))
-  ])
-  .then(([models, visits]) => {
+    fetchAllVisits(db).then(rows => Promise.all(rows.map(combineVisitAndData))),
+  ]).then(([models, visits]) => {
     res.send(JSON.stringify({models, visits}, null, 2));
   });
 });

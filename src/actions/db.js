@@ -2,8 +2,8 @@ import {get, set, clear} from 'idb-keyval';
 import Manifest from '../../manifest.json';
 import {log, prepareTree} from '../utils';
 
-const recursivelyFind = id => get(Number(id))
-  .then(d => typeof d === 'number' ? recursivelyFind(d) : d);
+const recursivelyFind = id =>
+  get(Number(id)).then(d => (typeof d === 'number' ? recursivelyFind(d) : d));
 
 function computeNodesInSubtree(tree, initId) {
   const mapOfAllowedIds = {};
@@ -11,34 +11,35 @@ function computeNodesInSubtree(tree, initId) {
   function dfsAndMarkId({children, id, depth}, parentIsInTree) {
     const nodeId = `${id}`;
 
-    if (parentIsInTree || (nodeId === `${initId}`)) {
+    if (parentIsInTree || nodeId === `${initId}`) {
       mapOfAllowedIds[nodeId] = true;
     }
-    if ((nodeId === `${initId}`)) {
+    if (nodeId === `${initId}`) {
       depthOfRoot = depth;
     }
-    (children || []).forEach(child => dfsAndMarkId(child, mapOfAllowedIds[nodeId]));
+    (children || []).forEach(child =>
+      dfsAndMarkId(child, mapOfAllowedIds[nodeId]),
+    );
   }
   dfsAndMarkId(tree, false);
   return {mapOfAllowedIds, depthOfRoot};
 }
 
 export function getTreeForId(initId) {
-  return recursivelyFind(initId)
-    .then(result => {
-      // if there was a cache miss then dont do anything
-      if (typeof result !== 'object') {
-        return result;
-      }
-      // prepare a tree to parse to across of the cache hit
-      const tree = prepareTree(result, initId);
-      // do a DFS across this tree and mark which nodes are in the sub tree
-      const {depthOfRoot, mapOfAllowedIds} = computeNodesInSubtree(tree, initId);
-      // filter them and adjust their height as appropriate
-      return result
-        .filter(({id}) => mapOfAllowedIds[id])
-        .map(d => ({...d, depth: d.depth - depthOfRoot}));
-    });
+  return recursivelyFind(initId).then(result => {
+    // if there was a cache miss then dont do anything
+    if (typeof result !== 'object') {
+      return result;
+    }
+    // prepare a tree to parse to across of the cache hit
+    const tree = prepareTree(result, initId);
+    // do a DFS across this tree and mark which nodes are in the sub tree
+    const {depthOfRoot, mapOfAllowedIds} = computeNodesInSubtree(tree, initId);
+    // filter them and adjust their height as appropriate
+    return result
+      .filter(({id}) => mapOfAllowedIds[id])
+      .map(d => ({...d, depth: d.depth - depthOfRoot}));
+  });
 }
 
 export function updateIdInDb(id, data) {
@@ -57,34 +58,35 @@ export function updateIdInDb(id, data) {
 export function maybeRefreshDB() {
   const currentVersion = Manifest.version;
   // check for a version number in the db
-  get('db-version')
-    .then(result => {
-      // if one is not present then set the current one
-      if (!result) {
-        log('no version found, setting');
-        return set('db-version', currentVersion);
-      }
-      // if one is present and it's the same as the current one take no action
-      if (result === currentVersion) {
-        log('up to date');
-        return;
-      }
-      // if one is present and it's different then flash the database and refresh the page
-      if (result !== currentVersion) {
-        log('version mismatch, reset', result, currentVersion);
-        clear()
-          .then(() => set('db-version', currentVersion))
-          .then(() => location.reload());
-      }
-      // unclear what an else branch would mean
-      log('else branch', result, currentVersion);
+  get('db-version').then(result => {
+    // if one is not present then set the current one
+    if (!result) {
+      log('no version found, setting');
+      return set('db-version', currentVersion);
+    }
+    // if one is present and it's the same as the current one take no action
+    if (result === currentVersion) {
+      log('up to date');
       return;
-    });
+    }
+    // if one is present and it's different then flash the database and refresh the page
+    if (result !== currentVersion) {
+      log('version mismatch, reset', result, currentVersion);
+      clear()
+        .then(() => set('db-version', currentVersion))
+        .then(() => location.reload());
+    }
+    // unclear what an else branch would mean
+    log('else branch', result, currentVersion);
+    return;
+  });
 }
 
 function getLastUpdatedSingleItems(results) {
   return new Promise((resolve, reject) => {
-    get('web-picker-updated').then(lastUpdate => resolve({results, lastUpdate}));
+    get('web-picker-updated').then(lastUpdate =>
+      resolve({results, lastUpdate}),
+    );
   });
 }
 
@@ -94,21 +96,21 @@ export function getPageSingleItems(ids) {
     .then(getLastUpdatedSingleItems)
     .then(({results, lastUpdate}) => ({
       results: results.filter(d => d),
-      lastUpdate
+      lastUpdate,
     }));
 }
 
 export function setPageSingleItems(data) {
-  return Promise.all(data.map(row => set(`${row.id}-single`, row)))
-    .then(() => set('web-picker-updated', (new Date()).getTime()));
+  return Promise.all(data.map(row => set(`${row.id}-single`, row))).then(() =>
+    set('web-picker-updated', new Date().getTime()),
+  );
 }
 
 export function checkForTour() {
-  return get('has-seen-tour')
-    .then(result => {
-      set('has-seen-tour', true);
-      return result;
-    });
+  return get('has-seen-tour').then(result => {
+    set('has-seen-tour', true);
+    return result;
+  });
 }
 
 export function getSettingsFromDb() {

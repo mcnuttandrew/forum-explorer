@@ -8,13 +8,13 @@ import {
   DOT_SIZE_CONFIG,
   GRAPH_LAYOUT_CONFIG,
   LEAF_SQUARE_CONFIG,
-  TABLET_MODE_CONFIG
+  TABLET_MODE_CONFIG,
 } from '../constants/index';
 
 const animationLengths = {
   off: 0,
   on: 400,
-  slow: 1500
+  slow: 1500,
 };
 
 class GraphPanel extends React.Component {
@@ -27,7 +27,7 @@ class GraphPanel extends React.Component {
     const currentNode = ReactDOM.findDOMNode(this.refs.graphPanel);
     this.props.updateGraphPanelDimensions({
       height: currentNode.clientHeight,
-      width: currentNode.clientWidth
+      width: currentNode.clientWidth,
     });
   }
 
@@ -37,7 +37,7 @@ class GraphPanel extends React.Component {
       graphPanelDimensions,
       searchValue,
       timeFilter,
-      username
+      username,
     } = this.props;
     const tabletMode = configs.get(TABLET_MODE_CONFIG) === 'on';
     return (
@@ -49,11 +49,11 @@ class GraphPanel extends React.Component {
           markSize={configs.get(DOT_SIZE_CONFIG)}
           squareLeafs={configs.get(LEAF_SQUARE_CONFIG) === 'on'}
           disallowLock={tabletMode}
-          muteUnselected={searchValue || (timeFilter.min !== timeFilter.max)}
+          muteUnselected={searchValue || timeFilter.min !== timeFilter.max}
           height={graphPanelDimensions.get('height')}
           username={username}
           width={graphPanelDimensions.get('width')}
-          />
+        />
       </div>
     );
   }
