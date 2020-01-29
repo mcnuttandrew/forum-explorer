@@ -20,8 +20,10 @@ const DAY = 24 * HOUR;
 
 function roundDate(ts){
     let timeStamp = ts;
-    timeStamp -= timeStamp % (24 * 60 * 60 * 1000);//subtract amount of time since midnight
-    timeStamp += new Date().getTimezoneOffset() * 60 * 1000;//add on the timezone offset
+    // subtract amount of time since midnight
+    timeStamp -= timeStamp % (24 * 60 * 60 * 1000); 
+    // add on the timezone offset
+    timeStamp += new Date().getTimezoneOffset() * 60 * 1000; 
     return (new Date(timeStamp)).getTime();
 }
 
