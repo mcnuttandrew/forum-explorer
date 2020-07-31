@@ -7,7 +7,6 @@ const getTime = () => new Date().getTime();
 const sleep = (delay) => new Promise((resolve, reject) => setTimeout((d) => resolve(), delay));
 /* eslint-disable */
 const log = (msg) => console.log(`${new Date().getTime()}: ${msg}`);
-// const log = () => {};
 const hnTemplate = (id) => `https://hacker-news.firebaseio.com/v0/item/${id}.json`;
 
 function stripAndModel(html, topics, terms) {

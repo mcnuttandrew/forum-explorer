@@ -22,10 +22,6 @@ exports.up = (pgm) => {
       notNull: true,
       default: pgm.func('current_timestamp'),
     },
-    // TODO
-    // item_created_at: {
-    //   type: 'timestamp',
-    // },
     model: {type: 'json', notNull: true},
     visits: {type: 'json', notNull: true},
     data: {type: 'json'},

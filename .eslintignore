@@ -4,3 +4,4 @@ _maps/*
 bundle.js
 app-bundle.js
 background-bundle.js
+migrations/*

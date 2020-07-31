@@ -7,11 +7,6 @@ const ANALYTICS_ROUTE = SERVER_DEV_MODE
   ? 'http://localhost:5000/analytics'
   : 'https://hn-ex.herokuapp.com/analytics';
 
-const SECOND = 1000;
-const MINUTE = 60 * SECOND;
-const HOUR = 60 * MINUTE;
-const DAY = 24 * HOUR;
-
 function roundDate(ts) {
   let timeStamp = ts;
   // subtract amount of time since midnight
@@ -75,7 +70,6 @@ export default class AnalyticsPage extends React.Component {
         <YAxis tickFormat={(d) => d} />
         {showTotal && <LineSeries data={totalVisit} />}
         {models
-          // .filter((row) => row.visits[0] > earliestVisit + 0.5 * DAY)
           .filter((row) => row.model && row.model[0] && row.model[0].length > 1)
           .map((row) => {
             const coords = row.visits.map((x, y) => ({x, y: y + 1}));

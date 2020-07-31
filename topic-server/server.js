@@ -54,7 +54,6 @@ function parseAndModel(req, res) {
 
   fetchModel(itemId, numTopics, numTerms)
     .then((model) => {
-      // .then(([model, itemData]) => {
       if (shouldRetrieveModelFromCache(model)) {
         log(`request for ${cacheId} fulfilled by cache`, model.rows[0].model);
         res.send(model.rows[0].model);
