@@ -10,6 +10,8 @@ background-bundle.js
 background-bundle.js.map
 dist/background-bundle.js
 .DS_Store
+backups/
+.env
 
 *.blg
 *.log
