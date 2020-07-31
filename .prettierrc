@@ -4,5 +4,5 @@
   "bracketSpacing": false,
   "jsxBracketSameLine": false,
   "semi": true,
-  "parser": "babel"
+  "printWidth": 110
 }
