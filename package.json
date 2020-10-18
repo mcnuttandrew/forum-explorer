@@ -17,7 +17,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-2": "^6.22.0",
     "css-loader": "^2.1.1",
-    "eslint": "^3.13.1",
+    "eslint": "^4.18.2",
     "eslint-config-prettier": "^6.10.0",
     "eslint-config-uber-es2015": "^3.0.1",
     "eslint-config-uber-jsx": "^3.0.1",
