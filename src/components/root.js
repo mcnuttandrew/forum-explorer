@@ -32,7 +32,7 @@ class RootComponent extends React.Component {
     this.props.checkIfTourShouldBeShown();
     this.props.getSettingsFromCache();
     if (!DEV_MODE) {
-      window.umami(`article load ${id}`);
+      window.umami && window.umami(`article load ${id}`);
     }
   }
 
