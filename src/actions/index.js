@@ -1,6 +1,6 @@
 /* global chrome*/
-import {CHILD_THRESHOLD, SERVER_DEV_MODE} from '../constants';
-import {prepareTree, log} from '../utils';
+import {CHILD_THRESHOLD} from '../constants';
+import {prepareTree} from '../utils';
 import {executeRequest} from '../api-calls';
 import {checkForTour, getTreeForId, getSettingsFromDb} from './db';
 import {buildLDAModel} from '../client-side-topic-modeling';
@@ -54,7 +54,6 @@ const collectCommentsFromTree = (tree) => {
 };
 
 const modelBranches = (dispatch, data, root, tree) => {
-  // Promise.all(items.map(item =>))
   const items = tree.children.filter((d) => d.descendants >= CHILD_THRESHOLD);
   Promise.all(
     items.map((x) => {

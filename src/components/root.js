@@ -33,6 +33,7 @@ class RootComponent extends React.Component {
     this.props.checkIfTourShouldBeShown();
     this.props.getSettingsFromCache();
     if (!DEV_MODE) {
+      // eslint-disable-next-line
       window.umami && window.umami(`article load ${id}`);
     }
   }
