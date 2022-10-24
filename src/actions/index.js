@@ -3,6 +3,7 @@ import {CHILD_THRESHOLD, SERVER_DEV_MODE} from '../constants';
 import {prepareTree, log} from '../utils';
 import {executeRequest} from '../api-calls';
 import {checkForTour, getTreeForId, getSettingsFromDb} from './db';
+import {buildLDAModel} from '../client-side-topic-modeling';
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
 const HOUR = MINUTE * 60;
@@ -38,35 +39,32 @@ export const sleep = (sleepTime) => (x) => new Promise((resolve) => setTimeout((
 
 export const checkIfTourShouldBeShown = () => (dispatch) =>
   checkForTour().then((payload) => dispatch({type: 'check-if-tour-should-be-shown', payload}));
-export const modelData = (item) => (dispatch) => {
-  dispatchRequest({
-    template: SERVER_DEV_MODE ? 'modelFullPageTemplateDevMode' : 'modelFullPageTemplate',
-    item,
-  })
-    .then(cleanModels)
-    .then((payload) => dispatch({type: 'model-data', payload}))
-    .catch(() => {});
+const modelData = (data) => (dispatch) => {
+  return buildLDAModel(data, 5, 15).then((model) => {
+    dispatch({type: 'model-data', payload: cleanModels(model)});
+  });
 };
 
-export const modelBranches = (dispatch, data, root, tree) => {
-  const items = tree.children.filter((d) => d.descendants >= CHILD_THRESHOLD).map(({id}) => id);
-  log('modeling branches', items.length);
-  let current = 0;
+const collectCommentsFromTree = (tree) => {
+  const comments = [tree.data.text];
+  tree.children.forEach((child) => {
+    collectCommentsFromTree(child).forEach((x) => comments.push(x));
+  });
+  return comments.filter((x) => x);
+};
+
+const modelBranches = (dispatch, data, root, tree) => {
+  // Promise.all(items.map(item =>))
+  const items = tree.children.filter((d) => d.descendants >= CHILD_THRESHOLD);
   Promise.all(
-    items.map((item) => {
-      return dispatchRequest({
-        template: SERVER_DEV_MODE ? 'modelSingleBranchTemplateDevMode' : 'modelSingleBranchTemplate',
-        item,
-      })
-        .then(cleanModels)
-        .then((d) => {
-          current += 1;
-          log(`modeled ${current} / ${items.length}`);
-          return d;
-        })
-        .then((model) => ({item, model: (model[0] && model[0][0]) || null}));
+    items.map((x) => {
+      return buildLDAModel(collectCommentsFromTree(x), 1, 1).then((model) => ({
+        model: cleanModels(model)[0][0],
+        item: x.id,
+      }));
     }),
   )
+
     .then((payload) => {
       return payload.reduce((acc, {item, model}) => {
         acc[item] = model;
@@ -117,10 +115,10 @@ export const getAllItems = (root, ignoreSettingsUpdate) => (dispatch) => {
         return children;
       },
     );
-
   return Promise.resolve()
     .then(() => doGeneration([root]))
     .then((data) => {
+      modelData(data.filter((x) => x.text).map((x) => x.text))(dispatch);
       const tree = prepareTree(data, root);
       dispatch({
         type: 'get-all-items',
