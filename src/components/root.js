@@ -14,7 +14,8 @@ import Analytics from './analytics';
 import {classnames} from '../utils';
 
 const getId = () => (window.location.search || '?id=17338700').split('?id=')[1];
-const isAnalyticsPage = () => (window.location.search || '?id=17338700').includes('analytics');
+// const isAnalyticsPage = () => (window.location.search || '?id=17338700').includes('analytics');
+const isAnalyticsPage = () => false;
 const getIdPure = () => window.location.search && window.location.search.split('?id=')[1];
 
 class RootComponent extends React.Component {
@@ -28,10 +29,11 @@ class RootComponent extends React.Component {
     }
     this.props.setPageId(id);
     this.props.setFoundOrder(this.props.foundOrder);
-    this.props.modelData(id);
+    // this.props.modelData(id);
     this.props.checkIfTourShouldBeShown();
     this.props.getSettingsFromCache();
     if (!DEV_MODE) {
+      // eslint-disable-next-line
       window.umami && window.umami(`article load ${id}`);
     }
   }
